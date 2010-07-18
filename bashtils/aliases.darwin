@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# set up terminal colors
+alias ls='ls -G'

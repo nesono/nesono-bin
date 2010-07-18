@@ -1,0 +1,6 @@
+#!/bin/bash
+
+alias l='ls -lF'
+alias ll='ls -la'
+alias la='ls -a'
+

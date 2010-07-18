@@ -1,0 +1,4 @@
+#!/bin/bash
+# script to search for a running process by name
+
+ps ax | grep $1 | grep -v 'grep'

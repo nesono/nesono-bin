@@ -1,0 +1,4 @@
+#!/bin/sh
+# script to call grep and avoid lots of
+# lines from tags or doxygen docs
+grep "$@" | grep -v dox | grep -v tags | grep -v 'svn-base' | grep -v '.svn' | grep -iv 'binary file'

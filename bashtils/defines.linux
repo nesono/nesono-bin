@@ -1,0 +1,22 @@
+#!/bin/bash
+
+case ${DESKTOP_SESSION} in
+  "GNOME" | "gnome" )
+  # 'emulate' the Mac OS X open terminal command
+  function open()
+  {
+    gnome-open "$@" &> /dev/null
+  }
+  ;;
+esac # check for desktop session (KDE/GNOME)
+
+# function to get the current date in iso format
+function isodate()
+{
+  date +%Y-%0m-%0d
+}
+# function to get the current date and time in iso format
+function isodatetime()
+{
+  date +%Y-%0m-%0dT%0k-%0M
+}
