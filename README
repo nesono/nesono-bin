@@ -1,0 +1,17 @@
+useful helper scripts for all purposes
+see the documentation in each file for
+installation and usage
+
+for installation, invoke the script installme.sh
+from the nesono-bin directory or...
+
+add the following lines to your ~/.profile
+
+# the nesono script directory
+if [ -d ~/nesono-bin ]; then
+  export PATH=$PATH:~/nesono-bin
+fi
+
+# and copy inputrc and vimrc
+cp .inputrc ~/
+cp .vimrc   ~/

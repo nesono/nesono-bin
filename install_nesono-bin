@@ -1,0 +1,93 @@
+#!/bin/bash
+# script to install the nesono-bin package, which
+# is a set of useful scripts not only for nesono groups developments
+
+echo ""
+echo "                         INSTALL nesono-bin"
+echo "script to install the nesono-bin directory into newly setup or existing systems"
+echo "checks, if already in path and if config files have already been set"
+echo "so don't be afraid, to call this script multiple times :-)"
+echo ""
+echo "Results:"
+
+# function to install a link to a configuration file, e.g. ~/.vimrc
+function install_link()
+{
+  DST=${1}
+  SRC=${2}
+
+  if [ -e ${DST} ]; then
+    echo "---> ${DST} exists - not overwriting with nesono-bin version"
+    if [ -L ${DST} ]; then
+      TESTDST=`readlink ${DST}`
+      echo "     ${DST} points to ${TESTDST}"
+      echo ""
+    fi
+  else
+    echo "installing ${DST##*/}"
+    ln -sf ${SRC} ${DST}
+  fi
+}
+
+# the login file, we want to install the tools to
+UNAME=`uname -s`
+case ${UNAME} in
+  "Linux")
+    LOGINFILE=~/.bash_profile
+    if [ ! -r ${LOGINFILE} ]; then
+      LOGINFILE=~/.bashrc
+    fi
+  ;;
+  "Darwin")
+    LOGINFILE=~/.profile
+  ;;
+esac
+
+# check, if login file exists
+if [ -e "${LOGINFILE}" ]; then
+  echo "sourcing login file: ${LOGINFILE}"
+  # source login file and check, if we are already in path
+  . ${LOGINFILE}
+else
+  echo "creating loginfile: ${LOGINFILE} (needs to sourced in login script)"
+  touch ${LOGINFILE}
+fi
+
+# add nesono-bin path to LOGINFILE
+BINPATH=`which srcgrep`
+if [ -z "${BINPATH}" ]; then
+  echo "adding nesono-bin path to ${LOGINFILE}"
+  cat >> ${LOGINFILE} <<-ENDOFSCRIPT
+# the nesono script directory
+if [ -d ~/nesono-bin ]; then
+  export PATH=\${PATH}:~/nesono-bin
+fi
+ENDOFSCRIPT
+  echo "adding nesono-bin to current path"
+  export PATH=${PATH}:~/nesono-bin
+else
+  echo "srcgrep already in path... not installing nesono-bin"
+fi
+
+# add BASHRC extensions to login file
+if [ -z "${NESONOBASHRC}" ]; then
+  echo "adding bashrc to file: ${LOGINFILE}"
+  cat >> ${LOGINFILE} <<-ENDOFSCRIPT
+# the nesono bash extension
+if [ -f ~/nesono-bin/bashrc ]; then
+  . ~/nesono-bin/bashrc
+fi
+ENDOFSCRIPT
+  echo "sourcing nesonobashrc into current session"
+  . ~/nesono-bin/bashrc
+else
+  echo "NESONOBASHRC already set - not installing ${LOGINFILE}"
+fi
+
+install_link ~/.inputrc          ~/nesono-bin/inputrc
+install_link ~/.vimrc            ~/nesono-bin/vimrc
+install_link ~/.autotestmodules  ~/nesono-bin/.autotestmodules
+install_link ~/.autotestplatform ~/nesono-bin/.autotestplatform
+
+echo ""
+exit 0

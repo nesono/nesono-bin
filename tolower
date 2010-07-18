@@ -1,0 +1,20 @@
+#!/bin/sh
+# script to make the name of a file lowercase
+# written by iss
+# date: 11.08.2003
+
+if [ -z $1 ]; then
+  echo ""
+  echo "usage $0: $0 filename"
+  echo "  makes the filename lowercase"
+  echo ""
+  exit 1
+fi
+
+for file in $@; do
+  lowered=`echo $file | tr [A-Z] [a-z]`
+  if [ "$file" != "$lowered" ]; then
+    mv "$file" "$lowered"
+  fi
+done
+exit 0

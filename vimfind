@@ -1,0 +1,81 @@
+#!/bin/bash
+# script to edit a file with vim at a specified position
+# which should be searched in a certain directory.
+# usage: vimfind <dir> <file:pos>
+# e.g.: vimfind ../ main.cpp:134            // to edit the file main.cpp, found in dir ../ at pos 134
+
+if [ "$1" == "-h" ]; then
+  echo "Usage: $0 <dir> <filename:pos>"
+  exit 0
+fi
+
+if [ -z $1 ]; then
+  echo "Usage: $0 <dir> <filename:pos>"
+  exit 0
+fi
+
+if [ -z $2 ]; then
+  echo "Usage: $0 <dir> <filename:pos>"
+  exit 0
+fi
+
+SEARCHDIR=$1
+#echo "searchdir: $SEARCHDIR"
+
+# get filename
+FILENAME=${2%%:*}
+# get position
+POS=${2##*:}
+if [ "x$POS" != "x$FILENAME" ]; then
+  POS="+$POS"
+else
+  POS=""
+fi
+
+NOFFILES=0
+#FOUNDFILES=`find $SEARCHDIR -name $FILENAME`
+for file in `find $SEARCHDIR -name $FILENAME`; do
+  FOUNDFILES=$FOUNDFILES:$file
+  NOFFILES=$(($NOFFILES+1))
+  FILETABLE="$FILETABLE$NOFFILES: $file\n"
+done
+# remove leftmost colon
+FOUNDFILES=${FOUNDFILES#:}
+
+# check number of found files
+case $NOFFILES in
+  0)
+  echo "no files found with filename $FILENAME"
+  echo "exiting"
+  exit -1
+  ;;
+  1)
+  echo "found file: $FOUNDFILES"
+  ;;
+  *)
+  echo    "multiple files found:"
+  echo    "nof files:  $NOFFILES"
+  echo -e "$FILETABLE"
+  read -p 'please choose a file: ' SELECTED
+  # validity checks
+  if [ "$SELECTED" -gt "$NOFFILES" ]; then
+    echo "filenumber exceeds number of files"
+    exit -2
+  fi
+  if [ "x$SELECTED" == "x0" ]; then
+    echo "filenumber 0 not supported!"
+    exit -2
+  fi
+  # extract selected file
+  while [ "$SELECTED" -gt "1" ]; do
+    FOUNDFILES=${FOUNDFILES#*:}
+    SELECTED=$(($SELECTED-1))
+  done
+  # remove remaining files behind selected one
+  FOUNDFILES=${FOUNDFILES%%:*}
+  ;;
+esac
+
+vim $FOUNDFILES $POS
+
+exit 0

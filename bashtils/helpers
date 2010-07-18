@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# function to create a directory and step into it
+function cdmkdir()
+{
+  mkdir "$@"
+  local path
+  for path in "$@"; do
+    # ignore any arguments
+    if [[ "$path" = -* ]]; then :
+    else
+      cd "$path"
+      return
+    fi
+  done
+}
+
+# function to create an absolute path from a relative one
+function rel2abs()
+{
+  # make sure file is specified
+  if [ -z "$1" ]; then
+     return 1
+  fi
+
+  # already absolute case
+  if [ "${1:0:1}" = "/" ] || [ "$PWD" = "/" ]; then
+     ABS=""
+  else
+     ABS="$PWD"
+  fi
+
+  # loop thru path
+  OLD_IFS="${IFS}"
+  IFS="/"
+  for DIR in $1; do
+     if [ -n "$DIR" ]; then
+        if [ "$DIR" = ".." ]; then
+           ABS="${ABS%/*}"
+        elif [ "$DIR" != "." ]; then
+           ABS="$ABS/$DIR"
+        fi
+     fi
+  done
+  IFS="${OLD_IFS}"
+
+  echo "$ABS"
+  return 0
+}
+
+# helper function to get the current users name (not using ${USER}, which could be corrupt)
+function current_username()
+{
+  id | sed 's/uid=[0-9][0-9]*(\([a-zA-Z][a-zA-Z]*\)).*/\1/g'
+}
+

@@ -1,0 +1,15 @@
+#!/bin/bash
+# script to set variables in test suite
+
+declare -a CHECKOUTCMD
+declare -a MODULEDIR
+
+index=0
+
+## prototype (copy, modify and remove leading '#')
+#CHECKOUTCMD[$index]="svn co http://svn.example.com/project/trunk"
+#MODULEDIR[$index]="project"
+##increment index
+#index=$((index+1))
+
+

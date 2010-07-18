@@ -1,0 +1,28 @@
+#! /bin/bash
+# simple-minded script to avoid typing in all the commands
+
+sudo opcontrol --shutdown
+sudo opcontrol --reset
+
+# get application name - check for sudo
+if [ ${1} == "sudo" ]; then
+  PROF_APP_NAME=${2}
+else
+  PROF_APP_NAME=${1}
+fi
+
+echo "application under test: ${PROF_APP_NAME}"
+echo ""
+
+# using default event counter for now
+sudo opcontrol --setup --no-vmlinux --event="default" --separate=library --callgraph=5
+# used to use those for some time :: you can try and see what happens, if you like :)
+#sudo opcontrol --setup --no-vmlinux --event=CPU_CLK_UNHALTED:4500:0:1:1 --separate=library --callgraph=5
+#sudo opcontrol --setup --no-vmlinux --separate=library --callgraph=5
+
+sudo opcontrol --start
+$@
+sudo opcontrol --shutdown
+
+opreport "${PROF_APP_NAME}" -a --symbols="${PROF_APP_NAME}" --demangle=smart
+#opreport "${PROF_APP_NAME}" -a --symbols="${PROF_APP_NAME}" --demangle=smart --callgraph

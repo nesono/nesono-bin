@@ -1,0 +1,109 @@
+#!/bin/bash -e
+#
+# darwin		This init.d script is used to start darwin.
+#			It starts both the server and the web interface.
+
+ENV="env -i LANG=C PATH=/usr/local/bin:/usr/bin:/bin"
+
+set -e
+
+DARWINSS="/usr/local/sbin/DarwinStreamingServer"
+SADMINS="/usr/local/sbin/streamingadminserver.pl"
+
+if [ -x $DARWINSS ] ; then
+	HAVE_DARWIN=1
+else
+	exit 0
+fi
+if [ -x $SADMINS ] ; then
+	HAVE_SADMINS=1
+else
+	exit 0
+fi
+
+. /lib/lsb/init-functions
+
+test -f /etc/default/rcS && . /etc/default/rcS
+
+stop_servers() 
+{
+  # kill server admin
+  SADMINPIDS=`ps ax | grep $SADMINS | grep -v grep | awk '{print $1;}'`
+  DARWINPIDS=`pidof $DARWINSS`
+
+  ALLPIDS="$SADMINPIDS $DARWINPIDS"
+  if [ "$ALLPIDS" != " " ]; then
+    kill $ALLPIDS
+  fi
+
+  sleep 2
+
+  # check if instances still running
+  if [ -n "`ps ax | grep $SADMINS | grep -v grep | awk '{print $1;}'`" ]; then
+    echo "administration interface still running"
+    return -1
+  fi
+  # check if instances still running
+  if [ -n "`pidof $DARWINSS`" ]; then
+    echo "Darwin Streaming Server still running"
+    return -1
+  fi
+
+  return 0
+}
+
+start_servers() 
+{
+  # start darwin
+  $DARWINSS
+  # check return value
+  if [ $? != 0 ]; then
+    return -1
+  fi
+  # start server admin server
+  $SADMINS
+  # check return value
+  if [ $? != 0 ]; then
+    return -1
+  fi
+
+  return 0
+}
+
+# the calling cases
+case $1 in
+	start)
+		log_begin_msg "Starting Darwin Streaming Server web server..."
+		if start_servers; then
+                        log_end_msg 0
+                else
+                        log_end_msg 1
+                fi
+	;;
+	stop)
+		log_begin_msg "Stopping Darwin Streaming Server web server..."
+		if stop_servers; then
+                        log_end_msg 0
+                else
+                        log_end_msg 1
+                fi
+	;;
+	restart)
+		log_begin_msg "Restarting Darwin Streaming Server web server..."
+		if ! stop_servers; then
+                        log_end_msg 1
+                fi
+		if start_servers; then
+                        log_end_msg 0
+                else
+                        log_end_msg 1
+                fi
+	;;
+	status)
+		exit 4
+	;;
+	*)
+		echo "Usage: /etc/init.d/darwin start|stop|restart" >&2
+		exit 2
+	;;
+esac

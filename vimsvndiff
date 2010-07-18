@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# script to edit/browse a file and its local modifications against local backup using vimdiff
+PROGNAME=`basename $0`
+
+# command line check
+if [ $# != 1 ]; then
+  #print help and exit
+  echo "Usage: $PROGNAME <file>"
+  exit -1
+else
+  # create a temp file
+  TEMP=/tmp/tmp.$$.`basename $1`
+  # fill temp file with svn cat
+  svn cat $1 > $TEMP
+  # do the vimdiff
+  vimdiff $TEMP $1
+  # remove the tempfile again
+  rm -f $TEMP
+fi
+

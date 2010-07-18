@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# this is useful for gnuplot to open window(s) from terminal
+export GNUTERM=x11
+# set the DISPLAY variable for X11 applications
+export DISPLAY=:0
+
+# emulate bash seq function - using jot
+function seq()
+{
+  declare incr n1 n2 num1 num2
+  if [[ $# -eq 1 ]]; then
+     /usr/bin/jot $1
+  elif [[ $# -eq 2 ]]; then
+     n1=$((${2} - ${1} + 1))
+     n2=$1
+     /usr/bin/jot $n1 $n2
+  elif [[ $# -eq 3 ]]; then
+     num1=${1}
+     incr=${2}
+     num2=${3}
+     # /usr/bin/awk -v n1=${num1} -v n2=${num2} -v add=${incr} 'BEGIN{ for(i=n1; i<=n2; i+=add) print i;}' | /usr/bin/sed 's/.+e.+/0/'
+     /usr/bin/awk -v n1=${num1} -v n2=${num2} -v add=${incr} 'BEGIN{ for(i=n1; i<=n2; i+=add) print i;}' | /usr/bin/sed -E '/e/s/^.+e.+$/0/'
+  fi
+  return 0
+}
+
+# function to get the current date in iso format
+function isodate()
+{
+  date +%Y-%m-%d
+}
+
+# function to get the current date and time in iso format
+function isodatetime()
+{
+  date +%Y-%m-%dT%k-%M
+}
+
+# function to open MacVim with a gvim call
+function gvim
+{
+  if [ ! -e /Applications/MacVim.app/Contents/MacOS/Vim ]; then
+    echo "MacVim not found! Please install from http://code.google.com/p/macvim/"
+  else
+    /Applications/MacVim.app/Contents/MacOS/Vim -g $*
+  fi
+}
+
+# emulate the eject method known from linux
+function eject()
+{
+  drutil tray eject
+}

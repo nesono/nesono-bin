@@ -1,0 +1,85 @@
+#!/bin/bash
+# script to set variables in test suite
+
+# some common settings
+umask 0022
+
+# the home directory
+HOME=${HOME}
+
+# the system name - prefix for output directory and mails
+SYSTEMNAME=`uname -s`
+
+# the temporary mail file
+TMPMAILFILE=$HOME/mailfile.tmp
+
+# the timestamp appended to output files
+TIMESTAMP=`date +%Y-%0m-%0d-%0k-%0M`
+
+# the temp source directory - where to build the sources
+TMPSRCDIR=$HOME/tmp_src
+
+# the output directory - webserver directory
+OUTROOT=/var/www/file_server/automatic_builds/$SYSTEMNAME
+
+# the directory for the binaries (rel to make dir)
+BINDIR=../bin/*
+
+# the prefix for the profiling call (OPTIONAL)
+PROFPREFIX=$HOME/nesono-bin/oprof
+
+# killer timer script - calling killall SIGTERM and killall SIGKILL after specified timeouts
+KILLERTIMER=killall_timeout.sh
+
+# profiler report function (OPTIONAL)
+function profreportfunction()
+{
+  opreport -a $1 --symbols=$1 --demangle=smart
+}
+PROFREPORT=profreportfunction
+
+# get total samples from profiler output file (OPTIONAL - depends on PROFPREFIX/PROFREPORT)
+function gettotalsamples()
+{
+  cat $1 | tail -n 1 | awk '{print $2;}'
+}
+GETTOTALSAMPLESCMD=gettotalsamples
+
+# memory (valgrind) checker command (OPTIONAL)
+MEMCHECKER="valgrind --leak-check=yes --show-reachable=yes"
+
+# function to get the leak section of the leak tracer (OPTIONAL - depends on MEMCHECKER)
+function getleaksection()
+{
+  cat $1 | grep -e 'LEAK SUMMARY'
+}
+LEAKSECTION=getleaksection
+
+# function to get the definately lost bytes (OPTIONAL - depends on MEMCHECKER)
+function getdeflost()
+{
+  cat $1 | grep -e 'definitely lost:' | awk '{print $4;}'
+}
+DEFLOST=getdeflost
+
+# function to get the possibly lost bytes (OPTIONAL - depends on MEMCHECKER)
+function getposslost()
+{
+  cat $1 | grep -e 'possibly lost:' | awk '{print $4;}'
+}
+POSSLOST=getposslost
+
+# the url to be prefixed to the output directory to create the link
+URLPREFIX="http://ux090/file_server/automatic_builds"
+
+# the make directory (relative from module directory)
+BUILDDIR=make
+
+# the make/build command
+MAKECMD="make DEBUG=1 OPTIM_LEV=3"
+
+# the directory for the demo files (relative from make dir)
+DEMOSRCDIR=../demo
+
+# the mail command (reads from stdin, two parameters: subject, receipients)
+MAILCMD="mail -s"
