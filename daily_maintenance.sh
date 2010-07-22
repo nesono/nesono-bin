@@ -95,9 +95,9 @@ function check_and_update_git_bin_repo()
             ;;
             "y"|"Y")
             echo "checking in ${DIR}"
-            git commit -a
+            git commit -a -v
             echo "pushing changes"
-            git push
+            git push origin master
             break
             ;;
             "d")
