@@ -6,67 +6,124 @@
 function check_and_update_svn_bin_repo()
 {
   # parameter 1: local svn directory
-  local DIR=${1}
+  local DIR="${1}"
 
-  echo ""
-  echo "### checking for svn repo: ${DIR}"
+  if [ -d "${DIR}/.svn" ]; then
+    echo ""
+    echo "### checking for svn repo: \"${DIR}\""
 
-  if [ -d "${DIR}" ]; then
-    # check for remote/repo changes
-    if [ -n "$(svn st -u ${DIR} | grep -e '^[ ]\+\*')" ]; then
-      echo "Remote changes detected in ${DIR}!"
-      while ( true ); do
-        read -e -p "Upgrade to repository or show diff? [Y/n/d] " ANSWER
-        case "${ANSWER}" in
-          "n"|"N")
-          echo "not upgrading"
-          break
-          ;;
-          "y"|"Y"|"")
-          echo "upgrading"
-          svn up ${DIR}
-          break
-          ;;
-          "d")
-          svn diff -r BASE:HEAD ${DIR}
-          ;;
-        esac
-      done
+    if [ -d "${DIR}" ]; then
+      # check for remote/repo changes
+      if [ -n "$(svn st -u \"${DIR}\" | grep -e '^[ ]\+\*')" ]; then
+        echo "Remote changes detected in \"${DIR}\"!"
+        while ( true ); do
+          read -e -p "Upgrade to repository or show diff? [Y/n/d] " ANSWER
+          case "${ANSWER}" in
+            "n"|"N")
+            echo "not upgrading"
+            break
+            ;;
+            "y"|"Y"|"")
+            echo "upgrading"
+            svn up "${DIR}"
+            break
+            ;;
+            "d")
+            svn diff -r BASE:HEAD "${DIR}"
+            ;;
+          esac
+        done
+      fi
+
+      # check for local repo changes
+      if [ -n "$(svn st \"${DIR}\" | grep -e '^M')" ]; then
+        echo "Local changes detected in \"${DIR}\"!"
+        while ( true ); do
+          read -e -p "Checkin changes or show diff? [y/N/d] " ANSWER
+          case "${ANSWER}" in
+            "n"|"N"|"")
+            echo "no check-in"
+            break
+            ;;
+            "y"|"Y")
+            echo "checking in \"${DIR}\""
+            svn ci "${DIR}"
+            break
+            ;;
+            "d")
+            svn diff "${DIR}"
+            ;;
+          esac
+        done
+      fi
+    else
+      echo "\"${DIR}\" not existent - ignoring"
     fi
-
-    # check for local repo changes
-    if [ -n "$(svn st ${DIR} | grep -e '^M')" ]; then
-      echo "Local changes detected in ${DIR}!"
-      while ( true ); do
-        read -e -p "Checkin changes or show diff? [y/N/d] " ANSWER
-        case "${ANSWER}" in
-          "n"|"N"|"")
-          echo "no check-in"
-          break
-          ;;
-          "y"|"Y")
-          echo "checking in ${DIR}"
-          svn ci ${DIR}
-          break
-          ;;
-          "d")
-          svn diff ${DIR}
-          ;;
-        esac
-      done
-    fi
-  else
-    echo "${DIR} not existent - ignoring"
+    echo "finished checking for svn repo: \"${DIR}\""
   fi
-  echo "finished checking for svn repo: ${DIR}"
 }
 
+function check_and_update_git_bin_repo()
+{
+  # parameter 1: local svn directory
+  local DIR="${1}"
+
+  if [ -d "${DIR}/.git" ]; then
+    echo ""
+    echo "### checking for git repo: ${DIR}"
+
+    if [ -d "${DIR}" ]; then
+      pushd "${DIR}"
+
+      if [ -n $(git remote | grep -e '^origin') ]; then
+        echo "fetching remote changes - please apply afterwards"
+        # get remote/repo changes
+        git fetch
+      else
+        echo "Error: no origin specified in git repo"
+      fi
+
+      # check for local repo changes
+      if [ -n "$(git status --porcelain | grep -e '^[ ]\+M')" ]; then
+        echo "Local changes detected in ${DIR}!"
+        while ( true ); do
+          read -e -p "Checkin changes or show diff? [y/N/d] " ANSWER
+          case "${ANSWER}" in
+            "n"|"N"|"")
+            echo "no check-in"
+            break
+            ;;
+            "y"|"Y")
+            echo "checking in ${DIR}"
+            git commit -a
+            echo "pushing changes"
+            git push
+            break
+            ;;
+            "d")
+            git diff
+            ;;
+          esac
+        done
+      fi
+      # get back to origin directory
+      popd
+    else
+      echo "\"${DIR}\" not existent - ignoring"
+    fi
+    echo "finished checking for git repo: ${DIR}"
+  fi
+}
 # check for user id (must be run as root)
 if [ ${EUID} != 0 ]; then
-  # check for mmt-bin directory and upgrade it, if neccessary
+  # check for mmt-bin directory and upgrade it, if neccessary - svn version
   check_and_update_svn_bin_repo ~/mmt-bin
-  # check for nesono-bin directory and upgrade it, if neccessary
+  # check for nesono-bin directory and upgrade it, if neccessary - svn version
   check_and_update_svn_bin_repo ~/nesono-bin
+  # check for mmt-bin directory and upgrade it, if neccessary - git version
+  check_and_update_git_bin_repo ~/mmt-bin
+  # check for nesono-bin directory and upgrade it, if neccessary - git version
+  check_and_update_git_bin_repo ~/nesono-bin
 
   echo "script must be run as root! Recalling with sudo"
   sudo $0
@@ -125,6 +182,8 @@ case ${UNAME} in
         ;;
     esac
 
+    echo "sync'ing ports"
+    port sync
     # show outdated ports
     OUTDATED=$(port outdated | grep -v 'No installed ports are outdated.')
 
