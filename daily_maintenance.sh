@@ -185,7 +185,7 @@ case ${UNAME} in
     echo "sync'ing ports"
     port sync
     # show outdated ports
-    OUTDATED=$(port outdated | grep -v 'No installed ports are outdated.')
+    OUTDATED=$(port list outdated)
 
     if [ -n "${OUTDATED}" ]; then
       read -e -p "Shall I oupgrade the outdated ports? [Y/n] " ANSWER
