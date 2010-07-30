@@ -7,7 +7,7 @@ function parse_git_branch() {
   [ $? -eq 128 ] && return
   [ -z "$(echo "$STATUS" | grep -e '^ M')"    ] || DIRTY="*"
   [ -z "$(echo "$STATUS" | grep -e '^[MDA]')" ] || DIRTY="${DIRTY}+"
-  [ -z "$(git stash list)" ]                    || DIRTY="${DIRTY}^"
+  [ -z "$(git stash list)"                    ] || DIRTY="${DIRTY}^"
   echo "($(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')$DIRTY)"
 }
 
