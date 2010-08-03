@@ -8,58 +8,63 @@ function check_and_update_svn_bin_repo()
   # parameter 1: local svn directory
   local DIR="${1}"
 
-  if [ -d "${DIR}/.svn" ]; then
-    echo ""
-    echo "### checking for svn repo: \"${DIR}\""
+  echo ""
+  echo "### checking for svn repo: ${DIR}"
 
-    if [ -d "${DIR}" ]; then
-      # check for remote/repo changes
-      if [ -n "$(svn st -u \"${DIR}\" | grep -e '^[ ]\+\*')" ]; then
-        echo "Remote changes detected in \"${DIR}\"!"
-        while ( true ); do
-          read -e -p "Upgrade to repository or show diff? [Y/n/d] " ANSWER
-          case "${ANSWER}" in
-            "n"|"N")
-            echo "not upgrading"
-            break
-            ;;
-            "y"|"Y"|"")
-            echo "upgrading"
-            svn up "${DIR}"
-            break
-            ;;
-            "d")
-            svn diff -r BASE:HEAD "${DIR}"
-            ;;
-          esac
-        done
-      fi
+  # check, if dir existent
+  if [ -d "${DIR}" ]; then
+    # change into dir
+    pushd "${DIR}"
+    # check, if dir is svn repo
+    local REV=$(svn info 2>/dev/null | grep Revision | sed -e 's/Revision: //')
+    [ "$REV" ] || return
+    # check for remote/repo changes
+    if [ -n "$(svn st -u | grep -e '^[ ]\+\*')" ]; then
+      echo "Remote changes detected in ${DIR}!"
+      while ( true ); do
+        read -e -p "Upgrade to repository or show diff? [Y/n/d] " ANSWER
+        case "${ANSWER}" in
+          "n"|"N")
+          echo "not upgrading"
+          break
+          ;;
+          "y"|"Y"|"")
+          echo "upgrading"
+          svn up
+          break
+          ;;
+          "d")
+          svn diff -r BASE:HEAD
+          ;;
+        esac
+      done
+    fi
 
-      # check for local repo changes
-      if [ -n "$(svn st \"${DIR}\" | grep -e '^M')" ]; then
-        echo "Local changes detected in \"${DIR}\"!"
-        while ( true ); do
-          read -e -p "Checkin changes or show diff? [y/N/d] " ANSWER
-          case "${ANSWER}" in
-            "n"|"N"|"")
-            echo "no check-in"
-            break
-            ;;
-            "y"|"Y")
-            echo "checking in \"${DIR}\""
-            svn ci "${DIR}"
-            break
-            ;;
-            "d")
-            svn diff "${DIR}"
-            ;;
-          esac
-        done
-      fi
-    else
-      echo "\"${DIR}\" not existent - ignoring"
+    # check for local repo changes
+    if [ -n "$(svn st | grep -e '^M')" ]; then
+      echo "Local changes detected in ${DIR}!"
+      while ( true ); do
+        read -e -p "Checkin changes or show diff? [y/N/d] " ANSWER
+        case "${ANSWER}" in
+          "n"|"N"|"")
+          echo "no check-in"
+          break
+          ;;
+          "y"|"Y")
+          echo "checking in ${DIR}"
+          svn ci
+          break
+          ;;
+          "d")
+          svn diff
+          ;;
+        esac
+      done
     fi
     echo "finished checking for svn repo: \"${DIR}\""
+    popd
+  else
+    echo "${DIR} not existent - ignoring"
   fi
 }
 
