@@ -96,16 +96,16 @@ if has("autocmd")
   "autocmd BufNewFile,BufRead *.tcc set cindent
 endif
 
-if $OSTYPE == "linux-gnu"
-  vmap <F6> :!xclip -f -sel clip<CR>
-  map <F7> :-1r !xclip -o -sel clip<CR>
-endif
-if $OSTYPE == "darwin10.0"
-  nmap <F6> :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
-  imap <F7> <Esc>:set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
-  nmap <F6> :.w !pbcopy<CR><CR>
-  vmap <F7> :w !pbcopy<CR><CR>
-endif
+"if $OSTYPE == "linux-gnu"
+"  vmap <F6> :!xclip -f -sel clip<CR>
+"  map <F7> :-1r !xclip -o -sel clip<CR>
+"endif
+"if $OSTYPE == "darwin10.0"
+"  nmap <F6> :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+"  imap <F7> <Esc>:set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+"  nmap <F6> :.w !pbcopy<CR><CR>
+"  vmap <F7> :w !pbcopy<CR><CR>
+"endif
 
 " to repair backspace if logged in from Mac to Linux Machine
 "if exists( "$SSH_CONNECTION" )
