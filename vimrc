@@ -10,14 +10,14 @@ set nocompatible
 let color = "true"
 
 if has("syntax")
-    if color == "true"
-	" This will switch colors ON
-	so ${VIMRUNTIME}/syntax/syntax.vim
-    else
-	" this switches colors OFF
-	syntax off
-	set t_Co=0
-    endif
+  if color == "true"
+	  " This will switch colors ON
+	  so ${VIMRUNTIME}/syntax/syntax.vim
+  else
+	  " this switches colors OFF
+    syntax off
+    set t_Co=0
+  endif
 endif
 
 " folder stuff
@@ -96,16 +96,18 @@ if has("autocmd")
   "autocmd BufNewFile,BufRead *.tcc set cindent
 endif
 
-"if $OSTYPE == "linux-gnu"
-"  vmap <F6> :!xclip -f -sel clip<CR>
-"  map <F7> :-1r !xclip -o -sel clip<CR>
-"endif
-"if $OSTYPE == "darwin10.0"
-"  nmap <F6> :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
-"  imap <F7> <Esc>:set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
-"  nmap <F6> :.w !pbcopy<CR><CR>
-"  vmap <F7> :w !pbcopy<CR><CR>
-"endif
+" check for underlying system - needed for clipboard
+let uname = substitute(system("uname"),"\n","","g")
+
+if uname == "Darwin"
+  nmap <F6> :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+  imap <F6> <Esc>:set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+  nmap <F7> :.w !pbcopy<CR><CR>
+  vmap <F7> :w !pbcopy<CR><CR>
+elseif uname == "Linux"
+  vmap <F6> :!xclip -f -sel clip<CR>
+  map <F7> :-1r !xclip -o -sel clip<CR>
+endif
 
 " to repair backspace if logged in from Mac to Linux Machine
 "if exists( "$SSH_CONNECTION" )
