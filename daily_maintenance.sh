@@ -62,8 +62,6 @@ function check_and_update_svn_bin_repo()
     fi
     popd &> /dev/null
     echo ""
-  else
-    echo "${DIR} not existent - ignoring"
   fi
 }
 
@@ -81,9 +79,9 @@ function check_and_update_git_bin_repo()
 
     echo "### checking for git repo: ${DIR}"
     if [ -n $(git remote | grep -e '^origin') ]; then
-      echo "fetching remote changes - please apply afterwards"
+      echo "pulling remote changes"
       # get remote/repo changes
-      git fetch
+      git pull
     else
       echo "Error: no origin specified in git repo"
     fi
@@ -114,8 +112,6 @@ function check_and_update_git_bin_repo()
     # get back to origin directory
     popd &> /dev/null
     echo ""
-  else
-    echo "\"${DIR}\" not existent - ignoring"
   fi
 }
 # check for user id (must be run as root)
