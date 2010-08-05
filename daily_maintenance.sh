@@ -8,16 +8,15 @@ function check_and_update_svn_bin_repo()
   # parameter 1: local svn directory
   local DIR="${1}"
 
-  echo ""
-  echo "### checking for svn repo: ${DIR}"
-
   # check, if dir existent
   if [ -d "${DIR}" ]; then
     # change into dir
-    pushd "${DIR}"
+    pushd "${DIR}" &> /dev/null
     # check, if dir is svn repo
     local REV=$(svn info 2>/dev/null | grep Revision | sed -e 's/Revision: //')
     [ "$REV" ] || return
+
+    echo "### checking for svn repo: ${DIR}"
     # check for remote/repo changes
     if [ -n "$(svn st -u | grep -e '^[ ]\+\*')" ]; then
       echo "Remote changes detected in ${DIR}!"
@@ -62,7 +61,7 @@ function check_and_update_svn_bin_repo()
       done
     fi
     echo "finished checking for svn repo: \"${DIR}\""
-    popd
+    popd &> /dev/null
   else
     echo "${DIR} not existent - ignoring"
   fi
@@ -70,53 +69,52 @@ function check_and_update_svn_bin_repo()
 
 function check_and_update_git_bin_repo()
 {
-  # parameter 1: local svn directory
+  # parameter 1: local git directory
   local DIR="${1}"
 
-  if [ -d "${DIR}/.git" ]; then
-    echo ""
+  if [ -d "${DIR}" ]; then
+    # change into repo dir
+    pushd "${DIR}" &> /dev/null
+    # check git call
+    STATUS=$(git status --porcelain 2>/dev/null)
+    [ $? -eq 128 ] && return
+
     echo "### checking for git repo: ${DIR}"
-
-    if [ -d "${DIR}" ]; then
-      pushd "${DIR}"
-
-      if [ -n $(git remote | grep -e '^origin') ]; then
-        echo "fetching remote changes - please apply afterwards"
-        # get remote/repo changes
-        git fetch
-      else
-        echo "Error: no origin specified in git repo"
-      fi
-
-      # check for local repo changes
-      if [ -n "$(git status --porcelain | grep -e '^[ ]\+M')" ]; then
-        echo "Local changes detected in ${DIR}!"
-        while ( true ); do
-          read -e -p "Checkin changes or show diff? [y/N/d] " ANSWER
-          case "${ANSWER}" in
-            "n"|"N"|"")
-            echo "no check-in"
-            break
-            ;;
-            "y"|"Y")
-            echo "checking in ${DIR}"
-            git commit -a -v
-            echo "pushing changes"
-            git push origin master
-            break
-            ;;
-            "d")
-            git diff
-            ;;
-          esac
-        done
-      fi
-      # get back to origin directory
-      popd
+    if [ -n $(git remote | grep -e '^origin') ]; then
+      echo "fetching remote changes - please apply afterwards"
+      # get remote/repo changes
+      git fetch
     else
-      echo "\"${DIR}\" not existent - ignoring"
+      echo "Error: no origin specified in git repo"
     fi
-    echo "finished checking for git repo: ${DIR}"
+
+    # check for local repo changes
+    if [ -n "$(git status --porcelain | grep -e '^[ ]\+M')" ]; then
+      echo "Local changes detected in ${DIR}!"
+      while ( true ); do
+        read -e -p "Checkin changes or show diff? [y/N/d] " ANSWER
+        case "${ANSWER}" in
+          "n"|"N"|"")
+          echo "no check-in"
+          break
+          ;;
+          "y"|"Y")
+          echo "checking in ${DIR}"
+          git commit -a -v
+          echo "pushing changes"
+          git push
+          break
+          ;;
+          "d")
+          git diff
+          ;;
+        esac
+      done
+    fi
+    # get back to origin directory
+    popd &> /dev/null
+  else
+    echo "\"${DIR}\" not existent - ignoring"
   fi
 }
 # check for user id (must be run as root)
@@ -193,7 +191,7 @@ case ${UNAME} in
     OUTDATED=$(port list outdated)
 
     if [ -n "${OUTDATED}" ]; then
-      read -e -p "Shall I oupgrade the outdated ports? [Y/n] " ANSWER
+      read -e -p "Shall I upgrade the outdated ports? [Y/n] " ANSWER
       case ${ANSWER} in
         "" | "y" | "Y" )
           # upgrade system
