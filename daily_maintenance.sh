@@ -60,8 +60,8 @@ function check_and_update_svn_bin_repo()
         esac
       done
     fi
-    echo "finished checking for svn repo: \"${DIR}\""
     popd &> /dev/null
+    echo ""
   else
     echo "${DIR} not existent - ignoring"
   fi
@@ -113,6 +113,7 @@ function check_and_update_git_bin_repo()
     fi
     # get back to origin directory
     popd &> /dev/null
+    echo ""
   else
     echo "\"${DIR}\" not existent - ignoring"
   fi
@@ -183,10 +184,12 @@ case ${UNAME} in
         # upgrade system
         port -c selfupdate
         ;;
+      * )
+        echo "sync'ing ports"
+        port sync
+        ;;
     esac
 
-    echo "sync'ing ports"
-    port sync
     # show outdated ports
     OUTDATED=$(port list outdated)
 
