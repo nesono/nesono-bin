@@ -11,6 +11,8 @@ setopt autolist automenu
 setopt notify
 # enable extended globbing
 setopt extended_glob
+# enable prompt substitution
+setopt prompt_subst
 
 # setup history
 setopt histignorespace
@@ -24,19 +26,14 @@ setopt extended_history
 # load simplified color handling ("$bg[red]$fg[black]")
 autoload -U colors && colors
 
-# load vcs_info (git/svn/cvs information)
-autoload -Uz vcs_info
-# vcs_info
-zstyle ':vcs_info:*' disable hg bzr cdv darcs mtn svk tla
-
 # configure precmd prompt preparation
-precmd () {
+precmd ()
+{
 }
 
 source ${NESONOBININSTDIR}/zshtils/completion
 source ${NESONOBININSTDIR}/zshtils/keybindings
+source ${NESONOBININSTDIR}/bashtils/ps1status
 
-#PROMPT="%(?..%{$fg_bold[red]%}%?%{$reset_color%} )%1(!.%{$fg_bold[red]%}.%{$fg_bold[blue]%})%n%{$reset_color%} %{$fg_bold[white]%}%25<..<%~%<<%{$reset_color%} ${vcs_info_msg_0_}%f%# "
-#SPROMPT="%{$fg_bold[red]%}zsh%{$reset_color%}: correct %{$fg_bold[white]%}%R%{$reset_color%} to %{$fg_bold[white]%}%r%{$reset_color%}? (ynea): "
-#RPROMPT="%(?..%{$fg_bold[red]%}:(%{$reset_color%}) %1(j.%{$fg[green]%}[%j]%{$reset_color%}.)"
+PROMPT='%{$fg_bold[green]%}%m:%{$fg_bold[blue]%}%c%{$fg_bold[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
 
