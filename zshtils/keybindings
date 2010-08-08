@@ -1,0 +1,21 @@
+# fix keybindings (Home/End/Delete)
+bindkey "^[[1~" beginning-of-line
+bindkey "^[[4~" end-of-line
+bindkey "^[[3~" delete-char
+
+# cursor commands
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+bindkey "^[[5C" forward-word
+bindkey "^[[5D" backward-word
+bindkey "^[^[[C" forward-word
+bindkey "^[^[[D" backward-word
+
+# line editing
+bindkey '^K' kill-line
+bindkey '^[d' kill-word
+
+# add helper keybindings (for vi editing mode)
+bindkey -v "^[[5~" history-search-backward
+bindkey -v "^[[6~" history-search-forward
+bindkey -v '^R' history-incremental-search-backward
