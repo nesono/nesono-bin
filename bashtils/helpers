@@ -54,3 +54,9 @@ function current_username()
   id | sed 's/uid=[0-9][0-9]*(\([a-zA-Z][a-zA-Z]*\)).*/\1/g'
 }
 
+# calculate something
+function calc ()
+{
+  echo "$*" | bc -l
+}
+

@@ -5,3 +5,5 @@ alias ll='ls -la'
 alias la='ls -a'
 
 alias grep='grep --color=auto'
+alias bc='bc -l -q'
+
