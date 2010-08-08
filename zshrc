@@ -1,5 +1,6 @@
-export NESONOBASHRC="version 1"
+export NESONOZSHRC="version 1"
 export NESONOBININSTDIR="${HOME}/nesono-bin"
+export LSCOLORS="gxfxcxdxbxegedabagacad"
 
 # set correction
 setopt correct
@@ -31,8 +32,35 @@ precmd ()
 {
 }
 
+# source zsh specific files
 source ${NESONOBININSTDIR}/zshtils/completion
 source ${NESONOBININSTDIR}/zshtils/keybindings
+
+# provides small helper functions
+source ${NESONOBININSTDIR}/bashtils/helpers
+# provides the file/dir transfer stack with pusht/popt/transfers
+#source ${NESONOBININSTDIR}/bashtils/transferstack
+# defines aliases for all platforms
+source ${NESONOBININSTDIR}/bashtils/aliases
+
+uname=$(uname -s)
+
+case ${uname} in
+  Darwin)
+  ###################### DARWIN STUFF ######################################
+  source ${NESONOBININSTDIR}/bashtils/aliases.darwin
+  #source ${NESONOBININSTDIR}/bashtils/rm2trash.darwin
+  source ${NESONOBININSTDIR}/bashtils/defines.darwin
+  ;;
+
+  Linux)
+  ###################### LINUX STUFF ######################################
+  source ${NESONOBININSTDIR}/bashtils/aliases.linux
+  #source ${NESONOBININSTDIR}/bashtils/rm2trash.linux
+  source ${NESONOBININSTDIR}/bashtils/defines.linux
+  ;;
+esac
+
 source ${NESONOBININSTDIR}/bashtils/ps1status
 
 PROMPT='%{$fg_bold[green]%}%m:%{$fg_bold[blue]%}%c%{$fg_bold[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
