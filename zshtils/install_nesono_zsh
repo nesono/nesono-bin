@@ -1,0 +1,40 @@
+#!/bin/zsh
+
+ZSHRCFILE=~/.zshrc
+
+# check, if login file exists
+if [ -e "${ZSHRCFILE}" ]; then
+  echo "sourcing login file: ${ZSHRCFILE}"
+  # source login file and check, if we are already in path
+  . ${ZSHRCFILE}
+else
+  echo "creating loginfile: ${ZSHRCFILE} (needs to sourced in login script)"
+  touch ${ZSHRCFILE}
+fi
+
+# add nesono-bin path to ZSHRCFILE
+if [ -z "${NESONOZSHRC}" ]; then
+  echo "adding nesono-bin path to ${ZSHRCFILE}"
+  cat >> ${ZSHRCFILE} <<-ENDOFSCRIPT
+# the nesono script directory
+if [ -d ~/nesono-bin ]; then
+  export PATH=\${PATH}:~/nesono-bin
+fi
+ENDOFSCRIPT
+else
+  echo "nesono-bin already in path... not installing nesono-bin"
+fi
+
+# add ZSHRC extensions to login file
+if [ -z "${NESONOZSHRC}" ]; then
+  echo "adding zshrc to file: ${ZSHRCFILE}"
+  cat >> ${ZSHRCFILE} <<-ENDOFSCRIPT
+# the nesono zsh extension
+if [ -f ~/nesono-bin/zshrc ]; then
+  . ~/nesono-bin/zshrc
+fi
+ENDOFSCRIPT
+else
+  echo "NESONOZSHRC already set - not installing ${ZSHRCFILE}"
+fi
+
