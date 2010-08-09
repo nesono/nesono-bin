@@ -1,5 +1,3 @@
-#!/bin/bash
-
 alias l='ls -lF'
 alias ll='ls -la'
 alias la='ls -a'
@@ -7,3 +5,4 @@ alias la='ls -a'
 alias grep='grep --color=auto'
 alias bc='bc -l -q'
 
+alias screen='TERM=screen && screen'
