@@ -36,6 +36,7 @@ popd
 
 install_link ~/.inputrc          ~/nesono-bin/inputrc
 install_link ~/.vimrc            ~/nesono-bin/vimrc
+install_link ~/.screenrc         ~/nesono-bin/screenrc
 install_link ~/.autotestmodules  ~/nesono-bin/.autotestmodules
 install_link ~/.autotestplatform ~/nesono-bin/.autotestplatform
 
