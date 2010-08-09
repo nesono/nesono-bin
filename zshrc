@@ -47,8 +47,6 @@ fi
 
 # provides small helper functions
 source ${NESONOBININSTDIR}/bashtils/helpers
-# provides the file/dir transfer stack with pusht/popt/transfers
-#source ${NESONOBININSTDIR}/bashtils/transferstack
 # defines aliases for all platforms
 source ${NESONOBININSTDIR}/bashtils/aliases
 
@@ -70,9 +68,12 @@ case ${uname} in
   ;;
 esac
 
+# source prompt status functions
 source ${NESONOBININSTDIR}/bashtils/ps1status
 
-# source zsh specific files
+# include completion config file
 source ${NESONOBININSTDIR}/zshtils/completion
+# include keybindings (Home/End/Delete/Backspace/...)
 source ${NESONOBININSTDIR}/zshtils/keybindings
-
+# provides the file/dir transfer stack with pusht/popt/transfers
+source ${NESONOBININSTDIR}/zshtils/transferstack
