@@ -40,7 +40,7 @@ if [[ $TERM == "screen" ]]; then
     # set hardstatus of tab window (%h) for screen
     print -nR $'\033]0;'$(parse_git_branch)$(parse_svn_revision)$'\a'
   }
-  PROMPT='%{$fg_bold[blue]%}%c%{$reset_color%} > '
+  PROMPT='%{$fg_bold[cyan]%}%c%{$reset_color%} > '
 else
   PROMPT='%{$fg_bold[green]%}%m:%{$fg_bold[blue]%}%c%{$fg_bold[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
 fi
