@@ -18,6 +18,10 @@ setopt extended_glob
 setopt prompt_subst
 
 # setup history
+HISTSIZE=3000
+SAVEHIST=3000
+HISTFILE=~/.zsh_history
+
 setopt histignorespace
 setopt hist_ignore_dups
 setopt hist_expire_dups_first
