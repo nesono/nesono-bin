@@ -2,6 +2,8 @@ export NESONOZSHRC="version 1"
 export NESONOBININSTDIR="${HOME}/nesono-bin"
 export LSCOLORS="gxfxcxdxbxegedabagacad"
 
+# set emacs editor option
+set -o emacs
 # set correction
 setopt correct
 # disable bothering beep
@@ -27,14 +29,10 @@ setopt extended_history
 # load simplified color handling ("$bg[red]$fg[black]")
 autoload -U colors && colors
 
-# configure precmd prompt preparation
-precmd ()
-{
-}
-
-# source zsh specific files
-source ${NESONOBININSTDIR}/zshtils/completion
-source ${NESONOBININSTDIR}/zshtils/keybindings
+## configure precmd prompt preparation
+#precmd ()
+#{
+#}
 
 # provides small helper functions
 source ${NESONOBININSTDIR}/bashtils/helpers
@@ -62,6 +60,10 @@ case ${uname} in
 esac
 
 source ${NESONOBININSTDIR}/bashtils/ps1status
+
+# source zsh specific files
+source ${NESONOBININSTDIR}/zshtils/completion
+source ${NESONOBININSTDIR}/zshtils/keybindings
 
 PROMPT='%{$fg_bold[green]%}%m:%{$fg_bold[blue]%}%c%{$fg_bold[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
 
