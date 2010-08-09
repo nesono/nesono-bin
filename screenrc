@@ -1,7 +1,7 @@
 utf8 on on
 # set status line
 caption string "%w"
-hardstatus alwayslastline "%{= WK} %n hardstat=%h host=%H %?users=%u %?load = %l %= %C %Y.%m.%d "
+hardstatus alwayslastline "%{Wk} %n%?%{Y.}%h%? %{G.}%H %?%{R.}%u%? %=%{B.}load = %l %?%{Wk}| %c %Y.%m.%d "
 # toggle status line and caption using 'f' and 'F'
 bind f eval "caption splitonly" "hardstatus ignore"
 bind F eval "caption always"    "hardstatus alwayslastline"
