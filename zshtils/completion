@@ -1,6 +1,13 @@
 # load autocompletion
 autoload -U compinit && compinit
 
+# enable cache
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+
+# ignore completion to commands we don't have
+zstyle ':completion:*:functions' ignored-patterns '_*'
+
 # format autocompletion style
 zstyle ':completion:*:descriptions' format "%{$fg_bold[green]%}%d%{$reset_color%}"
 zstyle ':completion:*:corrections' format "%{$fg_bold[yellow]%}%d%{$reset_color%}"
