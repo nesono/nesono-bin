@@ -1,0 +1,162 @@
+#!/bin/zsh
+
+# function to push some files onto path transfer stack - utility for cp|mv
+function pusht()
+{
+  # declare the environment array for pusht-service
+  declare -a PUSHT_STACK
+
+  # get exisiting stack values from environment
+  for v in ${!PUSHT_STACK_*};do
+    PUSHT_STACK[${v#PUSHT_STACK_}]="${!v}"
+    unset PUSHT_STACK_${v#PUSHT_STACK_}
+  done
+
+  # set default mode
+  MODE="cp -r"
+
+  # check if any parameter given
+  if [ -z "${1}" ]; then
+    echo "usage: pusht [mv|cp] file|dir ..."
+  fi
+
+  # check first parameter for option (mv|cp)
+  case "${1}" in
+    mv )
+    #echo "detected parameter $1"
+    MODE="mv"
+    shift
+    ;;
+    cp )
+    # echo "detected parameter $1"
+    MODE="cp -r"
+    shift
+    ;;
+    "-h" )
+    echo "usage: pusht [mv|cp] file|dir ..."
+    return
+    ;;
+  esac
+
+  # add remaining files/dirs to stack
+  while [ -n "${1}" ]; do
+    # convert relative paths to absolute ones
+    local ABSPATH=$(rel2abs "${1}")
+    # check if path exists
+    if [ -e "${ABSPATH}" ]; then
+      # append to STACK
+      PUSHT_STACK[${#PUSHT_STACK[*]}]="${MODE} '"${ABSPATH}"'"
+    else
+      echo "${ABSPATH}: no such file or directory - skipping"
+    fi
+    shift
+  done
+
+  # export array to environment variables
+  for i in ${!PUSHT_STACK[*]}; do
+    export PUSHT_STACK_${i}="${PUSHT_STACK[$i]}"
+  done
+}
+
+# function to apply path transfer stack values
+function popt()
+{
+  # declare the environment array for pusht-service
+  declare -a PUSHT_STACK
+
+  # get exisiting stack values from environment
+  for v in ${!PUSHT_STACK_*};do
+    PUSHT_STACK[${v#PUSHT_STACK_}]="${!v}"
+    unset PUSHT_STACK_${v#PUSHT_STACK_}
+  done
+
+  # sanity check for empty array
+  cnt=${#PUSHT_STACK[@]}
+  if [ ${cnt} -eq 0 ]; then
+    echo "No items on stack!"
+    return
+  fi
+
+  local suffix=''
+  # check for first parameter
+  case "${1}" in
+    "-d" )
+    # just delete the last stack item
+    unset PUSHT_STACK[${#PUSHT_STACK[@]}-1]
+
+    # export array to environment variables
+    for i in ${!PUSHT_STACK[*]}; do
+      export PUSHT_STACK_$i="${PUSHT_STACK[$i]}"
+    done
+    return
+    ;;
+    "-a" )
+    # apply all stack items
+    for i in ${!PUSHT_STACK[*]}; do
+      local filename="${PUSHT_STACK[$i]##*/}"
+      filename="${filename%\'}"
+      if [ -e "${filename}" ]; then
+        suffix=0
+        while [ -e "${filename}".${suffix} ]; do
+          suffix=$(($suffix+1))
+        done
+        echo "-> ${PUSHT_STACK[$i]} '""${filename}.${suffix}""'"
+        eval ${PUSHT_STACK[$i]} "'"${filename}.${suffix}"'"
+      else
+        echo "-> ${PUSHT_STACK[$i]} ."
+        eval ${PUSHT_STACK[$i]} .
+      fi
+    done
+    return
+    ;;
+    "-f" )
+    # flush all transfers - just don't reinsert existing
+    return
+    ;;
+    "-h" )
+    echo "usage: popt [-d|-a|-f|-h]"
+    echo "             -d    discard top transfer from stack"
+    echo "             -a    apply all transfers in stack"
+    echo "             -f    flush all transfers from stack"
+    echo "                   apply top transfer from stack"
+    echo "             -h    print this help text"
+    # export array to environment variables
+    for i in ${!PUSHT_STACK[*]}; do
+      export PUSHT_STACK_$i="${PUSHT_STACK[$i]}"
+    done
+    return
+    ;;
+  esac
+
+  # check if file already exists
+  local filename="${PUSHT_STACK[${#PUSHT_STACK[@]}-1]##*/}"
+  filename="${filename%\'}"
+  if [ -e "${filename}" ]; then
+    suffix=0
+    while [ -e "${filename}".${suffix} ]; do
+      suffix=$(($suffix+1))
+    done
+    echo "-> ${PUSHT_STACK[${#PUSHT_STACK[@]}-1]} '""${filename}.${suffix}""'"
+    eval ${PUSHT_STACK[${#PUSHT_STACK[@]}-1]} "'"${filename}.${suffix}"'"
+  else
+    # apply one item
+    echo "-> ${PUSHT_STACK[${#PUSHT_STACK[@]}-1]} ."
+    eval ${PUSHT_STACK[${#PUSHT_STACK[@]}-1]} .
+  fi
+  # pop last item
+  unset PUSHT_STACK[${#PUSHT_STACK[@]}-1]
+
+  # export array to environment variables
+  for i in ${!PUSHT_STACK[*]}; do
+    export PUSHT_STACK_$i="${PUSHT_STACK[$i]}"
+  done
+}
+
+# function to print all stacked transfers
+function transfers()
+{
+  # print exisiting stack values from environment
+  for v in ${!PUSHT_STACK_*};do
+    echo "${!v}"
+  done
+}
