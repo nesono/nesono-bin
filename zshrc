@@ -56,14 +56,14 @@ case ${uname} in
   Darwin)
   ###################### DARWIN STUFF ######################################
   source ${NESONOBININSTDIR}/bashtils/aliases.darwin
-  #source ${NESONOBININSTDIR}/bashtils/rm2trash.darwin
+  source ${NESONOBININSTDIR}/bashtils/rm2trash.darwin
   source ${NESONOBININSTDIR}/bashtils/defines.darwin
   ;;
 
   Linux)
   ###################### LINUX STUFF ######################################
   source ${NESONOBININSTDIR}/bashtils/aliases.linux
-  #source ${NESONOBININSTDIR}/bashtils/rm2trash.linux
+  source ${NESONOBININSTDIR}/bashtils/rm2trash.linux
   source ${NESONOBININSTDIR}/bashtils/defines.linux
   ;;
 esac
