@@ -2,9 +2,11 @@
 
 # the trash destination directory
 export NESONO_TRASH_DIR=~/.local/share/Trash
-# remember rm binary
+
+# this script works for KDE or GNOME
 case ${DESKTOP_SESSION} in
   "kde" | "KDE" | "GNOME" | "gnome" )
+  # remember rm binary
   ORIG_RM=$(which rm)
   # function to remove files in console into Trash... (not deleting anything)
   function rm ()
