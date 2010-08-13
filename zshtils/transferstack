@@ -1,18 +1,42 @@
 #!/bin/zsh
-# tmp/cache file to store the stack (array)
+# tmp/cache file to store the stack (array) DONT USE WHITESPACES HERE
 STACKFILE=/tmp/${USER}.TRANSSTACKFILE.txt
+
+function _nesono_transfer_apply_line()
+{
+  echo "processing \'${1}\'"
+  # param 1: transfer stack line
+  local filename="${1##*/}"
+  filename="${filename%\'}"
+  if [[ -e "${filename}" ]]; then
+    suffix=0
+    while [[ -e "${filename}".${suffix} ]]; do
+      suffix=$(($suffix+1))
+    done
+    echo "-> ${1} '""${filename}.${suffix}""'"
+    eval ${1} "'"${filename}.${suffix}"'"
+  else
+    # apply one item
+    echo "-> ${1} ."
+    eval ${1} .
+  fi
+}
 
 # function to push some files onto path transfer stack - utility for cp|mv
 function pusht()
 {
   # reload stack
-  [ -r ${STACKFILE} ] && TRANSSTACK=("${(@Q)${(z)"$(cat -- ${STACKFILE})"}}")
+  unset TRANSSTACK
+  [[ -r ${STACKFILE} ]] && TRANSSTACK=("${(@Q)${(z)"$(cat -- ${STACKFILE})"}}")
+  if [[ ${TRANSSTACK} == '' ]]; then
+    unset TRANSSTACK
+  fi
 
   # set default mode
   MODE="cp -r"
 
   # check if any parameter given
-  if [ -z "${1}" ]; then
+  if [[ -z "${1}" ]]; then
     echo "usage: pusht [mv|cp] file|dir ..."
   fi
 
@@ -35,11 +59,11 @@ function pusht()
   esac
 
   # add remaining files/dirs to stack
-  while [ -n "${1}" ]; do
+  while [[ -n "${1}" ]]; do
     # convert relative paths to absolute ones
     local ABSPATH=$(rel2abs "${1}")
     # check if path exists
-    if [ -e "${ABSPATH}" ]; then
+    if [[ -e "${ABSPATH}" ]]; then
       # append to STACK
       TRANSSTACK+="${MODE} '"${ABSPATH}"'"
     else
@@ -56,12 +80,16 @@ function pusht()
 function popt()
 {
   # reload stack
-  [ -r ${STACKFILE} ] && TRANSSTACK=("${(@Q)${(z)"$(cat -- ${STACKFILE})"}}")
+  unset TRANSSTACK
+  [[ -r ${STACKFILE} ]] && TRANSSTACK=("${(@Q)${(z)"$(cat -- ${STACKFILE})"}}")
+  if [[ ${TRANSSTACK} == '' ]]; then
+    unset TRANSSTACK
+  fi
 
   # sanity check for empty array
   cnt=${#TRANSSTACK}
-  if [ ${cnt} -eq 0 ]; then
-    echo "No items on stack!"
+  if [[ ${cnt} -eq 0 ]]; then
+    echo "stack is empty!"
     return
   fi
 
@@ -70,7 +98,12 @@ function popt()
   case "${1}" in
     "-d" )
     # just delete the last stack item
-    unset TRANSSTACK[${#TRANSSTACK}]
+    # pop last item
+    if [[ ${#TRANSSTACK} -gt 1 ]]; then
+      TRANSSTACK[-2,-1]=${TRANSSTACK[-2]}
+    else
+      unset TRANSSTACK
+    fi
 
     # save stack to file
     print -r -- ${(qq)TRANSSTACK} > ${STACKFILE}
@@ -78,21 +111,11 @@ function popt()
     ;;
     "-a" )
     # apply all stack items
-    for i in ${TRANSSTACK}; do
-      local filename="${TRANSSTACK[$i]##*/}"
-      filename="${filename%\'}"
-      if [ -e "${filename}" ]; then
-        suffix=0
-        while [ -e "${filename}".${suffix} ]; do
-          suffix=$(($suffix+1))
-        done
-        echo "-> ${TRANSSTACK[$i]} '""${filename}.${suffix}""'"
-        eval ${TRANSSTACK[$i]} "'"${filename}.${suffix}"'"
-      else
-        echo "-> ${TRANSSTACK[$i]} ."
-        eval ${TRANSSTACK[$i]} .
-      fi
+    for item in ${TRANSSTACK}; do
+      _nesono_transfer_apply_line ${item}
     done
+    # remove transfer file
+    echo '' > ${STACKFILE}
     return
     ;;
     "-f" )
@@ -113,23 +136,14 @@ function popt()
     ;;
   esac
 
-  # check if file already exists
-  local filename="${TRANSSTACK[${#TRANSSTACK}]##*/}"
-  filename="${filename%\'}"
-  if [ -e "${filename}" ]; then
-    suffix=0
-    while [ -e "${filename}".${suffix} ]; do
-      suffix=$(($suffix+1))
-    done
-    echo "-> ${TRANSSTACK[${#TRANSSTACK}]} '""${filename}.${suffix}""'"
-    eval ${TRANSSTACK[${#TRANSSTACK}]} "'"${filename}.${suffix}"'"
-  else
-    # apply one item
-    echo "-> ${TRANSSTACK[${#TRANSSTACK}]} ."
-    eval ${TRANSSTACK[${#TRANSSTACK}]} .
-  fi
+  # apply transfer line
+  _nesono_transfer_apply_line ${TRANSSTACK[-1]}
   # pop last item
-  unset TRANSSTACK[${#TRANSSTACK}]
+  if [[ ${#TRANSSTACK} -gt 1 ]]; then
+    TRANSSTACK[-2,-1]=${TRANSSTACK[-2]}
+  else
+    unset TRANSSTACK
+  fi
 
   # save stack to file
   print -r -- ${(qq)TRANSSTACK} > ${STACKFILE}
@@ -139,7 +153,11 @@ function popt()
 function transfers()
 {
   # reload stack
-  [ -r ${STACKFILE} ] && TRANSSTACK=("${(@Q)${(z)"$(cat -- ${STACKFILE})"}}")
+  unset TRANSSTACK
+  [[ -r ${STACKFILE} ]] && TRANSSTACK=("${(@Q)${(z)"$(cat -- ${STACKFILE})"}}")
+  if [[ ${TRANSSTACK} == '' ]]; then
+    unset TRANSSTACK
+  fi
 
   # print exisiting stack values from environment
   for v in ${TRANSSTACK};do
