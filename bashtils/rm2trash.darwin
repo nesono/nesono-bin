@@ -8,24 +8,24 @@ ORIG_RM=$(which rm)
 # function to remove files in console into Trash... (not deleting anything)
 function rm()
 {
-  local path
-  for path in "$@"; do
+  local item
+  for item in "$@"; do
     # ignore any arguments
-    if [[ "$path" = -* ]]; then :
-    elif [ ! -e "$path" ]; then :
-      echo "ignoring \"${path}\" - not existing!"
+    if [[ "$item" = -* ]]; then :
+    elif [ ! -e "$item" ]; then :
+      echo "ignoring \"${item}\" - not existing!"
     else
       # create absolute path from relative one
-      path=$(rel2abs "${path}")
+      item=$(rel2abs "${item}")
 
       # remove trailing slash
-      local dst="${path##*/}"
+      local dst="${item##*/}"
 
       # for inside trash detection
-      INSIDE_TRASH=${path##${NESONO_TRASH_DIR}}
+      INSIDE_TRASH=${item##${NESONO_TRASH_DIR}}
 
       # check, if we try to delete something inside Trash
-      if [ "${INSIDE_TRASH}" != "${path}" ]; then
+      if [ "${INSIDE_TRASH}" != "${item}" ]; then
         if [ -z "${INSIDE_TRASH}" ]; then
           echo "Trash not deleted! Needed by Mac OS X ;)"
           return 1
@@ -49,7 +49,7 @@ function rm()
       while [ -e ${NESONO_TRASH_DIR}/"$dst" ]; do
         dst="$dst "$(date +%H-%M-%S)
       done
-      mv "$path" ${NESONO_TRASH_DIR}/"$dst"
+      mv "$item" ${NESONO_TRASH_DIR}/"$dst"
     fi
   done
 }

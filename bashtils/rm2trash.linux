@@ -11,33 +11,33 @@ case ${DESKTOP_SESSION} in
   # function to remove files in console into Trash... (not deleting anything)
   function rm ()
   {
-    local path
+    local item
     local deletiondate=$(date +%Y-%m-%dT%H:%M:%S)
     # create trash directories
     mkdir -p ${NESONO_TRASH_DIR}/files
     mkdir -p ${NESONO_TRASH_DIR}/info
 
-    for path in "$@"; do
+    for item in "$@"; do
       # ignore any arguments
-      if [[ "${path}" = -* ]]; then :
-      elif [ ! -e "$path" ]; then :
-        echo "ignoring \"${path}\" - not existing!"
+      if [[ "${item}" = -* ]]; then :
+      elif [ ! -e "$item" ]; then :
+        echo "ignoring \"${item}\" - not existing!"
       else
         # create absolute path from relative one
-        path=$(rel2abs "${path}")
+        item=$(rel2abs "${item}")
 
         # dst is basename
         # remove trailing slash
-        local dst="${path##*/}"
+        local dst="${item##*/}"
         # plaindst the same as dst, but without counter (see below)
         local plaindst="${dst}"
         local counter=1
 
         # for inside trash detection
-        INSIDE_TRASH=${path##${NESONO_TRASH_DIR}}
+        INSIDE_TRASH=${item##${NESONO_TRASH_DIR}}
 
-        # check, if path within trash dir
-        if [ "${INSIDE_TRASH}" != "${path}" ]; then
+        # check, if item within trash dir
+        if [ "${INSIDE_TRASH}" != "${item}" ]; then
           if [ -z "${INSIDE_TRASH}" ]; then
             echo "Trash not deleted! Needed by your Desktop ;)"
             return 1
@@ -67,9 +67,9 @@ case ${DESKTOP_SESSION} in
           dst="${plaindst}_"${counter}
           counter=$((counter+1))
         done
-        mv "$path" ${NESONO_TRASH_DIR}/files/"$dst"
+        mv "$item" ${NESONO_TRASH_DIR}/files/"$dst"
         echo "[Trash Info]"                  > ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
-        echo "Path="${path}                 >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
+        echo "item="${item}                 >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
         echo "DeletionDate=${deletiondate}" >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
       fi
     done
