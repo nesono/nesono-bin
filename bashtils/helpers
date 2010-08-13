@@ -18,21 +18,28 @@ function cdmkdir()
 # function to create an absolute path from a relative one
 function rel2abs()
 {
-  # make sure param 1 is a directory
-  [ -f "${1}" ] || return 1
-
   #echo "input: \"${1}\""
-  # directory name
-  local dir="$(dirname "${1}")"
-  #echo "dir: ${dir}"
-  local file="$(basename "${1}")"
-  #echo "file: ${file}"
+  # check, if argument is a file
+  if [ -f "${1}" ]; then
+    # directory name
+    local dir="$(dirname "${1}")"
+    #echo "dir: ${dir}"
+    local file="$(basename "${1}")"
+    #echo "file: ${file}"
 
-  # change into dir
-  pushd "${dir}" &> /dev/null
-  local abspath="$(pwd)/${file}"
-  echo "${abspath}"
-  popd &> /dev/null
+    # change into dir
+    pushd "${dir}" &> /dev/null
+    local abspath="$(pwd)/${file}"
+    echo "${abspath}"
+    popd &> /dev/null
+  fi
+  if [ -d "${1}" ]; then
+    # change into dir
+    pushd "${1}" &> /dev/null
+    local abspath="$(pwd)"
+    echo "${abspath}"
+    popd &> /dev/null
+  fi
 
   return 0
 }
