@@ -113,18 +113,19 @@ function check_and_update_git_bin_repo()
     echo ""
   fi
 }
+
+# check for mmt-bin directory and upgrade it, if neccessary - svn version
+check_and_update_svn_bin_repo ~/mmt-bin
+# check for nesono-bin directory and upgrade it, if neccessary - svn version
+check_and_update_svn_bin_repo ~/nesono-bin
+# check for mmt-bin directory and upgrade it, if neccessary - git version
+check_and_update_git_bin_repo ~/mmt-bin
+# check for nesono-bin directory and upgrade it, if neccessary - git version
+check_and_update_git_bin_repo ~/nesono-bin
+
 # check for user id (must be run as root)
 if [ ${EUID} != 0 ]; then
-  # check for mmt-bin directory and upgrade it, if neccessary - svn version
-  check_and_update_svn_bin_repo ~/mmt-bin
-  # check for nesono-bin directory and upgrade it, if neccessary - svn version
-  check_and_update_svn_bin_repo ~/nesono-bin
-  # check for mmt-bin directory and upgrade it, if neccessary - git version
-  check_and_update_git_bin_repo ~/mmt-bin
-  # check for nesono-bin directory and upgrade it, if neccessary - git version
-  check_and_update_git_bin_repo ~/nesono-bin
-
-  echo "script must be run as root! Recalling with sudo"
+  echo "remaining script must be run as root! Recalling with sudo"
   sudo $0
   exit 0
 fi
