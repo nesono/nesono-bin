@@ -80,7 +80,7 @@ function check_and_update_git_bin_repo()
     echo "### checking for git repo: ${DIR}"
     if [ -n $(git remote | grep -e '^origin') ]; then
       # get remote/repo changes
-      git pull
+      git pull --rebase
     else
       echo "Error: no origin specified in git repo"
     fi
