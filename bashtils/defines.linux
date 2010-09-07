@@ -8,6 +8,13 @@ case ${DESKTOP_SESSION} in
     gnome-open "$@" &> /dev/null
   }
   ;;
+  "KDE" | "kde" )
+  # 'emulate' the Mac OS X open terminal command
+  function open()
+  {
+    kfmclient openURL file://$(rel2abs $1) &> /dev/null
+  }
+  ;;
 esac # check for desktop session (KDE/GNOME)
 
 # function to get the current date in iso format
