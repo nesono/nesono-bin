@@ -123,7 +123,22 @@ case "${ANSWER}" in
   ;;
   "d" | "D" )
     echo "removing section alias from git config"
-    git config --global --remove-section alias
+    git config --global --unset alias.st
+    git config --global --unset alias.ci
+    git config --global --unset alias.co
+    git config --global --unset alias.br
+  ;;
+esac
+
+# check if graphlog alias shall be enabled
+read -e -p "Do you want to enable git log alias 'graphlog'? [y/N/d] " ANSWER
+case "${ANSWER}" in
+  "y" | "Y" )
+    git config --global alias.graphlog "log --pretty=format:'%h : %s' --graph"
+  ;;
+  "d" | "D" )
+    echo "removing section alias from git config"
+    git config --global --unset alias.graphlog
   ;;
 esac
 
