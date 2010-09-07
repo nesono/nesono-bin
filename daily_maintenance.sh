@@ -196,7 +196,7 @@ case ${UNAME} in
       case ${ANSWER} in
         "" | "y" | "Y" )
           # upgrade system
-          port upgrade outdated
+          port -u upgrade outdated
           ;;
       esac
     else
