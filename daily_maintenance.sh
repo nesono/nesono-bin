@@ -174,19 +174,9 @@ case ${UNAME} in
   if [ -n $(which port) ]; then
     echo "port available"
 
-    read -e -p "Shall I do selfupgrade? [y/N] " ANSWER
-
-    case ${ANSWER} in
-      "y" | "Y" )
-        echo "running port selfupdate"
-        # upgrade system
-        port -c selfupdate
-        ;;
-      * )
-        echo "sync'ing ports"
-        port sync
-        ;;
-    esac
+    echo "running port selfupdate"
+    # upgrade system
+    port -c selfupdate
 
     # show outdated ports
     OUTDATED=$(port list outdated)
