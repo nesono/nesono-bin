@@ -58,6 +58,13 @@ vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
 
+nnoremap <Home> g<Home>
+nnoremap <End> g<End>
+vnoremap <Home> g<Home>
+vnoremap <End> g<End>
+inoremap <Home> <C-o>g<Home>
+inoremap <End> <C-o>g<End>
+
 " make blank spaces at EOL red
 let c_space_errors=1
 
