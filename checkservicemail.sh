@@ -35,11 +35,11 @@ function send_mail()
   cat ${TMPMAILFILE} | mail -s "${SUBJECT}" ${RECEIPIENTS}
 }
 
-# check amavis socket (10024)
-if [ -z "$(netstat -tuanp | egrep "\<${AMAVISPORT}\>")" ]; then
-  log "AMAVIS socket ${AMAVISPORT} no longer open!" "AMAVIS ERROR"
-  /etc/init.d/amavis restart &> /dev/null
-fi
+## check amavis socket (10024)
+#if [ -z "$(netstat -tuanp | egrep "\<${AMAVISPORT}\>")" ]; then
+#  log "AMAVIS socket ${AMAVISPORT} no longer open!" "AMAVIS ERROR"
+#  /etc/init.d/amavis restart &> /dev/null
+#fi
 
 # check postgrey socket (60000)
 if [ -z "$(netstat -tuanp | egrep "\<${POSTGREYPORT}\>")" ]; then
@@ -81,6 +81,12 @@ fi
 if [ -z "$(netstat -tuanp | egrep ':\<25\>')" ]; then
   log "POSTFIX not running!" "POSTFIX ERROR"
   /etc/init.d/postfix restart &> /dev/null
+fi
+
+# check for mailman
+if [ ! -f /var/run/mailman/mailman.pid ]; then
+  log "MAILMAN service not running!" "MAILMAN pid ERROR"
+  /etc/init.d/mailman restart &> /dev/null
 fi
 
 if [ -n "${SUBJECT}" ]; then
