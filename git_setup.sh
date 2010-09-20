@@ -134,7 +134,7 @@ esac
 read -e -p "Do you want to enable git log alias 'graphlog'? [y/N/d] " ANSWER
 case "${ANSWER}" in
   "y" | "Y" )
-    git config --global alias.graphlog "log --pretty=format:'%h : %s' --graph"
+    git config --global alias.graphlog "log --pretty=oneline --abbrev-commit --graph"
   ;;
   "d" | "D" )
     echo "removing section alias from git config"
