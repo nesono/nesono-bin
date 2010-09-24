@@ -7,7 +7,7 @@ backtick 2 1 1 pwd
 
 # set status line
 caption string "%w"
-hardstatus alwayslastline "%{= kw}%n %{= .g}%H %?%{= .y}%1` %?%?%{= .c}%2`%? %?%{.r}%u%? %=%{.c}load = %l %?%{kw}| %c %Y.%m.%d "
+hardstatus alwayslastline "%{= kw}%n %{= .g}%H%?%{= .y}%1`%?%?%{= .c} %2`%? %?%{.r}%u%? %=%{.c}load = %l %?%{kw}| %c %Y.%m.%d "
 
 # toggle status line and caption using 'f' and 'F'
 bind f eval "caption splitonly" "hardstatus ignore"
