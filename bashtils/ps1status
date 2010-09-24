@@ -9,6 +9,8 @@ function parse_git_branch() {
   [ -z "$(echo "$STATUS" | grep -e '^?? ')"    ] || DIRTY="*"
   [ -z "$(echo "$STATUS" | grep -e '^[MDA]')"  ] || DIRTY="${DIRTY}+"
   [ -z "$(git stash list)"                     ] || DIRTY="${DIRTY}^"
+  AHEAD=$(git status 2>/dev/null | grep -e 'ahead of' | awk '{ print $9; }')
+  [ -z "${AHEAD}"                              ] || DIRTY="${DIRTY}!"
   echo " ($(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')$DIRTY)"
 }
 
