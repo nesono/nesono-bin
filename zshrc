@@ -34,15 +34,21 @@ setopt extended_history
 autoload -U colors && colors
 
 if [[ $TERM == "screen" ]]; then
-  # called by zsh before showing the prompt
-  function precmd()
-  {
-    # set hardstatus of tab window (%h) for screen
-    print -nR $'\033]0;'$(parse_git_branch)$(parse_svn_revision)$'\a'
-  }
-  PROMPT='%{$fg_bold[cyan]%}%c%{$reset_color%} > '
+  if [[ "$EUID" == "0" ]]; then
+    # root user
+    PROMPT='%{$fg_bold[red]%}>%{$reset_color%} '
+  else
+    # normal users
+    PROMPT='%{$fg_bold[green]%}>%{$reset_color%} '
+  fi
 else
-  PROMPT='%{$fg_bold[green]%}%m:%{$fg_bold[blue]%}%c%{$fg_bold[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
+  if [[ "$EUID" == "0" ]]; then
+    # root user
+    PROMPT='%{$fg_bold[red]%}%m:%{$fg_bold[blue]%}%c%{$fg_bold[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
+  else
+    # normal users
+    PROMPT='%{$fg_bold[green]%}%m:%{$fg_bold[blue]%}%c%{$fg_bold[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
+  fi
 fi
 
 # provides small helper functions
@@ -70,6 +76,14 @@ esac
 
 # source prompt status functions
 source ${NESONOBININSTDIR}/bashtils/ps1status
+if [[ $TERM == "screen" ]]; then
+  ## called by zsh before showing the prompt
+  function precmd()
+  {
+    # set the current working directory
+    set_screen_path
+  }
+fi
 
 # include completion config file
 source ${NESONOBININSTDIR}/zshtils/completion
