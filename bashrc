@@ -16,6 +16,21 @@ source ${NESONOBININSTDIR}/bashtils/transferstack
 # defines aliases for all platforms
 source ${NESONOBININSTDIR}/bashtils/aliases
 
+#
+# add one of these lines to your ~/.bashrc for git/svn status display in bash prompt with colors
+if [[ $TERM == "screen" ]]; then
+  PROMPT_COMMAND=set_screen_path
+  PS1='> '
+else
+  if [[ "$EUID" == "0" ]]; then
+    # root user
+    PS1='\[\033[31m\]\h:\[\033[1;34m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
+  else
+    # normal users
+    PS1='\[\033[1;32m\]\h:\[\033[1;34m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
+  fi
+fi
+
 uname=$(uname -s)
 
 case ${uname} in
