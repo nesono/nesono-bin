@@ -7,4 +7,4 @@ alias la='ls -a'
 alias grep='grep --color=auto'
 alias bc='bc -l -q'
 
-alias screen='TERM=screen && screen'
+#alias screen='TERM=screen && screen'
