@@ -20,7 +20,14 @@ source ${NESONOBININSTDIR}/bashtils/aliases
 # add one of these lines to your ~/.bashrc for git/svn status display in bash prompt with colors
 if [[ $TERM == "screen" ]]; then
   PROMPT_COMMAND=set_screen_path
-  PS1='> '
+  # set simple prompt
+  if [[ "$EUID" == "0" ]]; then
+    # root user
+    PS1='\[\033[31m\]>\[\033[0m\] '
+  else
+    # normal users
+    PS1='\[\033[1;32m\]>\[\033[0m\] '
+  fi
 else
   if [[ "$EUID" == "0" ]]; then
     # root user
