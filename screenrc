@@ -1,3 +1,4 @@
+startup_message off
 # enable UTF8 encoding
 utf8 on
 # add backtick printer functions
