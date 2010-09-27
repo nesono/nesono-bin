@@ -1,34 +1,34 @@
+# nesono stuff
 export NESONOZSHRC="version 1"
 export NESONOBININSTDIR="${HOME}/nesono-bin"
-export LSCOLORS="gxfxcxdxbxegedabagacad"
+#export LSCOLORS="gxfxcxdxbxegedabagacad"
 
-# set emacs editor option
-set -o emacs
-# set correction
-setopt correct
-# disable bothering beep
-setopt no_beep
-# set auto listing to menu style
-setopt autolist automenu
-# immediately report the status of background options
-setopt notify
-# enable extended globbing
-setopt extended_glob
-# enable prompt substitution
-setopt prompt_subst
+set -o emacs                   # set emacs editor option
+setopt correct                 # set correction
+setopt nobeep                  # disable bothering beep
+setopt autolist automenu       # set auto listing to menu style
+setopt notify                  # immediately report the status of background options
+setopt extended_glob           # enable extended globbing
+setopt prompt_subst            # enable prompt substitution
 
 # setup history
-HISTSIZE=3000
-SAVEHIST=3000
+setopt histignorespace         # don't remember lines starting with a ' '
+setopt hist_ignore_dups        # ignore duplicates in history
+setopt hist_expire_dups_first  # when inserting into history, expire duplicates first
+setopt hist_find_no_dups       # when searching in the history, remove duplicates from results
+setopt inc_append_history      # add commands to history file immediately
+setopt share_history           # share history between zsh sessions
+setopt extended_history        # add timestamps to history
+setopt histverify              # when using ! cmds, confirm first
+HISTSIZE=102400
+SAVEHIST=102400
 HISTFILE=~/.zsh_history
 
-setopt histignorespace
-setopt hist_ignore_dups
-setopt hist_expire_dups_first
-setopt hist_find_no_dups
-setopt append_history
-setopt share_history
-setopt extended_history
+# provide "compose" function, aka digraphs
+autoload -Uz insert-composed-char && zle -N insert-composed-char
+
+# automatically remove duplicates from these arrays
+typeset -U path cdpath fpath manpath
 
 # load simplified color handling ("$bg[red]$fg[black]")
 autoload -U colors && colors
