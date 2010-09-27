@@ -10,6 +10,7 @@ setopt autolist automenu       # set auto listing to menu style
 setopt notify                  # immediately report the status of background options
 setopt extended_glob           # enable extended globbing
 setopt prompt_subst            # enable prompt substitution
+setopt autopushd               # automatically append dirs to the push/pop list
 
 # setup history
 setopt histignorespace         # don't remember lines starting with a ' '
