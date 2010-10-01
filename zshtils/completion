@@ -22,5 +22,5 @@ zstyle ':completion:*:*:kill:*'               menu yes select
 zstyle ':completion:*:kill:*'                 force-list always
 zstyle ':completion:*:*:kill:*:processes'     list-colors "=(#b) #([0-9]#)*=36=31"
 
-# show list colors?
-#zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+# enable color completion
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
