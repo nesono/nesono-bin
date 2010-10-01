@@ -17,6 +17,6 @@ bindkey '^K' kill-line
 bindkey '^[d' kill-word
 
 # add helper keybindings (for vi editing mode)
-bindkey "^[[5~" history-search-backward
-bindkey "^[[6~" history-search-forward
+bindkey "^[[5~" history-beginning-search-backward
+bindkey "^[[6~" history-beginning-search-forward
 bindkey '^R' history-incremental-search-backward
