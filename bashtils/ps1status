@@ -21,7 +21,7 @@ function parse_svn_revision() {
   echo " (r$REV$DIRTY)"
 }
 
-# note, that this function only works
+# note that this function only works
 # if you don't rename your session afterwards!
 function set_screen_path() {
   [ -n "${STY}" ] && screen -S ${STY} -X chdir "$(pwd)"
