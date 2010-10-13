@@ -27,3 +27,13 @@ function isodatetime()
 {
   date +%Y-%0m-%0dT%0k-%0M
 }
+
+# function to redirect gitx to gitg
+function gitx()
+{
+  if [ -n "$(which gitg)" ]; then
+    gitg $@
+  else
+    echo "gitg not installed!"
+  fi
+}
