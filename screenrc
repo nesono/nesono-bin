@@ -13,4 +13,5 @@ hardstatus alwayslastline "%?%{= .W} %L>%2`%? %?%{.g}%u%? %-18=%?%{= .K} %c %Y.%
 bind f eval "caption splitonly" "hardstatus ignore"
 bind F eval "caption always"    "hardstatus alwayslastline"
 
+# set scrollback buffer size in lines
 defscrollback 10000
