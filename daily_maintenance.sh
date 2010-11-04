@@ -152,7 +152,7 @@ case ${UNAME} in
     ORPHANS=$(deborphan -n -s)
     if [ -n "${ORPHANS}" ]; then
       echo "purging orphans: ${ORPHANS}"
-      apt-get autoremove --purge $(deborphan -n -s | awk '{print $2;}')
+      apt-get autoremove $(deborphan -n -s | awk '{print $2;}')
     else
       echo "no orphaned packages found"
     fi
@@ -160,7 +160,7 @@ case ${UNAME} in
   fi
 
   # autoremove old pacakges
-  apt-get autoremove --purge
+  apt-get autoremove
 
   # cleaning repository
   echo "autocleaning repository"
