@@ -84,8 +84,24 @@ if has("autocmd")
   autocmd BufWritePre * :%s/\s\+$//e
   " set file text width for c files
   au FileType cpp,c set textwidth=78
+
   " enable highlighing of over long lines
-  au FileType cpp,c match OverLength /\%80v.*/
+  "au FileType cpp,c match OverLength /\%80v.*/
+  " Highlight rows longer than 80 characters
+  function ToggleOverLengthHi()
+      if exists("b:overlengthhi") && b:overlengthhi
+          highlight clear OverLength
+          let b:overlengthhi = 0
+          echo "overlength hilight off"
+      else
+          " adjust colors/styles as desired
+          highlight OverLength ctermbg=darkred gui=undercurl guisp=blue
+          " change '81' to be 1+(number of columns)
+          match OverLength /\%81v.\+/
+          let b:overlengthhi = 1
+          echo "overlength hilight on"
+      endif
+  endfunction
 
   " to enable cindent only for specific files
   au FileType cpp,c set cindent
@@ -131,5 +147,6 @@ map <c-n> :bn<CR>           " edit next file in buffer
 map <c-p> :bp<CR>           " edit prev file in buffer
 map <c-s> :w<CR>            " Ctrl-s saves file ;)
 map <c-l> :e#<CR>           " Ctrl-l edits last file
+map <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
 
 " ~/.vimrc ends here
