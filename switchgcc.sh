@@ -8,19 +8,17 @@ if [ -z "$1" ]; then
   exit -1
 fi
 
-NEWGCC=/usr/bin/gcc-$1
-NEWGPP=/usr/bin/g++-$1
-NEWCPP=/usr/bin/cpp-$1
-NEWGCCBUG=/usr/bin/gccbug-$1
-NEWGCJ=/usr/bin/gcj-$1
-NEWGCJWRAPPER=/usr/bin/gcj-wrapper-$1
-NEWGCJH=/usr/bin/gcjh-$1
-NEWGCJHWRAPPER=/usr/bin/gcjh-wrapper-$1
-NEWGCOV=/usr/bin/gcov-$1
+NEWGCC=$(which gcc-$1)
+NEWGXX=$(which g++-$1)
+NEWGCCBUG=$(which gccbug-$1)
+NEWGCJ=$(which gcj-$1)
+NEWGCJWRAPPER=$(which gcj-wrapper-$1)
+NEWGCJH=$(which gcjh-$1)
+NEWGCJHWRAPPER=$(which gcjh-wrapper-$1)
+NEWGCOV=$(which gcov-$1)
 
 LINKGCC=/usr/bin/gcc
-LINKGPP=/usr/bin/g++
-LINKCPP=/usr/bin/cpp-$1
+LINKGXX=/usr/bin/g++
 LINKGCCBUG=/usr/bin/gccbug
 LINKGCJ=/usr/bin/gcj
 LINKGCJWRAPPER=/usr/bin/gcj-wrapper
@@ -46,8 +44,7 @@ function relink ()
 
 # relink all binaries
 relink $NEWGCC  $LINKGCC
-relink $NEWGPP $LINKGPP
-relink $NEWCPP $LINKCPP
+relink $NEWGXX $LINKGXX
 relink $NEWGCCBUG $LINKGCCBUG
 relink $NEWGCJ  $LINKGCJ
 relink $NEWGCJWRAPPER $LINKGCJWRAPPER
