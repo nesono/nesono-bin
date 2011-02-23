@@ -11,7 +11,18 @@ if [ $# != 1 ]; then
   exit -1
 fi
 
+# verbosity off by default
 VERBOSE=0
+
+# check for verbosity flags
+if [ "$1" == "-v" ]; then
+  VERBOSE=1
+  shift
+fi
+if [ "$1" == "--verbose" ]; then
+  VERBOSE=1
+  shift
+fi
 
 # prealloc variables
 FILES_TO_REM=""
