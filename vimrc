@@ -88,7 +88,7 @@ if has("autocmd")
   " enable highlighing of over long lines
   "au FileType cpp,c match OverLength /\%80v.*/
   " Highlight rows longer than 80 characters
-  function ToggleOverLengthHi()
+  function! ToggleOverLengthHi()
       if exists("b:overlengthhi") && b:overlengthhi
           highlight clear OverLength
           let b:overlengthhi = 0
@@ -123,11 +123,15 @@ endif
 let uname = substitute(system("uname"),"\n","","g")
 
 if uname == "Darwin"
+  " setup copy paste with system for darwin
   nmap <F6> :.w !pbcopy<CR><CR>
   vmap <F6> :w !pbcopy<CR><CR>
   nmap <F7> :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
   imap <F7> <Esc>:set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+  " setup TexSync with Skim
+  map ,r :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf %<CR>
 elseif uname == "Linux"
+  " setup copy paste with system for Linux
   vmap <F6> :!xclip -f -sel clip<CR>
   map <F7> :-1r !xclip -o -sel clip<CR>
 endif
@@ -138,10 +142,18 @@ endif
 "  :fixdel
 "endif
 
-" some useful mappings
+" some useful mappings for the vimrc
 map ,v :sp ~/.vimrc<cr>     " edit my .vimrc file in a split
 map ,e :e ~/.vimrc<cr>      " edit my .vimrc file
 map ,u :source ~/.vimrc<cr> " update the system settings from my vimrc file
+
+" some useful mappings for vimdiff
+nnoremap ,d :diffupdate<cr>
+nnoremap ,g :diffget<cr>
+nnoremap ,p :diffput<cr>
+nnoremap ,h :vnew<cr>:q<cr>
+
+" some useful mappings for searching, buffer edits
 map <F5> :nohls<CR>         " disable search result highlighting
 map <c-n> :bn<CR>           " edit next file in buffer
 map <c-p> :bp<CR>           " edit prev file in buffer
