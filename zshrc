@@ -18,7 +18,7 @@ setopt hist_ignore_dups        # ignore duplicates in history
 setopt hist_expire_dups_first  # when inserting into history, expire duplicates first
 setopt hist_find_no_dups       # when searching in the history, remove duplicates from results
 #setopt inc_append_history      # add commands to history file immediately
-setopt share_history           # share history between zsh sessions
+#setopt share_history           # share history between zsh sessions
 setopt extended_history        # add timestamps to history
 setopt histverify              # when using ! cmds, confirm first
 HISTSIZE=102400

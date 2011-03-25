@@ -7,7 +7,7 @@ export NESONOBININSTDIR="${HOME}/nesono-bin"
 # original:
 #export LSCOLORS="exfxcxdxbxegedabagacad"
 # modified:
-export LSCOLORS="gxfxcxdxbxegedabagacad"
+#export LSCOLORS="gxfxcxdxbxegedabagacad"
 
 # provides small helper functions
 source ${NESONOBININSTDIR}/bashtils/helpers
