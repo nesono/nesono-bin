@@ -17,6 +17,11 @@ function check_and_update_svn_bin_repo()
     [ "$REV" ] || return
 
     echo "### checking for svn repo: ${DIR}"
+
+    # check if repo accessible
+    svn st -u &> /dev/null
+    if [ ! $? == 0 ]; then echo "### Can not access repository! Stopping update"; echo ''; return; fi
+
     # check for remote/repo changes
     if [ -n "$(svn st -u | grep -e '^[ ]\+\*')" ]; then
       echo "Remote changes detected in ${DIR}!"
@@ -77,10 +82,20 @@ function check_and_update_git_bin_repo()
     STATUS=$(git status --porcelain 2>/dev/null)
     [ $? -eq 128 ] && return
 
+    REMOTEUP=1
+    # check if remote repo (origin) is reachable
+    git fetch origin &> /dev/null
+    if [ ! $? == 0 ]; then REMOTEUP=0; fi
+
     echo "### checking for git repo: ${DIR}"
     if [ -n $(git remote | grep -e '^origin') ]; then
-      # get remote/repo changes
-      git pull --rebase
+      # check if remote accessible at all
+      if [ ${REMOTEUP} == 0 ]; then
+        echo "### Can not access depot! Skipping rebase"
+      else
+        # get remote/repo changes
+        git pull --rebase
+      fi
     else
       echo "Error: no origin specified in git repo"
     fi
@@ -98,8 +113,15 @@ function check_and_update_git_bin_repo()
           "y"|"Y")
           echo "checking in ${DIR}"
           git commit -a -v
-          echo "pushing changes"
-          git push
+
+          if [ ${REMOTEUP} == 0 ] ;then
+            echo "depot not reachable - skipping git push"
+            echo "remember to call it manually as soon as"
+            echo "depot reachable again"
+          else
+            echo "pushing changes"
+            git push
+          fi
           break
           ;;
           "d")
