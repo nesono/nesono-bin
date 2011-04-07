@@ -69,7 +69,9 @@ inoremap <End> <C-o>g<End>
 let c_space_errors=1
 
 " for dark backgrounds
-set bg=dark
+"set bg=dark
+" for light backgrounds
+set bg=light
 if has("gui_running")
   colorscheme torte
 endif
