@@ -37,18 +37,18 @@ autoload -U colors && colors
 if [[ $TERM == "screen" ]]; then
   if [[ "$EUID" == "0" ]]; then
     # root user
-    PROMPT='%{$fg_bold[red]%}>%{$reset_color%} '
+    PROMPT='%{$fg[red]%}>%{$reset_color%} '
   else
     # normal users
-    PROMPT='%{$fg_bold[green]%}>%{$reset_color%} '
+    PROMPT='%{$fg[green]%}>%{$reset_color%} '
   fi
 else
   if [[ "$EUID" == "0" ]]; then
     # root user
-    PROMPT='%{$fg_bold[red]%}%m:%{$fg_bold[blue]%}%c%{$fg_bold[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
+    PROMPT='%{$fg[red]%}%m:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
   else
     # normal users
-    PROMPT='%{$fg_bold[green]%}%m:%{$fg_bold[blue]%}%c%{$fg_bold[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
+    PROMPT='%{$fg[green]%}%m:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
   fi
 fi
 
