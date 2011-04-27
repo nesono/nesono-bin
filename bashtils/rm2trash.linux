@@ -3,7 +3,10 @@
 # the trash destination directory
 export NESONO_TRASH_DIR=~/.local/share/Trash
 
-test -d ${NESONO_TRASH_DIR} || { echo "Disabled rm overload!"; return }
+if [ ! -d ${NESONO_TRASH_DIR} ]; then
+  echo "Disabled rm overload!"
+  return
+fi
 
 # remember rm binary
 ORIG_RM=$(which rm)
@@ -73,4 +76,5 @@ function rm ()
     fi
   done
 }
-echo "declared rm() to Trash overload"
+#echo "declared rm() to Trash overload"
+

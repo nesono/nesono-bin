@@ -3,7 +3,10 @@
 # the trash destination directory (should be relative to Volumes)
 export NESONO_TRASH_DIR=~/.Trash
 
-test -d ${NESONO_TRASH_DIR} || { echo "Disabled rm() overload!"; return }
+if [ ! -d ${NESONO_TRASH_DIR} ]; then
+  echo "Disabled rm overload!"
+  return
+fi
 
 # remember rm binary
 ORIG_RM=$(which rm)
