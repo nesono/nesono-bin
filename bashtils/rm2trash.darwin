@@ -3,6 +3,8 @@
 # the trash destination directory (should be relative to Volumes)
 export NESONO_TRASH_DIR=~/.Trash
 
+test -d ${NESONO_TRASH_DIR} || { echo "Disabled rm() overload!"; return }
+
 # remember rm binary
 ORIG_RM=$(which rm)
 # function to remove files in console into Trash... (not deleting anything)
