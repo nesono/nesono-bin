@@ -3,77 +3,74 @@
 # the trash destination directory
 export NESONO_TRASH_DIR=~/.local/share/Trash
 
-# this script works for KDE or GNOME
-case ${DESKTOP_SESSION} in
-  "kde" | "KDE" | "GNOME" | "gnome" )
-  # remember rm binary
-  ORIG_RM=$(which rm)
-  # function to remove files in console into Trash... (not deleting anything)
-  function rm ()
-  {
-    local item
-    local deletiondate=$(date +%Y-%m-%dT%H:%M:%S)
-    # create trash directories
-    mkdir -p ${NESONO_TRASH_DIR}/files
-    mkdir -p ${NESONO_TRASH_DIR}/info
+test -d ${NESONO_TRASH_DIR} || { echo "Disabled rm overload!"; return }
 
-    for item in "$@"; do
-      # ignore any arguments
-      if [[ "${item}" = -* ]]; then :
-      elif [ ! -e "$item" ]; then :
-        echo "ignoring \"${item}\" - not existing!"
-      else
-        # create absolute path from relative one
-        item=$(rel2abs "${item}")
+# remember rm binary
+ORIG_RM=$(which rm)
+# function to remove files in console into Trash... (not deleting anything)
+function rm ()
+{
+  local item
+  local deletiondate=$(date +%Y-%m-%dT%H:%M:%S)
+  # create trash directories
+  mkdir -p ${NESONO_TRASH_DIR}/files
+  mkdir -p ${NESONO_TRASH_DIR}/info
 
-        # dst is basename
-        # remove trailing slash
-        local dst="${item##*/}"
-        # plaindst the same as dst, but without counter (see below)
-        local plaindst="${dst}"
-        local counter=1
+  for item in "$@"; do
+    # ignore any arguments
+    if [[ "${item}" = -* ]]; then :
+    elif [ ! -e "$item" ]; then :
+      echo "ignoring \"${item}\" - not existing!"
+    else
+      # create absolute path from relative one
+      item=$(rel2abs "${item}")
 
-        # for inside trash detection
-        INSIDE_TRASH=${item##${NESONO_TRASH_DIR}}
+      # dst is basename
+      # remove trailing slash
+      local dst="${item##*/}"
+      # plaindst the same as dst, but without counter (see below)
+      local plaindst="${dst}"
+      local counter=1
 
-        # check, if item within trash dir
-        if [ "${INSIDE_TRASH}" != "${item}" ]; then
-          if [ -z "${INSIDE_TRASH}" ]; then
-            echo "Trash not deleted! Needed by your Desktop ;)"
-            return 1
-          fi
-          if [ "${INSIDE_TRASH}" == "/info" -o "${INSIDE_TRASH}" == "/files" ]; then
-            echo "Trash info or files dir not deleted! Needed by your Desktop ;)"
-            return 1
-          fi
-          echo "deleting inside trash ..."
-          read -p "should I use original delete (${ORIG_RM})? [y/N]" REALLYDEL
-          case $REALLYDEL in
-            y|Y)
-              echo "deleting using ${ORIG_RM}"
-              $ORIG_RM -r "${dst}"
-              echo "MAKE SURE YOUR TRASH IS CONSISTENT IN BOTH DIRECTORIES: info and files!!!"
-              return
-            ;;
-            *)
-              echo "not deleting anything"
-              return 1
-            ;;
-          esac
+      # for inside trash detection
+      INSIDE_TRASH=${item##${NESONO_TRASH_DIR}}
+
+      # check, if item within trash dir
+      if [ "${INSIDE_TRASH}" != "${item}" ]; then
+        if [ -z "${INSIDE_TRASH}" ]; then
+          echo "Trash not deleted! Needed by your Desktop ;)"
+          return 1
         fi
-
-        # append counter if necessary
-        while [ -e ${NESONO_TRASH_DIR}/files/"$dst" ]; do
-          dst="${plaindst}_"${counter}
-          counter=$((counter+1))
-        done
-        mv "$item" ${NESONO_TRASH_DIR}/files/"$dst"
-        echo "[Trash Info]"                  > ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
-        echo "item="${item}                 >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
-        echo "DeletionDate=${deletiondate}" >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
+        if [ "${INSIDE_TRASH}" == "/info" -o "${INSIDE_TRASH}" == "/files" ]; then
+          echo "Trash info or files dir not deleted! Needed by your Desktop ;)"
+          return 1
+        fi
+        echo "deleting inside trash ..."
+        read -p "should I use original delete (${ORIG_RM})? [y/N]" REALLYDEL
+        case $REALLYDEL in
+          y|Y)
+            echo "deleting using ${ORIG_RM}"
+            $ORIG_RM -r "${dst}"
+            echo "MAKE SURE YOUR TRASH IS CONSISTENT IN BOTH DIRECTORIES: info and files!!!"
+            return
+          ;;
+          *)
+            echo "not deleting anything"
+            return 1
+          ;;
+        esac
       fi
-    done
-  }
-  #echo "declared KDE style rm() overload"
-  ;;
-esac # check for desktop session (KDE/GNOME)
+
+      # append counter if necessary
+      while [ -e ${NESONO_TRASH_DIR}/files/"$dst" ]; do
+        dst="${plaindst}_"${counter}
+        counter=$((counter+1))
+      done
+      mv "$item" ${NESONO_TRASH_DIR}/files/"$dst"
+      echo "[Trash Info]"                  > ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
+      echo "item="${item}                 >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
+      echo "DeletionDate=${deletiondate}" >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
+    fi
+  done
+}
+echo "declared rm() to Trash overload"
