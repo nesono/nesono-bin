@@ -4,7 +4,7 @@
 export NESONO_TRASH_DIR=~/.Trash
 
 if [ ! -d ${NESONO_TRASH_DIR} ]; then
-  echo "Disabled rm overload!"
+  echo "\nDISABLED RM OVERLOAD!\n"
   return
 fi
 
