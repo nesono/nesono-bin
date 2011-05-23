@@ -26,4 +26,12 @@ zstyle ':completion:*:*:kill:*:processes'     list-colors "=(#b) #([0-9]#)*=36=3
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 # case-insensitive (all),partial-word and then substring completion
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+#zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+# fuzzy matching of completions for when we mistype them
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+#zstyle ':completion:*:approximate:*' max-errors 1 numeric
+
+# number of errors allowed by _approximate increase with the length of what we have typed so far
+zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
