@@ -75,14 +75,40 @@ case ${uname} in
   ;;
 esac
 
+# function to set the title
+function title
+{
+  case $TERM in (xterm*|rxvt|screen)
+    #echo "printing $*"
+    # Use this one for XTerms|rxvt|screen
+    print -Pn "\e]0;$*$"
+  esac
+}
+
+# preexec function used by zsh is setting the title as well :)
+function preexec
+{
+    emulate -L zsh
+    local -a cmd; cmd=(${(z)1})
+    title $cmd[1]:t "$cmd[2,-1]"
+}
+
 # source prompt status functions
 source ${NESONOBININSTDIR}/bashtils/ps1status
 if [[ $TERM == "screen" ]]; then
   ## called by zsh before showing the prompt
   function precmd()
   {
+    # set the title to zsh and current working directory
+    #settitle zsh "$PWD"
     # set the current working directory
     set_screen_path
+  }
+else
+  ## called by zsh before showing the prompt
+  function precmd()
+  {
+    #settitle zsh "$PWD"
   }
 fi
 
