@@ -163,4 +163,6 @@ map <c-s> :w<CR>            " Ctrl-s saves file ;)
 map <c-l> :e#<CR>           " Ctrl-l edits last file
 map <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
 
+" disable antialiasing in guis
+set noantialias
 " ~/.vimrc ends here
