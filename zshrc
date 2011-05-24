@@ -78,11 +78,12 @@ esac
 # function to set the title
 function settitle
 {
-  return
   case $TERM in (xterm*|rxvt|screen)
     #echo "printing $*"
     # Use this one for XTerms|rxvt|screen
-    print -Pn "\e]0;$*"
+    # don't use the next line, will freeze iTerm2
+    #print -Pn "\e]0;$*"
+    print -Pn "\e]0;%n@%m: %~\a"
   esac
 }
 
