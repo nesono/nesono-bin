@@ -76,7 +76,7 @@ case ${uname} in
 esac
 
 # function to set the title
-function title
+function settitle
 {
   return
   case $TERM in (xterm*|rxvt|screen)
