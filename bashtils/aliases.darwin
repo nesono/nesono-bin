@@ -1,4 +1,6 @@
 #!/bin/bash
 
 # set up terminal colors
-alias -g ls='ls -G'
+alias ls='ls -G'
+# redirect ctags to ports ctags (exuberant)
+[ -x /opt/local/bin/ctags ] && alias ctags=/opt/local/bin/ctags
