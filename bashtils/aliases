@@ -1,10 +1,10 @@
 #!/bin/bash
 
-alias -g l='ls -lF'
-alias -g ll='ls -la'
-alias -g la='ls -a'
+alias l='ls -lF'
+alias ll='ls -la'
+alias la='ls -a'
 
-alias -g grep='grep --color=auto'
-alias -g bc='bc -l -q'
+alias grep='grep --color=auto'
+alias bc='bc -l -q'
 
 #alias screen='TERM=screen && screen'
