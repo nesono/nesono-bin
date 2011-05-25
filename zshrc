@@ -75,15 +75,17 @@ case ${uname} in
   ;;
 esac
 
-# function to set the title
-function settitle
-{
-  case $TERM in (xterm*|rxvt|screen)
-    #echo "printing $*"
-    # Use this one for XTerms|rxvt|screen
-    # don't use the next line, will freeze iTerm2
-    #print -Pn "\e]0;$*"
-    print -Pn "\e]0;%n@%m: %~\a"
+function settitle {
+  case $TERM in
+    (screen)
+      # use for GNU/screen
+      print -nR $'\033k'$1$'\033'\\
+      print -nR $'\033]0;'$2$''\\
+      ;;
+    (xterm*)
+      # Use this one instead for xterms
+      print -Pn "\e]0;%n@%m: %~\a"
+      ;;
   esac
 }
 
@@ -101,7 +103,7 @@ if [[ $TERM == "screen" ]]; then
   ## called by zsh before showing the prompt
   function precmd()
   {
-    # set the title to zsh and current working directory
+    # set screen title
     settitle zsh "$PWD"
     # set the current working directory
     set_screen_path
@@ -110,6 +112,7 @@ else
   ## called by zsh before showing the prompt
   function precmd()
   {
+    # set terminal title
     settitle zsh "$PWD"
   }
 fi
