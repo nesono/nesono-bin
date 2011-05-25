@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Prompt setup, with SCM status
-function parse_git_branch() {
+function parse_git_branch()
+{
   local DIRTY STATUS
   STATUS=$(git status --porcelain 2>/dev/null)
   [ $? -eq 128 ] && return
@@ -11,19 +12,21 @@ function parse_git_branch() {
   [ -z "$(git stash list)"                     ] || DIRTY="${DIRTY}^"
   AHEAD=$(git status 2>/dev/null | grep -e 'ahead of' | awk '{ print $9; }')
   [ -z "${AHEAD}"                              ] || DIRTY="${DIRTY}!"
-  echo " ($(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')$DIRTY)"
+  echo " (git: $(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')$DIRTY)"
 }
 
-function parse_svn_revision() {
+function parse_svn_revision()
+{
   local DIRTY REV=$(svn info 2>/dev/null | grep Revision | sed -e 's/Revision: //')
   [ "$REV" ] || return
   [ "$(svn st | grep -e '^ \?[MDA?] ')" ] && DIRTY='*'
-  echo " (r$REV$DIRTY)"
+  echo " (svn: r$REV$DIRTY)"
 }
 
 # note that this function only works
 # if you don't rename your session afterwards!
-function set_screen_path() {
+function set_screen_path()
+{
   [ -n "${STY}" ] && screen -S ${STY} -X chdir "$(pwd)"
 }
 
