@@ -21,18 +21,18 @@ function rm()
     fi
 
     # check for bogus links
-    if [ -L "$item" ]; then
+    if [ -L "${item}" ]; then
       local target
-      target=`ls -l $item | awk '{print $11;}'`
-      if [ ! -e "$target" ]; then
+      target=`ls -l ${item} | awk '{print $11;}'`
+      if [ ! -e "${target}" ]; then
         echo "removing bogus link: \"${item}\""
-        $ORIG_RM "$item"
+        $ORIG_RM "${item}"
         continue
       fi
     fi
 
     # check for items existance
-    if [ ! -e "$item" ]; then :
+    if [ ! -e "${item}" ]; then :
       echo "ignoring \"${item}\" - not existing!"
       continue
     fi
