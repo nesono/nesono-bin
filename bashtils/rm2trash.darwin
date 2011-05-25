@@ -9,52 +9,68 @@ if [ ! -d ${NESONO_TRASH_DIR} ]; then
 fi
 
 # remember rm binary
-ORIG_RM=$(which rm)
+ORIG_RM=/bin/rm
 # function to remove files in console into Trash... (not deleting anything)
 function rm()
 {
   local item
   for item in "$@"; do
     # ignore any arguments
-    if [[ "$item" = -* ]]; then :
-    elif [ ! -e "$item" ]; then :
-      echo "ignoring \"${item}\" - not existing!"
-    else
-      # create absolute path from relative one
-      item=$(rel2abs "${item}")
-
-      # remove trailing slash
-      local dst="${item##*/}"
-
-      # for inside trash detection
-      INSIDE_TRASH=${item##${NESONO_TRASH_DIR}}
-
-      # check, if we try to delete something inside Trash
-      if [ "${INSIDE_TRASH}" != "${item}" ]; then
-        if [ -z "${INSIDE_TRASH}" ]; then
-          echo "Trash not deleted! Needed by Mac OS X ;)"
-          return 1
-        fi
-        echo "deleting inside trash ..."
-        read -p "should I use original delete (${ORIG_RM})? [y/N]" REALLYDEL
-        case $REALLYDEL in
-          y|Y)
-            echo "deleting ${dst} using ${ORIG_RM}"
-            $ORIG_RM -r "${dst}"
-            return
-          ;;
-          *)
-            echo "not deleting anything"
-            return 1
-          ;;
-        esac
-      fi
-
-      # append the time if necessary
-      while [ -e ${NESONO_TRASH_DIR}/"$dst" ]; do
-        dst="$dst "$(date +%H-%M-%S)
-      done
-      mv "$item" ${NESONO_TRASH_DIR}/"$dst"
+    if [[ "$item" = -* ]]; then
+      continue
     fi
+
+    # check for bogus links
+    if [ -L "$item" ]; then
+      local target
+      target=`ls -l $item | awk '{print $11;}'`
+      if [ ! -e "$target" ]; then
+        echo "removing bogus link: \"${item}\""
+        $ORIG_RM "$item"
+        continue
+      fi
+    fi
+
+    # check for items existance
+    if [ ! -e "$item" ]; then :
+      echo "ignoring \"${item}\" - not existing!"
+      continue
+    fi
+
+    # create absolute path from relative one
+    item=$(rel2abs "${item}")
+
+    # remove trailing slash
+    local dst="${item##*/}"
+
+    # for inside trash detection
+    INSIDE_TRASH=${item##${NESONO_TRASH_DIR}}
+
+    # check, if we try to delete something inside Trash
+    if [ "${INSIDE_TRASH}" != "${item}" ]; then
+      if [ -z "${INSIDE_TRASH}" ]; then
+        echo "Trash not deleted! Needed by Mac OS X ;)"
+        return 1
+      fi
+      echo "deleting inside trash ..."
+      read -p "should I use original delete (${ORIG_RM})? [y/N]" REALLYDEL
+      case $REALLYDEL in
+        y|Y)
+          echo "deleting ${dst} using ${ORIG_RM}"
+          $ORIG_RM -r "${dst}"
+          return
+        ;;
+        *)
+          echo "not deleting anything"
+          return 1
+        ;;
+      esac
+    fi
+
+    # append the time if necessary
+    while [ -e ${NESONO_TRASH_DIR}/"$dst" ]; do
+      dst="$dst "$(date +%H-%M-%S)
+    done
+    mv "$item" ${NESONO_TRASH_DIR}/"$dst"
   done
 }
