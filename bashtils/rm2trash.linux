@@ -14,6 +14,7 @@ ORIG_RM=/bin/rm
 function rm ()
 {
   local item
+  local is_link
   local deletiondate=$(date +%Y-%m-%dT%H:%M:%S)
   # create trash directories
   mkdir -p ${NESONO_TRASH_DIR}/files
@@ -25,8 +26,11 @@ function rm ()
       continue
     fi
 
+    # reset link
+    is_link=0
     # check for bogus links
     if [ -L "${item}" ]; then
+      is_link=1
       local target
       target=`ls -l ${item} | awk '{print $11;}'`
       if [ ! -e "${target}" ]; then
@@ -81,11 +85,19 @@ function rm ()
       esac
     fi
 
-    # append counter if necessary
-    while [ -e ${NESONO_TRASH_DIR}/files/"$dst" ]; do
-      dst="${plaindst}_"${counter}
-      counter=$((counter+1))
-    done
+    if [ ${is_link} == 1 ]; then
+      # append counter if necessary
+      while [ -L ${NESONO_TRASH_DIR}/"$dst" ]; do
+        dst="${plaindst}_"${counter}
+        counter=$((counter+1))
+      done
+    else
+      # append counter if necessary
+      while [ -e ${NESONO_TRASH_DIR}/files/"$dst" ]; do
+        dst="${plaindst}_"${counter}
+        counter=$((counter+1))
+      done
+    fi
     mv "$item" ${NESONO_TRASH_DIR}/files/"$dst"
     echo "[Trash Info]"                  > ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
     echo "item="${item}                 >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo

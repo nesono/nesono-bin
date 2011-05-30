@@ -14,14 +14,18 @@ ORIG_RM=/bin/rm
 function rm()
 {
   local item
+  local is_link
   for item in "$@"; do
     # ignore any arguments
     if [[ "$item" = -* ]]; then
       continue
     fi
 
+    # reset link
+    is_link=0
     # check for bogus links
     if [ -L "${item}" ]; then
+      is_link=1
       local target
       target=`ls -l ${item} | awk '{print $11;}'`
       if [ ! -e "${target}" ]; then
@@ -67,10 +71,17 @@ function rm()
       esac
     fi
 
-    # append the time if necessary
-    while [ -e ${NESONO_TRASH_DIR}/"$dst" ]; do
-      dst="$dst "$(date +%H-%M-%S)
-    done
+    if [ ${is_link} == 1 ]; then
+      # append the time if necessary
+      while [ -L ${NESONO_TRASH_DIR}/"$dst" ]; do
+        dst="$dst "$(date +%H-%M-%S)
+      done
+    else
+      # append the time if necessary
+      while [ -e ${NESONO_TRASH_DIR}/"$dst" ]; do
+        dst="$dst "$(date +%H-%M-%S)
+      done
+    fi
     mv "$item" ${NESONO_TRASH_DIR}/"$dst"
   done
 }
