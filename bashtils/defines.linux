@@ -1,14 +1,14 @@
 #!/bin/bash
 
 case ${DESKTOP_SESSION} in
-  "GNOME" | "gnome" )
+  GNOME* | gnome* )
   # 'emulate' the Mac OS X open terminal command
   function open()
   {
     gnome-open "$@" &> /dev/null
   }
   ;;
-  "KDE" | "kde" )
+  KDE* | kde* )
   # 'emulate' the Mac OS X open terminal command
   function open()
   {
