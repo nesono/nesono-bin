@@ -12,6 +12,7 @@ function check_and_update_svn_bin_repo()
   if [ -d "${DIR}" ]; then
     # change into dir
     pushd "${DIR}" &> /dev/null
+    echo "checking for svn repo: ${DIR}"
     # check, if dir is svn repo
     local REV=$(svn info 2>/dev/null | grep Revision | sed -e 's/Revision: //')
     [ "$REV" ] || return
@@ -78,6 +79,7 @@ function check_and_update_git_bin_repo()
   if [ -d "${DIR}" ]; then
     # change into repo dir
     pushd "${DIR}" &> /dev/null
+    echo "checking for git repo: ${DIR}"
     # check git call
     STATUS=$(git status --porcelain 2>/dev/null)
     [ $? -eq 128 ] && return
