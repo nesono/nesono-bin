@@ -163,6 +163,10 @@ map <c-s> :w<CR>            " Ctrl-s saves file ;)
 map <c-l> :e#<CR>           " Ctrl-l edits last file
 map <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
 
-" disable antialiasing in guis
-set noantialias
+if has("gui_macvim")
+  " disable antialiasing in guis
+  set noantialias
+  " set gui font
+  set gfn=Monaco:h10
+endif
 " ~/.vimrc ends here
