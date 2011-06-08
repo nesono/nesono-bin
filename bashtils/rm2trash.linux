@@ -8,10 +8,19 @@ if [ ! -d ${NESONO_TRASH_DIR} ]; then
   return
 fi
 
+export DEBUG_RM2TRASH=0
+
+# debug output function
+function debug_out()
+{
+  [ ${DEBUG_RM2TRASH} -eq 1 ] && echo "DEBUG>>" $@
+}
+
 # remember rm binary
 ORIG_RM=/bin/rm
+
 # function to remove files in console into Trash... (not deleting anything)
-function rm ()
+function rm()
 {
   local item
   local is_link
@@ -21,6 +30,9 @@ function rm ()
   mkdir -p ${NESONO_TRASH_DIR}/info
 
   for item in "$@"; do
+    # print debug information if enabled
+    debug_out "checking item: ${item}"
+
     # ignore any arguments
     if [[ "$item" = -* ]]; then
       continue
@@ -48,6 +60,9 @@ function rm ()
 
     # create absolute path from relative one
     item=$(rel2abs "${item}")
+
+    # print debug information if enabled
+    debug_out "preparing to remove item: ${item}"
 
     # dst is basename
     # remove trailing slash
@@ -85,7 +100,7 @@ function rm ()
       esac
     fi
 
-    if [ ${is_link} == 1 ]; then
+    if [ ${is_link} -eq 1 ]; then
       # append counter if necessary
       while [ -L ${NESONO_TRASH_DIR}/"$dst" ]; do
         dst="${plaindst}_"${counter}
@@ -98,11 +113,12 @@ function rm ()
         counter=$((counter+1))
       done
     fi
+
+    # print debug information if enabled
+    debug_out "moving item \"${item}\" to trash"
     mv "$item" ${NESONO_TRASH_DIR}/files/"$dst"
     echo "[Trash Info]"                  > ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
     echo "item="${item}                 >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
     echo "DeletionDate=${deletiondate}" >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
   done
 }
-#echo "declared rm() to Trash overload"
-

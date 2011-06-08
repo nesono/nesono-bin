@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# the trash destination directory (should be relative to Volumes)
+# the trash destination directory (actually should be relative to Volumes)
 export NESONO_TRASH_DIR=~/.Trash
 
 if [ ! -d ${NESONO_TRASH_DIR} ]; then
@@ -8,14 +8,26 @@ if [ ! -d ${NESONO_TRASH_DIR} ]; then
   return
 fi
 
+export DEBUG_RM2TRASH=0
+
+# debug output function
+function debug_out()
+{
+  [ ${DEBUG_RM2TRASH} -eq 1 ] && echo "DEBUG>>" $@
+}
+
 # remember rm binary
 ORIG_RM=/bin/rm
+
 # function to remove files in console into Trash... (not deleting anything)
 function rm()
 {
   local item
   local is_link
   for item in "$@"; do
+    # print debug information if enabled
+    debug_out "checking item: ${item}"
+
     # ignore any arguments
     if [[ "$item" = -* ]]; then
       continue
@@ -44,6 +56,9 @@ function rm()
     # create absolute path from relative one
     item=$(rel2abs "${item}")
 
+    # print debug information if enabled
+    debug_out "preparing to remove item: ${item}"
+
     # remove trailing slash
     local dst="${item##*/}"
 
@@ -71,7 +86,7 @@ function rm()
       esac
     fi
 
-    if [ ${is_link} == 1 ]; then
+    if [ ${is_link} -eq 1 ]; then
       # append the time if necessary
       while [ -L ${NESONO_TRASH_DIR}/"$dst" ]; do
         dst="$dst "$(date +%H-%M-%S)
@@ -82,6 +97,9 @@ function rm()
         dst="$dst "$(date +%H-%M-%S)
       done
     fi
+
+    # print debug information if enabled
+    debug_out "moving item \"${item}\" to trash"
     mv "$item" ${NESONO_TRASH_DIR}/"$dst"
   done
 }
