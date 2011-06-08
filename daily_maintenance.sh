@@ -3,6 +3,9 @@
 # upgrades to packages
 # discards orphaned packages, etc.
 
+# get system uname
+UNAME=$(uname -s)
+
 function check_and_update_svn_bin_repo()
 {
   # parameter 1: local svn directory
@@ -138,67 +141,44 @@ function check_and_update_git_bin_repo()
   fi
 }
 
-if [ "$1" != "--no-bin-check" ]; then
-  # check for mmt-bin directory and upgrade it, if neccessary - svn version
-  check_and_update_svn_bin_repo ~/mmt-bin
-  # check for nesono-bin directory and upgrade it, if neccessary - svn version
-  check_and_update_svn_bin_repo ~/nesono-bin
-  # check for mmt-bin directory and upgrade it, if neccessary - git version
-  check_and_update_git_bin_repo ~/mmt-bin
-  # check for nesono-bin directory and upgrade it, if neccessary - git version
-  check_and_update_git_bin_repo ~/nesono-bin
-fi
+function check_and_update_homebrew()
+{
+  # check if brew command available
+  if [ -x $(which brew) ]; then
+    echo "### brew available"
 
-# check for user id (must be run as root)
-if [ ${EUID} != 0 ]; then
-  echo "remaining script must be run as root! Recalling with sudo"
-  sudo $0 --no-bin-check
-  exit 0
-fi
+    echo "### running brew update"
+    # update repo
+    brew update
 
-UNAME=$(uname -s)
+    # show outdated ports
+    OUTDATED=$(brew outdated)
 
-# check for underlying system
-case ${UNAME} in
-  Linux)
-  # Linux (with aptitude)
-
-  # upgrade system
-  echo "upgrading system"
-  apt-get update
-  apt-get -u dist-upgrade
-  echo "upgrade finished"
-  echo ""
-
-  DEBORPHANBIN=$(which deborphan)
-  if [ -n "${DEBORPHANBIN}" ]; then
-    # purge orphaned pacakges
-    ORPHANS=$(deborphan -n -s)
-    if [ -n "${ORPHANS}" ]; then
-      echo "purging orphans: ${ORPHANS}"
-      apt-get autoremove $(deborphan -n -s | awk '{print $2;}')
+    if [ -n "${OUTDATED}" ]; then
+      read -e -p "Shall I upgrade the outdated formulas? [Y/n] " ANSWER
+      case ${ANSWER} in
+        "" | "y" | "Y" )
+          # upgrade system
+          brew install ${OUTDATED}
+          ;;
+      esac
     else
-      echo "no orphaned packages found"
+      echo "no formulas outdated"
     fi
-    echo ""
+
+  else
+    echo "### brew not installed"
   fi
+  echo ""
+}
 
-  # autoremove old pacakges
-  apt-get autoremove
-
-  # cleaning repository
-  echo "autocleaning repository"
-  apt-get autoclean
-  ;;
-  # End of Linux (with aptitude)
-
-
-  Darwin)
-  # Darwin (with macports)
+function check_and_update_macports
+{
+  # check for mac ports binary
   if [ -x $(which port) ]; then
-    echo "port available"
+    echo "### port available"
 
-    echo "running port selfupdate"
+    echo "### running port selfupdate"
     # upgrade system
     port -c selfupdate
 
@@ -218,10 +198,14 @@ case ${UNAME} in
     fi
 
   else
-    echo "port not installed"
+    echo "### port not installed"
   fi
+  echo ""
+}
 
-  # check for software update
+function mac_software_update_interactive()
+{
+  # ask to check for software update
   read -e -p "Shall I check for apple softwareupdate? [y/N] " ANSWER
 
   case ${ANSWER} in
@@ -250,6 +234,80 @@ case ${UNAME} in
       echo "softwareupdate finished"
       ;;
   esac
+  echo ""
+}
+
+function check_and_update_aptget()
+{
+  # upgrade system
+  echo "upgrading system"
+  apt-get update
+  apt-get -u dist-upgrade
+  echo "upgrade finished"
+  echo ""
+
+  DEBORPHANBIN=$(which deborphan)
+  if [ -n "${DEBORPHANBIN}" ]; then
+    # purge orphaned pacakges
+    ORPHANS=$(deborphan -n -s)
+    if [ -n "${ORPHANS}" ]; then
+      echo "purging orphans: ${ORPHANS}"
+      apt-get autoremove $(deborphan -n -s | awk '{print $2;}')
+    else
+      echo "no orphaned packages found"
+    fi
+    echo ""
+  fi
+
+  # autoremove old pacakges
+  apt-get autoremove
+
+  # cleaning repository
+  echo "autocleaning repository"
+  apt-get autoclean
+
+  echo ""
+}
+
+if [ "$1" != "--no-bin-check" ]; then
+  # check for mmt-bin directory and upgrade it, if neccessary - svn version
+  check_and_update_svn_bin_repo ~/mmt-bin
+  # check for nesono-bin directory and upgrade it, if neccessary - svn version
+  check_and_update_svn_bin_repo ~/nesono-bin
+  # check for mmt-bin directory and upgrade it, if neccessary - git version
+  check_and_update_git_bin_repo ~/mmt-bin
+  # check for nesono-bin directory and upgrade it, if neccessary - git version
+  check_and_update_git_bin_repo ~/nesono-bin
+
+  # check for underlying system
+  case ${UNAME} in
+    Darwin)
+    # Darwin (with home brew)
+    check_and_update_homebrew
+    ;;
+  esac
+fi
+
+# check for user id (must be run as root)
+if [ ${EUID} != 0 ]; then
+  echo "remaining script must be run as root! Recalling with sudo"
+  sudo $0 --no-bin-check
+  exit 0
+fi
+
+# check for underlying system
+case ${UNAME} in
+  Linux)
+    # Linux (with aptitude)
+    check_and_update_aptget
+  ;;
+
+  Darwin)
+    # Darwin home brew done above (without sudo)
+    # Darwin (with macports)
+    check_and_update_macports
+    # Mac OS X software update (from command line only)
+    mac_software_update_interactive
   ;;
   # End of Darwin
 esac
