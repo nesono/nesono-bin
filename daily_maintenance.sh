@@ -195,7 +195,7 @@ case ${UNAME} in
 
   Darwin)
   # Darwin (with macports)
-  if [ -n $(which port) ]; then
+  if [ -x $(which port) ]; then
     echo "port available"
 
     echo "running port selfupdate"
