@@ -132,7 +132,33 @@ mysqlpass=$(cat /etc/mysql/debian.cnf | grep 'password' | tail -n 1 | awk '{ pri
 
 # backup whole mysql database
 echo "backing up mysql"
+# controls proceeding script if backup fails
+proceed=y
 mysqldump --user=${mysqluser} --password=${mysqlpass} --add-drop-table --all-databases > mysql_${hostname}_${datestamp}.sql
+# check if last command succeeded
+if [ ! $? -eq 0 ]; then
+  # get root password from user
+  echo "mysql backup failed - try using root from prompt"
+  read -s -p "Please enter your mysql root password: " mysqlpass
+  mysqluser=root
+  echo "backing up mysql (next try)"
+  mysqldump --user=${mysqluser} --password=${mysqlpass} --add-drop-table --all-databases > mysql_${hostname}_${datestamp}.sql
+  # check for error - again
+  if [ ! $? -eq 0 ]; then
+    echo "Sorry, mysql backup did not succeed. Backup manually and come back!"
+    proceed=n
+    read -p "Backup done? [y/N]" proceed
+  else
+    proceed=y
+  fi
+fi
+
+# check for proceeding script
+if [ ${proceed} == "n" ] || [ ${proceed} == "N" ]; then
+  echo "Execution aborted by user"
+  echo "Bye!"
+fi
+
 echo "compressing mysql backup"
 # compress mysql backup
 bzip2 mysql_${hostname}_${datestamp}.sql
