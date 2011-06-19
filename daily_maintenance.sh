@@ -144,7 +144,7 @@ function check_and_update_git_bin_repo()
 function check_and_update_homebrew()
 {
   # check if brew command available
-  if [ -x $(which brew) ]; then
+  if [ -x "$(which brew)" ]; then
     echo "### brew available"
 
     echo "### running brew update"
@@ -175,7 +175,7 @@ function check_and_update_homebrew()
 function check_and_update_macports
 {
   # check for mac ports binary
-  if [ -x $(which port) ]; then
+  if [ -x "$(which port)" ]; then
     echo "### port available"
 
     echo "### running port selfupdate"
