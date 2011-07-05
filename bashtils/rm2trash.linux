@@ -19,12 +19,21 @@ function debug_out()
 # remember rm binary
 ORIG_RM=/bin/rm
 
+# provide a function for original rm
+function rm_orig()
+{
+  ${ORIG_RM} $@
+}
+
 # function to remove files in console into Trash... (not deleting anything)
 function rm()
 {
   local item
   local is_link
+  local target
+  local dirname
   local deletiondate=$(date +%Y-%m-%dT%H:%M:%S)
+
   # create trash directories
   mkdir -p ${NESONO_TRASH_DIR}/files
   mkdir -p ${NESONO_TRASH_DIR}/info
@@ -40,12 +49,13 @@ function rm()
 
     # reset link
     is_link=0
-    # check for bogus links
+    # check for bogus links - otherwise ignored by existence check
     if [ -L "${item}" ]; then
       is_link=1
-      local target
-      target=`ls -l ${item} | awk '{print $11;}'`
-      if [ ! -e "${target}" ]; then
+      target=$(readlink "${item}")
+      dirname=$(dirname "${item}")
+      debug_out "link pointing to: \"${dirname}/${target}\""
+      if [ ! -e "${dirname}/${target}" ]; then
         echo "removing bogus link: \"${item}\""
         $ORIG_RM "${item}"
         continue
@@ -88,8 +98,8 @@ function rm()
       read -p "should I use original delete (${ORIG_RM})? [y/N]" REALLYDEL
       case $REALLYDEL in
         y|Y)
-          echo "deleting using ${ORIG_RM}"
-          $ORIG_RM -r "${dst}"
+          echo "deleting ${item} using ${ORIG_RM}"
+          $ORIG_RM -r "${item}"
           echo "MAKE SURE YOUR TRASH IS CONSISTENT IN BOTH DIRECTORIES: info and files!!!"
           return
         ;;
