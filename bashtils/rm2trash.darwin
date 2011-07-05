@@ -1,13 +1,5 @@
 #!/bin/bash
 
-# the trash destination directory (actually should be relative to Volumes)
-export NESONO_TRASH_DIR=~/.Trash
-
-if [ ! -d ${NESONO_TRASH_DIR} ]; then
-  echo "\nDISABLED RM OVERLOAD!\n"
-  return
-fi
-
 export DEBUG_RM2TRASH=0
 
 # debug output function
@@ -19,11 +11,20 @@ function debug_out()
 # remember rm binary
 ORIG_RM=/bin/rm
 
+# provide a function for original rm
+function rm_orig()
+{
+  ${ORIG_RM} $@
+}
+
 # function to remove files in console into Trash... (not deleting anything)
 function rm()
 {
   local item
   local is_link
+  local target
+  local dirname
+
   for item in "$@"; do
     # print debug information if enabled
     debug_out "checking item: ${item}"
@@ -35,12 +36,13 @@ function rm()
 
     # reset link
     is_link=0
-    # check for bogus links
+    # check for bogus links - otherwise ignored by existence check
     if [ -L "${item}" ]; then
       is_link=1
-      local target
-      target=`ls -l ${item} | awk '{print $11;}'`
-      if [ ! -e "${target}" ]; then
+      target=$(readlink "${item}")
+      dirname=$(dirname "${item}")
+      debug_out "link pointing to: \"${dirname}/${target}\""
+      if [ ! -e "${dirname}/${target}" ]; then
         echo "removing bogus link: \"${item}\""
         $ORIG_RM "${item}"
         continue
@@ -48,7 +50,7 @@ function rm()
     fi
 
     # check for items existance
-    if [ ! -e "${item}" ]; then :
+    if [ ! -e "${item}" ]; then
       echo "ignoring \"${item}\" - not existing!"
       continue
     fi
@@ -75,8 +77,8 @@ function rm()
       read -p "should I use original delete (${ORIG_RM})? [y/N]" REALLYDEL
       case $REALLYDEL in
         y|Y)
-          echo "deleting ${dst} using ${ORIG_RM}"
-          $ORIG_RM -r "${dst}"
+          echo "deleting ${item} using ${ORIG_RM}"
+          $ORIG_RM -r "${item}"
           return
         ;;
         *)
@@ -86,20 +88,8 @@ function rm()
       esac
     fi
 
-    if [ ${is_link} -eq 1 ]; then
-      # append the time if necessary
-      while [ -L ${NESONO_TRASH_DIR}/"$dst" ]; do
-        dst="$dst "$(date +%H-%M-%S)
-      done
-    else
-      # append the time if necessary
-      while [ -e ${NESONO_TRASH_DIR}/"$dst" ]; do
-        dst="$dst "$(date +%H-%M-%S)
-      done
-    fi
-
     # print debug information if enabled
     debug_out "moving item \"${item}\" to trash"
-    mv "$item" ${NESONO_TRASH_DIR}/"$dst"
+    osascript -e "set theItem to POSIX file \"${item}\"" -e "tell application \"Finder\"" -e "delete theItem" -e "end tell" &> /dev/null
   done
 }
