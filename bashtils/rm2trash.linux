@@ -52,10 +52,19 @@ function rm()
     # check for bogus links - otherwise ignored by existence check
     if [ -L "${item}" ]; then
       is_link=1
-      target=$(readlink "${item}")
+      linktarget=$(readlink "${item}")
       dirname=$(dirname "${item}")
-      debug_out "link pointing to: \"${dirname}/${target}\""
-      if [ ! -e "${dirname}/${target}" ]; then
+
+      # check for abs or rel path link
+      if [ -n "${linktarget##/*}" ]; then
+        # relative target found
+        target=${dirname}/${linktarget}
+      else
+        # absolute target found
+        target=${linktarget}
+      fi
+      debug_out "link pointing to: \"${target}\""
+      if [ ! -e "${target}" ]; then
         echo "removing bogus link: \"${item}\""
         $ORIG_RM "${item}"
         continue
