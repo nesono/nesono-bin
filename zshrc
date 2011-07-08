@@ -77,12 +77,12 @@ esac
 
 function settitle {
   case $TERM in
-    (screen)
+    screen )
       # use for GNU/screen
       print -nR $'\033k'$1$'\033'\\
-      print -nR $'\033]0;'$2$''\\
+      #print -nR $'\033]0;'$2$''\\
       ;;
-    (xterm*)
+    xterm* )
       # Use this one instead for xterms
       print -Pn "\e]0;%n@%m: %~\a"
       ;;
