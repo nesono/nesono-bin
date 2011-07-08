@@ -10,12 +10,33 @@ echo "so don't be afraid, to call this script multiple times :-)"
 echo ""
 echo "Results:"
 
+FORCE=0
+
 # function to install a link to a configuration file, e.g. ~/.vimrc
 function install_link()
 {
   DST=${1}
   SRC=${2}
 
+  # check for bogus links - otherwise confusing existence check
+  if [ -L "${DST}" ]; then
+    # get target from link
+    linktarget=$(readlink "${DST}")
+    dirname=$(dirname "${DST}")
+
+    if [ -n "${linktarget##/*}" ]; then
+      # relative target found
+      target=${dirname}/${linktarget}
+    else
+      # absolute target found
+      target=${linktarget}
+    fi
+
+    if [ ! -e "${target}" ]; then
+      echo "removing bogus link: \"${DST}\" pointing to \"${target}\""
+      rm "${DST}"
+    fi
+  fi
   if [ -e ${DST} ]; then
     echo "---> ${DST} exists - not overwriting with nesono-bin version"
     if [ -L ${DST} ]; then
@@ -28,6 +49,14 @@ function install_link()
     ln -sf ${SRC} ${DST}
   fi
 }
+
+# check for -f or --force
+case ${1} in
+  '--force' | 'f')
+    FORCE=1
+    echo "##### force mode active"
+  ;;
+esac
 
 pushd ~/nesono-bin
 ./bashtils/install_nesono_bash
