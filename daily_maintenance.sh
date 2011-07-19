@@ -288,12 +288,34 @@ if [ "$1" != "--no-bin-check" ]; then
   esac
 fi
 
+# check if sudo necessary at all
+# Darwin needs fink of macports to be installed
+# Linux needs aptitude/apt-get installed
+# reset do sudo
+do_sudo=0
+# check for underlying system
+case ${UNAME} in
+  Darwin)
+    [[ -x $(which port)     ]] && do_sudo=1
+  ;;
+  Linux)
+    [[ -x $(which apt-get)  ]] && do_sudo=1
+    [[ -x $(which aptitude) ]] && do_sudo=1
+  ;;
+esac
+
 # check for user id (must be run as root)
-if [ ${EUID} != 0 ]; then
-  echo "remaining script must be run as root! Recalling with sudo"
-  sudo $0 --no-bin-check
+if [ "${do_sudo}" == "1" ]; then
+  if [ ${EUID} != 0 ]; then
+    echo "remaining script must be run as root! Recalling with sudo"
+    sudo $0 --no-bin-check
+    exit 0
+  fi
+else
   exit 0
 fi
+
+############ FROM THIS LINE BELOW, ONLY SUDO'D EXECUTED ###########
 
 # check for underlying system
 case ${UNAME} in
