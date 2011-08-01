@@ -144,17 +144,17 @@ case $ANSWER in
 
   echo "deleting symbolic links"
   rm -f ${SYMLINKS_TO_REM}
+
+  # delete pacakge directory
+  rm -r "${RECEIPT}"
+
+  echo "contents deleted and packge ${RECEIPT} removed"
   ;;
 
   n|N)
   echo "deletion aborted"
   exit -1
   ;;
-
 esac
 
-# delete pacakge directory
-rm -r "${RECEIPT}"
-
-echo "contents deleted and packge ${RECEIPT} removed"
 exit 0
