@@ -113,10 +113,11 @@ if [ ! -e ~/.gitignore ]; then
 fi
 
 # check if svn like config options shall be set
-read -e -p "Do you want to enable svn like aliases (st,ci,co,br)? [y/N/d] " ANSWER
+read -e -p "Do you want to enable svn like aliases (st,stu,ci,co,br)? [y/N/d] " ANSWER
 case "${ANSWER}" in
   "y" | "Y" )
     git config --global alias.st status
+    git config --global alias.stu "status -uno"
     git config --global alias.ci commit
     git config --global alias.co checkout
     git config --global alias.br branch
@@ -124,6 +125,7 @@ case "${ANSWER}" in
   "d" | "D" )
     echo "removing section alias from git config"
     git config --global --unset alias.st
+    git config --global --unset alias.stu
     git config --global --unset alias.ci
     git config --global --unset alias.co
     git config --global --unset alias.br
