@@ -159,7 +159,7 @@ function check_and_update_homebrew()
       case ${ANSWER} in
         "" | "y" | "Y" )
           # upgrade system
-          brew install ${OUTDATED}
+          brew upgrade ${OUTDATED}
           ;;
       esac
     else
