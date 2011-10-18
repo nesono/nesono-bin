@@ -53,9 +53,14 @@ for item in installed:
 
 sorted_installed = sorted(num_installed.iteritems(), key=operator.itemgetter(0))
 
-#for k,v in sorted_installed:
-#  print k.v1,k.v2,k.v3,k.v4, ' content:', v
-#print 'num installed: ', num_installed
+if len(sorted_installed) == 0:
+  print 'exiting'
+  sys.exit(0)
+
+for k,v in sorted_installed:
+  print k.v1,k.v2,k.v3,k.v4, ' content:', v
+print 'num installed: ', num_installed
+
 
 # get latest installed kernel version (last entry)
 latest = sorted_installed[-1]
