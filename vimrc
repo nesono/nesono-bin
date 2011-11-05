@@ -76,8 +76,8 @@ if has("gui_running")
   colorscheme torte
 endif
 
-" make blank spaces from tabs
-set expandtab
+" make blank spaces from tabs for c(pp) files
+au FileType cpp,c set expandtab
 if has("autocmd")
   " enable file type detection
   filetype plugin on
