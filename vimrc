@@ -77,7 +77,7 @@ if has("gui_running")
 endif
 
 " make blank spaces from tabs for c(pp) files
-au FileType cpp,c set expandtab
+set expandtab
 if has("autocmd")
   " enable file type detection
   filetype plugin on
