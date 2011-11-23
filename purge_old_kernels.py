@@ -1,5 +1,8 @@
 #!/usr/bin/env python
-# script to purge old kernels from linux installation (dpkg based)
+# script to purge old kernels from linux installation (dpkg based) searches for
+# installed kernels (linux-image-*) and removes all old kernels but the active
+# and the second last as a backup
+
 import os
 import sys
 import re
