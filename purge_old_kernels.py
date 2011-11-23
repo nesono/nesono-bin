@@ -4,6 +4,7 @@ import os
 import sys
 import re
 import operator
+import apt
 
 # to sort the kernels by version
 class kernel_version:
@@ -57,9 +58,9 @@ if len(sorted_installed) == 0:
   print 'exiting'
   sys.exit(0)
 
-for k,v in sorted_installed:
-  print k.v1,k.v2,k.v3,k.v4, ' content:', v
-print 'num installed: ', num_installed
+#for k,v in sorted_installed:
+#  print k.v1,k.v2,k.v3,k.v4, ' content:', v
+#print 'num installed: ', num_installed
 
 
 # get latest installed kernel version (last entry)
@@ -83,10 +84,39 @@ if len( to_purge ) == 0:
   print 'nothing to purge :)'
   print 'exiting'
   sys.exit(0)
+
 kernel_string = ''
+# put together string for debugging
 # combine kernels into string for deinstallation
 for k,v in to_purge:
   kernel_string += v + ' '
 
 # ask to delete old kernels
-print kernel_string
+print 'command to purge kernels:'
+print 'aptitude remove', kernel_string
+
+answer = 'cont'
+while( answer == 'cont' ):
+  answer = raw_input('Apply? [Y/n] ')
+  if answer == '':
+    answer = 'y'
+  if answer.lower()[0] == 'y':
+    break
+  if answer.lower()[0] == 'n':
+    print 'aborting by user request'
+    sys.exit(0)
+  answer = 'cont'
+
+# get apt cache
+cache = apt.Cache()
+# mark all packages for deletion
+for k,v in to_purge:
+  pkg = cache[v]
+  pkg.mark_delete()
+  print 'package',v,'is marked for delete',pkg.marked_delete
+
+print 'committing changes'
+# commit changes to apt
+cache.commit()
+
+print 'finished'
