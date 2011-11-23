@@ -24,6 +24,7 @@ function rm()
   local is_link
   local target
   local dirname
+  local applescriptlist="-e \"set selectionList to {}\""
 
   for item in "$@"; do
     # print debug information if enabled
@@ -98,7 +99,18 @@ function rm()
     fi
 
     # print debug information if enabled
-    debug_out "moving item \"${item}\" to trash"
-    osascript -e "set theItem to POSIX file \"${item}\"" -e "tell application \"Finder\"" -e "delete theItem" -e "end tell" &> /dev/null
+    debug_out "append item \"${item}\" to list"
+    applescriptlist="${applescriptlist} -e \"copy POSIX file \\\"${item}\\\" to the end of selectionList\""
   done
+  eval "osascript \
+    `echo ${applescriptlist}` \
+    -e \"tell application \\\"Finder\\\"\" \
+    -e \"  delete selectionList\" \
+    -e \"end tell\" &>/dev/null"
+
+  #osascript \
+  #  -e "set theItem to POSIX file \"${item}\"" \
+  #  -e "tell application \"Finder\"" \
+  #  -e "  delete theItem" \
+  #  -e "end tell" &> /dev/null
 }
