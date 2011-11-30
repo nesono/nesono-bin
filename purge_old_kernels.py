@@ -7,28 +7,20 @@ import os
 import sys
 import re
 import operator
+from collections import defaultdict
 import apt
 
-# to sort the kernels by version
-class kernel_version:
-  # init the instance with all version numbers
-  def __init__(self,v1,v2,v3,v4):
-    self.v1 = int(v1)
-    self.v2 = int(v2)
-    self.v3 = int(v3)
-    self.v4 = int(v4)
+# function to calculate a key from kernel name
+def kernel_hash( match ):
+  # extract integers
+  v1 = int(match.group(1))
+  v2 = int(match.group(2))
+  v3 = int(match.group(3))
+  v4 = int(match.group(4))
+  # create version integer
+  #print v1*10**9 + v2*10**6 + v3*10**3 + v4
+  return v1*10**9 + v2*10**6 + v3*10**3 + v4
 
-  # compare with other instance for '<'
-  def __lt__(self,other):
-    #print 'comparing',self.v1,self.v2,self.v3,self.v4,'with',other.v1,other.v2,other.v3,other.v4
-    if not (self.v1 == other.v1):
-      return self.v1 < other.v1
-    if not (self.v2 == other.v2):
-      return self.v2 < other.v2
-    if not (self.v3 == other.v3):
-      return self.v3 < other.v3
-    if not (self.v4 == other.v4):
-      return self.v4 < other.v4
 
 # all linux kernel packages start with this string
 kernel_name_base = 'linux-image-'
@@ -47,13 +39,14 @@ installed = installed.split('\n')
 #print 'installed:     ', installed
 #print 'installed[0]:  ', installed[0]
 
-num_installed = {}
+num_installed = defaultdict(list)
 # filter out kernel packages without numerics (virtual packages)
 for item in installed:
   match = prog.match(item)
   if match:
-    num_installed[kernel_version(match.group(1),match.group(2),match.group(3),match.group(4))] = item
+    num_installed[kernel_hash(match)].append(item)
     #print 'version:',match.group(1),match.group(2),match.group(3),match.group(4)
+    #print 'hash:   ',kernel_hash(match)
 
 sorted_installed = sorted(num_installed.iteritems(), key=operator.itemgetter(0))
 
@@ -62,15 +55,19 @@ if len(sorted_installed) == 0:
   sys.exit(0)
 
 #for k,v in sorted_installed:
-#  print k.v1,k.v2,k.v3,k.v4, ' content:', v
+#  print k, ' content:', v
 #print 'num installed: ', num_installed
 
 
 # get latest installed kernel version (last entry)
 latest = sorted_installed[-1]
+latest_active = False
+for kernel in latest[1]:
+  if kernel == active:
+    latest_active = True
 
 # check if already latest installed kernel version active
-if latest[1] == active:
+if latest_active:
   # active:
   print 'active kernel IS latest installed kernel'
 else:
@@ -93,7 +90,8 @@ kernel_string = ''
 # put together string for debugging
 # combine kernels into string for deinstallation
 for k,v in to_purge:
-  kernel_string += v + ' '
+  for kernel in v:
+    kernel_string += kernel + ' '
 
 # ask to delete old kernels
 print 'command to purge kernels:'
@@ -115,9 +113,10 @@ while( answer == 'cont' ):
 cache = apt.Cache()
 # mark all packages for deletion
 for k,v in to_purge:
-  pkg = cache[v]
-  pkg.mark_delete()
-  print 'package',v,'is marked for delete',pkg.marked_delete
+  for kernel in v:
+    pkg = cache[kernel]
+    pkg.mark_delete()
+    print 'package',kernel,'is marked for delete',pkg.marked_delete
 
 print 'committing changes'
 # commit changes to apt
