@@ -80,6 +80,7 @@ else:
   print '  latest:', latest[1]
   # ask to reboot
   print 'please reboot and restart this script'
+  sys.exit(0)
 
 # remove current kernel (and one backup) from list
 to_purge = sorted_installed[0:-2]
