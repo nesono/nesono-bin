@@ -1,7 +1,7 @@
 #!/bin/bash
 
 case ${DESKTOP_SESSION} in
-  GNOME* | gnome* )
+  GNOME* | gnome* | ubuntu )
   # 'emulate' the Mac OS X open terminal command
   function open()
   {
