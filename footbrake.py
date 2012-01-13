@@ -164,6 +164,7 @@ parser.add_option( "-i", "--device",   dest="device",   help="input device (e.g.
 parser.add_option( "-o", "--outfile",  dest="outfile",  help="output file with substitution support (%d is expanded to title number)" )
 parser.add_option( "-d", "--duration", dest="duration", help="range of durations in minutes to rip (e.g. 15-45)", default='60-480' )
 parser.add_option( "-x", "--rm-dups",  dest="rmdups",   help="flag to exclude duplicates from transcoding", default=False, action="store_true" )
+parser.add_option( "-y", "--yes",      dest="yes",      help="flag to skip prompt for title verification", default=False, action="store_true" )
 parser.add_option( "-b", "--base",     dest="base",     help="episode base (for multiple disk episodes: last episode before the first of this disk [0]", default='0' )
 (options, args) = parser.parse_args()
 
@@ -248,11 +249,12 @@ print 'titles to encode:'
 for title in titles:
   print 'title',title.number,'with duration',title.duration
 
-# ask user to proceed
-ans = raw_input("proceed? [Y/n] ")
-if not ans.lower() == 'y':
-  print 'cancelled!'
-  sys.exit(0)
+if options.yes == False:
+  # ask user to proceed
+  ans = raw_input("proceed? [Y/n] ")
+  if ans.lower() == 'n':
+    print 'cancelled!'
+    sys.exit(0)
 
 # encoding loop
 for no,title in enumerate(titles):
@@ -263,6 +265,13 @@ for no,title in enumerate(titles):
   subtitle_track = find_track_with_lang( userlang, title.subtitles )
 
   outfilename = options.outfile%(no+int(options.base)+1)
+  try:
+    while open( outfilename, "rb" ):
+      options.base += 1
+      outfilename = options.outfile%(no+int(options.base)+1)
+  except:
+    print 'using output file name:', outfilename
+
   # create command line
   cmd = '%s -i %s -t %s -o %s -O -e x264 --x264-profile baseline -q 20 -a %s,%s, -E ca_aac,copy -B 160,160 -6 stereo,6ch --decomb -s %s '%(binary,options.device,title.number,outfilename,audio_track,audio_track,subtitle_track)
   #print 'calling:',cmd
