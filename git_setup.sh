@@ -119,6 +119,7 @@ case "${ANSWER}" in
     git config --global alias.st status
     git config --global alias.stu "status -uno"
     git config --global alias.ci commit
+    git config --global alias.civ "commit -v"
     git config --global alias.co checkout
     git config --global alias.br branch
   ;;
@@ -127,6 +128,7 @@ case "${ANSWER}" in
     git config --global --unset alias.st
     git config --global --unset alias.stu
     git config --global --unset alias.ci
+    git config --global --unset alias.civ
     git config --global --unset alias.co
     git config --global --unset alias.br
   ;;
