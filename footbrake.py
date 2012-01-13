@@ -264,10 +264,17 @@ for no,title in enumerate(titles):
 
   outfilename = options.outfile%(no+int(options.base)+1)
   # create command line
-  cmd = '%s -i %s -t %s -o %s -O -e x264 -q 20 -a %s,%s, -E ca_aac,copy -B 160,160 -6 stereo,6ch --decomb -s %s '%(binary,options.device,title.number,outfilename,audio_track,audio_track,subtitle_track)
+  cmd = '%s -i %s -t %s -o %s -O -e x264 --x264-profile baseline -q 20 -a %s,%s, -E ca_aac,copy -B 160,160 -6 stereo,6ch --decomb -s %s '%(binary,options.device,title.number,outfilename,audio_track,audio_track,subtitle_track)
   #print 'calling:',cmd
   p = Popen( cmd, shell=True, bufsize=3*1024*1024, stderr=PIPE, close_fds=True)
 
   hb_stdout = p.stderr.read()
 #print_titles( titles )
 print 'finished'
+
+if os.uname()[0] == 'Darwin':
+  p = Popen( 'diskutil eject %s'%(options.device), bufsize=1024, shell=True, close_fds=True )
+  print 'and ejected!'
+elif os.uname()[0] == 'Linux':
+  p = Popen( 'eject', bufsize=1024, shell=True, close_fds=True )
+  print 'and ejected!'
