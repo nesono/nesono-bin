@@ -163,6 +163,7 @@ parser = OptionParser()
 parser.add_option( "-i", "--device",   dest="device",   help="input device (e.g. /dev/disk4)" )
 parser.add_option( "-o", "--outfile",  dest="outfile",  help="output file with substitution support (%d is expanded to title number)" )
 parser.add_option( "-d", "--duration", dest="duration", help="range of durations in minutes to rip (e.g. 15-45)", default='60-480' )
+parser.add_option( "-t", "--title",    dest="title",    help="encode only one title with the given id, overrides duration check", default='0' )
 parser.add_option( "-x", "--rm-dups",  dest="rmdups",   help="flag to exclude duplicates from transcoding", default=False, action="store_true" )
 parser.add_option( "-y", "--yes",      dest="yes",      help="flag to skip prompt for title verification", default=False, action="store_true" )
 parser.add_option( "-b", "--base",     dest="base",     help="episode base (for multiple disk episodes: last episode before the first of this disk [0]", default='0' )
@@ -203,46 +204,59 @@ titles = list()
 for titlestr in titlestr_vec[1:]:
   titles.append( parse_title( titlestr ) )
 
-if options.rmdups == True:
-  # now remove redundant titles (having the same duration)
-  durations = {}
-  todel = list()
+# check for titles mode and reset titles if active
+if not options.title == '0':
   for title in titles:
-    if title.duration in durations.keys():
-      #print 'duration already given in title',durations[title.duration]
-      print 'deleting alleged duplicate title',title.number
-      #print 'deleting it'
-      todel.append(title.number)
-      continue
-    # duration not yet registered, add it
-    durations[title.duration] = title.number
+    if title.number == int(options.title) :
+      titles = list()
+      titles.append( title )
+  if len(titles) > 1:
+    print 'Given title not found! (Title '+options.title+')'
+    print 'Choose one from'
+    for title in titles:
+      print str(title.number)+' ',
+    sys.exit(-1)
+else:
+  if options.rmdups == True:
+    # now remove redundant titles (having the same duration)
+    durations = {}
+    todel = list()
+    for title in titles:
+      if title.duration in durations.keys():
+        #print 'duration already given in title',durations[title.duration]
+        print 'deleting alleged duplicate title',title.number
+        #print 'deleting it'
+        todel.append(title.number)
+        continue
+      # duration not yet registered, add it
+      durations[title.duration] = title.number
 
-  # delete bad titles
-  clean = list()
+    # delete bad titles
+    clean = list()
+    for title in titles:
+      if title.number in todel:
+        continue
+      else:
+        clean.append(title)
+    # overwrite bad title list
+    titles = clean
+    print 'done'
+    print
+
+  # check durations for transcoding
+  fromto = options.duration.split('-')
+  fromto = [float(x) for x in fromto]
+
+  # go through all all titles and check for matching durations
+  matches = list()
   for title in titles:
-    if title.number in todel:
-      continue
-    else:
-      clean.append(title)
-  # overwrite bad title list
-  titles = clean
-  print 'done'
+    if title.duration >= fromto[0] and title.duration <= fromto[1]:
+      print title.number,'matches duration spec by duration',title.duration
+      matches.append(title)
+  # apply new list
+  titles = matches
+  print'done'
   print
-
-# check durations for transcoding
-fromto = options.duration.split('-')
-fromto = [float(x) for x in fromto]
-
-# go through all all titles and check for matching durations
-matches = list()
-for title in titles:
-  if title.duration >= fromto[0] and title.duration <= fromto[1]:
-    print title.number,'matches duration spec by duration',title.duration
-    matches.append(title)
-# apply new list
-titles = matches
-print'done'
-print
 
 # show list and ask user how to proceed...
 print 'titles to encode:'
@@ -264,16 +278,19 @@ for no,title in enumerate(titles):
   # find subtitle track for language
   subtitle_track = find_track_with_lang( userlang, title.subtitles )
 
-  outfilename = options.outfile%(no+int(options.base)+1)
+  offset = 1
+  outfilename = options.outfile%(no+int(options.base)+offset)
   try:
-    while open( outfilename, "rb" ):
-      options.base += 1
-      outfilename = options.outfile%(no+int(options.base)+1)
+    while True:
+      testfile = open( outfilename, "rb" )
+      testfile.close()
+      offset += 1
+      outfilename = options.outfile%(no+int(options.base)+offset)
   except:
     print 'using output file name:', outfilename
 
   # create command line
-  cmd = '%s -i %s -t %s -o %s -O -e x264 --x264-profile baseline -q 20 -a %s,%s, -E ca_aac,copy -B 160,160 -6 stereo,6ch --decomb -s %s '%(binary,options.device,title.number,outfilename,audio_track,audio_track,subtitle_track)
+  cmd = '%s -i %s -t %s -o %s -O -e x264 --x264-profile baseline -q 20 -a %s,%s, -E ca_aac,copy -B 160,160 -6 dpl2,auto --detelecine --decomb --loose-anamorphic -m -s %s '%(binary,options.device,title.number,outfilename,audio_track,audio_track,subtitle_track)
   #print 'calling:',cmd
   p = Popen( cmd, shell=True, bufsize=3*1024*1024, stderr=PIPE, close_fds=True)
 
@@ -283,7 +300,9 @@ print 'finished'
 
 if os.uname()[0] == 'Darwin':
   p = Popen( 'diskutil eject %s'%(options.device), bufsize=1024, shell=True, close_fds=True )
+  p.wait()
   print 'and ejected!'
 elif os.uname()[0] == 'Linux':
   p = Popen( 'eject', bufsize=1024, shell=True, close_fds=True )
+  p.wait()
   print 'and ejected!'
