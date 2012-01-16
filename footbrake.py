@@ -15,11 +15,18 @@ from optparse import OptionParser
 
 # some static configs
 # path to application
-binary = '/Users/iss/bin/HandBrakeCLI'
+binary = os.path.expanduser('~/bin/HandBrakeCLI')
 # the language for the subtitles (iso-639-2)
 userlang = 'eng'
 # the handbrake preset to use
 preset = 'High Profile'
+
+if os.path.exists( binary ):
+  print 'HandBrakeCLI found'
+else:
+  print 'HandBrakeCLI not found in %s'%(binary)
+  print 'Please edit me to meet your installation!'
+  sys.exit(-1)
 
 def print_titles( titles ):
   # for debugging - show parsed information
