@@ -10,6 +10,7 @@ echo "so don't be afraid, to call this script multiple times :-)"
 echo ""
 echo "Results:"
 
+# not used currently
 FORCE=0
 
 # function to install a link to a configuration file, e.g. ~/.vimrc
