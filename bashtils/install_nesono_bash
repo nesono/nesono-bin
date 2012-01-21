@@ -9,7 +9,7 @@ case ${UNAME} in
       LOGINFILE=~/.bashrc
     fi
   ;;
-  "Darwin")
+  "Darwin" | "FreeBSD")
     LOGINFILE=~/.profile
   ;;
 esac
