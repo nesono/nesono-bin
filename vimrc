@@ -3,7 +3,7 @@
 
 " Copyright (c) 2012, Jochen Issing <iss@nesono.com>
 " All rights reserved.
-" 
+"
 " Redistribution and use in source and binary forms, with or without
 " modification, are permitted provided that the following conditions are met:
 "     * Redistributions of source code must retain the above copyright
@@ -14,7 +14,7 @@
 "     * Neither the name of the <organization> nor the
 "       names of its contributors may be used to endorse or promote products
 "       derived from this software without specific prior written permission.
-" 
+"
 " THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 " ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 " WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -58,6 +58,7 @@ set foldlevel=100
 set cino=>2,:0,=2,g0,h2,t0,+4,c2,(0,W4,u2
 set autoindent
 set tabstop=2
+set shiftwidth=2
 " search options
 set ic
 set smartcase
@@ -101,8 +102,6 @@ if has("gui_running")
   colorscheme torte
 endif
 
-" make blank spaces from tabs for c(pp) files
-set expandtab
 if has("autocmd")
   " enable file type detection
   filetype plugin on
@@ -133,6 +132,15 @@ if has("autocmd")
   " to enable cindent only for specific files
   au FileType cpp,c set cindent
   au FileType cpp,c let Tlist_Auto_Open=1
+	" insert tabs only at beginning of line
+  au FileType cpp,c set smarttab
+  " make blank spaces from tabs for c(pp) files
+  "au FileType cpp,c set expandtab
+
+  " enable some useful stuff for python
+  au FileType python set smartindent
+	" insert tabs only at beginning of line
+  au FileType python set smarttab
 
   "autocmd BufNewFile,BufRead *.c set cindent
   "autocmd BufNewFile,BufRead *.cc set cindent
