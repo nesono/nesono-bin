@@ -56,9 +56,12 @@ set foldlevel=100
 " basic indentation rules
 " see cinoptions-values for descr
 set cino=>2,:0,=2,g0,h2,t0,+4,c2,(0,W4,u2
+" default indentation settings
 set autoindent
 set tabstop=2
 set shiftwidth=2
+set nolist
+set smarttab
 " search options
 set ic
 set smartcase
@@ -133,7 +136,7 @@ if has("autocmd")
 	au FileType cpp,c set cindent
 	au FileType cpp,c let Tlist_Auto_Open=1
 	" insert tabs only at beginning of line
-	au FileType cpp,c set smarttab
+	"au FileType cpp,c set smarttab
 	" make blank spaces from tabs for c(pp) files
 	"au FileType cpp,c set expandtab
 
@@ -141,7 +144,7 @@ if has("autocmd")
 	au FileType python set smartindent
 	au FileType python inoremap # X#
 	" insert tabs only at beginning of line
-	au FileType python set smarttab
+	"au FileType python set smarttab
 	" set tab widths
 	au FileType python set shiftwidth=4
 	au FileType python set tabstop=4
