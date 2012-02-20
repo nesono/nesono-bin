@@ -145,7 +145,7 @@ if has("autocmd")
 	au FileType python set shiftwidth=4
 	au FileType python set tabstop=4
 	" show indentation for python
-	au FileType python set lcs=tab:\|·
+	au FileType python set lcs=tab:┊…
 	au FileType python set list
 
 	"autocmd BufNewFile,BufRead *.c set cindent
