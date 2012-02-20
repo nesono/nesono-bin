@@ -141,6 +141,7 @@ if has("autocmd")
   au FileType python set smartindent
 	" insert tabs only at beginning of line
   au FileType python set smarttab
+	au FileType python set expandtab shiftwidth=4 tabstop=4 softtabstop=4
 
   "autocmd BufNewFile,BufRead *.c set cindent
   "autocmd BufNewFile,BufRead *.cc set cindent
