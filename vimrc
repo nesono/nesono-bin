@@ -6,14 +6,14 @@
 "
 " Redistribution and use in source and binary forms, with or without
 " modification, are permitted provided that the following conditions are met:
-"     * Redistributions of source code must retain the above copyright
-"       notice, this list of conditions and the following disclaimer.
-"     * Redistributions in binary form must reproduce the above copyright
-"       notice, this list of conditions and the following disclaimer in the
-"       documentation and/or other materials provided with the distribution.
-"     * Neither the name of the <organization> nor the
-"       names of its contributors may be used to endorse or promote products
-"       derived from this software without specific prior written permission.
+"  * Redistributions of source code must retain the above copyright
+"    notice, this list of conditions and the following disclaimer.
+"  * Redistributions in binary form must reproduce the above copyright
+"    notice, this list of conditions and the following disclaimer in the
+"    documentation and/or other materials provided with the distribution.
+"  * Neither the name of the <organization> nor the
+"    names of its contributors may be used to endorse or promote products
+"    derived from this software without specific prior written permission.
 "
 " THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 " ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -35,14 +35,14 @@ set nocompatible
 let color = "true"
 
 if has("syntax")
-  if color == "true"
-	  " This will switch colors ON
-	  so ${VIMRUNTIME}/syntax/syntax.vim
-  else
-	  " this switches colors OFF
-    syntax off
-    set t_Co=0
-  endif
+	if color == "true"
+		" This will switch colors ON
+		so ${VIMRUNTIME}/syntax/syntax.vim
+	else
+		" this switches colors OFF
+		syntax off
+		set t_Co=0
+	endif
 endif
 
 " folder stuff
@@ -99,85 +99,88 @@ let c_space_errors=1
 " for light backgrounds
 set bg=light
 if has("gui_running")
-  colorscheme torte
+	colorscheme torte
 endif
 
 if has("autocmd")
-  " enable file type detection
-  filetype plugin on
+	" enable file type detection
+	filetype plugin on
 
-  " remove blank spaces at EOL at saving buffer
-  autocmd BufWritePre * :%s/\s\+$//e
-  " set file text width for c files
-  au FileType cpp,c set textwidth=78
+	" remove blank spaces at EOL at saving buffer
+	autocmd BufWritePre * :%s/\s\+$//e
+	" set file text width for c files
+	au FileType cpp,c set textwidth=78
 
-  " enable highlighing of over long lines
-  "au FileType cpp,c match OverLength /\%80v.*/
-  " Highlight rows longer than 80 characters
-  function! ToggleOverLengthHi()
-      if exists("b:overlengthhi") && b:overlengthhi
-          highlight clear OverLength
-          let b:overlengthhi = 0
-          echo "overlength hilight off"
-      else
-          " adjust colors/styles as desired
-          highlight OverLength ctermbg=darkred gui=undercurl guisp=blue
-          " change '81' to be 1+(number of columns)
-          match OverLength /\%81v.\+/
-          let b:overlengthhi = 1
-          echo "overlength hilight on"
-      endif
-  endfunction
+	" enable highlighing of over long lines
+	"au FileType cpp,c match OverLength /\%80v.*/
+	" Highlight rows longer than 80 characters
+	function! ToggleOverLengthHi()
+			if exists("b:overlengthhi") && b:overlengthhi
+					highlight clear OverLength
+					let b:overlengthhi = 0
+					echo "overlength hilight off"
+			else
+					" adjust colors/styles as desired
+					highlight OverLength ctermbg=darkred gui=undercurl guisp=blue
+					" change '81' to be 1+(number of columns)
+					match OverLength /\%81v.\+/
+					let b:overlengthhi = 1
+					echo "overlength hilight on"
+			endif
+	endfunction
 
-  " to enable cindent only for specific files
-  au FileType cpp,c set cindent
-  au FileType cpp,c let Tlist_Auto_Open=1
+	" to enable cindent only for specific files
+	au FileType cpp,c set cindent
+	au FileType cpp,c let Tlist_Auto_Open=1
 	" insert tabs only at beginning of line
-  au FileType cpp,c set smarttab
-  " make blank spaces from tabs for c(pp) files
-  "au FileType cpp,c set expandtab
+	au FileType cpp,c set smarttab
+	" make blank spaces from tabs for c(pp) files
+	"au FileType cpp,c set expandtab
 
-  " enable some useful stuff for python
-  au FileType python set smartindent
+	" enable some useful stuff for python
+	au FileType python set smartindent
 	" insert tabs only at beginning of line
-  au FileType python set smarttab
+	au FileType python set smarttab
 	" set tab widths
 	au FileType python set shiftwidth=4
 	au FileType python set tabstop=4
+	" show indentation for python
+	au FileType python set lcs=tab:\|·
+	au FileType python set list
 
-  "autocmd BufNewFile,BufRead *.c set cindent
-  "autocmd BufNewFile,BufRead *.cc set cindent
-  "autocmd BufNewFile,BufRead *.cpp set cindent
-  "autocmd BufNewFile,BufRead *.cpp let Tlist_Auto_Open=1
-  "autocmd BufNewFile,BufRead *.cxx set cindent
-  "autocmd BufNewFile,BufRead *.cxx let Tlist_Auto_Open=1
-  "autocmd BufNewFile,BufRead *.h set cindent
-  "autocmd BufNewFile,BufRead *.hpp set cindent
-  "autocmd BufNewFile,BufRead *.hpp let Tlist_Auto_Open=1
-  "autocmd BufNewFile,BufRead *.tcc set cindent
+	"autocmd BufNewFile,BufRead *.c set cindent
+	"autocmd BufNewFile,BufRead *.cc set cindent
+	"autocmd BufNewFile,BufRead *.cpp set cindent
+	"autocmd BufNewFile,BufRead *.cpp let Tlist_Auto_Open=1
+	"autocmd BufNewFile,BufRead *.cxx set cindent
+	"autocmd BufNewFile,BufRead *.cxx let Tlist_Auto_Open=1
+	"autocmd BufNewFile,BufRead *.h set cindent
+	"autocmd BufNewFile,BufRead *.hpp set cindent
+	"autocmd BufNewFile,BufRead *.hpp let Tlist_Auto_Open=1
+	"autocmd BufNewFile,BufRead *.tcc set cindent
 endif
 
 " check for underlying system - needed for clipboard
 let uname = substitute(system("uname"),"\n","","g")
 
 if uname == "Darwin"
-  " setup copy paste with system for darwin
-  nmap <F6> :.w !pbcopy<CR><CR>
-  vmap <F6> :w !pbcopy<CR><CR>
-  nmap <F7> :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
-  imap <F7> <Esc>:set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
-  " setup TexSync with Skim
-  map ,r :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf %<CR>
+	" setup copy paste with system for darwin
+	nmap <F6> :.w !pbcopy<CR><CR>
+	vmap <F6> :w !pbcopy<CR><CR>
+	nmap <F7> :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+	imap <F7> <Esc>:set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+	" setup TexSync with Skim
+	map ,r :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf %<CR>
 elseif uname == "Linux"
-  " setup copy paste with system for Linux
-  vmap <F6> :!xclip -f -sel clip<CR>
-  map <F7> :-1r !xclip -o -sel clip<CR>
+	" setup copy paste with system for Linux
+	vmap <F6> :!xclip -f -sel clip<CR>
+	map <F7> :-1r !xclip -o -sel clip<CR>
 endif
 
 " to repair backspace if logged in from Mac to Linux Machine
 "if exists( "$SSH_CONNECTION" )
-"  :set t_kb=^V<BS>
-"  :fixdel
+"	:set t_kb=^V<BS>
+"	:fixdel
 "endif
 
 " some useful mappings for the vimrc
@@ -200,9 +203,9 @@ map <c-l> :e#<CR>           " Ctrl-l edits last file
 map <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
 
 if has("gui_macvim")
-  " disable antialiasing in guis
-  set noantialias
-  " set gui font
-  set gfn=Monaco:h10
+	" disable antialiasing in guis
+	set noantialias
+	" set gui font
+	set gfn=Monaco:h10
 endif
 " ~/.vimrc ends here
