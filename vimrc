@@ -143,6 +143,7 @@ if has("autocmd")
 	" enable some useful stuff for python
 	au FileType python set smartindent
 	au FileType python inoremap # X#
+	au FileType python set autoindent
 	" insert tabs only at beginning of line
 	"au FileType python set smarttab
 	" set tab widths
