@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 #     * Redistributions of source code must retain the above copyright
@@ -13,7 +13,7 @@
 #     * Neither the name of the <organization> nor the
 #       names of its contributors may be used to endorse or promote products
 #       derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -29,141 +29,138 @@
 # the trash destination directory
 export NESONO_TRASH_DIR=~/.local/share/Trash
 
-if [ ! -d ${NESONO_TRASH_DIR} ]; then
-  echo "\nDISABLED RM OVERLOAD!\n"
-  return
-fi
+if [ -d ${NESONO_TRASH_DIR} ]; then
+  export DEBUG_RM2TRASH=0
 
-export DEBUG_RM2TRASH=0
+  # debug output function
+  function debug_out()
+  {
+    [ ${DEBUG_RM2TRASH} -eq 1 ] && echo "DEBUG>>" $@
+  }
 
-# debug output function
-function debug_out()
-{
-  [ ${DEBUG_RM2TRASH} -eq 1 ] && echo "DEBUG>>" $@
-}
+  # remember rm binary
+  ORIG_RM=/bin/rm
 
-# remember rm binary
-ORIG_RM=/bin/rm
+  # provide a function for original rm
+  function rm_orig()
+  {
+    ${ORIG_RM} $@
+  }
 
-# provide a function for original rm
-function rm_orig()
-{
-  ${ORIG_RM} $@
-}
+  # function to remove files in console into Trash... (not deleting anything)
+  function rm()
+  {
+    local item
+    local is_link
+    local target
+    local dirname
+    local deletiondate=$(date +%Y-%m-%dT%H:%M:%S)
 
-# function to remove files in console into Trash... (not deleting anything)
-function rm()
-{
-  local item
-  local is_link
-  local target
-  local dirname
-  local deletiondate=$(date +%Y-%m-%dT%H:%M:%S)
+    # create trash directories
+    mkdir -p ${NESONO_TRASH_DIR}/files
+    mkdir -p ${NESONO_TRASH_DIR}/info
 
-  # create trash directories
-  mkdir -p ${NESONO_TRASH_DIR}/files
-  mkdir -p ${NESONO_TRASH_DIR}/info
+    for item in "$@"; do
+      # print debug information if enabled
+      debug_out "checking item: ${item}"
 
-  for item in "$@"; do
-    # print debug information if enabled
-    debug_out "checking item: ${item}"
-
-    # ignore any arguments
-    if [[ "$item" = -* ]]; then
-      continue
-    fi
-
-    # reset link
-    is_link=0
-    # check for bogus links - otherwise ignored by existence check
-    if [ -L "${item}" ]; then
-      is_link=1
-      linktarget=$(readlink "${item}")
-      dirname=$(dirname "${item}")
-
-      # check for abs or rel path link
-      if [ -n "${linktarget##/*}" ]; then
-        # relative target found
-        target=${dirname}/${linktarget}
-      else
-        # absolute target found
-        target=${linktarget}
-      fi
-      debug_out "link pointing to: \"${target}\""
-      if [ ! -e "${target}" ]; then
-        echo "removing bogus link: \"${item}\""
-        $ORIG_RM "${item}"
+      # ignore any arguments
+      if [[ "$item" = -* ]]; then
         continue
       fi
-    fi
 
-    # check for items existance
-    if [ ! -e "${item}" ]; then :
-      echo "ignoring \"${item}\" - not existing!"
-      continue
-    fi
+      # reset link
+      is_link=0
+      # check for bogus links - otherwise ignored by existence check
+      if [ -L "${item}" ]; then
+        is_link=1
+        linktarget=$(readlink "${item}")
+        dirname=$(dirname "${item}")
 
-    # create absolute path from relative one
-    item=$(rel2abs "${item}")
-
-    # print debug information if enabled
-    debug_out "preparing to remove item: ${item}"
-
-    # dst is basename
-    # remove trailing slash
-    local dst="${item##*/}"
-    # plaindst the same as dst, but without counter (see below)
-    local plaindst="${dst}"
-    local counter=1
-
-    # for inside trash detection
-    INSIDE_TRASH=${item##${NESONO_TRASH_DIR}}
-
-    # check, if item within trash dir
-    if [ "${INSIDE_TRASH}" != "${item}" ]; then
-      if [ -z "${INSIDE_TRASH}" ]; then
-        echo "Trash not deleted! Needed by your Desktop ;)"
-        return 1
+        # check for abs or rel path link
+        if [ -n "${linktarget##/*}" ]; then
+          # relative target found
+          target=${dirname}/${linktarget}
+        else
+          # absolute target found
+          target=${linktarget}
+        fi
+        debug_out "link pointing to: \"${target}\""
+        if [ ! -e "${target}" ]; then
+          echo "removing bogus link: \"${item}\""
+          $ORIG_RM "${item}"
+          continue
+        fi
       fi
-      if [ "${INSIDE_TRASH}" == "/info" -o "${INSIDE_TRASH}" == "/files" ]; then
-        echo "Trash info or files dir not deleted! Needed by your Desktop ;)"
-        return 1
+
+      # check for items existance
+      if [ ! -e "${item}" ]; then :
+        echo "ignoring \"${item}\" - not existing!"
+        continue
       fi
-      echo "deleting inside trash ..."
-      read -p "should I use original delete (${ORIG_RM})? [y/N]" REALLYDEL
-      case $REALLYDEL in
-        y|Y)
-          echo "deleting ${item} using ${ORIG_RM}"
-          $ORIG_RM -r "${item}"
-          echo "MAKE SURE YOUR TRASH IS CONSISTENT IN BOTH DIRECTORIES: info and files!!!"
-          return
-        ;;
-        *)
-          echo "not deleting anything"
+
+      # create absolute path from relative one
+      item=$(rel2abs "${item}")
+
+      # print debug information if enabled
+      debug_out "preparing to remove item: ${item}"
+
+      # dst is basename
+      # remove trailing slash
+      local dst="${item##*/}"
+      # plaindst the same as dst, but without counter (see below)
+      local plaindst="${dst}"
+      local counter=1
+
+      # for inside trash detection
+      INSIDE_TRASH=${item##${NESONO_TRASH_DIR}}
+
+      # check, if item within trash dir
+      if [ "${INSIDE_TRASH}" != "${item}" ]; then
+        if [ -z "${INSIDE_TRASH}" ]; then
+          echo "Trash not deleted! Needed by your Desktop ;)"
           return 1
-        ;;
-      esac
-    fi
+        fi
+        if [ "${INSIDE_TRASH}" == "/info" -o "${INSIDE_TRASH}" == "/files" ]; then
+          echo "Trash info or files dir not deleted! Needed by your Desktop ;)"
+          return 1
+        fi
+        echo "deleting inside trash ..."
+        read -p "should I use original delete (${ORIG_RM})? [y/N]" REALLYDEL
+        case $REALLYDEL in
+          y|Y)
+            echo "deleting ${item} using ${ORIG_RM}"
+            $ORIG_RM -r "${item}"
+            echo "MAKE SURE YOUR TRASH IS CONSISTENT IN BOTH DIRECTORIES: info and files!!!"
+            return
+          ;;
+          *)
+            echo "not deleting anything"
+            return 1
+          ;;
+        esac
+      fi
 
-    if [ ${is_link} -eq 1 ]; then
-      # append counter if necessary
-      while [ -L ${NESONO_TRASH_DIR}/"$dst" ]; do
-        dst="${plaindst}_"${counter}
-        counter=$((counter+1))
-      done
-    else
-      # append counter if necessary
-      while [ -e ${NESONO_TRASH_DIR}/files/"$dst" ]; do
-        dst="${plaindst}_"${counter}
-        counter=$((counter+1))
-      done
-    fi
+      if [ ${is_link} -eq 1 ]; then
+        # append counter if necessary
+        while [ -L ${NESONO_TRASH_DIR}/"$dst" ]; do
+          dst="${plaindst}_"${counter}
+          counter=$((counter+1))
+        done
+      else
+        # append counter if necessary
+        while [ -e ${NESONO_TRASH_DIR}/files/"$dst" ]; do
+          dst="${plaindst}_"${counter}
+          counter=$((counter+1))
+        done
+      fi
 
-    # print debug information if enabled
-    debug_out "moving item \"${item}\" to trash"
-    mv "$item" ${NESONO_TRASH_DIR}/files/"$dst"
-    echo "[Trash Info]"                  > ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
-    echo "item="${item}                 >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
-    echo "DeletionDate=${deletiondate}" >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
-  done
-}
+      # print debug information if enabled
+      debug_out "moving item \"${item}\" to trash"
+      mv "$item" ${NESONO_TRASH_DIR}/files/"$dst"
+      echo "[Trash Info]"                  > ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
+      echo "item="${item}                 >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
+      echo "DeletionDate=${deletiondate}" >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
+    done
+  }
+fi
