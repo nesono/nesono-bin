@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 #     * Redistributions of source code must retain the above copyright
@@ -13,7 +13,7 @@
 #     * Neither the name of the <organization> nor the
 #       names of its contributors may be used to endorse or promote products
 #       derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -36,11 +36,11 @@ function parse_git_branch()
   STATUS=$(git status --porcelain 2>/dev/null)
   [ $? -eq 128 ] && return
   [ -z "$(echo "$STATUS" | grep -e '^ [RDMA]')" ] || DIRTY="*"
-  [ -z "$(echo "$STATUS" | grep -e '^?? ')"    ] || DIRTY="*"
+  [ -z "$(echo "$STATUS" | grep -e '^?? ')"     ] || DIRTY="*"
   [ -z "$(echo "$STATUS" | grep -e '^[RMDA]')"  ] || DIRTY="${DIRTY}+"
-  [ -z "$(git stash list)"                     ] || DIRTY="${DIRTY}^"
+  [ -z "$(git stash list)"                      ] || DIRTY="${DIRTY}^"
   AHEAD=$(git status 2>/dev/null | grep -e 'ahead of' | awk '{ print $9; }')
-  [ -z "${AHEAD}"                              ] || DIRTY="${DIRTY}!"
+  [ -z "${AHEAD}"                               ] || DIRTY="${DIRTY}!"
   echo " (git: $(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')$DIRTY)"
 }
 
@@ -55,10 +55,14 @@ function parse_svn_revision()
   echo " (svn: r$REV$DIRTY)"
 }
 
-# note that this function only works
-# if you don't rename your session afterwards!
-function set_screen_path()
+# function to disable repository display in prompt
+function norepo()
 {
-  [ -n "${STY}" ] && screen -S ${STY} -X chdir "$(pwd)"
+  export NESONO_NOREPO='1'
 }
 
+# function to reenable repository display in prompt
+function repo()
+{
+  unset NESONO_NOREPO
+}
