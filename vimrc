@@ -138,7 +138,7 @@ if has("autocmd")
 	" insert tabs only at beginning of line
 	"au FileType cpp,c set smarttab
 	" make blank spaces from tabs for c(pp) files
-	"au FileType cpp,c set expandtab
+	au FileType cpp,c set expandtab
 
 	" enable some useful stuff for python
 	au FileType python set smartindent
