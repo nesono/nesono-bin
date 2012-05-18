@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to check, if the remote host has changed
 # its ssh fingerprint.
 # written by jochen.issing@iis.fraunhofer.de

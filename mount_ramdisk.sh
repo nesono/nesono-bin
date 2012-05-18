@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to create and mount a ramdisk under Mac and Linux
 # has one parameter: specifying the mount point
 # to unmount, use the following command:

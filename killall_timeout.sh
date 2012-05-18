@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to kill a certain application after a specific timeout
 # using two incremental time out values - sending signal TERM
 # after first timeout and KILL after second

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to reload cisco vpn kernel module
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>

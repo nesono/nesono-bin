@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to switch all compiler binaries to the
 # specified version
 # usage: switchqt.sh <version>

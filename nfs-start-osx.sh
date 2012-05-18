@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # helper script to start the nfs daemons
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>

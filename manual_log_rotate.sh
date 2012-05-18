@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # author: spz
 # script to force a log file rotation
 #  that means

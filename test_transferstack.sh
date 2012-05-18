@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to test transfer stack functionality
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>

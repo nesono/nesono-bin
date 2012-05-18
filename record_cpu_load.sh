@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to record cpu load for later display
 # need file name for recording...
 #

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script for daily maintenance of the server
 # upgrades to packages
 # discards orphaned packages, etc.

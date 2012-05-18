@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to install/upgrade drupal modules and/or themes
 # it supports installation or upgrade of multiple packages
 # at a time, although all of these must be of the same

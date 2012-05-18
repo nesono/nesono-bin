@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # script to move a directory from a git repo into its own git repository
 # the script is useful e.g. for separating subdirectories in a git 

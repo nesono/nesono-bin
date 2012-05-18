@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to delete a user and all its relations from a davical calendar...
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>

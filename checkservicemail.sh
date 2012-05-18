@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to check for services and send a mail if any service is no longer available
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>

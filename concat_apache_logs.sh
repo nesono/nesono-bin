@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to concatenate the apache log files
 # in case of a problem with webalizer...
 #

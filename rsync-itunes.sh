@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to synchronize itunes library with local copy
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>

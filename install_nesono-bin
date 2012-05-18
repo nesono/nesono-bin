@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to install the nesono-bin package, which
 # is a set of useful scripts not only for nesono groups developments
 #

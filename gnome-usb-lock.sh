@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # script to use an USB key as your desktop key.
 # Run this script with cron as the same user as the desktop session

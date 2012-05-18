@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # interactive script to setup git with useful standard settings
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>

@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/usr/bin/env bash
 # the $1 for readelf is the first commandline parameter, the $7 and $1 are just for awk
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to upgrade a drupal installation (the root)
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>

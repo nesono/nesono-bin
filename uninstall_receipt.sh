@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to uninstall bom archives -- needs file list of archive...
 # usage: uninstall_bom.sh /Library/Receipts/receipt.pkg
 #

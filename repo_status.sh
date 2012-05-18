@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to call repository status functions in screen's backtick
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>

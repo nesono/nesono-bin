@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to convert a pdf file to grayscale
 # needs gostscript (gs)
 #

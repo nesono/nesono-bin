@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to test if a host is reachable by ping
 # useful for network using script to check, whether
 # target host is reachable

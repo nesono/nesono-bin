@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to concatenate static libs to reduce number of libs in a project
 # written by iss
 # date: 2006-01-23

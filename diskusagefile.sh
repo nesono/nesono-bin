@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # create a file with sorted disk usage of '/'
 # outfile will be in home dir with date tag
 #

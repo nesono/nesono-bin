@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env bash -e
 #
 # darwin		This init.d script is used to start darwin.
 #			It starts both the server and the web interface.

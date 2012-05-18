@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to fix permissions in PosgreSQL tables
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>

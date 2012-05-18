@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # script to edit a file with vim at a specified position
 # which should be searched in a certain directory.
 # usage: vimfind <dir> <file:pos>

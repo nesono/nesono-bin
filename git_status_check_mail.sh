@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # check the status of several git repositories, sum the up in a mail and send
 # the mail to the specified user
 # written by jochen issing at 2009.08.28
