@@ -1,6 +1,6 @@
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 #     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
 #     * Neither the name of the <organization> nor the
 #       names of its contributors may be used to endorse or promote products
 #       derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -43,24 +43,12 @@ source ${NESONOBININSTDIR}/bashtils/aliases
 
 #
 # add one of these lines to your ~/.bashrc for git/svn status display in bash prompt with colors
-if [[ $TERM == "screen" ]]; then
-  PROMPT_COMMAND=set_screen_path
-  # set simple prompt
-  if [[ "$EUID" == "0" ]]; then
-    # root user
-    PS1='\[\033[31m\]>\[\033[0m\] '
-  else
-    # normal users
-    PS1='\[\033[32m\]>\[\033[0m\] '
-  fi
+if [[ "$EUID" == "0" ]]; then
+  # root user
+  PS1='\[\033[31m\]\h:\[\033[34m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
 else
-  if [[ "$EUID" == "0" ]]; then
-    # root user
-    PS1='\[\033[31m\]\h:\[\033[34m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
-  else
-    # normal users
-    PS1='\[\033[32m\]\h:\[\033[34m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
-  fi
+  # normal users
+  PS1='\[\033[32m\]\h:\[\033[34m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
 fi
 
 uname=$(uname -s)

@@ -36,10 +36,23 @@ case ${DESKTOP_SESSION} in
   ;;
   KDE* | kde* )
   # 'emulate' the Mac OS X open terminal command
-  function open()
-  {
-    kfmclient openURL file://$(rel2abs $1) &> /dev/null
-  }
+	if [ -e "`which kde-open`" ]; then
+		function open()
+		{
+    	kde-open "$@" &> /dev/null
+		}
+	elif [ -e "`which kfmclient`" ]; then
+		function open()
+		{
+			kfmclient openURL file://$(rel2abs $1) &> /dev/null
+		}
+	else
+		function open()
+		{
+		  echo "Neither kdmclient nor kde-open found in PATH"
+		  echo "Consider installing one of those or edit me..."
+		}
+	fi
   ;;
 esac # check for desktop session (KDE/GNOME)
 

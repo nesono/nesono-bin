@@ -1,6 +1,6 @@
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 #     * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
 #     * Neither the name of the <organization> nor the
 #       names of its contributors may be used to endorse or promote products
 #       derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -59,22 +59,12 @@ typeset -U path cdpath fpath manpath
 # load simplified color handling ("$bg[red]$fg[black]")
 autoload -U colors && colors
 
-if [[ $TERM == "screen" ]]; then
-  if [[ "$EUID" == "0" ]]; then
-    # root user
-    PROMPT='%{$fg[red]%}>%{$reset_color%} '
-  else
-    # normal users
-    PROMPT='%{$fg[green]%}>%{$reset_color%} '
-  fi
+if [[ "$EUID" == "0" ]]; then
+  # root user
+  PROMPT='%{$fg[red]%}%m:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
 else
-  if [[ "$EUID" == "0" ]]; then
-    # root user
-    PROMPT='%{$fg[red]%}%m:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
-  else
-    # normal users
-    PROMPT='%{$fg[green]%}%m:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
-  fi
+  # normal users
+  PROMPT='%{$fg[green]%}%m:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
 fi
 
 # provides small helper functions
@@ -130,8 +120,6 @@ if [[ $TERM == "screen" ]]; then
   {
     # set screen title
     settitle zsh "$PWD"
-    # set the current working directory
-    set_screen_path
   }
 else
   ## called by zsh before showing the prompt

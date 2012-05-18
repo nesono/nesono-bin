@@ -138,18 +138,19 @@ if has("autocmd")
 	" insert tabs only at beginning of line
 	"au FileType cpp,c set smarttab
 	" make blank spaces from tabs for c(pp) files
-	"au FileType cpp,c set expandtab
+	au FileType cpp,c set expandtab
 
 	" enable some useful stuff for python
 	au FileType python set smartindent
 	au FileType python inoremap # X#
+	au FileType python set autoindent
 	" insert tabs only at beginning of line
 	"au FileType python set smarttab
 	" set tab widths
 	au FileType python set shiftwidth=4
 	au FileType python set tabstop=4
 	" show indentation for python
-	au FileType python set lcs=tab:┊…
+	au FileType python set lcs=tab:'.
 	au FileType python set list
 
 	"autocmd BufNewFile,BufRead *.c set cindent
