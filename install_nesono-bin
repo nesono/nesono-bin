@@ -91,10 +91,11 @@ pushd ~/nesono-bin
 ./zshtils/install_nesono_zsh
 popd
 
-install_link ~/.inputrc          ~/nesono-bin/inputrc
-install_link ~/.vimrc            ~/nesono-bin/vimrc
-install_link ~/.tmux.conf        ~/nesono-bin/tmux.conf
-install_link ~/.screenrc         ~/nesono-bin/screenrc
+install_link ~/.inputrc    ~/nesono-bin/inputrc
+install_link ~/.vimrc      ~/nesono-bin/vimrc
+install_link ~/.tmux.conf  ~/nesono-bin/tmux.conf
+install_link ~/.screenrc   ~/nesono-bin/screenrc
+install_link ~/.tigrc      ~/nesono-bin/tigrc
 
 echo ""
 exit 0
