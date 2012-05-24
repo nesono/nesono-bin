@@ -67,6 +67,12 @@ case ${uname} in
   source ${NESONOBININSTDIR}/bashtils/rm2trash.linux
   source ${NESONOBININSTDIR}/bashtils/defines.linux
   ;;
+  FreeBSD)
+  ###################### LINUX STUFF ######################################
+  source ${NESONOBININSTDIR}/bashtils/aliases.freebsd
+  source ${NESONOBININSTDIR}/bashtils/rm2trash.freebsd
+  source ${NESONOBININSTDIR}/bashtils/defines.freebsd
+	;;
 esac
 
 source ${NESONOBININSTDIR}/bashtils/ps1status
