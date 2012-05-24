@@ -16,3 +16,4 @@ bind generic > !git push
 
 # add changes to commit comment section
 bind status C !git commit -v
+bind status a !git add %(file)
