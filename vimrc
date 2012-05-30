@@ -61,7 +61,7 @@ set autoindent
 set tabstop=2
 set shiftwidth=2
 set nolist
-set smarttab
+"set smarttab
 " search options
 set ic
 set smartcase
