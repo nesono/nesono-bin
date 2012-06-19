@@ -97,5 +97,11 @@ install_link ~/.tmux.conf  ~/nesono-bin/tmux.conf
 install_link ~/.screenrc   ~/nesono-bin/screenrc
 install_link ~/.tigrc      ~/nesono-bin/tigrc
 
+echo "fetch zsh-syntax-highlighting"
+pushd ~/nesono-bin
+git submodule init zsh-syntax-highlighting
+git submodule update zsh-syntax-highlighting
+popd
+
 echo ""
 exit 0
