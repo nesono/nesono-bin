@@ -72,7 +72,7 @@ source ${NESONOBININSTDIR}/bashtils/helpers
 # defines aliases for all platforms
 source ${NESONOBININSTDIR}/bashtils/aliases
 # source zsh syntax highlighting
-source ${NESONOBININSTDIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[[ -e ${NESONOBININSTDIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && source ${NESONOBININSTDIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 uname=$(uname -s)
 
