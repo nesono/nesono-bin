@@ -186,3 +186,7 @@ function transfers()
     echo "${!v}"
   done
 }
+
+alias pushtm='pusht mv'
+alias pushtc='pusht cp'
+
