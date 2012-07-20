@@ -201,6 +201,8 @@ nnoremap ,h :vnew<cr>:q<cr>
 
 " some useful mappings for searching, buffer edits
 map <F5> :nohls<CR>         " disable search result highlighting
+" remove trailing whitespaces (not necessary for c/cpp)
+map <F8> :%s/\s\+$//e<CR>
 map <c-n> :bn<CR>           " edit next file in buffer
 map <c-p> :bp<CR>           " edit prev file in buffer
 map <c-s> :w<CR>            " Ctrl-s saves file ;)
