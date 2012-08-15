@@ -132,6 +132,24 @@ if has("autocmd")
 		endif
 	endfunction
 
+  function! SwitchCppSourceHeader()
+    if (expand ("%:e") == "cpp")
+      find %:t:r.h
+    else
+      find %:t:r.cpp
+    endif
+  endfunction
+  function! SwitchCSourceHeader()
+    if (expand ("%:e") == "cpp")
+      find %:t:r.h
+    else
+      find %:t:r.cpp
+    endif
+  endfunction
+
+  au FileType cpp nmap <c-t> :call SwitchCppSourceHeader()<CR>
+  au FileType c nmap <c-t> :call SwitchCSourceHeader()<CR>
+
 	" to enable cindent only for specific files
 	au FileType cpp,c set cindent
 	au FileType cpp,c let Tlist_Auto_Open=1
@@ -208,6 +226,12 @@ map <c-p> :bp<CR>           " edit prev file in buffer
 map <c-s> :w<CR>            " Ctrl-s saves file ;)
 map <c-l> :e#<CR>           " Ctrl-l edits last file
 map <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
+
+" use F4 to insert current file name at cursor
+nnoremap <F4> :put =expand('%:t')<CR>kJ
+inoremap <F4> <Esc>:put =expand('%:t')<CR>kJ<Esc>A
+" search for keyword under cursor in current dir
+"nnoremap <F6> :grep <C-R><C-W> *<CR>
 
 if has("gui_macvim")
 	" disable antialiasing in guis
