@@ -82,3 +82,18 @@ function calc ()
   echo "$*" | bc -l
 }
 
+function backup ()
+{
+  for item in $@; do
+	  echo "backup up $item"
+		local destination=$item.bup_`date +%Y-%m-%d_%H:%M:%S`
+		while ( [[ -e "$destination" ]] ); do
+		  echo "$destination already exists"
+		  destination=$item.bup_`date +%Y-%m-%d_%H:%M:%S`
+		  echo "trying $destination"
+		done
+	  echo "backup $item to $destination"
+    cp -r "$item" "$destination";
+  done
+	echo "finished"
+}
