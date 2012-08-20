@@ -34,10 +34,10 @@ export NESONOBININSTDIR="${HOME}/nesono-bin"
 # modified:
 #export LSCOLORS="gxfxcxdxbxegedabagacad"
 
+# provides a temporary session cookie for the shell session
+source ${NESONOBININSTDIR}/sessioncookie
 # provides small helper functions
 source ${NESONOBININSTDIR}/bashtils/helpers
-# provides the file/dir transfer stack with pusht/popt/transfers
-source ${NESONOBININSTDIR}/bashtils/transferstack
 # defines aliases for all platforms
 source ${NESONOBININSTDIR}/bashtils/aliases
 

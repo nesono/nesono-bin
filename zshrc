@@ -67,6 +67,8 @@ else
   PROMPT='%{$fg[green]%}%m:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)%}%{$reset_color%} '
 fi
 
+# provides a temporary session cookie for the shell session
+source ${NESONOBININSTDIR}/sessioncookie
 # provides small helper functions
 source ${NESONOBININSTDIR}/bashtils/helpers
 # defines aliases for all platforms
@@ -142,5 +144,3 @@ fi
 source ${NESONOBININSTDIR}/zshtils/completion
 # include keybindings (Home/End/Delete/Backspace/...)
 source ${NESONOBININSTDIR}/zshtils/keybindings
-# provides the file/dir transfer stack with pusht/popt/transfers
-source ${NESONOBININSTDIR}/zshtils/transferstack
