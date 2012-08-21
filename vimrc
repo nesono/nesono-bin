@@ -158,6 +158,9 @@ if has("autocmd")
 	" make blank spaces from tabs for c(pp) files
 	au FileType cpp,c set expandtab
 
+  " also don't use tabs to indent in cmake
+	au FileType cmake set expandtab
+
 	" enable some useful stuff for python
 	au FileType python set smartindent
 	au FileType python inoremap # X#
@@ -168,7 +171,7 @@ if has("autocmd")
 	au FileType python set shiftwidth=4
 	au FileType python set tabstop=4
 	" show indentation for python
-	au FileType python set lcs=tab:'.
+	au FileType python set lcs=tab:\|\ 
 	au FileType python set list
 
 	"autocmd BufNewFile,BufRead *.c set cindent
