@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+export _NESONO_SESSION_COOKIE=${RANDOM}${RANDOM}${RANDOM}${RANDOM}${RANDOM}
