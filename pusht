@@ -35,11 +35,19 @@ import sys     # exit
 session = os.environ['_NESONO_SESSION_COOKIE']
 stackfilename = ('/tmp/%s.'+session+'.tstack')%(getpass.getuser())
 
-stackfile = open( stackfilename, 'a+')
+transfers = []
+try:
+  transfers = open( stackfilename, 'r' ).read().split('\n')
+except:
+  pass
+
+if transfers[0] == '':
+	transfers = []
+
+stackfile = open( stackfilename, 'w')
 appname = os.path.basename(sys.argv.pop(0))
 mode = 'cp -ri'
 
-transfers = []
 
 for item in sys.argv:
 	if sys.argv[0] == '-h':
