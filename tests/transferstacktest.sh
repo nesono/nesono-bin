@@ -26,8 +26,6 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-. bashrc
-
 # uses the following functions:
 #
 # transfers
@@ -36,153 +34,182 @@
 
 function debug()
 {
-  #echo $*
-  return 1
+  local msg=$1
+	shift
+  echo $msg
+	$@
 }
 
-TESTDIR=/tmp/transstacktest.${RANDOM}
-/bin/rm -rf ${TESTDIR}
-echo "using testdir: \"${TESTDIR}\""
-# create tmp directory and change into it
-mkdir -p "${TESTDIR}"    || echo "could not create testdir"
-# change into test dir
-cd "${TESTDIR}"          || echo "could not change into testdir"
+function assertcmd()
+{
+  local msg=$1
+	shift
+  $@
+	if [[ $? != 0 ]]; then
+	  echo $msg
+		exit -1
+	fi
+}
 
-debug "i am here: $(pwd)"
-debug "contents: " && ls -lR ${TESTDIR}
+function create_and_cd_test_dir()
+{
+	TESTDIR=/tmp/transstacktest.${RANDOM}
+	/bin/rm -rf ${TESTDIR}
+	echo "using testdir: \"${TESTDIR}\""
+	# create tmp directory and change into it
+	assertcmd "could not create testdir" mkdir -p "${TESTDIR}"
+	# change into test dir
+	assertcmd "could not change into testdir" cd "${TESTDIR}"
 
-# create some directories
-mkdir sub1 sub2          || echo "could not create subdirs"
-# change into sub1
-cd sub1                  || echo "could not change into sub1"
+	echo "test dirs created successfully"
+}
 
-debug "i am here: $(pwd)"
-debug "contents: " && ls -lR ${TESTDIR}
+function create_and_cd_subdirs()
+{
+	# create some directories
+	assertcmd "could not create subdirs" mkdir sub1 sub2
+	# change into sub1
+	assertcmd "could not change into sub1" cd sub1
 
-# create some files
-echo "test1" > test1.txt || echo "could not create testfile 1"
-echo "test2" > test2.txt || echo "could not create testfile 2"
-echo "test3" > test3.txt || echo "could not create testfile 3"
+	echo "created subdirs and changed into sub1 [`pwd`]"
+}
 
-debug "contents: " && ls -lR ${TESTDIR}
+function create_3_files()
+{
+	# create some files
+	assertcmd "could not create testfile 1" echo "test1" > test1.txt
+	assertcmd "could not create testfile 2" echo "test2" > test2.txt
+	assertcmd "could not create testfile 3" echo "test3" > test3.txt
 
-# change into differen subdir
-cd ../sub2 || echo "could not change into sub2"
+	echo "created files test1, test2, test3"
+	echo "ls: `ls`"
+}
 
-debug "i am here: $(pwd)"
-debug "contents: " && ls -lR ${TESTDIR}
+function change_to_sub2()
+{
+	# change into differen subdir
+	assertcmd "could not change into sub2" cd ../sub2
 
-# push all created test files 3 times with different modes
-pusht mv ../sub1/test1.txt
-pusht mv ../sub1/test2.txt
+	echo "changed to sub2 [`pwd`]"
+}
 
-pusht cp ../sub1/test1.txt
-pusht cp ../sub1/test2.txt
-pusht cp ../sub1/test3.txt
+function push_transfers()
+{
+	# push all created test files 3 times with different modes
+	pusht mv ../sub1/test1.txt &> /dev/null
+	pusht mv ../sub1/test2.txt &> /dev/null
+	pusht cp ../sub1/test3.txt &> /dev/null
 
-pusht ../sub1/test1.txt
-pusht ../sub1/test2.txt
-pusht ../sub1/test3.txt
+	pusht cp ../sub1/test1.txt &> /dev/null
+	pusht cp ../sub1/test2.txt &> /dev/null
 
-pusht ../sub1/test1.txt
-pusht ../sub1/test2.txt
-pusht ../sub1/test3.txt
+	pusht ../sub1/test1.txt &> /dev/null
+	pusht ../sub1/test2.txt &> /dev/null
+	pusht ../sub1/test3.txt &> /dev/null
+}
 
-# check transfers
-[ "$(transfers | wc -l)" != 11 ] || echo "transfer list size 1 bad!"
-# change into other dir
-cd ../sub2               || echo "could not change into sub2"
+function apply_3_transfers()
+{
+  # call first 3 items (test[1-3])
+  popt
+  popt
+  popt
+}
 
-debug "i am here: $(pwd)"
-debug "contents: " && ls -lR ${TESTDIR}
+function assert_list_len()
+{
+  # check transfers
+  assertcmd "transfer removal failed -- is: `transfers | wc -l`, should be $1" [ "$(transfers | wc -l)" == "$1" ]
 
-# call first 3 items (test[1-3])
-popt
-popt
-popt
+  echo "transfer list len correct"
+}
 
-# remaining:
-# pusht mv ../sub1/test1
-# pusht mv ../sub1/test2
-#
-# pusht cp ../sub1/test1
-# pusht cp ../sub1/test2
-# pusht cp ../sub1/test3
-#
-# pusht ../sub1/test1
-# pusht ../sub1/test2
-# pusht ../sub1/test3
+function assert_copied_and_moved_1()
+{
+	# first two have been copied, last moved -- SRC
+	assertcmd "test1 file missing" [ -e ./test1.txt ]
+	assertcmd "test2 file missing" [ -e ./test2.txt ]
+	assertcmd "test3 file missing" [ -e ./test3.txt ]
 
-debug "i am here: $(pwd)"
-debug "contents: " && ls -lR ${TESTDIR}
+	# first two have been copied, last moved -- DST
+	assertcmd "test1 source file still available" [ ! -e ../sub1/test1.txt ]
+	assertcmd "test2 source file still available" [ ! -e ../sub1/test2.txt ]
+	assertcmd "test3 source file missing"         [ -e ../sub1/test3.txt ]
 
-# check transfers
-[ "$(transfers | wc -l)" != 8 ] || echo "transfer list size 2 bad!"
+  echo "files test[1-3] copied and moved correctly"
+}
 
-# check, if files here
-[ -e ./test1.txt ]           || echo "test1 file missing"
-[ -e ./test2.txt ]           || echo "test2 file missing"
-[ -e ./test3.txt ]           || echo "test3 file missing"
-# check, if source files still there
-[ -e ../sub1/test1.txt ]     || echo "test1 source file missing"
-[ -e ../sub1/test2.txt ]     || echo "test2 source file missing"
-[ -e ../sub1/test3.txt ]     || echo "test3 source file missing"
+function rm_test_glob()
+{
+	# remove first copies
+	/bin/rm -f test*.txt
+}
 
-# remove first copies
-/bin/rm -f test*.txt
 
-debug "i am here: $(pwd)"
-debug "contents: " && ls -lR ${TESTDIR}
+function discard_3_transfers()
+{
+	# discard last 3 items
+	popt -d
+	popt -d
+	popt -d
+}
 
-# remove last 3 items
-popt -d
-popt -d
-popt -d
+function assert_files_not_here()
+{
+	# check, if files here
+	assertcmd "test1 file should not exist" [ -e ./test1.txt ]
+	assertcmd "test2 file should not exist" [ -e ./test2.txt ]
+	assertcmd "test3 file should not exist" [ -e ./test3.txt ]
+}
 
-debug "i am here: $(pwd)"
-debug "contents: " && ls -lR ${TESTDIR}
+function apply_all()
+{
+	# apply all remaining items
+	popt -a
+}
 
-# remaining:
-# pusht mv ../sub1/test1
-# pusht mv ../sub1/test2
-#
-# pusht cp ../sub1/test1
-# pusht cp ../sub1/test2
-# pusht cp ../sub1/test3
+function assert_test3_here()
+{
+	# check, if files here
+	assertcmd "test1 file should not exist" [ ! -e ./test1.txt ]
+	assertcmd "test2 file should not exist" [ ! -e ./test2.txt ]
+	assertcmd "test3 file missing"          [ -e ./test3.txt ]
 
-# check transfers
-[ "$(transfers | wc -l)" != 5 ] || echo "transfer list size 3 bad!"
+	# check, if source files still there
+	assertcmd "test1 source file still exits" [ ! -e ../sub1/test1.txt ]
+	assertcmd "test2 source file still exits" [ ! -e ../sub1/test2.txt ]
+	assertcmd "test3 source file missing    " [ -e ../sub1/test3.txt ]  
+}
 
-# check, if files here
-[ -e ./test1.txt ]           && echo "test1 file where it should not be!"
-[ -e ./test2.txt ]           && echo "test2 file where it should not be!"
-[ -e ./test3.txt ]           && echo "test3 file where it should not be!"
+echo "nesono session cookie: $_NESONO_SESSION_COOKIE"
+if [ -z "$_NESONO_SESSION_COOKIE" ]; then
+  echo "No session cookie set"
+	echo "Stopping tests before they could be started"
+	exit -1
+fi
 
-# pop all remaining items
-popt -a
+create_and_cd_test_dir
+create_and_cd_subdirs
+create_3_files
+change_to_sub2
+push_transfers
+popt -f
+assert_list_len 0
+push_transfers
+assert_list_len 8
+change_to_sub2
+apply_3_transfers
+assert_list_len 5
+assert_copied_and_moved_1
+rm_test_glob
+discard_3_transfers
+assert_list_len 2
+assert_files_not_here
+apply_all
+assert_list_len 0
+assert_test3_here
+assert_src_moved
 
-debug "i am here: $(pwd)"
-debug "contents: " && ls -lR ${TESTDIR}
-
-# remaining:
-# nothing!
-
-# check transfers
-[ "$(transfers | wc -l)" != 0 ] || echo "transfer list size 4 bad!"
-
-# check, if files here
-[ -e ./test1.txt ]           || echo "test1 file missing"
-[ -e ./test2.txt ]           || echo "test2 file missing"
-[ -e ./test3.txt ]           || echo "test3 file missing"
-
-[ -e ./test1.txt.0 ]         || echo "test1.0 file missing"
-[ -e ./test2.txt.0 ]         || echo "test2.0 file missing"
-[ -e ./test3.txt.0 ]         && echo "test3.0 file where it should not be!"
-
-# check, if source files still there
-[ -e ../sub1/test1.txt ]     && echo "test1 source file still exits!"
-[ -e ../sub1/test2.txt ]     && echo "test2 source file still exits!"
-[ -e ../sub1/test3.txt ]     || echo "test3 source file missing"
 
 echo "test finished :)"
 echo "cleaning up..."
