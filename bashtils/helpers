@@ -111,6 +111,9 @@ function md5equal()
   local file_a_md5=`md5 $1 | cut -d ' ' -f 4`
   local file_b_md5=`md5 $2 | cut -d ' ' -f 4`
 
+  echo "file A: $file_a_md5"
+	echo "file B: $file_b_md5"
+
 	if [[ "${file_a_md5}" == "${file_b_md5}" ]]; then
 	  echo "files \"$1\" and \"$2\" are equal"
   else
