@@ -93,7 +93,7 @@ case ${uname} in
   source ${NESONOBININSTDIR}/bashtils/defines.linux
   ;;
   FreeBSD)
-  ###################### LINUX STUFF ######################################
+  ###################### FREEBSD STUFF ######################################
   source ${NESONOBININSTDIR}/bashtils/aliases.freebsd
   source ${NESONOBININSTDIR}/bashtils/rm2trash.freebsd
   source ${NESONOBININSTDIR}/bashtils/defines.freebsd
