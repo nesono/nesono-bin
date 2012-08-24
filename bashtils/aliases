@@ -32,4 +32,6 @@ alias la='ls -a'
 alias grep='grep --color=auto'
 alias bc='bc -l -q'
 
+alias ctags='ctags -R --sort=yes --c++-kinds=+p --fields=+afiKlmnsSzt --extra=+q'
+
 #alias screen='TERM=screen && screen'
