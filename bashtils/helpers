@@ -97,3 +97,23 @@ function backup ()
   done
 	echo "finished"
 }
+
+function md5equal()
+{
+  if [[ -z "$1" ]]; then
+	  echo "usage: md5equal file_a file_b"
+		echo "check two files for equality by their md5 hash"
+	fi
+  if [[ -z "$2" ]]; then
+	  echo "usage: md5equal file_a file_b"
+		echo "check two files for equality by their md5 hash"
+	fi
+  local file_a_md5=`md5 $1 | cut -d ' ' -f 4`
+  local file_b_md5=`md5 $2 | cut -d ' ' -f 4`
+
+	if [[ "${file_a_md5}" == "${file_b_md5}" ]]; then
+	  echo "files \"$1\" and \"$2\" are equal"
+  else
+	  echo "files \"$1\" and \"$2\" are NOT equal"
+	fi
+}
