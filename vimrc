@@ -147,8 +147,8 @@ if has("autocmd")
     endif
   endfunction
 
-  au FileType cpp nmap <c-t> :call SwitchCppSourceHeader()<CR>
-  au FileType c nmap <c-t> :call SwitchCSourceHeader()<CR>
+  au FileType cpp nmap <F11> :call SwitchCppSourceHeader()<CR>
+  au FileType c nmap <F11> :call SwitchCSourceHeader()<CR>
 
 	" to enable cindent only for specific files
 	au FileType cpp,c set cindent
@@ -173,6 +173,7 @@ if has("autocmd")
 	" show indentation for python
 	au FileType python set lcs=tab:\|\ 
 	au FileType python set list
+	au FileType python hi SpecialKey term=bold ctermfg=7 gui=bold guifg=Gray30
 
 	"autocmd BufNewFile,BufRead *.c set cindent
 	"autocmd BufNewFile,BufRead *.cc set cindent
@@ -226,9 +227,12 @@ map <F5> :nohls<CR>         " disable search result highlighting
 map <F8> :%s/\s\+$//e<CR>
 map <c-n> :bn<CR>           " edit next file in buffer
 map <c-p> :bp<CR>           " edit prev file in buffer
-map <c-s> :w<CR>            " Ctrl-s saves file ;)
+"map <c-s> :w<CR>            " Ctrl-s saves file ;)
 map <c-l> :e#<CR>           " Ctrl-l edits last file
 map <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
+
+" mapping for tags: getting back from tag
+"nnoremap <c-[> :pop<CR>
 
 " use F4 to insert current file name at cursor
 nnoremap <F4> :put =expand('%:t')<CR>kJ
