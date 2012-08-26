@@ -61,6 +61,7 @@ set autoindent
 set tabstop=2
 set shiftwidth=2
 set nolist
+" enable this as soon, as you are away from mmt ;)
 "set smarttab
 " search options
 set ic
@@ -166,7 +167,7 @@ if has("autocmd")
 	au FileType python inoremap # X#
 	au FileType python set autoindent
 	" insert tabs only at beginning of line
-	"au FileType python set smarttab
+	au FileType python set smarttab
 	" set tab widths
 	au FileType python set shiftwidth=4
 	au FileType python set tabstop=4
