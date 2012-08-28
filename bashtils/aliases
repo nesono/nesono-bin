@@ -33,5 +33,7 @@ alias grep='grep --color=auto'
 alias bc='bc -l -q'
 
 alias ctags='ctags -R --sort=yes --c++-kinds=+p --fields=+afiKlmnsSzt --extra=+q'
+alias rsync_svn='rsync --exclude .svn'
+alias rsync_git='rsync --exclude .git'
 
 #alias screen='TERM=screen && screen'
