@@ -55,7 +55,7 @@ set foldlevel=100
 
 " basic indentation rules
 " see cinoptions-values for descr
-set cino=>2,:0,=2,g0,h2,t0,+4,c2,(0,W4,u2
+set cino=>2,:0,=2,g0,h2,t0,+4,c2,(0,W4,u2,N-s
 " default indentation settings
 set autoindent
 set tabstop=2
