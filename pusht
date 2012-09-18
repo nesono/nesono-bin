@@ -41,8 +41,11 @@ try:
 except:
   pass
 
-if transfers[0] == '':
-	transfers = []
+try:
+	if transfers[0] == '':
+		transfers = []
+except:
+	pass
 
 stackfile = open( stackfilename, 'w')
 appname = os.path.basename(sys.argv.pop(0))
@@ -68,7 +71,7 @@ for item in sys.argv:
 	if os.path.exists( item ):
 		fullpath = os.path.abspath( item )
 		print mode,fullpath
-		transfers.append( mode + ' ' + fullpath )
+		transfers.append( mode + ' ' + '\'' + fullpath + '\'' )
 	else:
 		print 'skipping',item,' - does no such file or directory'
 
