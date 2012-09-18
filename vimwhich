@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]; then
+	echo "usage: $0 script.to.open"
+fi
+
+FILE=$1
+shift 
+
+vim `which "$FILE"` $@
