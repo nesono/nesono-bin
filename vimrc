@@ -226,10 +226,10 @@ nnoremap ,h :vnew<cr>:q<cr>
 map <F5> :nohls<CR>         " disable search result highlighting
 " remove trailing whitespaces (not necessary for c/cpp)
 map <F8> :%s/\s\+$//e<CR>
-map <c-n> :bn<CR>           " edit next file in buffer
-map <c-p> :bp<CR>           " edit prev file in buffer
+map <c-n> :w<CR>:bn<CR>           " edit next file in buffer
+map <c-p> :w<CR>:bp<CR>           " edit prev file in buffer
 "map <c-s> :w<CR>            " Ctrl-s saves file ;)
-map <c-l> :e#<CR>           " Ctrl-l edits last file
+map <c-l> :w<CR>:e#<CR>           " Ctrl-l edits last file
 map <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
 
 " mapping for tags: getting back from tag
