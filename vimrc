@@ -241,7 +241,7 @@ inoremap <F4> <Esc>:put =expand('%:t')<CR>kJ<Esc>A
 " search for keyword under cursor in current dir
 "nnoremap <F6> :grep <C-R><C-W> *<CR>
 
-autocmd VimEnter,VimLeave * silent !tmux set status
+"autocmd VimEnter,VimLeave * silent !tmux set status
 
 if has("gui_macvim")
 	" disable antialiasing in guis
