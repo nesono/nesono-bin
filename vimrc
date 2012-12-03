@@ -242,6 +242,8 @@ inoremap <F4> <Esc>:put =expand('%:t')<CR>kJ<Esc>A
 "nnoremap <F6> :grep <C-R><C-W> *<CR>
 
 "autocmd VimEnter,VimLeave * silent !tmux set status
+" replace selected text in visual mode
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
 if has("gui_macvim")
 	" disable antialiasing in guis
