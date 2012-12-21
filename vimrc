@@ -28,6 +28,10 @@
 
 " We use a vim
 set nocompatible
+
+" add pathogen initialization
+call pathogen#infect()
+
 "
 " Colo(u)red or not colo(u)red
 " If you want color you should set this to true
@@ -235,6 +239,14 @@ map <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
 " mapping for tags: getting back from tag
 "nnoremap <c-[> :pop<CR>
 
+" toggle browse tree region
+nnoremap <F2> :NERDTreeToggle<CR>
+" open NERDtree if vim was opened without a file specified
+autocmd vimenter * if !argc() | NERDTree | endif
+
+" toggle undotree region
+nnoremap <F3> :UndotreeToggle<CR>
+
 " use F4 to insert current file name at cursor
 nnoremap <F4> :put =expand('%:t')<CR>kJ
 inoremap <F4> <Esc>:put =expand('%:t')<CR>kJ<Esc>A
@@ -251,4 +263,5 @@ if has("gui_macvim")
 	" set gui font
 	set gfn=Monaco:h10
 endif
+
 " ~/.vimrc ends here
