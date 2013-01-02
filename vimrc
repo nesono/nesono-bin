@@ -29,7 +29,7 @@
 " We use a vim
 set nocompatible
 
-" add pathogen initialization
+" load pathogen for budle support
 call pathogen#infect()
 
 "
@@ -208,6 +208,9 @@ elseif uname == "Linux"
 	vmap <F6> :!xclip -f -sel clip<CR>
 	map <F7> :-1r !xclip -o -sel clip<CR>
 endif
+
+" graphical undo tree
+nnoremap <F10> :GundoToggle<CR>
 
 " to repair backspace if logged in from Mac to Linux Machine
 "if exists( "$SSH_CONNECTION" )
