@@ -55,6 +55,20 @@ function parse_svn_revision()
   echo " (svn: r$REV$DIRTY)"
 }
 
+function parse_hg_branch()
+{
+  # check if repo stat is disabled
+  [ -n "${NESONO_NOREPO}" ] && return
+  # get repo name
+	BRANCH=`hg branch 2> /dev/null`
+	[ $? -eq 255 ] && return
+  STATUS=$(hg st 2>/dev/null)
+  [ $? -eq 128 ] && return
+  [ -z "$(echo "$STATUS" | grep -e '^[RDMA]')" ] || DIRTY="*"
+  [ -z "$(echo "$STATUS" | grep -e '^? ')"     ] || DIRTY="*"
+	echo " (hg: ${BRANCH}${DIRTY})"
+}
+
 # function to disable repository display in prompt
 function norepo()
 {

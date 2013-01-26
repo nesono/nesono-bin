@@ -27,4 +27,4 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 . ${NESONOBININSTDIR}/bashtils/ps1status
-echo "$(parse_git_branch)$(parse_svn_revision)"
+echo "$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)"
