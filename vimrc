@@ -31,10 +31,6 @@ set nocompatible
 
 "runtime! autoload/pathogen.vim
 silent! call pathogen#infect()
-"if exists("g:loaded_pathogen")
-"    " load pathogen for budle support
-"		call pathogen#infect()
-"endif
 
 "
 " Colo(u)red or not colo(u)red
@@ -263,16 +259,12 @@ if has("gui_macvim")
 	set gfn=Monaco:h10
 endif
 
-"if exists("*NERDTreeToggle")
-	" toggle browse tree region
-	nnoremap <F2> :NERDTreeToggle<CR>
-	" open NERDtree if vim was opened without a file specified
-	autocmd vimenter * if !argc() | silent! NERDTree | endif
-"endif
+" toggle browse tree region
+nnoremap <F2> :NERDTreeToggle<CR>
+" open NERDtree if vim was opened without a file specified
+autocmd vimenter * if !argc() | silent! NERDTree | endif
 
-"if exists("*UndotreeToggle")
-	" toggle undotree region
-	nnoremap <F3> :UndotreeToggle<CR>
-"endif
+" toggle undotree region
+nnoremap <F3> :UndotreeToggle<CR>
 
 " ~/.vimrc ends here
