@@ -29,15 +29,21 @@
 # the login file, we want to install the tools to
 UNAME=`uname -s`
 case ${UNAME} in
-  "Linux")
+  Linux)
     LOGINFILE=~/.bash_profile
     if [ ! -r ${LOGINFILE} ]; then
       LOGINFILE=~/.bashrc
     fi
   ;;
-  "Darwin" | "FreeBSD")
+  Darwin | FreeBSD)
     LOGINFILE=~/.profile
   ;;
+  CYGWIN_* | MINGW32_* )
+    LOGINFILE=~/.profile
+  ;;
+	*)
+	  echo "unsupported system detected"
+		echo "not installing bashtils"
 esac
 
 # check, if login file exists

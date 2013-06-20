@@ -98,6 +98,18 @@ case ${uname} in
   source ${NESONOBININSTDIR}/bashtils/rm2trash.freebsd
   source ${NESONOBININSTDIR}/bashtils/defines.freebsd
 	;;
+  CYGWIN_*)
+  ###################### CYGWIN STUFF ######################################
+  source ${NESONOBININSTDIR}/bashtils/aliases.cygwin
+  source ${NESONOBININSTDIR}/bashtils/rm2trash.cygwin
+  source ${NESONOBININSTDIR}/bashtils/defines.cygwin
+	;;
+  MINGW32_*)
+  ###################### MINGW STUFF ######################################
+  source ${NESONOBININSTDIR}/bashtils/aliases.mingw
+  source ${NESONOBININSTDIR}/bashtils/rm2trash.mingw
+  source ${NESONOBININSTDIR}/bashtils/defines.mingw
+	;;
 esac
 
 function settitle {
