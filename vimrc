@@ -267,4 +267,5 @@ autocmd vimenter * if !argc() | silent! NERDTree | endif
 " toggle undotree region
 nnoremap <F3> :UndotreeToggle<CR>
 
+silent! colorscheme molokai
 " ~/.vimrc ends here
