@@ -68,11 +68,30 @@ case ${uname} in
   source ${NESONOBININSTDIR}/bashtils/defines.linux
   ;;
   FreeBSD)
-  ###################### LINUX STUFF ######################################
+  ##################### FREEBSD STUFF #####################################
   source ${NESONOBININSTDIR}/bashtils/aliases.freebsd
   source ${NESONOBININSTDIR}/bashtils/rm2trash.freebsd
   source ${NESONOBININSTDIR}/bashtils/defines.freebsd
 	;;
+  CYGWIN_*)
+  ###################### CYGWIN STUFF ######################################
+  source ${NESONOBININSTDIR}/bashtils/aliases.cygwin
+  source ${NESONOBININSTDIR}/bashtils/rm2trash.cygwin
+  source ${NESONOBININSTDIR}/bashtils/defines.cygwin
+	;;
+  MINGW32_*)
+  ###################### MINGW STUFF ######################################
+  source ${NESONOBININSTDIR}/bashtils/aliases.mingw
+  source ${NESONOBININSTDIR}/bashtils/rm2trash.mingw
+  source ${NESONOBININSTDIR}/bashtils/defines.mingw
+	;;
 esac
 
 source ${NESONOBININSTDIR}/bashtils/ps1status
+
+case ${uname} in
+  CYGWIN_* | MINGW32_*)
+	# disable repo prompt entry on cygwin
+	norepo
+  ;;
+esac
