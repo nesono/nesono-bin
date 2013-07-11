@@ -267,5 +267,10 @@ autocmd vimenter * if !argc() | silent! NERDTree | endif
 " toggle undotree region
 nnoremap <F3> :UndotreeToggle<CR>
 
+" use molokai theme if available
 silent! colorscheme molokai
+
+" fix problems with backspace
+set backspace=indent,eol,start
+
 " ~/.vimrc ends here
