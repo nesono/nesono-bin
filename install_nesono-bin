@@ -78,6 +78,12 @@ function install_link()
   fi
 }
 
+function gitsub()
+{
+  git submodule init $1
+	git submodule update $1
+}
+
 # check for -f or --force
 case ${1} in
   '--force' | 'f')
@@ -96,11 +102,17 @@ install_link ~/.vimrc      ~/nesono-bin/vimrc
 install_link ~/.tmux.conf  ~/nesono-bin/tmux.conf
 install_link ~/.screenrc   ~/nesono-bin/screenrc
 install_link ~/.tigrc      ~/nesono-bin/tigrc
+install_link ~/.vim        ~/nesono-bin/vim
 
-echo "fetch zsh-syntax-highlighting"
+echo "fetch submodules"
 pushd ~/nesono-bin
-git submodule init zsh-syntax-highlighting
-git submodule update zsh-syntax-highlighting
+gitsub zsh-syntax-highlighting
+gitsub vim/bundle/ack.vim
+gitsub vim/bundle/nerdcommenter
+gitsub vim/bundle/nerdtree
+gitsub vim/bundle/undotree
+gitsub vim/bundle/vim-fugitive
+gitsub vim/bundle/vim-speeddating
 popd
 
 echo ""
