@@ -57,27 +57,29 @@ else
 fi
 
 # add nesono-bin path to LOGINFILE
-if [ -z "${NESONOBASHRC}" ]; then
+if [ -z "${NESONOBININSTALLATIONDIR}" ]; then
   echo "adding nesono-bin path to ${LOGINFILE}"
   cat >> ${LOGINFILE} <<-ENDOFSCRIPT
+
 # the nesono script directory
-if [ -d ~/nesono-bin ]; then
-  export PATH=\${PATH}:~/nesono-bin
+NESONOBININSTALLATIONDIR=${SCRIPTDIR}
+if [ -d "\${NESONOBININSTALLATIONDIR}" ]; then
+  export PATH=\${PATH}:\${NESONOBININSTALLATIONDIR}
 fi
 ENDOFSCRIPT
-  echo "adding nesono-bin to current path"
-  export PATH=${PATH}:~/nesono-bin
+  echo "adding ${SCRIPTDIR} to current path"
+  export PATH=${PATH}:${SCRIPTDIR}
 else
-  echo "nesono-bin already in path... not installing nesono-bin"
+  echo "${SCRIPTDIR} already in path... not installing nesono-bin"
 fi
 
 # add BASHRC extensions to login file
-if [ -z "${NESONOBASHRC}" ]; then
+if [ -z "${NESONOBININSTALLATIONDIR}" ]; then
   echo "adding bashrc to file: ${LOGINFILE}"
   cat >> ${LOGINFILE} <<-ENDOFSCRIPT
 # the nesono bash extension
-if [ -f ~/nesono-bin/bashrc ]; then
-  . ~/nesono-bin/bashrc
+if [ -f \${NESONOBININSTALLATIONDIR}/bashrc ]; then
+  . \${NESONOBININSTALLATIONDIR}/bashrc
 fi
 ENDOFSCRIPT
 else

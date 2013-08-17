@@ -25,7 +25,6 @@
 
 # to indicate, that nesono-bin was included in ~/.profile
 export NESONOBASHRC="version 1"
-export NESONOBININSTDIR="${HOME}/nesono-bin"
 
 # set the terminal colors to use lighter blue for directories
 # (only change is first character to be 'E' instead of 'e'
@@ -35,11 +34,11 @@ export NESONOBININSTDIR="${HOME}/nesono-bin"
 #export LSCOLORS="gxfxcxdxbxegedabagacad"
 
 # provides a temporary session cookie for the shell session
-source ${NESONOBININSTDIR}/sessioncookie
+source ${NESONOBININSTALLATIONDIR}/sessioncookie
 # provides small helper functions
-source ${NESONOBININSTDIR}/bashtils/helpers
+source ${NESONOBININSTALLATIONDIR}/bashtils/helpers
 # defines aliases for all platforms
-source ${NESONOBININSTDIR}/bashtils/aliases
+source ${NESONOBININSTALLATIONDIR}/bashtils/aliases
 
 #
 # add one of these lines to your ~/.bashrc for git/svn status display in bash prompt with colors
@@ -56,38 +55,38 @@ uname=$(uname -s)
 case ${uname} in
   Darwin)
   ###################### DARWIN STUFF ######################################
-  source ${NESONOBININSTDIR}/bashtils/aliases.darwin
-  source ${NESONOBININSTDIR}/bashtils/rm2trash.darwin
-  source ${NESONOBININSTDIR}/bashtils/defines.darwin
+  source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.darwin
+  source ${NESONOBININSTALLATIONDIR}/bashtils/rm2trash.darwin
+  source ${NESONOBININSTALLATIONDIR}/bashtils/defines.darwin
   ;;
 
   Linux)
   ###################### LINUX STUFF ######################################
-  source ${NESONOBININSTDIR}/bashtils/aliases.linux
-  source ${NESONOBININSTDIR}/bashtils/rm2trash.linux
-  source ${NESONOBININSTDIR}/bashtils/defines.linux
+  source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.linux
+  source ${NESONOBININSTALLATIONDIR}/bashtils/rm2trash.linux
+  source ${NESONOBININSTALLATIONDIR}/bashtils/defines.linux
   ;;
   FreeBSD)
   ##################### FREEBSD STUFF #####################################
-  source ${NESONOBININSTDIR}/bashtils/aliases.freebsd
-  source ${NESONOBININSTDIR}/bashtils/rm2trash.freebsd
-  source ${NESONOBININSTDIR}/bashtils/defines.freebsd
+  source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.freebsd
+  source ${NESONOBININSTALLATIONDIR}/bashtils/rm2trash.freebsd
+  source ${NESONOBININSTALLATIONDIR}/bashtils/defines.freebsd
 	;;
   CYGWIN_*)
   ###################### CYGWIN STUFF ######################################
-  source ${NESONOBININSTDIR}/bashtils/aliases.cygwin
-  source ${NESONOBININSTDIR}/bashtils/rm2trash.cygwin
-  source ${NESONOBININSTDIR}/bashtils/defines.cygwin
+  source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.cygwin
+  source ${NESONOBININSTALLATIONDIR}/bashtils/rm2trash.cygwin
+  source ${NESONOBININSTALLATIONDIR}/bashtils/defines.cygwin
 	;;
   MINGW32_*)
   ###################### MINGW STUFF ######################################
-  source ${NESONOBININSTDIR}/bashtils/aliases.mingw
-  source ${NESONOBININSTDIR}/bashtils/rm2trash.mingw
-  source ${NESONOBININSTDIR}/bashtils/defines.mingw
+  source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.mingw
+  source ${NESONOBININSTALLATIONDIR}/bashtils/rm2trash.mingw
+  source ${NESONOBININSTALLATIONDIR}/bashtils/defines.mingw
 	;;
 esac
 
-source ${NESONOBININSTDIR}/bashtils/ps1status
+source ${NESONOBININSTALLATIONDIR}/bashtils/ps1status
 
 case ${uname} in
   CYGWIN_* | MINGW32_*)

@@ -298,11 +298,11 @@ if [ "$1" != "--no-bin-check" ]; then
   # check for mmt-bin directory and upgrade it, if neccessary - svn version
   check_and_update_svn_bin_repo ~/mmt-bin
   # check for nesono-bin directory and upgrade it, if neccessary - svn version
-  check_and_update_svn_bin_repo ~/nesono-bin
+  check_and_update_svn_bin_repo ${NESONOBININSTALLATIONDIR}
   # check for mmt-bin directory and upgrade it, if neccessary - git version
   check_and_update_git_bin_repo ~/mmt-bin
   # check for nesono-bin directory and upgrade it, if neccessary - git version
-  check_and_update_git_bin_repo ~/nesono-bin
+  check_and_update_git_bin_repo ${NESONOBININSTALLATIONDIR}
 
   # check for underlying system
   case ${UNAME} in

@@ -37,6 +37,12 @@ echo "the script is licensed under BSD license - read it's source for more infor
 echo ""
 echo "results:"
 
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export SCRIPTDIR
+
+echo "current script directory"
+echo ${SCRIPTDIR}
+
 # not used currently
 FORCE=0
 
@@ -92,20 +98,20 @@ case ${1} in
   ;;
 esac
 
-pushd ~/nesono-bin
+pushd ${SCRIPTDIR}
 ./bashtils/install_nesono_bash
 ./zshtils/install_nesono_zsh
 popd
 
-install_link ~/.inputrc    ~/nesono-bin/inputrc
-install_link ~/.vimrc      ~/nesono-bin/vimrc
-install_link ~/.tmux.conf  ~/nesono-bin/tmux.conf
-install_link ~/.screenrc   ~/nesono-bin/screenrc
-install_link ~/.tigrc      ~/nesono-bin/tigrc
-install_link ~/.vim        ~/nesono-bin/vim
+install_link ~/.inputrc    ${SCRIPTDIR}/inputrc
+install_link ~/.vimrc      ${SCRIPTDIR}/vimrc
+install_link ~/.tmux.conf  ${SCRIPTDIR}/tmux.conf
+install_link ~/.screenrc   ${SCRIPTDIR}/screenrc
+install_link ~/.tigrc      ${SCRIPTDIR}/tigrc
+install_link ~/.vim        ${SCRIPTDIR}/vim
 
 echo "fetch submodules"
-pushd ~/nesono-bin
+pushd ${SCRIPTDIR}
 gitsub zsh-syntax-highlighting
 gitsub vim/bundle/ack.vim
 gitsub vim/bundle/nerdcommenter
