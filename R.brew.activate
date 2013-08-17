@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+sudo ln -sf "/usr/local/opt/r/R.framework" /Library/Frameworks
