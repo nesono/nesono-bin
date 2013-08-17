@@ -41,9 +41,9 @@ case ${UNAME} in
   CYGWIN_* | MINGW32_* )
     LOGINFILE=~/.profile
   ;;
-	*)
-	  echo "unsupported system detected"
-		echo "not installing bashtils"
+  *)
+    echo "unsupported system detected"
+    echo "not installing bashtils"
 esac
 
 # check, if login file exists
