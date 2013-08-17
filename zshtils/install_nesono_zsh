@@ -45,9 +45,7 @@ if [ -z "${NESONOBININSTALLATIONDIR}" ]; then
 
 # the nesono script directory
 export NESONOBININSTALLATIONDIR=${SCRIPTDIR}
-if [ -d "\${NESONOBININSTALLATIONDIR}" ]; then
-  export PATH=\${PATH}:\${NESONOBININSTALLATIONDIR}
-fi
+[ -d "\${NESONOBININSTALLATIONDIR}" ] && export PATH=\${PATH}:\${NESONOBININSTALLATIONDIR}
 ENDOFSCRIPT
   echo "adding ${SCRIPTDIR} to current path"
   export PATH=${PATH}:${SCRIPTDIR}
@@ -60,9 +58,7 @@ if [ -z "${NESONOBININSTALLATIONDIR}" ]; then
   echo "adding zshrc to file: ${ZSHRCFILE}"
   cat >> ${ZSHRCFILE} <<-ENDOFSCRIPT
 # the nesono zsh extension
-if [ -f \${NESONOBININSTALLATIONDIR}/zshrc ]; then
-  . \${NESONOBININSTALLATIONDIR}/zshrc
-fi
+[ -f \${NESONOBININSTALLATIONDIR}/zshrc ] && . \${NESONOBININSTALLATIONDIR}/zshrc
 ENDOFSCRIPT
 else
   echo "NESONOZSHRC already set - not installing ${ZSHRCFILE}"
