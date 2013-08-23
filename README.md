@@ -7,7 +7,7 @@ each file for usage.
 
 ## Installation
 
-The repository should be cloned into the home directory of the user, e.g. by
+The repository could be (but is not restricted to be) cloned into the home directory of the user, e.g. by
 ```
 cd ~/  
 git clone git://github.com/nesono/nesono-bin.git
@@ -22,7 +22,7 @@ simply invoke
 The installation script might be invoked several times without
 harming your settings.
 
-For a nice git installer, invoke
+For a nice git setup (git needs to be installed already), invoke
 ```
 git_setup.sh
 ```
