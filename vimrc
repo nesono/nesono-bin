@@ -38,15 +38,17 @@ silent! call pathogen#infect()
 
 let color = "true"
 
-if has("syntax")
-	if color == "true"
-		" This will switch colors ON
-		so ${VIMRUNTIME}/syntax/syntax.vim
-	else
-		" this switches colors OFF
-		syntax off
-		set t_Co=0
-	endif
+if has("unix")
+  if has("syntax")
+  	if color == "true"
+  		" This will switch colors ON
+  		so ${VIMRUNTIME}/syntax/syntax.vim
+  	else
+  		" this switches colors OFF
+  		syntax off
+  		set t_Co=0
+  	endif
+  endif
 endif
 
 " folder stuff
@@ -192,21 +194,25 @@ if has("autocmd")
 	"autocmd BufNewFile,BufRead *.tcc set cindent
 endif
 
-" check for underlying system - needed for clipboard
-let uname = substitute(system("uname"),"\n","","g")
+if has("unix")
 
-if uname == "Darwin"
-	" setup copy paste with system for darwin
-	nmap <F6> :.w !pbcopy<CR><CR>
-	vmap <F6> :w !pbcopy<CR><CR>
-	nmap <F7> :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
-	imap <F7> <Esc>:set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
-	" setup TexSync with Skim
-	map ,r :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf %<CR>
-elseif uname == "Linux"
-	" setup copy paste with system for Linux
-	vmap <F6> :!xclip -f -sel clip<CR>
-	map <F7> :-1r !xclip -o -sel clip<CR>
+  " check for underlying system - needed for clipboard
+  let uname = substitute(system("uname"),"\n","","g")
+  
+  if uname == "Darwin"
+  	" setup copy paste with system for darwin
+  	nmap <F6> :.w !pbcopy<CR><CR>
+  	vmap <F6> :w !pbcopy<CR><CR>
+  	nmap <F7> :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+  	imap <F7> <Esc>:set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+  	" setup TexSync with Skim
+  	map ,r :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf %<CR>
+  elseif uname == "Linux"
+  	" setup copy paste with system for Linux
+  	vmap <F6> :!xclip -f -sel clip<CR>
+  	map <F7> :-1r !xclip -o -sel clip<CR>
+  endif
+
 endif
 
 " graphical undo tree
