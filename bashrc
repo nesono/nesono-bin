@@ -40,14 +40,24 @@ source ${NESONOBININSTALLATIONDIR}/bashtils/helpers
 # defines aliases for all platforms
 source ${NESONOBININSTALLATIONDIR}/bashtils/aliases
 
-#
-# add one of these lines to your ~/.bashrc for git/svn status display in bash prompt with colors
-if [[ "$EUID" == "0" ]]; then
-  # root user
-  PS1='\[\033[31m\]\h:\[\033[34m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
+if [[ "NESONO_DARKSHELL" == "1" ]] ;then
+  # add one of these lines to your ~/.bashrc for git/svn status display in bash prompt with colors
+  if [[ "$EUID" == "0" ]]; then
+    # root user
+    PS1='\[\033[31m\]\h:\[\033[34m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
+  else
+    # normal users
+    PS1='\[\033[32m\]\h:\[\033[34m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
+  fi
 else
-  # normal users
-  PS1='\[\033[32m\]\h:\[\033[34m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
+  # add one of these lines to your ~/.bashrc for git/svn status display in bash prompt with colors
+  if [[ "$EUID" == "0" ]]; then
+    # root user
+    PS1='\[\033[31m\]\h:\[\033[36m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
+  else
+    # normal users
+    PS1='\[\033[32m\]\h:\[\033[36m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
+  fi
 fi
 
 uname=$(uname -s)
