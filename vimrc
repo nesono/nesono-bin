@@ -51,6 +51,14 @@ if has("unix")
   endif
 endif
 
+" SuperTab option for context aware completion
+let g:SuperTabDefaultCompletionType = "context"
+
+" Disable auto popup, use <Tab> to autocomplete
+let g:clang_complete_auto = 0
+" Show clang errors in the quickfix window
+let g:clang_complete_copen = 1
+
 " folder stuff
 set foldmethod=syntax
 "set foldopen=all
