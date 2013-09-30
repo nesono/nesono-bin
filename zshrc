@@ -58,12 +58,22 @@ typeset -U path cdpath fpath manpath
 # load simplified color handling ("$bg[red]$fg[black]")
 autoload -U colors && colors
 
-if [[ "$EUID" == "0" ]]; then
-  # root user
-  PROMPT='%{$fg[red]%}%m:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
+if [[ "NESONO_DARKSHELL" == "1" ]] ;then
+  if [[ "$EUID" == "0" ]]; then
+    # root user
+    PROMPT='%{$fg[red]%}%m:%{$fg[cyan]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
+  else
+    # normal users
+    PROMPT='%{$fg[green]%}%m:%{$fg[cyan]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
+  fi
 else
-  # normal users
-  PROMPT='%{$fg[green]%}%m:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
+  if [[ "$EUID" == "0" ]]; then
+    # root user
+    PROMPT='%{$fg[red]%}%m:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
+  else
+    # normal users
+    PROMPT='%{$fg[green]%}%m:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
+  fi
 fi
 
 # provides a temporary session cookie for the shell session
