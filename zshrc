@@ -58,7 +58,7 @@ typeset -U path cdpath fpath manpath
 # load simplified color handling ("$bg[red]$fg[black]")
 autoload -U colors && colors
 
-if [[ "NESONO_DARKSHELL" == "1" ]] ;then
+if [[ "$NESONO_DARKSHELL" == "1" ]] ;then
   if [[ "$EUID" == "0" ]]; then
     # root user
     PROMPT='%{$fg[red]%}%m:%{$fg[cyan]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
