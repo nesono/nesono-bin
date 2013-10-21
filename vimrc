@@ -27,12 +27,17 @@
 " SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 " We use a vim
-set nocompatible
+set nocompatible    " be iMproved :)
 
-"runtime! autoload/pathogen.vim
-silent! call pathogen#infect()
+filetype off        " required!
 
-"
+ set rtp+=~/.vim/bundle/vundle/
+ call vundle#rc()
+
+ " let Vundle manage Vundle
+ " required! 
+ Bundle 'gmarik/vundle'
+
 " Colo(u)red or not colo(u)red
 " If you want color you should set this to true
 
@@ -51,11 +56,25 @@ if has("unix")
   endif
 endif
 
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-speeddating'
+Bundle 'mileszs/ack.vim'
+Bundle 'Rip-Rip/clang_complete'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'scrooloose/nerdtree'
+Bundle 'klen/python-mode'
+Bundle 'ervandew/supertab'
+Bundle 'SirVer/ultisnips'
+Bundle 'mbbill/undotree'
+Bundle 'scrooloose/syntastic'
+
+filetype plugin indent on     " required!
+
 " SuperTab option for context aware completion
 let g:SuperTabDefaultCompletionType = "context"
 
 " Disable auto popup, use <Tab> to autocomplete
-let g:clang_complete_auto = 0
+let g:clang_complete_auto = 1
 " Show clang errors in the quickfix window
 let g:clang_complete_copen = 1
 
@@ -186,7 +205,7 @@ if has("autocmd")
 	au FileType python set shiftwidth=4
 	au FileType python set tabstop=4
 	" show indentation for python
-	au FileType python set lcs=tab:\|\ 
+	au FileType python set lcs=tab:\|\
 	au FileType python set list
 	au FileType python hi SpecialKey term=bold ctermfg=7 gui=bold guifg=Gray30
 
@@ -206,7 +225,7 @@ if has("unix")
 
   " check for underlying system - needed for clipboard
   let uname = substitute(system("uname"),"\n","","g")
-  
+
   if uname == "Darwin"
   	" setup copy paste with system for darwin
   	nmap <F6> :.w !pbcopy<CR><CR>
@@ -276,7 +295,7 @@ endif
 " toggle browse tree region
 nnoremap <F2> :NERDTreeToggle<CR>
 " open NERDtree if vim was opened without a file specified
-autocmd vimenter * if !argc() | silent! NERDTree | endif
+"autocmd vimenter * if !argc() | silent! NERDTree | endif
 
 " toggle undotree region
 nnoremap <F3> :UndotreeToggle<CR>
