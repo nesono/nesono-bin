@@ -112,13 +112,7 @@ install_link ~/.vim        ${SCRIPTDIR}/vim
 
 echo "fetch submodules"
 pushd ${SCRIPTDIR}
-gitsub zsh-syntax-highlighting
-gitsub vim/bundle/ack.vim
-gitsub vim/bundle/nerdcommenter
-gitsub vim/bundle/nerdtree
-gitsub vim/bundle/undotree
-gitsub vim/bundle/vim-fugitive
-gitsub vim/bundle/vim-speeddating
+gitsub vim/bundle/vundle
 popd
 
 echo ""
