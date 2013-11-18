@@ -31,12 +31,11 @@ set nocompatible    " be iMproved :)
 
 filetype off        " required!
 
- set rtp+=~/.vim/bundle/vundle/
- call vundle#rc()
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
 
- " let Vundle manage Vundle
- " required! 
- Bundle 'gmarik/vundle'
+" let Vundle manage Vundle -- REQUIRED! 
+Bundle 'gmarik/vundle'
 
 " Colo(u)red or not colo(u)red
 " If you want color you should set this to true
@@ -305,5 +304,15 @@ silent! colorscheme molokai
 
 " fix problems with backspace
 set backspace=indent,eol,start
+
+" change the mapleader from \ to ,
+let mapleader=","
+
+" hide buffer instead of closing
+set hidden
+
+" do not write backup and/or swap files
+set nobackup
+set noswapfile
 
 " ~/.vimrc ends here
