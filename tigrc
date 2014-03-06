@@ -1,5 +1,5 @@
 #set show-author = abbreviated   # Show abbreviated author names.
-set show-date = relative        # Show relative commit date.
+#set show-date = relative        # Show relative commit date.
 set show-rev-graph = yes        # Show revision graph?
 set show-refs = yes             # Show references?
 #set commit-order = topo         # Order commits topologically
