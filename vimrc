@@ -34,7 +34,7 @@ filetype off        " required!
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" let Vundle manage Vundle -- REQUIRED! 
+" let Vundle manage Vundle -- REQUIRED!
 Bundle 'gmarik/vundle'
 
 " Colo(u)red or not colo(u)red
@@ -55,6 +55,7 @@ if has("unix")
   endif
 endif
 
+" to actually install those call BundleInstall!
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-speeddating'
 Bundle 'mileszs/ack.vim'
