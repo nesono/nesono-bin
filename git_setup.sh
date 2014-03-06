@@ -163,15 +163,16 @@ case "${ANSWER}" in
   ;;
 esac
 
-# check if graphlog alias shall be enabled
-read -e -p "Do you want to enable git log alias 'graphlog'? [y/N/d] " ANSWER
+# check if glog alias shall be enabled
+read -e -p "Do you want to enable git log alias 'glog'? [y/N/d] " ANSWER
 case "${ANSWER}" in
   "y" | "Y" )
-    git config --global alias.graphlog "log --pretty=oneline --abbrev-commit --graph"
+    git config --global alias.glog "log --pretty=oneline --abbrev-commit --graph --decorate=short"
+    git config --global --unset alias.graphlog
   ;;
   "d" | "D" )
     echo "removing section alias from git config"
-    git config --global --unset alias.graphlog
+    git config --global --unset alias.glog
   ;;
 esac
 
