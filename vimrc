@@ -286,9 +286,10 @@ vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
 if has("gui_macvim")
 	" disable antialiasing in guis
-	set noantialias
+	"set noantialias
 	" set gui font
-	set gfn=Monaco:h10
+	"set gfn=Monaco:h10
+	set gfn=Source\ Code\ Pro:h12
 endif
 
 " toggle browse tree region
