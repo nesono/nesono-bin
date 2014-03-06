@@ -8,7 +8,7 @@ set show-line-numbers = yes     # Show line numbers?
 set line-number-interval = 1    # Interval between line numbers
 #set horizontal-scroll = 33%     # Scroll 33% of the view width
 #set blame-options = -C -C -C    # Blame lines from other files
-set line-graphics = utf8        # show nice bullets etc
+#set line-graphics = utf8        # show nice bullets etc
 
 # key bindings
 bind generic < !git pull --rebase
