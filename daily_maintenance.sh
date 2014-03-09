@@ -294,6 +294,14 @@ function check_and_update_aptget()
   echo ""
 }
 
+function check_and_update_drush()
+{
+  if [ -n $(which drush) ]; then
+	  echo "updating /var/www with drush"
+	  drush -r /var/www pm-update
+	fi
+}
+
 if [ "$1" != "--no-bin-check" ]; then
   # check for mmt-bin directory and upgrade it, if neccessary - svn version
   check_and_update_svn_bin_repo ~/mmt-bin
@@ -326,6 +334,7 @@ case ${UNAME} in
   Linux)
     [[ -x $(which apt-get)  ]] && do_sudo=1
     [[ -x $(which aptitude) ]] && do_sudo=1
+    [[ -x $(which drush) ]] && do_sudo=1
   ;;
 esac
 
@@ -347,6 +356,8 @@ case ${UNAME} in
   Linux)
     # Linux (with aptitude)
     check_and_update_aptget
+		# Linux (with drush)
+		check_and_update_drush
   ;;
 
   Darwin)
