@@ -149,7 +149,7 @@ case "${ANSWER}" in
     git config --global alias.br branch
 		git config --global alias.subpull "submodule foreach 'git pull'"
 		git config --global alias.aliases "config --get-regexp alias"
-		git config --global alias.stashpull "!git stash save && git pull --rebase && git stash pop && git stash drop"
+		git config --global alias.stashpull "!git stash save && git pull --rebase && git stash pop"
   ;;
   "d" | "D" )
     echo "removing section alias from git config"
