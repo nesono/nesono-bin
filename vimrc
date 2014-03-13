@@ -28,6 +28,8 @@
 
 " We use a vim
 set nocompatible    " be iMproved :)
+" automatically re-read modified files (except deleted)
+set autoread
 
 filetype off        " required!
 
