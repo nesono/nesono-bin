@@ -209,7 +209,7 @@ if has("autocmd")
 	au FileType python set shiftwidth=4
 	au FileType python set tabstop=4
 	" show indentation for python
-	au FileType python set lcs=tab:\|\
+	au FileType python set lcs=tab:\|\ 
 	au FileType python set list
 	au FileType python hi SpecialKey term=bold ctermfg=7 gui=bold guifg=Gray30
 
