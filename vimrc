@@ -97,7 +97,7 @@ set tabstop=2
 set shiftwidth=2
 set nolist
 " enable this as soon, as you are away from mmt ;)
-"set smarttab
+set smarttab
 " search options
 set ic
 set smartcase
