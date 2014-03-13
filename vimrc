@@ -321,4 +321,7 @@ set hidden
 set nobackup
 set noswapfile
 
+" open each buffer as it's own tabpage:
+":au BufAdd,BufNewFile * nested tab sball
+
 " ~/.vimrc ends here
