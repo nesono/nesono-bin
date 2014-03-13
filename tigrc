@@ -11,8 +11,9 @@ set line-number-interval = 1    # Interval between line numbers
 #set line-graphics = utf8        # show nice bullets etc
 
 # key bindings
-bind generic < !git pull --rebase
-bind generic > !git push
+bind main < !git pull --rebase
+bind main > !git push
+bind main { !git fetch
 
 # add changes to commit comment section
 bind status C !git commit -v
