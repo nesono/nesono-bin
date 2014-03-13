@@ -139,6 +139,8 @@ let c_space_errors=1
 set bg=light
 if has("gui_running")
 	colorscheme torte
+	syntax on
+  set guifont=Source_Code_Pro:h10
 endif
 
 if has("autocmd")
