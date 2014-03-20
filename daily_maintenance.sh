@@ -302,7 +302,19 @@ function check_and_update_drush()
 	fi
 }
 
+function run_in_tmux()
+{
+	local name='daily maintenance'
+	[[ ! -x $(which tmux) ]]         && return 
+	[[ -n $(tmux ls | grep "$name") ]] && return
+	echo "restarting in tmux"
+	tmux new -s "$name" "$0"
+	exit 0
+}
+
 if [ "$1" != "--no-bin-check" ]; then
+	# restart in tmux if available and not yet running
+	run_in_tmux
   # check for mmt-bin directory and upgrade it, if neccessary - svn version
   check_and_update_svn_bin_repo ~/mmt-bin
   # check for nesono-bin directory and upgrade it, if neccessary - svn version
@@ -370,3 +382,5 @@ case ${UNAME} in
   # End of Darwin
 esac
 
+echo "End of Script"
+read -e -p "enter any key" ans
