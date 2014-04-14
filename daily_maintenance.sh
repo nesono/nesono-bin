@@ -294,6 +294,13 @@ function check_and_update_aptget()
   echo ""
 }
 
+function check_and_update_ports()
+{
+	portsnap fetch update
+	portmaster -L
+	portmaster -a
+}
+
 function check_and_update_drush()
 {
   if [ -n $(which drush) ]; then
@@ -348,6 +355,9 @@ case ${UNAME} in
     [[ -x $(which aptitude) ]] && do_sudo=1
     [[ -x $(which drush) ]] && do_sudo=1
   ;;
+FreeBSD)
+	  [[ -x $(which portsnap) ]] && do_sudo=1
+	;;
 esac
 
 # check for user id (must be run as root)
@@ -380,6 +390,9 @@ case ${UNAME} in
     mac_software_update_interactive
   ;;
   # End of Darwin
+	FreeBSD)
+	  check_and_update_ports
+	;;
 esac
 
 echo "End of Script"
