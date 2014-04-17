@@ -132,4 +132,5 @@ function newscript()
 	fi
 	touch "$1"
 	chmod 755 "$1"
+	$EDITOR "$1"
 }
