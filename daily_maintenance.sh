@@ -28,6 +28,8 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#set -e
+
 # get system uname
 UNAME=$(uname -s)
 
@@ -37,7 +39,10 @@ function check_and_update_svn_bin_repo()
   local DIR="${1}"
 
   # check, if dir existent
-  if [ -d "${DIR}" ]; then
+  if [ ! -d "${DIR}" ]; then
+		echo "skipping: ${DIR}"
+		return
+	else
     # change into dir
     pushd "${DIR}" &> /dev/null
     echo "### checking if svn repo: ${DIR}"
@@ -104,7 +109,10 @@ function check_and_update_git_bin_repo()
   # parameter 1: local git directory
   local DIR="${1}"
 
-  if [ -d "${DIR}" ]; then
+  if [ ! -d "${DIR}" ]; then
+		echo "skipping: ${DIR}"
+		return
+	else
     # change into repo dir
     pushd "${DIR}" &> /dev/null
     echo "### checking if git repo: ${DIR}"
@@ -312,14 +320,21 @@ function check_and_update_drush()
 function run_in_tmux()
 {
 	local name='daily maintenance'
-	[[ ! -x $(which tmux) ]]         && return 
-	[[ -n $(tmux ls | grep "$name") ]] && return
-	echo "restarting in tmux"
-	tmux new -s "$name" "$0"
-	exit 0
+	if [[ ! -x $(which tmux) ]]; then
+		echo "tmux not installed, continuing"
+		return 
+	fi
+	if [[ -n $(tmux ls | grep "$name") ]]; then
+		echo "tmux session with name $name already running"
+		return
+	else
+		echo "restarting in tmux"
+		tmux new -s "$name" "export NESONOBININSTALLATIONDIR=${NESONOBININSTALLATIONDIR}; $0"
+		exit 0
+	fi
 }
 
-if [ "$1" != "--no-bin-check" ]; then
+if [ "$1" != "--after-su" ]; then
 	# restart in tmux if available and not yet running
 	run_in_tmux
   # check for mmt-bin directory and upgrade it, if neccessary - svn version
@@ -353,7 +368,10 @@ case ${UNAME} in
   Linux)
     [[ -x $(which apt-get)  ]] && do_sudo=1
     [[ -x $(which aptitude) ]] && do_sudo=1
-    [[ -x $(which drush) ]] && do_sudo=1
+    [[ -x $(which drush) ]]    && do_sudo=1
+  ;;
+FreeBSD)
+	  [[ -x $(which portsnap) ]] && do_sudo=1
   ;;
 FreeBSD)
 	  [[ -x $(which portsnap) ]] && do_sudo=1
@@ -364,7 +382,7 @@ esac
 if [ "${do_sudo}" == "1" ]; then
   if [ ${EUID} != 0 ]; then
     echo "remaining script must be run as root! Recalling with sudo"
-    sudo $0 --no-bin-check
+    sudo $0 --after-su
     exit 0
   fi
 else
