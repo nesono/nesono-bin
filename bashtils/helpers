@@ -132,5 +132,7 @@ function newscript()
 	fi
 	touch "$1"
 	chmod 755 "$1"
-	$EDITOR "$1"
+	if [[ -n "$EDITOR" ]]; then
+		$EDITOR "$1"
+	fi
 }
