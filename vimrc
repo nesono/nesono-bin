@@ -60,6 +60,7 @@ endif
 " to actually install those call BundleInstall!
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-speeddating'
+Bundle 'tpope/vim-surround'
 Bundle 'mileszs/ack.vim'
 Bundle 'Rip-Rip/clang_complete'
 Bundle 'scrooloose/nerdcommenter'
