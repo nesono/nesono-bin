@@ -17,7 +17,8 @@ bind main { !git fetch
 
 # add changes to commit comment section
 bind status C !git commit -v
-bind status a !git add %(file)
+bind status + !git add %(file)
+bind status a !git commit -v --amend
 
 # color settings
 color cursor white red
