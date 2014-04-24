@@ -39,6 +39,9 @@ call vundle#rc()
 " let Vundle manage Vundle -- REQUIRED!
 Bundle 'gmarik/vundle'
 
+" set libclang library path
+let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/'
+
 " Colo(u)red or not colo(u)red
 " If you want color you should set this to true
 
@@ -323,6 +326,7 @@ set nobackup
 set noswapfile
 
 " open each buffer as it's own tabpage:
+" disable because NERDTree, etc. is then also opened in separate tab
 ":au BufAdd,BufNewFile * nested tab sball
 
 " ~/.vimrc ends here
