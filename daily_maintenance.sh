@@ -306,7 +306,7 @@ function check_and_update_ports()
 {
 	portsnap fetch update
 	portmaster -L
-	portmaster -a
+	portmaster -a -d
 }
 
 function check_and_update_drush()
