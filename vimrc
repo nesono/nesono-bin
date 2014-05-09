@@ -34,10 +34,10 @@ set autoread
 filetype off        " required!
 
 set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+call vundle#begin()
 
 " let Vundle manage Vundle -- REQUIRED!
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
 " set libclang library path
 let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/'
@@ -61,20 +61,22 @@ if has("unix")
 endif
 
 " to actually install those call BundleInstall!
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-speeddating'
-Bundle 'tpope/vim-surround'
-Bundle 'mileszs/ack.vim'
-Bundle 'Rip-Rip/clang_complete'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'scrooloose/nerdtree'
-Bundle 'klen/python-mode'
-Bundle 'ervandew/supertab'
-Bundle 'SirVer/ultisnips'
-Bundle 'mbbill/undotree'
-Bundle 'scrooloose/syntastic'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-speeddating'
+Plugin 'tpope/vim-surround'
+Plugin 'mileszs/ack.vim'
+Plugin 'Rip-Rip/clang_complete'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'klen/python-mode'
+Plugin 'ervandew/supertab'
+Plugin 'SirVer/ultisnips'
+Plugin 'mbbill/undotree'
+Plugin 'scrooloose/syntastic'
 
 filetype plugin indent on     " required!
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
 
 " SuperTab option for context aware completion
 let g:SuperTabDefaultCompletionType = "context"
