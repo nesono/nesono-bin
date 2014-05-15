@@ -27,5 +27,5 @@
 
 alias ls='ls --color=auto'
 # to emulate OSX' pbcopy/pbpaste
-[[ -x `which getclip` ]] && alias pbcopy='getclip'
-[[ -x `which putclip` ]] && alias pbpaste='putclip'
+#[[ -x `which getclip` ]] && alias pbcopy='getclip'
+#[[ -x `which putclip` ]] && alias pbpaste='putclip'
