@@ -280,7 +280,7 @@ map <F8> :%s/\s\+$//e<CR>
 map <c-n> :w<CR>:tabn<CR>           " edit next file in buffer
 map <c-p> :w<CR>:tabp<CR>           " edit prev file in buffer
 "map <c-s> :w<CR>            " Ctrl-s saves file ;)
-map <c-l> :w<CR>:tabl<CR>           " Ctrl-l edits last file
+map <c-l> :w<CR>:tablast<CR>           " Ctrl-l edits last file
 map <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
 
 " mapping for tags: getting back from tag
