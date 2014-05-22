@@ -101,6 +101,11 @@ case $NOFFILES in
   ;;
 esac
 
-vim $FOUNDFILES $POS
+if [[ -n "EDITOR" ]]; then
+	$EDITOR $FOUNDFILES $POS
+else
+	vim $FOUNDFILES $POS
+fi
+
 
 exit 0
