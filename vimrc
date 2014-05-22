@@ -42,6 +42,33 @@ Plugin 'gmarik/vundle'
 " set libclang library path
 let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/'
 
+" to actually install those call BundleInstall!
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-speeddating'
+Plugin 'tpope/vim-surround'
+Plugin 'mileszs/ack.vim'
+Plugin 'Rip-Rip/clang_complete'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'klen/python-mode'
+Plugin 'ervandew/supertab'
+Plugin 'SirVer/ultisnips'
+Plugin 'mbbill/undotree'
+Plugin 'scrooloose/syntastic'
+Plugin 'airblade/vim-gitgutter'
+
+filetype plugin indent on     " required!
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+
+" SuperTab option for context aware completion
+let g:SuperTabDefaultCompletionType = "context"
+
+" Disable auto popup, use <Tab> to autocomplete
+let g:clang_complete_auto = 1
+" Show clang errors in the quickfix window
+let g:clang_complete_copen = 1
+
 " Colo(u)red or not colo(u)red
 " If you want color you should set this to true
 
@@ -59,32 +86,6 @@ if has("unix")
   	endif
   endif
 endif
-
-" to actually install those call BundleInstall!
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-speeddating'
-Plugin 'tpope/vim-surround'
-Plugin 'mileszs/ack.vim'
-Plugin 'Rip-Rip/clang_complete'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'klen/python-mode'
-Plugin 'ervandew/supertab'
-Plugin 'SirVer/ultisnips'
-Plugin 'mbbill/undotree'
-Plugin 'scrooloose/syntastic'
-
-filetype plugin indent on     " required!
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-
-" SuperTab option for context aware completion
-let g:SuperTabDefaultCompletionType = "context"
-
-" Disable auto popup, use <Tab> to autocomplete
-let g:clang_complete_auto = 1
-" Show clang errors in the quickfix window
-let g:clang_complete_copen = 1
 
 " folder stuff
 set foldmethod=syntax
