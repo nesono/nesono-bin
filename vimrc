@@ -55,7 +55,9 @@ Plugin 'ervandew/supertab'
 Plugin 'SirVer/ultisnips'
 Plugin 'mbbill/undotree'
 Plugin 'scrooloose/syntastic'
-Plugin 'airblade/vim-gitgutter'
+if has("unix")
+	Plugin 'airblade/vim-gitgutter'
+endif
 
 filetype plugin indent on     " required!
 " All of your Plugins must be added before the following line
