@@ -10,15 +10,50 @@ set line-number-interval = 1    # Interval between line numbers
 #set blame-options = -C -C -C    # Blame lines from other files
 #set line-graphics = utf8        # show nice bullets etc
 
-# key bindings
-bind main < !git pull --rebase
-bind main > !git push
-bind main { !git fetch
+# disable defaults
+bind generic S none
+bind status u none
+bind generic Hash none 
+bind generic m none
+bind generic s none
+bind generic C none
+bind generic c none
+bind generic l none
+bind generic t none
+bind generic y none
+bind status u none
 
-# add changes to commit comment section
-bind status C !git commit -v
-bind status + !git add %(file)
-bind status a !git commit -v --amend
+# new productivity bindings
+bind status = status-update                     # add/remove/track files in status view
+bind status - status-revert                     # discard changes in tracked file
+bind status x !?git clean -xfd                  # delete everything untracked
+bind generic Hash toggle-lineno                 # toggle line numbers
+bind generic < !git fetch                       # fetch from remote
+bind generic > !git push                        # push to remote
+bind main | !git pull --rebase                  # rebase current branch to remote
+bind status c !git commit -v                    # commit verbosely
+bind status + !git commit --amend               # amend to last commit
+bind generic { !?git checkout -b "%(prompt)"    # branch off
+bind generic } !?git merge "%(prompt)"          # merge
+bind generic ^ !?git stash save "%(prompt)"     # save to the stash
+bind generic v !?git stash pop                  # pop from the stash
+bind diff [ :toggle diff-context -3             # Decrease context (-U arg)
+bind diff ] :toggle diff-context +3             # Increase context
+bind main p !?git cherry-pick %(commit)         # cherry pick commit
+bind generic 1 view-main                        # show main view
+bind generic 2 view-status                      # show status view
+bind generic 3 view-log                         # show log view
+bind generic 4 view-tree                        # show tree view
+bind generic 5 view-stash                       # show stash
+bind generic l !git branch                      # list branches
+bind generic L !git branch -r                   # list branches (remote)
+bind generic r !git ls-remote                   # ls-remote central repo
+bind generic P !?git fetch -p --all             # fetches all remotes and prunes any deleted
+
+bind generic K scroll-line-up
+bind generic J scroll-line-down
+
+bind generic S :source ~/.tigrc                 # reload ~/.tigrc
 
 # color settings
 color cursor white red
