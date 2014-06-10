@@ -1,19 +1,10 @@
-#set show-author = abbreviated   # Show abbreviated author names.
-#set show-date = relative        # Show relative commit date.
-set show-rev-graph = yes        # Show revision graph?
-set show-refs = yes             # Show references?
-#set commit-order = topo         # Order commits topologically
-#set read-git-colors = no        # Do not read git's color settings.
-set show-line-numbers = yes     # Show line numbers?
-set line-number-interval = 1    # Interval between line numbers
-#set horizontal-scroll = 33%     # Scroll 33% of the view width
-#set blame-options = -C -C -C    # Blame lines from other files
-#set line-graphics = utf8        # show nice bullets etc
+# some general options
+set mouse = true
 
 # disable defaults
 bind generic S none
 bind status u none
-bind generic Hash none 
+#bind generic Hash none 
 bind generic m none
 bind generic s none
 bind generic C none
@@ -22,36 +13,43 @@ bind generic l none
 bind generic t none
 bind generic y none
 bind status u none
+bind generic H none
+bind generic P none
+bind generic w none
+bind generic <Space> none
+bind generic | none
 
 # new productivity bindings
 bind status = status-update                     # add/remove/track files in status view
 bind status - status-revert                     # discard changes in tracked file
-bind status x !?git clean -xfd                  # delete everything untracked
-bind generic Hash toggle-lineno                 # toggle line numbers
-bind generic < !git fetch                       # fetch from remote
+bind status x ?git clean -xfd                   # delete everything untracked
+bind generic <LessThan> !git fetch              # fetch from remote
 bind generic > !git push                        # push to remote
 bind main | !git pull --rebase                  # rebase current branch to remote
 bind status c !git commit -v                    # commit verbosely
 bind status + !git commit --amend               # amend to last commit
-bind generic { !?git checkout -b "%(prompt)"    # branch off
-bind generic } !?git merge "%(prompt)"          # merge
-bind generic ^ !?git stash save "%(prompt)"     # save to the stash
-bind generic v !?git stash pop                  # pop from the stash
+bind generic { ?git checkout -b "%(prompt)"     # branch off
+bind generic } ?git merge "%(prompt)"           # merge
+bind generic ^ ?git stash save "%(prompt)"      # save to the stash
+bind generic v ?git stash pop                   # pop from the stash
 bind diff [ :toggle diff-context -3             # Decrease context (-U arg)
 bind diff ] :toggle diff-context +3             # Increase context
-bind main p !?git cherry-pick %(commit)         # cherry pick commit
+bind main p ?git cherry-pick %(commit)          # cherry pick commit
 bind generic 1 view-main                        # show main view
 bind generic 2 view-status                      # show status view
 bind generic 3 view-log                         # show log view
 bind generic 4 view-tree                        # show tree view
 bind generic 5 view-stash                       # show stash
-bind generic l !git branch                      # list branches
-bind generic L !git branch -r                   # list branches (remote)
+bind generic 6 view-grep                        # show grep view
+bind generic l view-refs                        # list branches
 bind generic r !git ls-remote                   # ls-remote central repo
-bind generic P !?git fetch -p --all             # fetches all remotes and prunes any deleted
+bind generic P ?git fetch -p --all              # fetches all remotes and prunes any deleted
 
 bind generic K scroll-line-up
 bind generic J scroll-line-down
+bind generic <Ctrl-k> scroll-page-up
+bind generic <Ctrl-j> scroll-page-down
+bind generic 0 scroll-first-col
 
 bind generic S :source ~/.tigrc                 # reload ~/.tigrc
 
