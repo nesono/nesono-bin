@@ -42,6 +42,7 @@ bind generic 4 view-tree                        # show tree view
 bind generic 5 view-stash                       # show stash
 bind generic 6 view-grep                        # show grep view
 bind generic l view-refs                        # list branches
+bind tree l !git glog -p --pretty=short %(file) # graphical log of a single file
 bind generic r !git ls-remote                   # ls-remote central repo
 bind generic P ?git fetch -p --all              # fetches all remotes and prunes any deleted
 
