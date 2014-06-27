@@ -18,10 +18,13 @@ bind generic P none
 bind generic w none
 bind generic <Space> none
 bind generic | none
+bind refs C none
 
 # new productivity bindings
 bind status = status-update                     # add/remove/track files in status view
+bind stage  = status-update                     # add/remove/track files in status view
 bind status - status-revert                     # discard changes in tracked file
+bind stage  - status-revert                     # discard changes in tracked file
 bind status x ?git clean -xfd                   # delete everything untracked
 bind generic <LessThan> !git fetch              # fetch from remote
 bind generic > !git push                        # push to remote
@@ -46,11 +49,16 @@ bind tree l !git glog -p --pretty=short %(file) # graphical log of a single file
 bind generic r !git ls-remote                   # ls-remote central repo
 bind generic P ?git fetch -p --all              # fetches all remotes and prunes any deleted
 
+bind generic y @sh -c "echo %(commit) | cut -c 1-7 | pbcopy" # copy (yank) commid hash to clipboard (truncated to 7 chars)
+bind generic Y @sh -c "echo %(commit) | pbcopy" # copy (yank) commid hash to clipboard
+
 bind generic K scroll-line-up
 bind generic J scroll-line-down
 bind generic <Ctrl-k> scroll-page-up
 bind generic <Ctrl-j> scroll-page-down
 bind generic 0 scroll-first-col
+
+bind refs c !git checkout %(branch)
 
 bind generic S :source ~/.tigrc                 # reload ~/.tigrc
 
