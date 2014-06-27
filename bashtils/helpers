@@ -136,3 +136,12 @@ function newscript()
 		$EDITOR "$1"
 	fi
 }
+
+function append_to_path()
+{
+	if [[ -d "$1" ]]; then
+		export PATH=$PATH:"$1"
+	else
+		echo "Warning: \"$1\" not found - clean up your config file(s)"
+	fi
+}
