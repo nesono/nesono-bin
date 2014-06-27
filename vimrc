@@ -182,24 +182,6 @@ if has("autocmd")
 		endif
 	endfunction
 
-  function! SwitchCppSourceHeader()
-    if (expand ("%:e") == "cpp")
-      find %:t:r.h
-    else
-      find %:t:r.cpp
-    endif
-  endfunction
-  function! SwitchCSourceHeader()
-    if (expand ("%:e") == "cpp")
-      find %:t:r.h
-    else
-      find %:t:r.cpp
-    endif
-  endfunction
-
-  au FileType cpp nmap <F11> :call SwitchCppSourceHeader()<CR>
-  au FileType c nmap <F11> :call SwitchCSourceHeader()<CR>
-
 	" to enable cindent only for specific files
 	au FileType cpp,c set cindent
 	au FileType cpp,c let Tlist_Auto_Open=1
