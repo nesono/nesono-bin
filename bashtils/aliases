@@ -40,4 +40,6 @@ alias vim='vim -p'
 alias gvim='gvim -p'
 alias mvim='mvim -p'
 
+alias tig='tig --all'
+
 #alias screen='TERM=screen && screen'
