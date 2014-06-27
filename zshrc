@@ -130,7 +130,7 @@ function settitle {
       ;;
     xterm* )
       # Use this one instead for xterms
-      print -Pn "\e]0;%n@%m: %~\a"
+			print -Pn "\e]0;%~ (%n@%m)\a"
       ;;
   esac
 }
@@ -145,21 +145,12 @@ function preexec
 
 # source prompt status functions
 source ${NESONOBININSTALLATIONDIR}/bashtils/ps1status
-if [[ $TERM == "screen" ]]; then
-  ## called by zsh before showing the prompt
-  function precmd()
-  {
-    # set screen title
-    settitle zsh "$PWD"
-  }
-else
-  ## called by zsh before showing the prompt
-  function precmd()
-  {
-    # set terminal title
-    settitle zsh "$PWD"
-  }
-fi
+## called by zsh before showing the prompt
+function precmd()
+{
+	# set screen title
+	settitle zsh "$PWD"
+}
 
 # include completion config file
 source ${NESONOBININSTALLATIONDIR}/zshtils/completion
