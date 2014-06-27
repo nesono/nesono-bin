@@ -258,6 +258,18 @@ if has("unix")
 
 endif
 
+function! ToggleRelativeAbsoluteLineNumbers()
+	if &number == 1
+		echom "relative on"
+		set relativenumber
+	else
+		echom "absolute on"
+		set number
+	endif
+endfunction
+
+noremap <F4> :call ToggleRelativeAbsoluteLineNumbers()<CR>
+
 " graphical undo tree
 nnoremap <F10> :GundoToggle<CR>
 
