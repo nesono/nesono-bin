@@ -57,6 +57,7 @@ Plugin 'mbbill/undotree'
 Plugin 'scrooloose/syntastic'
 Plugin 'mtth/scratch.vim'
 Plugin 'vim-scripts/gtags.vim'
+Plugin 'wincent/Command-T' " requires vim and system having the same ruby version
 if has("unix")
 	Plugin 'vim-scripts/vim-gitgutter'
 endif
