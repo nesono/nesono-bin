@@ -290,9 +290,9 @@ map <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
 " mapping for tags: getting back from tag
 "nnoremap <c-[> :pop<CR>
 
-" use F4 to insert current file name at cursor
-nnoremap <F4> :put =expand('%:t')<CR>kJ
-inoremap <F4> <Esc>:put =expand('%:t')<CR>kJ<Esc>A
+"" use F4 to insert current file name at cursor
+"nnoremap <F4> :put =expand('%:t')<CR>kJ
+"inoremap <F4> <Esc>:put =expand('%:t')<CR>kJ<Esc>A
 " search for keyword under cursor in current dir
 "nnoremap <F6> :grep <C-R><C-W> *<CR>
 
