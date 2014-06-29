@@ -219,41 +219,19 @@ if has("autocmd")
 	"autocmd BufNewFile,BufRead *.tcc set cindent
 endif
 
-if has("unix")
-
-  " check for underlying system - needed for clipboard
-  let uname = substitute(system("uname"),"\n","","g")
-
-  if uname == "Darwin"
-  	" setup copy paste with system for darwin
-  	nmap <F6> :.w !pbcopy<CR><CR>
-  	vmap <F6> :w !pbcopy<CR><CR>
-  	nmap <F7> :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
-  	imap <F7> <Esc>:set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
-  	" setup TexSync with Skim
-  	map ,r :w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> %<.pdf %<CR>
-  elseif uname == "Linux"
-  	" setup copy paste with system for Linux
-  	vmap <F6> :!xclip -f -sel clip<CR>
-  	map <F7> :-1r !xclip -o -sel clip<CR>
-  endif
-
-endif
-
 function! ToggleRelativeAbsoluteLineNumbers()
 	if &number == 1
 		echom "relative on"
 		set relativenumber
+		set nonumber
 	else
 		echom "absolute on"
 		set number
+		set norelativenumber
 	endif
 endfunction
 
 noremap <F4> :call ToggleRelativeAbsoluteLineNumbers()<CR>
-
-" graphical undo tree
-nnoremap <F10> :GundoToggle<CR>
 
 " to repair backspace if logged in from Mac to Linux Machine
 "if exists( "$SSH_CONNECTION" )
@@ -275,11 +253,11 @@ nnoremap ,h :vnew<cr>:q<cr>
 " some useful mappings for searching, buffer edits
 map <F5> :nohls<CR>         " disable search result highlighting
 " remove trailing whitespaces (not necessary for c/cpp)
-map <F8> :%s/\s\+$//e<CR>
-map <c-n> :w<CR>:tabn<CR>           " edit next file in buffer
-map <c-p> :w<CR>:tabp<CR>           " edit prev file in buffer
+map <F8> :windo set wrap!<CR>
+map <c-n> :w<CR>:bn<CR>           " edit next file in buffer
+map <c-p> :w<CR>:bp<CR>           " edit prev file in buffer
 "map <c-s> :w<CR>            " Ctrl-s saves file ;)
-map <c-l> :w<CR>:tablast<CR>           " Ctrl-l edits last file
+map <c-l> :w<CR>:e#<CR>           " Ctrl-l edits last file
 map <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
 
 " mapping for tags: getting back from tag
