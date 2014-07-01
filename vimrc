@@ -232,6 +232,7 @@ function! ToggleRelativeAbsoluteLineNumbers()
 endfunction
 
 noremap <F4> :call ToggleRelativeAbsoluteLineNumbers()<CR>
+noremap <F6> :ccl<CR>
 
 " to repair backspace if logged in from Mac to Linux Machine
 "if exists( "$SSH_CONNECTION" )
