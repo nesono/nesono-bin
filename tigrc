@@ -28,7 +28,7 @@ bind stage  - status-revert                     # discard changes in tracked fil
 bind status x ?git clean -xfd                   # delete everything untracked
 bind generic <LessThan> !git fetch              # fetch from remote
 bind generic > !git push                        # push to remote
-bind main | !git pull --rebase                  # rebase current branch to remote
+bind main | !git rebase                         # rebase current branch to remote
 bind status c !git commit -v                    # commit verbosely
 bind status + !git commit --amend               # amend to last commit
 bind generic { ?git checkout -b "%(prompt)"     # branch off
