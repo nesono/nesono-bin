@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+[[ -x `which ctags` ]] && ctags -R --sort=yes --c++-kinds=+p --fields=+afiKlmnsSzt --extra=+q &
+[[ -x `which gtags` ]] && gtags &
