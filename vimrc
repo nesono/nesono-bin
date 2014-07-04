@@ -74,6 +74,9 @@ let g:clang_complete_auto = 1
 " Show clang errors in the quickfix window
 let g:clang_complete_copen = 1
 
+" Use this color in command-t for the selected item
+let g:CommandTHighlightColor = 'Pmenu'
+
 " Colo(u)red or not colo(u)red
 " If you want color you should set this to true
 
@@ -249,7 +252,7 @@ map ,u :source ~/.vimrc<cr> " update the system settings from my vimrc file
 nnoremap ,d :diffupdate<cr>
 nnoremap ,g :diffget<cr>
 nnoremap ,p :diffput<cr>
-nnoremap ,h :vnew<cr>:q<cr>
+"nnoremap ,h :vnew<cr>:q<cr>
 
 " some useful mappings for searching, buffer edits
 map <F5> :nohls<CR>         " disable search result highlighting
