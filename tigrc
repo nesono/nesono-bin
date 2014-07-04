@@ -1,5 +1,6 @@
 # some general options
 set mouse = true
+set line-graphics = utf-8
 
 # disable defaults
 bind generic S none
