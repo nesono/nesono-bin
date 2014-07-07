@@ -66,6 +66,9 @@ filetype plugin indent on     " required!
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
+" change the mapleader from \ to ,
+let mapleader=","
+
 " SuperTab option for context aware completion
 let g:SuperTabDefaultCompletionType = "context"
 
@@ -237,6 +240,26 @@ endfunction
 noremap <F4> :call ToggleRelativeAbsoluteLineNumbers()<CR>
 noremap <F6> :ccl<CR>
 
+" copy current file name (relative/absolute) to system clipboard
+if has("mac") || has("gui_macvim") || has("gui_mac")
+  nnoremap <leader>cf :let @*=expand("%")<CR>
+  nnoremap <leader>cF :let @*=expand("%:p")<CR>
+  nnoremap <leader>ct :let @*=expand("%:t")<CR>
+  nnoremap <leader>ch :let @*=expand("%:p:h")<CR>
+	nnoremap <leader>ln :let @*=line(".")<CR>
+	nnoremap <leader>cfn :let @*=expand("%").":".line(".")<CR>
+endif
+
+" copy current file name (relative/absolute) to system clipboard (Linux version)
+if has("gui_gtk") || has("gui_gtk2") || has("gui_gnome") || has("unix")
+  nnoremap <leader>cf :let @+=expand("%")<CR>
+  nnoremap <leader>cF :let @+=expand("%:p")<CR>
+  nnoremap <leader>ct :let @+=expand("%:t")<CR>
+  nnoremap <leader>ch :let @+=expand("%:p:h")<CR>
+	nnoremap <leader>ln :let @+=line(".")<CR>
+	nnoremap <leader>cfn :let @+=expand("%").":".line(".")<CR>
+endif
+
 " to repair backspace if logged in from Mac to Linux Machine
 "if exists( "$SSH_CONNECTION" )
 "	:set t_kb=^V<BS>
@@ -244,15 +267,15 @@ noremap <F6> :ccl<CR>
 "endif
 
 " some useful mappings for the vimrc
-map ,v :sp ~/.vimrc<cr>     " edit my .vimrc file in a split
-map ,e :e ~/.vimrc<cr>      " edit my .vimrc file
-map ,u :source ~/.vimrc<cr> " update the system settings from my vimrc file
+map <leader>v :sp ~/.vimrc<cr>     " edit my .vimrc file in a split
+map <leader>e :e ~/.vimrc<cr>      " edit my .vimrc file
+map <leader>u :source ~/.vimrc<cr> " update the system settings from my vimrc file
 
 " some useful mappings for vimdiff
-nnoremap ,d :diffupdate<cr>
-nnoremap ,g :diffget<cr>
-nnoremap ,p :diffput<cr>
-"nnoremap ,h :vnew<cr>:q<cr>
+nnoremap <leader>d :diffupdate<cr>
+nnoremap <leader>g :diffget<cr>
+nnoremap <leader>p :diffput<cr>
+"nnoremap <leader>h :vnew<cr>:q<cr>
 
 " some useful mappings for searching, buffer edits
 map <F5> :nohls<CR>         " disable search result highlighting
@@ -298,9 +321,6 @@ silent! colorscheme molokai
 
 " fix problems with backspace
 set backspace=indent,eol,start
-
-" change the mapleader from \ to ,
-let mapleader=","
 
 " hide buffer instead of closing
 set hidden
