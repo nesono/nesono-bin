@@ -40,14 +40,15 @@ call vundle#begin()
 Plugin 'gmarik/vundle'
 
 " set libclang library path
-let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/'
+if has("unix")
+	let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/'
+endif
 
 " to actually install those call BundleInstall!
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-surround'
 Plugin 'mileszs/ack.vim'
-Plugin 'Rip-Rip/clang_complete'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'klen/python-mode'
@@ -59,6 +60,7 @@ Plugin 'mtth/scratch.vim'
 Plugin 'vim-scripts/gtags.vim'
 Plugin 'wincent/Command-T' " requires vim and system having the same ruby version
 if has("unix")
+	Plugin 'Rip-Rip/clang_complete'
 	Plugin 'vim-scripts/vim-gitgutter'
 endif
 
