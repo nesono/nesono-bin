@@ -168,7 +168,7 @@ if has("autocmd")
 	filetype plugin on
 
 	" remove blank spaces at EOL at saving buffer
-	au FileType cpp,c autocmd BufWritePre * :%s/\s\+$//e
+	"au FileType cpp,c autocmd BufWritePre * :%s/\s\+$//e
 	" set file text width for c files
 	au FileType cpp,c set textwidth=78
 
