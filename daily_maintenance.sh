@@ -414,4 +414,6 @@ case ${UNAME} in
 esac
 
 echo "End of Script"
-read -e -p "enter any key" ans
+if [[ -n "$TMUX" ]]; then
+	read -n1 -r -s -p "Press any key to finish" key
+fi
