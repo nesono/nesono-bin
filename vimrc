@@ -274,10 +274,18 @@ map <leader>e :e ~/.vimrc<cr>      " edit my .vimrc file
 map <leader>u :source ~/.vimrc<cr> " update the system settings from my vimrc file
 
 " some useful mappings for vimdiff
-nnoremap <leader>d :diffupdate<cr>
-nnoremap <leader>g :diffget<cr>
-nnoremap <leader>p :diffput<cr>
-"nnoremap <leader>h :vnew<cr>:q<cr>
+nnoremap <leader>du :diffupdate<cr>
+nnoremap <leader>dg :diffget<cr>
+nnoremap <leader>dp :diffput<cr>
+
+" gnu/global mapping
+nnoremap <leader>gtt :Gtags<cr><cr>
+nnoremap <leader>gtr :Gtags -r<cr><cr>
+nnoremap <leader>gtf :Gtags -f<cr><cr>
+
+" quick list navigation
+nnoremap <leader>qn :cn<cr>
+nnoremap <leader>qp :cp<cr>
 
 " some useful mappings for searching, buffer edits
 map <F5> :nohls<CR>         " disable search result highlighting
