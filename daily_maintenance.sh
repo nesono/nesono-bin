@@ -329,7 +329,7 @@ function run_in_tmux()
 		return
 	else
 		echo "restarting in tmux"
-		tmux new -s "$name" "export NESONOBININSTALLATIONDIR=${NESONOBININSTALLATIONDIR}; $0"
+		tmux new -s "$name" "export NESONOBININSTALLATIONDIR=${NESONOBININSTALLATIONDIR} && export STOP_TMUX=1 && $0"
 		exit 0
 	fi
 }
@@ -414,6 +414,7 @@ case ${UNAME} in
 esac
 
 echo "End of Script"
-if [[ -n "$TMUX" ]]; then
+#if [[ -n "$STOP_TMUX" ]]; then
+	#echo "STOP_TMUX: $STOP_TMUX"
 	read -n1 -r -s -p "Press any key to finish" key
-fi
+#fi
