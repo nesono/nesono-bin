@@ -61,18 +61,18 @@ autoload -U colors && colors
 if [[ "$NESONO_DARKSHELL" == "1" ]] ;then
   if [[ "$EUID" == "0" ]]; then
     # root user
-    PROMPT='%{$fg[red]%}%m:%{$fg[cyan]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
+    PROMPT='%{$fg[red]%}%M:%{$fg[cyan]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
   else
     # normal users
-    PROMPT='%{$fg[green]%}%m:%{$fg[cyan]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
+    PROMPT='%{$fg[green]%}%M:%{$fg[cyan]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
   fi
 else
   if [[ "$EUID" == "0" ]]; then
     # root user
-    PROMPT='%{$fg[red]%}%m:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
+    PROMPT='%{$fg[red]%}%M:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
   else
     # normal users
-    PROMPT='%{$fg[green]%}%m:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
+    PROMPT='%{$fg[green]%}%M:%{$fg[blue]%}%c%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} '
   fi
 fi
 
@@ -130,7 +130,7 @@ function settitle {
       ;;
     xterm* )
       # Use this one instead for xterms
-			print -Pn "\e]0;%~ (%n@%m)\a"
+			print -Pn "\e]0;%~ (%n@%M)\a"
       ;;
   esac
 }
