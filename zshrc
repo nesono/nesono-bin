@@ -61,18 +61,18 @@ autoload -U colors && colors
 if [[ "$NESONO_DARKSHELL" == "1" ]] ;then
   if [[ "$EUID" == "0" ]]; then
     # root user
-    PROMPT=$'%{$fg[red]%}%M:%{$fg[cyan]%}%0~%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} [%?] \n> '
+    PROMPT=$'-> [%?] %{$fg[red]%}%M:%{$fg[cyan]%}%0~%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
   else
     # normal users
-    PROMPT=$'%{$fg[green]%}%M:%{$fg[cyan]%}%0~%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} [%?] \n> '
+    PROMPT=$'-> [%?] %{$fg[green]%}%M:%{$fg[cyan]%}%0~%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
   fi
 else
   if [[ "$EUID" == "0" ]]; then
     # root user
-    PROMPT=$'%{$fg[red]%}%M:%{$fg[blue]%}%0~%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} [%?] \n> '
+    PROMPT=$'-> [%?] %{$fg[red]%}%M:%{$fg[blue]%}%0~%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
   else
     # normal users
-    PROMPT=$'%{$fg[green]%}%M:%{$fg[blue]%}%0~%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%} [%?] \n> '
+    PROMPT=$'-> [%?] %{$fg[green]%}%M:%{$fg[blue]%}%0~%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
   fi
 fi
 
