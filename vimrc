@@ -56,7 +56,8 @@ Plugin 'ervandew/supertab'
 Plugin 'SirVer/ultisnips'
 Plugin 'mbbill/undotree'
 Plugin 'scrooloose/syntastic'
-Plugin 'mtth/scratch.vim'
+Plugin 'altercation/vim-colors-solarized'
+"Plugin 'mtth/scratch.vim'
 Plugin 'vim-scripts/gtags.vim'
 Plugin 'wincent/Command-T' " requires vim and system having the same ruby version
 if has("unix")
@@ -156,9 +157,9 @@ let c_space_errors=1
 " for dark backgrounds
 "set bg=dark
 " for light backgrounds
-set bg=light
+"set bg=light
 if has("gui_running")
-	colorscheme torte
+	"colorscheme torte
 	syntax on
   set guifont=Source_Code_Pro:h10
 endif
@@ -327,7 +328,8 @@ nnoremap <F2> :NERDTreeToggle<CR>
 nnoremap <F3> :UndotreeToggle<CR>
 
 " use molokai theme if available
-silent! colorscheme molokai
+set background=light
+silent! colorscheme solarized
 
 " fix problems with backspace
 set backspace=indent,eol,start
