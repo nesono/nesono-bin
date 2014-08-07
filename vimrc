@@ -315,6 +315,7 @@ nnoremap <leader>dp :diffput<cr>
 
 " gnu/global mapping
 nnoremap <leader>gtt :Gtags<cr><cr>
+nnoremap <leader>gt :Gtags
 nnoremap <leader>gtr :Gtags -r<cr><cr>
 nnoremap <leader>gtf :Gtags -f<cr><cr>
 
