@@ -58,6 +58,7 @@ Plugin 'mbbill/undotree'
 Plugin 'scrooloose/syntastic'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'vim-scripts/gtags.vim'
+Plugin 'vim-scripts/a.vim'
 Plugin 'wincent/Command-T' " requires vim and system having the same ruby version
 if has("unix")
 	Plugin 'Rip-Rip/clang_complete'
@@ -81,6 +82,8 @@ let g:clang_complete_copen = 1
 
 " Use this color in command-t for the selected item
 let g:CommandTHighlightColor = 'Pmenu'
+
+let g:CommandTMaxFiles = 50000
 
 " Colo(u)red or not colo(u)red
 " If you want color you should set this to true
@@ -110,11 +113,11 @@ set foldlevel=100
 
 " basic indentation rules
 " see cinoptions-values for descr
-set cino=>2,:0,=2,g0,h2,t0,+4,c2,(0,W4,u2,N-s
+set cino=>4,:0,=4,g0,h4,t0,+8,c4,(0,W8,u4,N-s
 " default indentation settings
 set autoindent
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set nolist
 " enable this as soon, as you are away from mmt ;)
 set smarttab
@@ -227,6 +230,37 @@ if has("autocmd")
 	"autocmd BufNewFile,BufRead *.tcc set cindent
 endif
 
+if has("gui_macvim")
+	" disable antialiasing in guis
+	"set noantialias
+	" set gui font
+	set gfn=Source\ Code\ Pro:h12
+endif
+
+" use molokai theme if available
+set background=dark
+silent! colorscheme solarized
+
+" fix problems with backspace
+set backspace=indent,eol,start
+
+" hide buffer instead of closing
+set hidden
+
+" do not write backup and/or swap files
+set nobackup
+set noswapfile
+
+" open each buffer as it's own tabpage:
+" disable because NERDTree, etc. is then also opened in separate tab
+":au BufAdd,BufNewFile * nested tab sball
+
+" to repair backspace if logged in from Mac to Linux Machine
+"if exists( "$SSH_CONNECTION" )
+"	:set t_kb=^V<BS>
+"	:fixdel
+"endif
+
 function! ToggleRelativeAbsoluteLineNumbers()
 	if &number == 1
 		echom "relative on"
@@ -262,12 +296,6 @@ if has("gui_gtk") || has("gui_gtk2") || has("gui_gnome") || has("unix")
 	nnoremap <leader>cfn :let @+=expand("%").":".line(".")<CR>
 endif
 
-" to repair backspace if logged in from Mac to Linux Machine
-"if exists( "$SSH_CONNECTION" )
-"	:set t_kb=^V<BS>
-"	:fixdel
-"endif
-
 " some useful mappings for the vimrc
 map <leader>v :sp ~/.vimrc<cr>     " edit my .vimrc file in a split
 map <leader>e :e ~/.vimrc<cr>      " edit my .vimrc file
@@ -287,36 +315,23 @@ nnoremap <leader>gtf :Gtags -f<cr><cr>
 nnoremap <leader>qn :cn<cr>
 nnoremap <leader>qp :cp<cr>
 
+" buffer handling
+nnoremap <leader>bo :only<cr>     " keep only this buffer open (in split view)
+nnoremap <leader>bd :bd<cr>       " delete buffer
+nnoremap <leader>s :wa<cr>        " save all buffers
+nnoremap <leader>bj :bn<CR>           " edit next file in buffer
+nnoremap <leader>bk :bp<CR>           " edit prev file in buffer
+nnoremap <leader>bb :e#<CR>           " Ctrl-l edits last file
+
+" window handling
+nnoremap <leader>wq :q<cr>
+nnoremap <leader>ww :x<cr>
+
 " some useful mappings for searching, buffer edits
 map <F5> :nohls<CR>         " disable search result highlighting
 " remove trailing whitespaces (not necessary for c/cpp)
 map <F8> :windo set wrap!<CR>
-map <c-n> :w<CR>:bn<CR>           " edit next file in buffer
-map <c-p> :w<CR>:bp<CR>           " edit prev file in buffer
-"map <c-s> :w<CR>            " Ctrl-s saves file ;)
-map <c-l> :w<CR>:e#<CR>           " Ctrl-l edits last file
 map <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
-
-" mapping for tags: getting back from tag
-"nnoremap <c-[> :pop<CR>
-
-"" use F4 to insert current file name at cursor
-"nnoremap <F4> :put =expand('%:t')<CR>kJ
-"inoremap <F4> <Esc>:put =expand('%:t')<CR>kJ<Esc>A
-" search for keyword under cursor in current dir
-"nnoremap <F6> :grep <C-R><C-W> *<CR>
-
-"autocmd VimEnter,VimLeave * silent !tmux set status
-" replace selected text in visual mode
-vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
-
-if has("gui_macvim")
-	" disable antialiasing in guis
-	"set noantialias
-	" set gui font
-	"set gfn=Monaco:h10
-	set gfn=Source\ Code\ Pro:h12
-endif
 
 " toggle browse tree region
 nnoremap <F2> :NERDTreeToggle<CR>
@@ -325,23 +340,5 @@ nnoremap <F2> :NERDTreeToggle<CR>
 
 " toggle undotree region
 nnoremap <F3> :UndotreeToggle<CR>
-
-" use molokai theme if available
-set background=dark
-silent! colorscheme solarized
-
-" fix problems with backspace
-set backspace=indent,eol,start
-
-" hide buffer instead of closing
-set hidden
-
-" do not write backup and/or swap files
-set nobackup
-set noswapfile
-
-" open each buffer as it's own tabpage:
-" disable because NERDTree, etc. is then also opened in separate tab
-":au BufAdd,BufNewFile * nested tab sball
 
 " ~/.vimrc ends here
