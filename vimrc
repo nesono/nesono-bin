@@ -61,7 +61,7 @@ Plugin 'vim-scripts/gtags.vim'
 Plugin 'vim-scripts/a.vim'
 Plugin 'wincent/Command-T' " requires vim and system having the same ruby version
 if has("unix")
-	Plugin 'Rip-Rip/clang_complete'
+    Plugin 'Rip-Rip/clang_complete'
 	Plugin 'vim-scripts/vim-gitgutter'
 endif
 
@@ -156,12 +156,7 @@ inoremap <End> <C-o>g<End>
 " make blank spaces at EOL red
 let c_space_errors=1
 
-" for dark backgrounds
-"set bg=dark
-" for light backgrounds
-"set bg=light
 if has("gui_running")
-	"colorscheme torte
 	syntax on
   set guifont=Source_Code_Pro:h10
 endif
@@ -201,7 +196,7 @@ if has("autocmd")
 	" make blank spaces from tabs for c(pp) files
 	au FileType cpp,c set expandtab
 
-  " also don't use tabs to indent in cmake
+	" also don't use tabs to indent in cmake
 	au FileType cmake set expandtab
 
 	" enable some useful stuff for python
@@ -237,9 +232,20 @@ if has("gui_macvim")
 	set gfn=Source\ Code\ Pro:h12
 endif
 
-" use molokai theme if available
+" set color scheme
 set background=dark
 silent! colorscheme solarized
+
+if has("unix")
+	highlight link GitGutterAdd DiffAdd
+	highlight link GitGutterDelete DiffDelete
+	highlight link GitGutterChange DiffChange
+	highlight clear SignColumn
+	let g:gitgutter_sign_added = '++'
+	let g:gitgutter_sign_modified = '~~'
+	let g:gitgutter_sign_removed = '--'
+	let g:gitgutter_sign_modified_removed = '~-'
+endif
 
 " fix problems with backspace
 set backspace=indent,eol,start
@@ -275,6 +281,7 @@ endfunction
 
 noremap <F4> :call ToggleRelativeAbsoluteLineNumbers()<CR>
 noremap <F6> :ccl<CR>
+noremap <F7> :GitGutterToggle<cr>
 
 " copy current file name (relative/absolute) to system clipboard
 if has("mac") || has("gui_macvim") || has("gui_mac")
@@ -322,6 +329,16 @@ nnoremap <leader>s :wa<cr>        " save all buffers
 nnoremap <leader>bj :bn<CR>           " edit next file in buffer
 nnoremap <leader>bk :bp<CR>           " edit prev file in buffer
 nnoremap <leader>bb :e#<CR>           " Ctrl-l edits last file
+
+" fugitive handling
+nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gr :Gremove<cr>
+nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gll :Glog<cr>
+nnoremap <leader>gl :Glog          " needs parameter
+nnoremap <leader>gg :Ggrep         " needs parameter
+nnoremap <leader>go :Gbrowse<cr>
 
 " window handling
 nnoremap <leader>wq :q<cr>
