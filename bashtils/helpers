@@ -84,17 +84,32 @@ function calc ()
 
 function backup ()
 {
-  for item in $@; do
-	  echo "backup up $item"
+	# check switch
+	if [[ "$1" == "-s" ]]; then
+		shift
+		item=$1
+		echo "using short syntax"
+		local destination=${item}.bup
+		echo "backup $item to $destination"
+
+		if [[ -e "$destination" ]]; then
+			echo "$destination already exists -- skipping"
+		else
+			cp -r "$item" "$destination";
+		fi
+	else
+		item=$1
+		echo "backup up $item"
+
 		local destination=$item.bup_`date +%Y-%m-%d_%H:%M:%S`
 		while ( [[ -e "$destination" ]] ); do
-		  echo "$destination already exists"
-		  destination=$item.bup_`date +%Y-%m-%d_%H:%M:%S`
-		  echo "trying $destination"
+			echo "$destination already exists"
+			destination=$item.bup_`date +%Y-%m-%d_%H:%M:%S`
+			echo "trying $destination"
 		done
-	  echo "backup $item to $destination"
-    cp -r "$item" "$destination";
-  done
+		echo "backup $item to $destination"
+		cp -r "$item" "$destination";
+	fi
 	echo "finished"
 }
 
