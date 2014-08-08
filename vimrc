@@ -241,10 +241,10 @@ if has("unix")
 	highlight link GitGutterDelete DiffDelete
 	highlight link GitGutterChange DiffChange
 	highlight clear SignColumn
-	let g:gitgutter_sign_added = '++'
-	let g:gitgutter_sign_modified = '~~'
-	let g:gitgutter_sign_removed = '--'
-	let g:gitgutter_sign_modified_removed = '~-'
+	let g:gitgutter_sign_added = '+'
+	let g:gitgutter_sign_modified = '~'
+	let g:gitgutter_sign_removed = '-'
+	let g:gitgutter_sign_modified_removed = '+-'
 endif
 
 " fix problems with backspace
@@ -322,6 +322,10 @@ nnoremap <leader>gtf :Gtags -f<cr><cr>
 " quick list navigation
 nnoremap <leader>qn :cn<cr>
 nnoremap <leader>qp :cp<cr>
+
+" command-t mappings
+nnoremap <leader>tt :CommandT<cr>
+nnoremap <leader>tb :CommandTMRU<cr>
 
 " buffer handling
 nnoremap <leader>bo :only<cr>     " keep only this buffer open (in split view)
