@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# cmake convenience script to build and run binary
+
+make -j 4 "$1" && "./$1"
