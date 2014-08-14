@@ -50,59 +50,59 @@ echo ""
 UNAME=$(uname -s)
 
 case "${UNAME}" in
-  "Linux" )
-    if [ -n "$(which aptitude)" ]; then
-      INSTALL_GIT="sudo aptitude install git git-svn git-gui"
-    fi
-    ;;
-  "Darwin" )
-    if [ -n "$(which port)" ]; then
-      if [ -n "$(which fink)" ]; then
-        echo "mac ports AND fink found on you PC"
-        echo "preferring mac ports"
-      fi
-      INSTALL_GIT="sudo port install git-core +svn +bash_completion"
-    fi
-    if [ -n "$(which fink)" ]; then
-      INSTALL_GIT="fink install git git-svn"
-    fi
-    ;;
+	"Linux" )
+		if [ -n "$(which aptitude)" ]; then
+			INSTALL_GIT="sudo aptitude install git git-svn git-gui"
+		fi
+		;;
+	"Darwin" )
+		if [ -n "$(which port)" ]; then
+			if [ -n "$(which fink)" ]; then
+				echo "mac ports AND fink found on you PC"
+				echo "preferring mac ports"
+			fi
+			INSTALL_GIT="sudo port install git-core +svn +bash_completion"
+		fi
+		if [ -n "$(which fink)" ]; then
+			INSTALL_GIT="fink install git git-svn"
+		fi
+		;;
 esac
 
 # check, if user needs to install git first
 if [ -z "$(which git)" ]; then
-  echo "git not installed!"
-  read -e -p "Shall I try to install for you? [y/N] " ANSWER
+	echo "git not installed!"
+	read -e -p "Shall I try to install for you? [y/N] " ANSWER
 
-  case "${ANSWER}" in
-    "y" | "Y" )
-    if [ -n "${INSTALL_GIT}" ]; then
-      echo "installing git..."
-      ${INSTALL_GIT}
-      echo "... installatin finished"
-    else
-      echo "can not install git"
-      echo "unknown system or missing"
-      echo "mac ports or fink..."
-    fi
-  esac
+	case "${ANSWER}" in
+		"y" | "Y" )
+			if [ -n "${INSTALL_GIT}" ]; then
+				echo "installing git..."
+				${INSTALL_GIT}
+				echo "... installatin finished"
+			else
+				echo "can not install git"
+				echo "unknown system or missing"
+				echo "mac ports or fink..."
+			fi
+	esac
 fi
 
 # function to set a config variable of git
 # interactively $1: name $2 value
 function git_set_config_variable_interactive()
 {
-  NAME=${1}
-  # get value from git
-  OLDVAL=$(git config --global ${NAME})
-  if [ -z "${OLDVAL}" ]; then
-    read -e -p "set git cofig option ${NAME}: " ANSWER
-  else
-    read -e -p "set config option ${NAME}: [${OLDVAL}] " ANSWER
-  fi
-  if [ -n "${ANSWER}" ]; then
-    git config --global ${NAME} "${ANSWER}"
-  fi
+	NAME=${1}
+	# get value from git
+	OLDVAL=$(git config --global ${NAME})
+	if [ -z "${OLDVAL}" ]; then
+		read -e -p "set git cofig option ${NAME}: " ANSWER
+	else
+		read -e -p "set config option ${NAME}: [${OLDVAL}] " ANSWER
+	fi
+	if [ -n "${ANSWER}" ]; then
+		git config --global ${NAME} "${ANSWER}"
+	fi
 }
 
 git_set_config_variable_interactive user.name
@@ -111,99 +111,99 @@ git_set_config_variable_interactive core.editor
 git_set_config_variable_interactive merge.tool
 
 if [ ! -e ~/.gitignore ]; then
-  echo "The following will setup a global gitignore file for your"
-  echo "platform. For instance, under Mac OS X it makes sense to"
-  echo "add '.DS_Store' to the global gitignore file..."
-  echo ""
+	echo "The following will setup a global gitignore file for your"
+	echo "platform. For instance, under Mac OS X it makes sense to"
+	echo "add '.DS_Store' to the global gitignore file..."
+	echo ""
 
-  read -e -p "Do you want to create a global gitignore file? [y/N] " ANSWER
-  case "${ANSWER}" in
-    "y" | "Y" )
-    # MAC files
-    echo ".DS_Store" >> ~/.gitignore
-    # XCode user files
-    echo "*.pbxuser"         >> ~/.gitignore
-    echo "*.*.perspectivev3" >> ~/.gitignore
-    # vim files
-    echo "tags"      >> ~/.gitignore
-    echo "*.swp"     >> ~/.gitignore
-    # Visual Studio user files
-    echo "*.user"    >> ~/.gitignore
-    echo "*.suo"     >> ~/.gitignore
-    echo "*.ncb"
-    # doxygen tag files
-    echo "*.dox.tag" >> ~/.gitignore
-    git config --global core.excludesfile ~/.gitignore
-  esac
+	read -e -p "Do you want to create a global gitignore file? [y/N] " ANSWER
+	case "${ANSWER}" in
+		"y" | "Y" )
+			# MAC files
+			echo ".DS_Store" >> ~/.gitignore
+			# XCode user files
+			echo "*.pbxuser"         >> ~/.gitignore
+			echo "*.*.perspectivev3" >> ~/.gitignore
+			# vim files
+			echo "tags"      >> ~/.gitignore
+			echo "*.swp"     >> ~/.gitignore
+			# Visual Studio user files
+			echo "*.user"    >> ~/.gitignore
+			echo "*.suo"     >> ~/.gitignore
+			echo "*.ncb"
+			# doxygen tag files
+			echo "*.dox.tag" >> ~/.gitignore
+			git config --global core.excludesfile ~/.gitignore
+	esac
 fi
 
 # check if svn like config options shall be set
 read -e -p "Do you want to enable svn like aliases (st,stu,ci,co,br)? [y/N/d] " ANSWER
 case "${ANSWER}" in
-  "y" | "Y" )
-    git config --global alias.st status
-    git config --global alias.stu "status -uno"
-    git config --global alias.ci commit
-    git config --global alias.civ "commit -v"
-    git config --global alias.co checkout
-    git config --global alias.br branch
+	"y" | "Y" )
+		git config --global alias.st status
+		git config --global alias.stu "status -uno"
+		git config --global alias.ci commit
+		git config --global alias.civ "commit -v"
+		git config --global alias.co checkout
+		git config --global alias.br branch
 		git config --global alias.subpull "submodule foreach 'git pull'"
 		git config --global alias.aliases "config --get-regexp alias"
 		git config --global alias.stashpull "!git stash save && git pull --rebase && git stash pop"
-  ;;
-  "d" | "D" )
-    echo "removing section alias from git config"
-    git config --global --unset alias.st
-    git config --global --unset alias.stu
-    git config --global --unset alias.ci
-    git config --global --unset alias.civ
-    git config --global --unset alias.co
-    git config --global --unset alias.br
+		;;
+	"d" | "D" )
+		echo "removing section alias from git config"
+		git config --global --unset alias.st
+		git config --global --unset alias.stu
+		git config --global --unset alias.ci
+		git config --global --unset alias.civ
+		git config --global --unset alias.co
+		git config --global --unset alias.br
 		git config --global --unset alias.subpull
 		git config --global --unset alias.aliases
 		git config --global --unset alias.stashpull
-  ;;
+		;;
 esac
 
 # check if glog alias shall be enabled
 read -e -p "Do you want to enable git log alias 'glog'? [y/N/d] " ANSWER
 case "${ANSWER}" in
-  "y" | "Y" )
-    git config --global alias.glog "log --pretty=oneline --abbrev-commit --graph --decorate=short"
-    git config --global --unset alias.graphlog
-  ;;
-  "d" | "D" )
-    echo "removing section alias from git config"
-    git config --global --unset alias.glog
-  ;;
+	"y" | "Y" )
+		git config --global alias.glog "log --pretty=oneline --abbrev-commit --graph --decorate=short"
+		git config --global --unset alias.graphlog
+		;;
+	"d" | "D" )
+		echo "removing section alias from git config"
+		git config --global --unset alias.glog
+		;;
 esac
 
 # check if color config options shall be set
 read -e -p "Do you want to enable colors for git (branch,diff,interactive,status)? [y/N/d] " ANSWER
 case "${ANSWER}" in
-  "y" | "Y" )
-    git config --global color.branch auto
-    git config --global color.diff auto
-    git config --global color.interactive auto
-    git config --global color.status auto
-  ;;
-  "d" | "D" )
-    echo "disabling all color settings"
-    git config --global --remove-section color
-  ;;
+	"y" | "Y" )
+		git config --global color.branch auto
+		git config --global color.diff auto
+		git config --global color.interactive auto
+		git config --global color.status auto
+		;;
+	"d" | "D" )
+		echo "disabling all color settings"
+		git config --global --remove-section color
+		;;
 esac
 
 # ask for and setup github
 read -e -p "Do you want to setup a github account? [y/N/d] " ANSWER
 case "${ANSWER}" in
-  "y" | "Y" )
-    git_set_config_variable_interactive github.user
-    git_set_config_variable_interactive github.token
-  ;;
-  "d" | "D" )
-    echo "removing section github from global git config"
-    git config --global --remove-section github
-  ;;
+	"y" | "Y" )
+		git_set_config_variable_interactive github.user
+		git_set_config_variable_interactive github.token
+		;;
+	"d" | "D" )
+		echo "removing section github from global git config"
+		git config --global --remove-section github
+		;;
 esac
 
 exit 0
