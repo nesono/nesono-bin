@@ -27,4 +27,12 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-grep "$@" | grep -v dox | grep -v tags | grep -v 'svn-base' | grep -v '.svn' | grep -iv 'binary file'
+grep "$@"   \
+  | grep -v '^tags' \
+  | grep -v '^svn-base' \
+  | grep -v '^.svn' \
+  | grep -iv '^binary file' \
+  | grep -v '^.git' \
+  | grep -v '^GRPATH' \
+  | grep -v '^GRTAGS' \
+  | grep -v '^GTAGS'
