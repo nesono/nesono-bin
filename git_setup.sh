@@ -69,7 +69,6 @@ case "${UNAME}" in
 		;;
 esac
 
-# check, if user needs to install git first
 if [ -z "$(which git)" ]; then
 	echo "git not installed!"
 	read -e -p "Shall I try to install for you? [y/N] " ANSWER
@@ -88,8 +87,6 @@ if [ -z "$(which git)" ]; then
 	esac
 fi
 
-# function to set a config variable of git
-# interactively $1: name $2 value
 function git_set_config_variable_interactive()
 {
 	NAME=${1}
@@ -137,7 +134,6 @@ if [ ! -e ~/.gitignore ]; then
 	esac
 fi
 
-# check if svn like config options shall be set
 read -e -p "Do you want to enable svn like aliases (st,stu,ci,co,br)? [y/N/d] " ANSWER
 case "${ANSWER}" in
 	"y" | "Y" )
@@ -165,7 +161,6 @@ case "${ANSWER}" in
 		;;
 esac
 
-# check if glog alias shall be enabled
 read -e -p "Do you want to enable git log aliases 'glog' and 'flog'? [y/N/d] " ANSWER
 case "${ANSWER}" in
 	"y" | "Y" )
@@ -179,7 +174,6 @@ case "${ANSWER}" in
 		;;
 esac
 
-# check if color config options shall be set
 read -e -p "Do you want to enable colors for git (branch,diff,interactive,status)? [y/N/d] " ANSWER
 case "${ANSWER}" in
 	"y" | "Y" )
@@ -194,7 +188,34 @@ case "${ANSWER}" in
 		;;
 esac
 
-# ask for and setup github
+read -e -p "Do you want to enable a credential helper for your system to remember passwords? [y/N/d] " ANSWER
+case "${ANSWER}" in
+	"y" | "Y" )
+		case "${UNAME}" in
+			Linux )
+				if [ -e "/usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring" ]; then
+					git config --global credential.helper /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+				else
+					echo "git-credential-gnome-keyring not found. Please install and run the script again"
+				fi
+				;;
+			Darwin )
+				git config --global credential.helper osxkeychain
+				;;
+			CYGWIN_* | MINGW32_* )
+				if [ -n "$(which git-credential-winstore)" ]; then
+					git config --global credential.helper git-credential-winstore.exe
+				else
+					echo "git-credential-winstore.exe not found. Please install and run the script again"
+				fi
+				;;
+		esac
+		;;
+	"d" | "D" )
+		git config --global --unset credential.helper 
+		;;
+esac
+
 read -e -p "Do you want to setup a github account? [y/N/d] " ANSWER
 case "${ANSWER}" in
 	"y" | "Y" )
