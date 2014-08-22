@@ -36,8 +36,4 @@ alias ctags='ctags -R --sort=yes --c++-kinds=+p --fields=+afiKlmnsSzt --extra=+q
 alias rsync_svn='rsync --exclude .svn'
 alias rsync_git='rsync --exclude .git'
 
-#alias vim='vim -p'
-#alias gvim='gvim -p'
-#alias mvim='mvim -p'
-
-#alias screen='TERM=screen && screen'
+alias makej='make -j 4'
