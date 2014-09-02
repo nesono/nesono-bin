@@ -40,9 +40,9 @@ call vundle#begin()
 Plugin 'gmarik/vundle'
 
 " set libclang library path
-if has("unix")
-	let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/'
-endif
+"if has("unix")
+	"let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/'
+"endif
 
 " to actually install those call BundleInstall!
 Plugin 'tpope/vim-fugitive'
@@ -61,7 +61,7 @@ Plugin 'vim-scripts/gtags.vim'
 Plugin 'vim-scripts/a.vim'
 Plugin 'wincent/Command-T' " requires vim and system having the same ruby version
 if has("unix")
-    Plugin 'Rip-Rip/clang_complete'
+    "Plugin 'Rip-Rip/clang_complete'
 	Plugin 'vim-scripts/vim-gitgutter'
 endif
 
@@ -75,10 +75,10 @@ let mapleader=","
 " SuperTab option for context aware completion
 let g:SuperTabDefaultCompletionType = "context"
 
-" Disable auto popup, use <Tab> to autocomplete
-let g:clang_complete_auto = 1
-" Show clang errors in the quickfix window
-let g:clang_complete_copen = 1
+"" Disable auto popup, use <Tab> to autocomplete
+"let g:clang_complete_auto = 1
+"" Show clang errors in the quickfix window
+"let g:clang_complete_copen = 1
 
 " Use this color in command-t for the selected item
 let g:CommandTHighlightColor = 'Pmenu'
@@ -312,6 +312,8 @@ map <leader>u :source ~/.vimrc<cr> " update the system settings from my vimrc fi
 nnoremap <leader>du :diffupdate<cr>
 nnoremap <leader>dg :diffget<cr>
 nnoremap <leader>dp :diffput<cr>
+nnoremap <leader>dt :windo diffthis<cr>
+nnoremap <leader>do :windo diffo<cr>
 
 " gnu/global mapping
 nnoremap <leader>gtt :Gtags<cr><cr>
@@ -330,7 +332,7 @@ nnoremap <leader>tb :CommandTMRU<cr>
 " buffer handling
 nnoremap <leader>bo :only<cr>     " keep only this buffer open (in split view)
 nnoremap <leader>bd :bd<cr>       " delete buffer
-nnoremap <leader>s :wa<cr>        " save all buffers
+"nnoremap <leader>s :wa<cr>        " save all buffers
 nnoremap <leader>bj :bn<CR>           " edit next file in buffer
 nnoremap <leader>bk :bp<CR>           " edit prev file in buffer
 nnoremap <leader>bb :e#<CR>           " Ctrl-l edits last file
