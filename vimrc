@@ -60,6 +60,7 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'vim-scripts/gtags.vim'
 Plugin 'vim-scripts/a.vim'
 Plugin 'wincent/Command-T' " requires vim and system having the same ruby version
+Plugin 'mattn/emmet-vim'
 if has("unix")
     "Plugin 'Rip-Rip/clang_complete'
 	Plugin 'vim-scripts/vim-gitgutter'
