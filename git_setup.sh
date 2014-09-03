@@ -49,53 +49,16 @@ echo ""
 
 UNAME=$(uname -s)
 
-case "${UNAME}" in
-	"Linux" )
-		if [ -n "$(which aptitude)" ]; then
-			INSTALL_GIT="sudo aptitude install git git-svn git-gui"
-		fi
-		;;
-	"Darwin" )
-		if [ -n "$(which port)" ]; then
-			if [ -n "$(which fink)" ]; then
-				echo "mac ports AND fink found on you PC"
-				echo "preferring mac ports"
-			fi
-			INSTALL_GIT="sudo port install git-core +svn +bash_completion"
-		fi
-		if [ -n "$(which fink)" ]; then
-			INSTALL_GIT="fink install git git-svn"
-		fi
-		;;
-esac
-
-if [ -z "$(which git)" ]; then
-	echo "git not installed!"
-	read -e -p "Shall I try to install for you? [y/N] " ANSWER
-
-	case "${ANSWER}" in
-		"y" | "Y" )
-			if [ -n "${INSTALL_GIT}" ]; then
-				echo "installing git..."
-				${INSTALL_GIT}
-				echo "... installatin finished"
-			else
-				echo "can not install git"
-				echo "unknown system or missing"
-				echo "mac ports or fink..."
-			fi
-	esac
-fi
-
 function git_set_config_variable_interactive()
 {
 	NAME=${1}
+	INFO=${2}
 	# get value from git
 	OLDVAL=$(git config --global ${NAME})
 	if [ -z "${OLDVAL}" ]; then
-		read -e -p "set git cofig option ${NAME}: " ANSWER
+		read -e -p "set git cofig option ${NAME}${INFO}: " ANSWER
 	else
-		read -e -p "set config option ${NAME}: [${OLDVAL}] " ANSWER
+		read -e -p "set config option ${NAME}${INFO}: [${OLDVAL}] " ANSWER
 	fi
 	if [ -n "${ANSWER}" ]; then
 		git config --global ${NAME} "${ANSWER}"
@@ -106,6 +69,8 @@ git_set_config_variable_interactive user.name
 git_set_config_variable_interactive user.email
 git_set_config_variable_interactive core.editor
 git_set_config_variable_interactive merge.tool
+git_set_config_variable_interactive diff.tool
+git_set_config_variable_interactive difftool.prompt " (true|false)"
 
 if [ ! -e ~/.gitignore ]; then
 	echo "The following will setup a global gitignore file for your"
