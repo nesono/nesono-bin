@@ -322,8 +322,8 @@ nnoremap <leader>gtr :Gtags -r<cr><cr>
 nnoremap <leader>gtf :Gtags -f<cr><cr>
 
 " quick list navigation
-nnoremap <leader>qn :cn<cr>
-nnoremap <leader>qp :cp<cr>
+nnoremap <leader>qq :cn<cr>
+nnoremap <leader>qw :cp<cr>
 
 " command-t mappings
 nnoremap <leader>tt :CommandT<cr>
