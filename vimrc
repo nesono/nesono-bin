@@ -61,6 +61,7 @@ Plugin 'vim-scripts/gtags.vim'
 Plugin 'vim-scripts/a.vim'
 Plugin 'wincent/Command-T' " requires vim and system having the same ruby version
 Plugin 'mattn/emmet-vim'
+Plugin 'milkypostman/vim-togglelist'
 if has("unix")
     "Plugin 'Rip-Rip/clang_complete'
 	Plugin 'vim-scripts/vim-gitgutter'
@@ -280,9 +281,23 @@ function! ToggleRelativeAbsoluteLineNumbers()
 	endif
 endfunction
 
-noremap <F4> :call ToggleRelativeAbsoluteLineNumbers()<CR>
-noremap <F6> :ccl<CR>
-noremap <F7> :GitGutterToggle<cr>
+noremap <silent> <F4> :call ToggleRelativeAbsoluteLineNumbers()<CR>
+noremap <silent> <F5> :nohls<CR>
+noremap <silent> <F6> :call ToggleQuickfixList()<CR>
+noremap <silent> <F7> :GitGutterToggle<cr>
+noremap <silent> <F8> :windo set wrap!<CR>
+noremap <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
+noremap <silent> <F10> :set list!<CR>
+noremap <silent> <F11> :call ToggleLocationList()<CR>
+
+" toggle browse tree region
+nnoremap <F2> :NERDTreeToggle<CR>
+" open NERDtree if vim was opened without a file specified
+"autocmd vimenter * if !argc() | silent! NERDTree | endif
+
+" toggle undotree region
+nnoremap <F3> :UndotreeToggle<CR>
+
 
 " copy current file name (relative/absolute) to system clipboard
 if has("mac") || has("gui_macvim") || has("gui_mac")
@@ -350,19 +365,5 @@ nnoremap <leader>go :Gbrowse<cr>
 " window handling
 nnoremap <leader>wq :q<cr>
 nnoremap <leader>ww :x<cr>
-
-" some useful mappings for searching, buffer edits
-map <F5> :nohls<CR>         " disable search result highlighting
-" remove trailing whitespaces (not necessary for c/cpp)
-map <F8> :windo set wrap!<CR>
-map <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
-
-" toggle browse tree region
-nnoremap <F2> :NERDTreeToggle<CR>
-" open NERDtree if vim was opened without a file specified
-"autocmd vimenter * if !argc() | silent! NERDTree | endif
-
-" toggle undotree region
-nnoremap <F3> :UndotreeToggle<CR>
 
 " ~/.vimrc ends here
