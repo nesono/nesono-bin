@@ -39,11 +39,6 @@ call vundle#begin()
 " let Vundle manage Vundle -- REQUIRED!
 Plugin 'gmarik/vundle'
 
-" set libclang library path
-"if has("unix")
-	"let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/'
-"endif
-
 " to actually install those call BundleInstall!
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-speeddating'
@@ -63,7 +58,6 @@ Plugin 'wincent/Command-T' " requires vim and system having the same ruby versio
 Plugin 'mattn/emmet-vim'
 Plugin 'milkypostman/vim-togglelist'
 if has("unix")
-    "Plugin 'Rip-Rip/clang_complete'
 	Plugin 'vim-scripts/vim-gitgutter'
 endif
 
@@ -77,11 +71,6 @@ let mapleader=","
 " SuperTab option for context aware completion
 let g:SuperTabDefaultCompletionType = "context"
 
-"" Disable auto popup, use <Tab> to autocomplete
-"let g:clang_complete_auto = 1
-"" Show clang errors in the quickfix window
-"let g:clang_complete_copen = 1
-
 " Use this color in command-t for the selected item
 let g:CommandTHighlightColor = 'Pmenu'
 
@@ -93,16 +82,16 @@ let g:CommandTMaxFiles = 50000
 let color = "true"
 
 if has("unix")
-  if has("syntax")
-  	if color == "true"
-  		" This will switch colors ON
-  		so ${VIMRUNTIME}/syntax/syntax.vim
-  	else
-  		" this switches colors OFF
-  		syntax off
-  		set t_Co=0
-  	endif
-  endif
+	if has("syntax")
+		if color == "true"
+			" This will switch colors ON
+			so ${VIMRUNTIME}/syntax/syntax.vim
+		else
+			" this switches colors OFF
+			syntax off
+			set t_Co=0
+		endif
+	endif
 endif
 
 " folder stuff
@@ -160,7 +149,7 @@ let c_space_errors=1
 
 if has("gui_running")
 	syntax on
-  set guifont=Source_Code_Pro:h10
+	set guifont=Source_Code_Pro:h10
 endif
 
 if has("autocmd")
@@ -301,20 +290,20 @@ nnoremap <F3> :UndotreeToggle<CR>
 
 " copy current file name (relative/absolute) to system clipboard
 if has("mac") || has("gui_macvim") || has("gui_mac")
-  nnoremap <leader>cf :let @*=expand("%")<CR>
-  nnoremap <leader>cF :let @*=expand("%:p")<CR>
-  nnoremap <leader>ct :let @*=expand("%:t")<CR>
-  nnoremap <leader>ch :let @*=expand("%:p:h")<CR>
+	nnoremap <leader>cf :let @*=expand("%")<CR>
+	nnoremap <leader>cF :let @*=expand("%:p")<CR>
+	nnoremap <leader>ct :let @*=expand("%:t")<CR>
+	nnoremap <leader>ch :let @*=expand("%:p:h")<CR>
 	nnoremap <leader>ln :let @*=line(".")<CR>
 	nnoremap <leader>cfn :let @*=expand("%").":".line(".")<CR>
 endif
 
 " copy current file name (relative/absolute) to system clipboard (Linux version)
 if has("gui_gtk") || has("gui_gtk2") || has("gui_gnome") || has("unix")
-  nnoremap <leader>cf :let @+=expand("%")<CR>
-  nnoremap <leader>cF :let @+=expand("%:p")<CR>
-  nnoremap <leader>ct :let @+=expand("%:t")<CR>
-  nnoremap <leader>ch :let @+=expand("%:p:h")<CR>
+	nnoremap <leader>cf :let @+=expand("%")<CR>
+	nnoremap <leader>cF :let @+=expand("%:p")<CR>
+	nnoremap <leader>ct :let @+=expand("%:t")<CR>
+	nnoremap <leader>ch :let @+=expand("%:p:h")<CR>
 	nnoremap <leader>ln :let @+=line(".")<CR>
 	nnoremap <leader>cfn :let @+=expand("%").":".line(".")<CR>
 endif
