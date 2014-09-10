@@ -186,9 +186,11 @@ case "${ANSWER}" in
 				;;
 			CYGWIN_* | MINGW32_* )
 				if [ -n "$(which git-credential-winstore)" ]; then
-					git config --global credential.helper git-credential-winstore.exe
+					git-credential-winstore
 				else
 					echo "git-credential-winstore.exe not found. Please install and run the script again"
+					echo "the credential helper can be found here:"
+					echo "http://gitcredentialstore.codeplex.com/"
 				fi
 				;;
 		esac
