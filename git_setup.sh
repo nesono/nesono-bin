@@ -107,11 +107,6 @@ case "${ANSWER}" in
 		git config --global alias.ci commit
 		git config --global alias.civ "commit -v"
 		git config --global alias.co checkout
-		git config --global alias.br branch
-		git config --global alias.subpull "submodule foreach 'git pull'"
-		git config --global alias.aliases "config --get-regexp alias"
-		git config --global alias.stashpull "!git stash save && git pull --rebase && git stash pop"
-		git config --global alias.adda "git add --all"
 		;;
 	"d" | "D" )
 		echo "removing section alias from git config"
@@ -120,11 +115,31 @@ case "${ANSWER}" in
 		git config --global --unset alias.ci
 		git config --global --unset alias.civ
 		git config --global --unset alias.co
+		;;
+esac
+
+read -e -p "Do you want to enable helper aliases (br, subpull, aliases, etc.)? [y/N/d] " ANSWER
+case "${ANSWER}" in
+	"y" | "Y" )
+		git config --global alias.br branch
+		git config --global alias.subpull "submodule foreach 'git pull'"
+		git config --global alias.aliases "config --get-regexp alias"
+		git config --global alias.stashpull "!git stash save && git pull --rebase && git stash pop"
+		git config --global alias.adda "add --all"
+		git config --global alias.snap "!f() { git push origin `git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //'`:snap/\$USER/\$1; }; f"
+		git config --global alias.pr "pull --rebase"
+		git config --global alias.fa "fetch --all"
+		;;
+	"d" | "D" )
+		echo "removing section alias from git config"
 		git config --global --unset alias.br
 		git config --global --unset alias.subpull
 		git config --global --unset alias.aliases
 		git config --global --unset alias.stashpull
-		git config --global --unset aalias.adda
+		git config --global --unset alias.adda
+		git config --global --unset alias.snap
+		git config --global --unset alias.pr
+		git config --global --unset alias.fa
 		;;
 esac
 
