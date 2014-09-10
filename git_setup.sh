@@ -111,6 +111,7 @@ case "${ANSWER}" in
 		git config --global alias.subpull "submodule foreach 'git pull'"
 		git config --global alias.aliases "config --get-regexp alias"
 		git config --global alias.stashpull "!git stash save && git pull --rebase && git stash pop"
+		git config --global alias.adda "git add --all"
 		;;
 	"d" | "D" )
 		echo "removing section alias from git config"
@@ -123,6 +124,7 @@ case "${ANSWER}" in
 		git config --global --unset alias.subpull
 		git config --global --unset alias.aliases
 		git config --global --unset alias.stashpull
+		git config --global --unset aalias.adda
 		;;
 esac
 
@@ -178,18 +180,6 @@ case "${ANSWER}" in
 		;;
 	"d" | "D" )
 		git config --global --unset credential.helper 
-		;;
-esac
-
-read -e -p "Do you want to setup a github account? [y/N/d] " ANSWER
-case "${ANSWER}" in
-	"y" | "Y" )
-		git_set_config_variable_interactive github.user
-		git_set_config_variable_interactive github.token
-		;;
-	"d" | "D" )
-		echo "removing section github from global git config"
-		git config --global --remove-section github
 		;;
 esac
 
