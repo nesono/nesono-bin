@@ -304,9 +304,18 @@ function check_and_update_aptget()
 
 function check_and_update_ports()
 {
-	portsnap fetch update
-	portmaster -L
+	echo "Portsnap fetch and update"
+	portsnap fetch update && portmaster -L --index-only| egrep '(ew|ort) version|total install'
+	echo -n "Last update: "
+	date -r `pkg query %t | sort | tail -n1` "+%Y%m%d"
 	portmaster -a -d
+	portmaster -y --clean-packages
+}
+
+function update_ez_jail()
+{
+	echo "EZ Jail ports update"
+	ezjail-admin update -Pp
 }
 
 function check_and_update_drush()
@@ -410,6 +419,7 @@ case ${UNAME} in
   # End of Darwin
 	FreeBSD)
 	  check_and_update_ports
+		update_ez_jail
 	;;
 esac
 
