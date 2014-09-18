@@ -337,8 +337,8 @@ nnoremap <leader>tb :CommandTMRU<cr>
 " buffer handling
 nnoremap <leader>bo :only<cr>     " keep only this buffer open (in split view)
 nnoremap <leader>bd :bd<cr>       " delete buffer
-nnoremap <leader>bj :bn<CR>           " edit next file in buffer
-nnoremap <leader>bk :bp<CR>           " edit prev file in buffer
+nnoremap <leader>b. :bn<CR>           " edit next file in buffer
+nnoremap <leader>b, :bp<CR>           " edit prev file in buffer
 nnoremap <leader>bb :e#<CR>           " Ctrl-l edits last file
 
 " fugitive handling
