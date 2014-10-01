@@ -32,3 +32,4 @@ alias ls='ls -G'
 
 alias cddl='cd ~/Downloads'
 alias cdsrc='cd ~/src'
+alias cdpwd='cd `pwd`'
