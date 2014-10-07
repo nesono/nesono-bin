@@ -188,7 +188,7 @@ if has("autocmd")
 	au FileType cpp,c set expandtab
 
 	" also don't use tabs to indent in cmake
-	au FileType cmake set expandtab
+	au FileType cmake set noexpandtab
 
 	" enable some useful stuff for python
 	au FileType python set smartindent
@@ -345,6 +345,7 @@ nnoremap <leader>bb :e#<CR>           " Ctrl-l edits last file
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gr :Gremove<cr>
+nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gll :Glog<cr>
 nnoremap <leader>gl :Glog          " needs parameter
