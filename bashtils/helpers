@@ -167,34 +167,35 @@ function git-branchstack()
 	BRANCHSTACK=${BRANCHSTACK}
 
 	action=$1
-	shift
-
 	if [[ -z "$action" ]]; then
 		echo "usage: $0 <action> ..."
-		return 123
+	else
+		shift
+		currentbranch=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')
+		if [[ $? -eq 128 ]]; then
+			echo "not in a git branch"
+		else
+			case $action in 
+				"push")
+					if [[ -z "$@" ]]; then 
+						echo "usage: $0 push [options] <branchname>"
+						return 124
+					else
+						git checkout $@
+						export BRANCHSTACK=$currentbranch:${BRANCHSTACK}
+					fi
+					;;
+				"pop")
+					if [[ -n "${BRANCHSTACK}" ]]; then
+						tocheckout=${BRANCHSTACK%%:*}
+						export BRANCHSTACK=${BRANCHSTACK#*:}
+						git checkout $tocheckout
+					fi
+					;;
+				*)
+					echo "unknown command: $@"
+					;;
+			esac
+		fi
 	fi
-
-	currentbranch=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')
-	[[ $? -eq 128 ]] && (echo "not in a git branch"; return 125)
-
-	case $action in 
-		"push")
-			if [[ -z "$@" ]]; then 
-				echo "usage: $0 push [options] <branchname>"
-				return 124
-			fi
-			git checkout $@
-			export BRANCHSTACK=$currentbranch:${BRANCHSTACK}
-			;;
-		"pop")
-			if [[ -n "${BRANCHSTACK}" ]]; then
-				tocheckout=${BRANCHSTACK%%:*}
-				export BRANCHSTACK=${BRANCHSTACK#*:}
-				git checkout $tocheckout
-			fi
-			;;
-		*)
-			echo "unknown command: $@"
-			;;
-	esac
 }
