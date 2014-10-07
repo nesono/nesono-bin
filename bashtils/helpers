@@ -160,3 +160,41 @@ function append_to_path()
 		echo "Warning: \"$1\" not found - clean up your config file(s)"
 	fi
 }
+
+function git-branchstack()
+{
+	# get env variable
+	BRANCHSTACK=${BRANCHSTACK}
+
+	action=$1
+	shift
+
+	if [[ -z "$action" ]]; then
+		echo "usage: $0 <action> ..."
+		exit 123
+	fi
+
+	currentbranch=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')
+	[[ $? -eq 128 ]] && (echo "not in a git branch"; exit 125)
+
+	case $action in 
+		"push")
+			if [[ -z "$@" ]]; then 
+				echo "usage: $0 push [options] <branchname>"
+				exit 124
+			fi
+			git checkout $@
+			export BRANCHSTACK=$currentbranch:${BRANCHSTACK}
+			;;
+		"pop")
+			if [[ -n "${BRANCHSTACK}" ]]; then
+				tocheckout=${BRANCHSTACK%%:*}
+				export BRANCHSTACK=${BRANCHSTACK#*:}
+				git checkout $tocheckout
+			fi
+			;;
+		*)
+			echo "unknown command: $@"
+			;;
+	esac
+}
