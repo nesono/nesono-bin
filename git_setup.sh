@@ -128,6 +128,7 @@ case "${ANSWER}" in
 		git config --global alias.adda "add --all"
 		git config --global alias.snap "!f() { git push origin \`git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //'\`:snap/\`whoami\`/\$1; }; f"
 		git config --global alias.gatedpush "!f() { git push origin \`git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //'\`:push/\`whoami\`/\$1; }; f"
+		git config --global alias.ss "stash show -p"
 		git config --global alias.pr "pull --rebase"
 		git config --global alias.fa "fetch --all"
 		git config --global alias.fap "fetch --all --prune"
@@ -141,6 +142,7 @@ case "${ANSWER}" in
 		git config --global --unset alias.adda
 		git config --global --unset alias.snap
 		git config --global --unset alias.gatedpush
+		git config --global --unset alias.ss
 		git config --global --unset alias.pr
 		git config --global --unset alias.fa
 		git config --global --unset alias.fap
