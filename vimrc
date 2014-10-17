@@ -74,7 +74,7 @@ let g:SuperTabDefaultCompletionType = "context"
 " Use this color in command-t for the selected item
 let g:CommandTHighlightColor = 'Pmenu'
 
-let g:CommandTMaxFiles = 50000
+let g:CommandTMaxFiles = 500000
 
 " Colo(u)red or not colo(u)red
 " If you want color you should set this to true
