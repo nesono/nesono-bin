@@ -37,3 +37,4 @@ alias rsync_svn='rsync --exclude .svn'
 alias rsync_git='rsync --exclude .git'
 
 alias makej='make -j 4'
+alias sudorsync="sudo rsync -aPe ssh --rsync-path='sudo rsync'"
