@@ -30,6 +30,5 @@ alias ls='ls -G'
 # redirect ctags to ports ctags (exuberant)
 [ -x /opt/local/bin/ctags ] && alias ctags=/opt/local/bin/ctags
 
-alias cddl='cd ~/Downloads'
 alias cdsrc='cd ~/src'
 alias cdpwd='cd `pwd`'
