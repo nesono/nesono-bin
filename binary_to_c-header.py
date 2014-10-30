@@ -37,6 +37,15 @@ import os
 def usage(scriptname):
     print("usage: %s infile outfile" % (scriptname))
 
+
+def hexformat(data, counter):
+    hexdata = str(hex(ord(data)))
+    if(counter % 16 == 0):
+        return "\n    " + hexdata
+    else:
+        return hexdata
+
+
 scriptname = os.path.basename(sys.argv[0])
 if len(sys.argv) < 3:
     usage(scriptname)
@@ -46,12 +55,10 @@ infilename = sys.argv[1]
 outfilename = sys.argv[2]
 args = [scriptname, infilename, outfilename]
 
-salt = randint(0, 1000)
-
 nonkeyword = ['_', ',.;%#']
 
 dataname = re.sub("[%s]" % "".join(nonkeyword), "_",  outfilename)
-tag = dataname + "_" + str(salt)
+tag = dataname
 
 try:
     infile = open(infilename, "rb")
@@ -64,8 +71,8 @@ try:
     outfile.write("#ifndef " + tag + "\n")
     outfile.write("#define " + tag + " " + tag + "\n" + "\n")
 
-    outfile.write("const unsigned char " + dataname + "[] = { " + "\n")
-    outfile.write(", ".join(hex(ord(n)) for n in indata))
+    outfile.write("const unsigned char " + dataname + "[] = { ")
+    outfile.write(", ".join(hexformat(n, i) for i, n in enumerate(indata)))
     outfile.write("};" + "\n")
     outfile.write("#endif" + "\n")
 
