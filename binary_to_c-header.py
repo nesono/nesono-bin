@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# script to convert a binary file into a C/C++ header
+
 # BSD LICENSE
 #
 # Copyright (c) 2014, Jochen Issing <iss@nesono.com>
@@ -25,41 +27,48 @@
 # ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-# script to convert a binary file into a C/C++ header
 
-from optparse import OptionParser
 from random import randint
 import re
+import sys
+import os
 
-parser = OptionParser()
-parser.add_option("-i", "--input", dest="inputfilename",
-                  help="input file name")
-parser.add_option("-o", "--output",
-                  dest="outputfilename",
-                  help="output file name")
 
-(options, args) = parser.parse_args()
-salt = randint(0,1000)
+def usage(scriptname):
+    print("usage: %s infile outfile" % (scriptname))
+
+scriptname = os.path.basename(sys.argv[0])
+if len(sys.argv) < 3:
+    usage(scriptname)
+    sys.exit(-1)
+
+infilename = sys.argv[1]
+outfilename = sys.argv[2]
+args = [scriptname, infilename, outfilename]
+
+salt = randint(0, 1000)
 
 nonkeyword = ['_', ',.;%#']
 
-dataname = re.sub("[%s]" % "".join(nonkeyword), "_",  options.outputfilename)
+dataname = re.sub("[%s]" % "".join(nonkeyword), "_",  outfilename)
 tag = dataname + "_" + str(salt)
 
 try:
-	infile = open(options.inputfilename, "rb")
-	outfile = open(options.outputfilename, "wb")
-	indata = infile.read()
+    infile = open(infilename, "rb")
+    outfile = open(outfilename, "wb")
+    indata = infile.read()
 
-	outfile.write("#ifndef " + tag + "\n")
-	outfile.write("#define " + tag + " " + tag + "\n" + "\n")
+    outfile.write("/* AUTOMATICALLY GENERATED FILE DO NOT EDIT */\n")
+    outfile.write("/* Generated with: %s */\n\n" % " ".join(args))
 
-	outfile.write("const unsigned char " + dataname + "[] = { " + "\n")
-	outfile.write( ", ".join(hex(ord(n)) for n in indata) )
-	outfile.write("};" + "\n")
-	outfile.write("#endif" + "\n")
+    outfile.write("#ifndef " + tag + "\n")
+    outfile.write("#define " + tag + " " + tag + "\n" + "\n")
+
+    outfile.write("const unsigned char " + dataname + "[] = { " + "\n")
+    outfile.write(", ".join(hex(ord(n)) for n in indata))
+    outfile.write("};" + "\n")
+    outfile.write("#endif" + "\n")
 
 finally:
-	infile.close()
-	outfile.close()
-
+    infile.close()
+    outfile.close()
