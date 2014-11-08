@@ -58,21 +58,24 @@ typeset -U path cdpath fpath manpath
 # load simplified color handling ("$bg[red]$fg[black]")
 autoload -U colors && colors
 
+# source git prompt status
+source ${NESONOBININSTALLATIONDIR}/zsh-git-prompt/zshrc.sh
+
 if [[ "$NESONO_DARKSHELL" == "1" ]] ;then
   if [[ "$EUID" == "0" ]]; then
     # root user
-    PROMPT=$'-> [%?] %{$fg[red]%}%M:%{$fg[cyan]%}%0~%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
+    PROMPT=$'-> [%?] %{$fg[red]%}%M:%{$fg[cyan]%}%0~%{$fg[yellow]%}%{$(git_super_status)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
   else
     # normal users
-    PROMPT=$'-> [%?] %{$fg[green]%}%M:%{$fg[cyan]%}%0~%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
+    PROMPT=$'-> [%?] %{$fg[green]%}%M:%{$fg[cyan]%}%0~%{$fg[yellow]%}%{$(git_super_status)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
   fi
 else
   if [[ "$EUID" == "0" ]]; then
     # root user
-    PROMPT=$'-> [%?] %{$fg[red]%}%M:%{$fg[blue]%}%0~%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
+    PROMPT=$'-> [%?] %{$fg[red]%}%M:%{$fg[blue]%}%0~%{$fg[yellow]%}%{$(git_super_status)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
   else
     # normal users
-    PROMPT=$'-> [%?] %{$fg[green]%}%M:%{$fg[blue]%}%0~%{$fg[yellow]%}%{$(parse_git_branch)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
+    PROMPT=$'-> [%?] %{$fg[green]%}%M:%{$fg[blue]%}%0~%{$fg[yellow]%}%{$(git_super_status)$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
   fi
 fi
 
