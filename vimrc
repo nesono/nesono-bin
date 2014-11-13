@@ -326,6 +326,29 @@ nnoremap <leader>gt :Gtags
 nnoremap <leader>gtr :Gtags -r<cr><cr>
 nnoremap <leader>gtf :Gtags -f<cr><cr>
 
+if has("cscope")
+	set csprg=/usr/bin/cscope
+	set csto=0
+	set cst
+	set nocsverb
+	" add any database in current directory
+	if filereadable("cscope.out")
+		cs add cscope.out
+		" else add database pointed to by environment
+	elseif $CSCOPE_DB != ""
+		cs add $CSCOPE_DB
+	endif
+endif
+
+nnoremap <leader>ss :cs find s =expand("")
+nnoremap <leader>sg :cs find g =expand("")
+nnoremap <leader>sc :cs find c =expand("")
+nnoremap <leader>st :cs find t =expand("")
+nnoremap <leader>se :cs find e =expand("")
+nnoremap <leader>sf :cs find f =expand("")
+nnoremap <leader>si :cs find i ^=expand("")$
+nnoremap <leader>sd :cs find d =expand("")
+
 " quick list navigation
 nnoremap <leader>qq :cn<cr>
 nnoremap <leader>qw :cp<cr>
