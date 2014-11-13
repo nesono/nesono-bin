@@ -109,6 +109,7 @@ install_link ~/.tmux.conf  ${SCRIPTDIR}/tmux.conf
 install_link ~/.screenrc   ${SCRIPTDIR}/screenrc
 install_link ~/.tigrc      ${SCRIPTDIR}/tigrc
 install_link ~/.vim        ${SCRIPTDIR}/vim
+install_link ~/.ackrc      ${SCRIPTDIR}/ackrc
 
 echo "fetch submodules"
 pushd ${SCRIPTDIR}
