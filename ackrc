@@ -1,0 +1,3 @@
+--ignore-file=is:tags
+--ignore-file=is:cscope.out
+--ignore-file=match:/G(PATH|RTAGS|TAGS)/
