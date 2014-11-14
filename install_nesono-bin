@@ -84,12 +84,6 @@ function install_link()
   fi
 }
 
-function gitsub()
-{
-  git submodule init $1
-	git submodule update $1
-}
-
 # check for -f or --force
 case ${1} in
   '--force' | 'f')
@@ -113,8 +107,7 @@ install_link ~/.ackrc      ${SCRIPTDIR}/ackrc
 
 echo "fetch submodules"
 pushd ${SCRIPTDIR}
-gitsub vim/bundle/vundle
-gitsub zsh-git-prompt
+git submodule update --init
 popd
 
 echo ""
