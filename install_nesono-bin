@@ -114,6 +114,7 @@ install_link ~/.ackrc      ${SCRIPTDIR}/ackrc
 echo "fetch submodules"
 pushd ${SCRIPTDIR}
 gitsub vim/bundle/vundle
+gitsub zsh-git-prompt
 popd
 
 echo ""
