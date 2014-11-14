@@ -168,6 +168,8 @@ function check_and_update_git_bin_repo()
 				esac
 			done
 		fi
+		# update submodules
+		git submodule update --init
 		# get back to origin directory
 		popd &> /dev/null
 		echo ""
