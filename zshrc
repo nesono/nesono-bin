@@ -27,7 +27,7 @@
 export NESONOZSHRC="version 1"
 #export LSCOLORS="gxfxcxdxbxegedabagacad"
 
-set -o emacs                   # set emacs editor option
+set -o vi                      # set editor option (vi/emacs)
 setopt correct                 # set correction
 setopt nobeep                  # disable bothering beep
 setopt autolist automenu       # set auto listing to menu style
