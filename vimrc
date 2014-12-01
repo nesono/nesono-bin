@@ -327,7 +327,7 @@ nnoremap <leader>gtr :Gtags -r<cr><cr>
 nnoremap <leader>gtf :Gtags -f<cr><cr>
 
 if has("cscope")
-	set csprg=/usr/bin/cscope
+	"set csprg=cscope
 	set csto=0
 	set cst
 	set nocsverb
@@ -340,14 +340,14 @@ if has("cscope")
 	endif
 endif
 
-nnoremap <leader>ss :cs find s =expand("")
-nnoremap <leader>sg :cs find g =expand("")
-nnoremap <leader>sc :cs find c =expand("")
-nnoremap <leader>st :cs find t =expand("")
-nnoremap <leader>se :cs find e =expand("")
-nnoremap <leader>sf :cs find f =expand("")
-nnoremap <leader>si :cs find i ^=expand("")$
-nnoremap <leader>sd :cs find d =expand("")
+nnoremap <leader>css :cs find s =expand("")<cr>
+nnoremap <leader>csg :cs find g =expand("")<cr>
+nnoremap <leader>csc :cs find c =expand("")<cr>
+nnoremap <leader>cst :cs find t =expand("")<cr>
+nnoremap <leader>cse :cs find e =expand("")<cr>
+nnoremap <leader>csf :cs find f =expand("")<cr>
+nnoremap <leader>csi :cs find i ^=expand("")$<cr>
+nnoremap <leader>csd :cs find d =expand("")<cr>
 
 " quick list navigation
 nnoremap <leader>qq :cn<cr>
