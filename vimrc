@@ -341,14 +341,23 @@ if has("cscope")
 	endif
 endif
 
-nnoremap <leader>css :cs find s =expand("")<cr>
-nnoremap <leader>csg :cs find g =expand("")<cr>
-nnoremap <leader>csc :cs find c =expand("")<cr>
-nnoremap <leader>cst :cs find t =expand("")<cr>
-nnoremap <leader>cse :cs find e =expand("")<cr>
-nnoremap <leader>csf :cs find f =expand("")<cr>
-nnoremap <leader>csi :cs find i ^=expand("")$<cr>
-nnoremap <leader>csd :cs find d =expand("")<cr>
+nnoremap <C-\>s :cs find s <C-R>=expand("<cword>")<cr><cr>
+nnoremap <C-\>g :cs find g <C-R>=expand("<cword>")<cr><cr>
+nnoremap <C-\>c :cs find c <C-R>=expand("<cword>")<cr><cr>
+nnoremap <C-\>t :cs find t <C-R>=expand("<cword>")<cr><cr>
+nnoremap <C-\>e :cs find e <C-R>=expand("<cword>")<cr><cr>
+nnoremap <C-\>f :cs find f <C-R>=expand("<cword>")<cr><cr>
+nnoremap <C-\>i :cs find i ^<C-R>=expand("<cword>")$<cr><cr>
+nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<cr><cr>
+
+nnoremap <C-\>vs :scs find s <C-R>=expand("<cword>")<cr><cr>
+nnoremap <C-\>vg :scs find g <C-R>=expand("<cword>")<cr><cr>
+nnoremap <C-\>vc :scs find c <C-R>=expand("<cword>")<cr><cr>
+nnoremap <C-\>vt :scs find t <C-R>=expand("<cword>")<cr><cr>
+nnoremap <C-\>ve :scs find e <C-R>=expand("<cword>")<cr><cr>
+nnoremap <C-\>vf :scs find f <C-R>=expand("<cword>")<cr><cr>
+nnoremap <C-\>vi :scs find i ^<C-R>=expand("<cword>")$<cr><cr>
+nnoremap <C-\>vd :scs find d <C-R>=expand("<cword>")<cr><cr>
 
 " quick list navigation
 nnoremap <leader>qq :cn<cr>
