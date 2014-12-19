@@ -32,7 +32,7 @@ function parse_git_branch()
   # check if repo stat is disabled
   [ -n "${NESONO_NOREPO}" ] && return
   # get git repository status
-  local DIRTY STATUS
+  local DIRTY STATUS REPO BRANCH
   STATUS=$(git status --porcelain 2>/dev/null)
   [ $? -eq 128 ] && return
   [ -z "$(echo "$STATUS" | grep -e '^ [RDMA]')" ] || DIRTY="*"
@@ -41,7 +41,11 @@ function parse_git_branch()
   [ -z "$(git stash list)"                      ] || DIRTY="${DIRTY}^"
   AHEAD=$(git status 2>/dev/null | grep -e 'ahead of' | awk '{ print $9; }')
   [ -z "${AHEAD}"                               ] || DIRTY="${DIRTY}!"
-  echo " (git: $(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')$DIRTY)"
+  BRANCH=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')
+  REPO=$(git remote -v | tail -1)
+  REPO=${REPO%% *}
+  REPO=${REPO##*/}
+  echo " (git:${REPO}:${BRANCH}${DIRTY})"
 }
 
 function parse_svn_revision()
