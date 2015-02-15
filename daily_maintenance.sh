@@ -312,6 +312,12 @@ function check_and_update_ports()
 	date -r `pkg query %t | sort | tail -n1` "+%Y%m%d"
 	portmaster -a -d
 	portmaster -y --clean-packages
+	# do some statistic tricks - rand(256) < 20
+	if [ `od -An -N1 -i /dev/random` -lt 20 ]; then
+		portmaster -y -t --clean-distfiles
+	else
+		portmaster -y --clean-distfiles
+	fi
 }
 
 function freebsd_update()
