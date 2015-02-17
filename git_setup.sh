@@ -126,12 +126,13 @@ case "${ANSWER}" in
 		git config --global alias.aliases "config --get-regexp alias"
 		git config --global alias.stull "!git stash save && git pull --rebase && git stash pop"
 		git config --global alias.adda "add --all"
-		git config --global alias.snap "!f() { git push origin \`git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //'\`:snap/\`whoami\`/\$1; }; f"
-		git config --global alias.gate "!f() { git push origin \`git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //'\`:push/\`whoami\`/\$1; }; f"
+		git config --global alias.snap "!f() { git push origin HEAD:snap/\`id -u -n\`/\$1; }; f"
+		git config --global alias.gate "!f() { git push origin HEAD:push/\`id -u -n\`/\$1; }; f"
 		git config --global alias.ss "stash show -p"
 		git config --global alias.pr "pull --rebase"
 		git config --global alias.fa "fetch --all"
 		git config --global alias.fap "fetch --all --prune"
+		git config --global alias.clobber "clean -d -x -f"
 		;;
 	"d" | "D" )
 		echo "removing section alias from git config"
@@ -146,6 +147,7 @@ case "${ANSWER}" in
 		git config --global --unset alias.pr
 		git config --global --unset alias.fa
 		git config --global --unset alias.fap
+		git config --global --unset alias.clobber
 		;;
 esac
 
