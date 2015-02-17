@@ -22,24 +22,12 @@ bind generic | none
 bind refs C none
 
 # new productivity bindings
-bind status = status-update                     # add/remove/track files in status view
-bind stage  = status-update                     # add/remove/track files in status view
-bind status - status-revert                     # discard changes in tracked file
-bind stage  - status-revert                     # discard changes in tracked file
-bind status x ?git clean -xfd                   # delete everything untracked
 bind generic <LessThan> !git fetch              # fetch from remote
 bind generic > !git push                        # push to remote
-bind main | !git rebase                         # rebase current branch to remote
-bind main \ !git pull --rebase                  # pull and rebase current branch to remote
-bind status c !git commit -v                    # commit verbosely
-bind status + !git commit --amend               # amend to last commit
 bind generic { ?git checkout -b "%(prompt)"     # branch off
 bind generic } ?git merge "%(prompt)"           # merge
 bind generic ^ ?git stash save "%(prompt)"      # save to the stash
 bind generic v ?git stash pop                   # pop from the stash
-bind diff [ :toggle diff-context -3             # Decrease context (-U arg)
-bind diff ] :toggle diff-context +3             # Increase context
-bind main p ?git cherry-pick %(commit)          # cherry pick commit
 bind generic 1 view-main                        # show main view
 bind generic 2 view-status                      # show status view
 bind generic 3 view-log                         # show log view
@@ -47,18 +35,35 @@ bind generic 4 view-tree                        # show tree view
 bind generic 5 view-stash                       # show stash
 bind generic 6 view-grep                        # show grep view
 bind generic l view-refs                        # list branches
-bind tree l !git glog -p --pretty=short %(file) # graphical log of a single file
 bind generic r !git ls-remote                   # ls-remote central repo
 bind generic P ?git fetch -p --all              # fetches all remotes and prunes any deleted
-
-bind generic y @bash -c "echo -n `echo %(commit) | cut -c 1-7` | pbcopy" # copy (yank) commid hash to clipboard (truncated to 7 chars)
-bind generic Y @bash -c "echo -n %(commit) | pbcopy" # copy (yank) commid hash to clipboard
-
 bind generic K scroll-line-up
 bind generic J scroll-line-down
 bind generic <Ctrl-k> scroll-page-up
 bind generic <Ctrl-j> scroll-page-down
 bind generic 0 scroll-first-col
+bind generic y @bash -c "echo -n `echo %(commit) | cut -c 1-7` | pbcopy" # copy (yank) commid hash to clipboard (truncated to 7 chars)
+bind generic Y @bash -c "echo -n %(commit) | pbcopy" # copy (yank) commid hash to clipboard
+
+bind main | !git rebase                         # rebase current branch to remote
+bind main \ !git pull --rebase                  # pull and rebase current branch to remote
+bind main p ?git cherry-pick %(commit)          # cherry pick commit
+bind main ! ?git revert %(commit)               # revert commit
+bind main i ?git rebase --interactive %(commit) # interactively rebase commit
+
+bind status c !git commit -v                    # commit verbosely
+bind status + !git commit --amend               # amend to last commit
+bind status = status-update                     # add/remove/track files in status view
+bind status - status-revert                     # discard changes in tracked file
+bind status x ?git clean -xfd                   # delete everything untracked
+
+bind stage  = status-update                     # add/remove/track files in status view
+bind stage  - status-revert                     # discard changes in tracked file
+
+bind diff [ :toggle diff-context -3             # Decrease context (-U arg)
+bind diff ] :toggle diff-context +3             # Increase context
+
+bind tree l !git glog -p --pretty=short %(file) # graphical log of a single file
 
 bind refs c !git checkout %(branch)
 

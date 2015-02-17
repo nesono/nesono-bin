@@ -56,8 +56,9 @@ Plugin 'vim-scripts/gtags.vim'
 Plugin 'vim-scripts/a.vim'
 Plugin 'wincent/Command-T' " requires vim and system having the same ruby version
 Plugin 'mattn/emmet-vim'
-Plugin 'OmniSharp/omnisharp-vim'
+"Plugin 'OmniSharp/omnisharp-vim'
 Plugin 'milkypostman/vim-togglelist'
+"Plugin 'tpope/vim-sleuth'
 if has("unix")
 	Plugin 'vim-scripts/vim-gitgutter'
 endif
@@ -106,13 +107,15 @@ set foldlevel=100
 " basic indentation rules
 " see cinoptions-values for descr
 set cino=>4,:0,=4,g0,h4,t0,+8,c4,(0,W8,u4,N-s
-" default indentation settings
+
+" indentation settings (should be done with vim-sleuth?)
 set autoindent
 set tabstop=4
 set shiftwidth=4
+set smarttab
+
 set nolist
 " enable this as soon, as you are away from mmt ;)
-set smarttab
 " search options
 set ic
 set smartcase
@@ -339,25 +342,34 @@ if has("cscope")
 	elseif $CSCOPE_DB != ""
 		cs add $CSCOPE_DB
 	endif
+	set cscopequickfix=s-,c-,d-,i-,t-,e-
 endif
 
-nnoremap <C-\>s :cs find s <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>g :cs find g <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>c :cs find c <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>t :cs find t <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>e :cs find e <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>f :cs find f <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>i :cs find i ^<C-R>=expand("<cword>")$<cr><cr>
-nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<cr><cr>
 
-nnoremap <C-\>vs :scs find s <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>vg :scs find g <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>vc :scs find c <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>vt :scs find t <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>ve :scs find e <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>vf :scs find f <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>vi :scs find i ^<C-R>=expand("<cword>")$<cr><cr>
-nnoremap <C-\>vd :scs find d <C-R>=expand("<cword>")<cr><cr>
+
+
+
+
+
+
+
+nnoremap <C-\>s :cs find s  <C-R>=expand("<cword>") <cr><cr>  " s: Find this C symbol
+nnoremap <C-\>g :cs find g  <C-R>=expand("<cword>") <cr><cr>  " g: Find this definition
+nnoremap <C-\>c :cs find c  <C-R>=expand("<cword>") <cr><cr>  " d: Find functions called by this function
+nnoremap <C-\>t :cs find t  <C-R>=expand("<cword>") <cr><cr>  " c: Find functions calling this function
+nnoremap <C-\>e :cs find e  <C-R>=expand("<cword>") <cr><cr>  " t: Find this text string
+nnoremap <C-\>f :cs find f  <C-R>=expand("<cword>") <cr><cr>  " e: Find this egrep pattern
+nnoremap <C-\>i :cs find i ^<C-R>=expand("<cword>")$<cr><cr>  " f: Find this file
+nnoremap <C-\>d :cs find d  <C-R>=expand("<cword>") <cr><cr>  " i: Find files #including this file
+
+nnoremap <C-\>vs :scs find s  <C-R>=expand("<cword>") <cr><cr> " s: Find this C symbol
+nnoremap <C-\>vg :scs find g  <C-R>=expand("<cword>") <cr><cr> " g: Find this definition
+nnoremap <C-\>vc :scs find c  <C-R>=expand("<cword>") <cr><cr> " d: Find functions called by this function
+nnoremap <C-\>vt :scs find t  <C-R>=expand("<cword>") <cr><cr> " c: Find functions calling this function
+nnoremap <C-\>ve :scs find e  <C-R>=expand("<cword>") <cr><cr> " t: Find this text string
+nnoremap <C-\>vf :scs find f  <C-R>=expand("<cword>") <cr><cr> " e: Find this egrep pattern
+nnoremap <C-\>vi :scs find i ^<C-R>=expand("<cword>")$<cr><cr> " f: Find this file
+nnoremap <C-\>vd :scs find d  <C-R>=expand("<cword>") <cr><cr> " i: Find files #including this file
 
 " quick list navigation
 nnoremap <leader>qq :cn<cr>
@@ -376,6 +388,8 @@ nnoremap <leader>bb :e#<CR>           " Ctrl-l edits last file
 
 " fugitive handling
 nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gp :Gpull --rebase<cr>
+nnoremap <leader>gf :Gfetch --all --prune<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gr :Gremove<cr>
 nnoremap <leader>gw :Gwrite<cr>
