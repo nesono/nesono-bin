@@ -59,6 +59,7 @@ Plugin 'mattn/emmet-vim'
 "Plugin 'OmniSharp/omnisharp-vim'
 Plugin 'milkypostman/vim-togglelist'
 "Plugin 'tpope/vim-sleuth'
+"Plugin 'vim-scripts/Align'
 if has("unix")
 	Plugin 'vim-scripts/vim-gitgutter'
 endif
