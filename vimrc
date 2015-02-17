@@ -194,6 +194,8 @@ if has("autocmd")
 	" also don't use tabs to indent in cmake
 	au FileType cmake set noexpandtab
 
+	autocmd BufReadPost fugitive://* set bufhidden=delete
+
 	"" enable some useful stuff for python
 	"au FileType python set smartindent
 	"au FileType python inoremap # X#
@@ -391,13 +393,14 @@ nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gp :Gpull --rebase<cr>
 nnoremap <leader>gf :Gfetch --all --prune<cr>
 nnoremap <leader>gs :Gstatus<cr>
-nnoremap <leader>gr :Gremove<cr>
+nnoremap <leader>gr :Gread<cr>
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gll :Glog<cr>
 nnoremap <leader>gl :Glog          " needs parameter
 nnoremap <leader>gg :Ggrep         " needs parameter
 nnoremap <leader>go :Gbrowse<cr>
+nnoremap <leader>gm :Gmove         " needs parameter
 
 " window handling
 nnoremap <leader>wq :q<cr>
