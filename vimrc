@@ -347,31 +347,23 @@ if has("cscope")
 	set cscopequickfix=s-,c-,d-,i-,t-,e-
 endif
 
+nnoremap <C-\>s :cs f s <C-R>=expand("<cword>")<cr><cr>  " s: Find this C symbol
+nnoremap <C-\>g :cs f g <C-R>=expand("<cword>")<cr><cr>  " g: Find this definition
+nnoremap <C-\>c :cs f c <C-R>=expand("<cword>")<cr><cr>  " c: Find functions calling this function
+nnoremap <C-\>d :cs f d <C-R>=expand("<cfile>")<cr><cr>  " d: Find functions called by this function
+nnoremap <C-\>t :cs f t <C-R>=expand("<cword>")<cr><cr>  " t: Find this text string
+nnoremap <C-\>e :cs f e <C-R>=expand("<cword>")<cr><cr>  " e: Find this egrep pattern
+nnoremap <C-\>f :cs f f <C-R>=expand("<cfile>")<cr><cr>  " f: Find this file
+nnoremap <C-\>i :cs f i <C-R>=expand("<cfile>")<cr><cr>  " i: Find files #including this file
 
-
-
-
-
-
-
-
-nnoremap <C-\>s :cs find s  <C-R>=expand("<cword>") <cr><cr>  " s: Find this C symbol
-nnoremap <C-\>g :cs find g  <C-R>=expand("<cword>") <cr><cr>  " g: Find this definition
-nnoremap <C-\>c :cs find c  <C-R>=expand("<cword>") <cr><cr>  " d: Find functions called by this function
-nnoremap <C-\>t :cs find t  <C-R>=expand("<cword>") <cr><cr>  " c: Find functions calling this function
-nnoremap <C-\>e :cs find e  <C-R>=expand("<cword>") <cr><cr>  " t: Find this text string
-nnoremap <C-\>f :cs find f  <C-R>=expand("<cword>") <cr><cr>  " e: Find this egrep pattern
-nnoremap <C-\>i :cs find i ^<C-R>=expand("<cword>")$<cr><cr>  " f: Find this file
-nnoremap <C-\>d :cs find d  <C-R>=expand("<cword>") <cr><cr>  " i: Find files #including this file
-
-nnoremap <C-\>vs :scs find s  <C-R>=expand("<cword>") <cr><cr> " s: Find this C symbol
-nnoremap <C-\>vg :scs find g  <C-R>=expand("<cword>") <cr><cr> " g: Find this definition
-nnoremap <C-\>vc :scs find c  <C-R>=expand("<cword>") <cr><cr> " d: Find functions called by this function
-nnoremap <C-\>vt :scs find t  <C-R>=expand("<cword>") <cr><cr> " c: Find functions calling this function
-nnoremap <C-\>ve :scs find e  <C-R>=expand("<cword>") <cr><cr> " t: Find this text string
-nnoremap <C-\>vf :scs find f  <C-R>=expand("<cword>") <cr><cr> " e: Find this egrep pattern
-nnoremap <C-\>vi :scs find i ^<C-R>=expand("<cword>")$<cr><cr> " f: Find this file
-nnoremap <C-\>vd :scs find d  <C-R>=expand("<cword>") <cr><cr> " i: Find files #including this file
+nnoremap <C-\>vs :scs f s <C-R>=expand("<cword>")<cr><cr> " s: Find this C symbol
+nnoremap <C-\>vg :scs f g <C-R>=expand("<cword>")<cr><cr> " g: Find this definition
+nnoremap <C-\>vc :scs f c <C-R>=expand("<cword>")<cr><cr> " c: Find functions calling this function
+nnoremap <C-\>vd :scs f d <C-R>=expand("<cfile>")<cr><cr> " d: Find functions called by this function
+nnoremap <C-\>vt :scs f t <C-R>=expand("<cword>")<cr><cr> " t: Find this text string
+nnoremap <C-\>ve :scs f e <C-R>=expand("<cword>")<cr><cr> " e: Find this egrep pattern
+nnoremap <C-\>vf :scs f f <C-R>=expand("<cfile>")<cr><cr> " f: Find this file
+nnoremap <C-\>vi :scs f i <C-R>=expand("<cfile>")<cr><cr> " i: Find files #including this file
 
 " quick list navigation
 nnoremap <leader>qq :cn<cr>
