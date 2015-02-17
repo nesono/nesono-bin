@@ -8,6 +8,7 @@ bind status u none
 #bind generic Hash none 
 bind generic m none
 bind generic s none
+bind generic g none
 bind generic C none
 bind generic c none
 bind generic l none
@@ -28,6 +29,8 @@ bind generic { ?git checkout -b "%(prompt)"     # branch off
 bind generic } ?git merge "%(prompt)"           # merge
 bind generic ^ ?git stash save "%(prompt)"      # save to the stash
 bind generic v ?git stash pop                   # pop from the stash
+bind generic s ?git push origin HEAD:snap/joissing/%(prompt) # snap current HEAD
+bind generic g ?git push origin HEAD:push/joissing/%(prompt) # snap current HEAD
 bind generic 1 view-main                        # show main view
 bind generic 2 view-status                      # show status view
 bind generic 3 view-log                         # show log view
