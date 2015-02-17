@@ -38,11 +38,15 @@ URLS[5]="http://www.showmyip.com"
 for URL in ${URLS[@]}
 do
   THIS=${URL}
+  echo "checking ${URL}..."
   IP=`curl -s "${THIS}" | tr -cs '[0-9\.]' '\012' \
           | awk -F'.' 'NF==4 && $1>0 && $1<256 && $2<256 && $3<256 && $4<256 && !/\.\./' | uniq`
   if [ $? == 0 ]; then
-    IP=`echo $IP | awk '{print $1}'`
-    echo "Your WAN IP Address is: $IP"
-    exit
+	  IP=`echo $IP | awk '{print $1}'`
+	  echo "...succeeded"
+	  echo "Your WAN IP Address is: $IP"
+	  exit
+  else
+	  echo "...failed"
   fi
 done
