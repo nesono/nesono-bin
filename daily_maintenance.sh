@@ -365,12 +365,8 @@ function run_in_tmux()
 if [ "$1" != "--after-su" ]; then
 	# restart in tmux if available and not yet running
 	run_in_tmux
-	# check for mmt-bin directory and upgrade it, if neccessary - svn version
-	check_and_update_svn_bin_repo ~/mmt-bin
 	# check for nesono-bin directory and upgrade it, if neccessary - svn version
 	check_and_update_svn_bin_repo ${NESONOBININSTALLATIONDIR}
-	# check for mmt-bin directory and upgrade it, if neccessary - git version
-	check_and_update_git_bin_repo ~/mmt-bin
 	# check for nesono-bin directory and upgrade it, if neccessary - git version
 	check_and_update_git_bin_repo ${NESONOBININSTALLATIONDIR}
 
