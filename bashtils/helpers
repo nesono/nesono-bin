@@ -41,6 +41,15 @@ function cdmkdir()
   done
 }
 
+function cdgitclone()
+{
+	local last
+	git clone $@
+
+	for last; do true; done
+	[[ -d "$last" ]] && cd "$last"
+}
+
 # function to create an absolute path from a relative one
 function rel2abs()
 {
