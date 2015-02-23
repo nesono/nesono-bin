@@ -54,12 +54,12 @@ Plugin 'scrooloose/syntastic'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'vim-scripts/gtags.vim'
 Plugin 'vim-scripts/a.vim'
-Plugin 'wincent/Command-T' " requires vim and system having the same ruby version
+Plugin 'kien/ctrlp.vim'
 Plugin 'mattn/emmet-vim'
 "Plugin 'OmniSharp/omnisharp-vim'
 Plugin 'milkypostman/vim-togglelist'
 "Plugin 'tpope/vim-sleuth'
-"Plugin 'vim-scripts/Align'
+Plugin 'vim-scripts/Align'
 if has("unix")
 	Plugin 'vim-scripts/vim-gitgutter'
 endif
@@ -370,10 +370,6 @@ nnoremap <C-\>vi :scs f i <C-R>=expand("<cfile>")<cr><cr> " i: Find files #inclu
 nnoremap <leader>qq :cn<cr>
 nnoremap <leader>qw :cp<cr>
 
-" command-t mappings
-nnoremap <leader>tt :CommandT<cr>
-nnoremap <leader>tb :CommandTMRU<cr>
-
 " buffer handling
 nnoremap <leader>bo :only<cr>     " keep only this buffer open (in split view)
 nnoremap <leader>bd :bd<cr>       " delete buffer
@@ -394,9 +390,5 @@ nnoremap <leader>gl :Glog          " needs parameter
 nnoremap <leader>gg :Ggrep         " needs parameter
 nnoremap <leader>go :Gbrowse<cr>
 nnoremap <leader>gm :Gmove         " needs parameter
-
-" window handling
-nnoremap <leader>wq :q<cr>
-nnoremap <leader>ww :x<cr>
 
 " ~/.vimrc ends here
