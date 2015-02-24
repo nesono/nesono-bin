@@ -34,6 +34,3 @@
 [submodule "vim/bundle/vundle"]
 	path = vim/bundle/vundle
 	url = git://github.com/gmarik/vundle.git
-[submodule "zsh-git-prompt"]
-	path = zsh-git-prompt
-	url = https://github.com/olivierverdier/zsh-git-prompt.git
