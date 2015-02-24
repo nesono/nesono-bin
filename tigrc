@@ -21,6 +21,11 @@ bind generic w none
 bind generic <Space> none
 bind generic | none
 bind refs C none
+bind refs b none
+bind refs u none
+bind refs d none
+bind refs D none
+bind refs ! none
 
 # new productivity bindings
 bind generic <LessThan> !git fetch              # fetch from remote
@@ -68,7 +73,12 @@ bind diff ] :toggle diff-context +3             # Increase context
 
 bind tree l !git glog -p --pretty=short %(file) # graphical log of a single file
 
-bind refs c !git checkout %(branch)
+bind refs c !git checkout %(branch)             # checkout branch
+bind refs b ?git checkout -b %(prompt)          # create branch
+bind refs u ?git push --set-upstream origin %(branch) # create and set an upstream branch
+bind refs D ?git push origin :%(branch)         # delete upstream branch
+bind refs d ?git branch -d %(branch)            # delete local branch
+bind refs ! ?git branch -D %(branch)            # delete non merged local branch
 
 bind generic S :source ~/.tigrc                 # reload ~/.tigrc
 
