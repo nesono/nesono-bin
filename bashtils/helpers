@@ -208,3 +208,63 @@ function git-branchstack()
 		fi
 	fi
 }
+
+function tolower()
+{
+	if [ -z $1 ]; then
+		echo ""
+		echo "usage $0: $0 filename"
+		echo "  makes the filename lowercase"
+		echo ""
+		exit 1
+	fi
+
+	for file in $@; do
+		lowered=`echo $file | tr [A-Z] [a-z]`
+		if [ "$file" != "$lowered" ]; then
+			mv "$file" "$lowered"
+		else
+			echo "file $lowered already exists, skipping renaming"
+		fi
+	done
+}
+
+function toupper()
+{
+	if [ -z $1 ]; then
+		echo ""
+		echo "usage $0: $0 filename"
+		echo "  makes the filename uppercase"
+		echo ""
+		exit 1
+	fi
+
+	for file in $@; do
+		uppered=`echo $file | tr [a-z] [A-Z]`
+		if [ "$file" != "$uppered" ]; then
+			mv "$file" "$uppered"
+		else
+			echo "file $uppered alread exists, skipping renaming"
+		fi
+	done
+}
+
+function tonowhitespace()
+{
+	if [ -z $1 ]; then
+		echo ""
+		echo "usage $0: $0 filename"
+		echo "  makes the filename having no whitespace"
+		echo ""
+		exit 1
+	fi
+
+	for file in $@; do
+		nowhitespace=`echo $file | tr ' ' _`
+		if [ "$file" != "$nowhitespace" ]; then
+			mv "$file" "$nowhitespace"
+		else
+			echo "file $nowhitespace alread exists, skipping renaming"
+		fi
+	done
+}
