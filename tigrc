@@ -5,7 +5,6 @@ set line-graphics = utf-8
 # disable defaults
 bind generic S none
 bind status u none
-#bind generic Hash none 
 bind generic m none
 bind generic s none
 bind generic g none
@@ -14,12 +13,13 @@ bind generic c none
 bind generic l none
 bind generic t none
 bind generic y none
-bind status u none
 bind generic H none
 bind generic P none
 bind generic w none
 bind generic <Space> none
 bind generic | none
+bind main R none
+bind status u none
 bind refs C none
 bind refs b none
 bind refs u none
@@ -58,6 +58,8 @@ bind main \ !git pull --rebase                  # pull and rebase current branch
 bind main p ?git cherry-pick %(commit)          # cherry pick commit
 bind main ! ?git revert %(commit)               # revert commit
 bind main i ?git rebase --interactive %(commit) # interactively rebase commit
+bind main R ?git reset --hard %(commit)         # reset hard
+bind main m ?git reset --mixed %(commit)        # reset mixed (default)
 
 bind status c !git commit -v                    # commit verbosely
 bind status + !git commit --amend               # amend to last commit
