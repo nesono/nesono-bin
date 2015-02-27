@@ -133,6 +133,7 @@ case "${ANSWER}" in
 		git config --global alias.fa "fetch --all"
 		git config --global alias.fap "fetch --all --prune"
 		git config --global alias.clobber "clean -d -x -f"
+		git config --global alias.sts "status --porcelain"
 		;;
 	"d" | "D" )
 		echo "removing section alias from git config"
@@ -148,6 +149,7 @@ case "${ANSWER}" in
 		git config --global --unset alias.fa
 		git config --global --unset alias.fap
 		git config --global --unset alias.clobber
+		git config --global --unset alias.sts
 		;;
 esac
 
