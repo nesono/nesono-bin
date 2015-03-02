@@ -58,9 +58,6 @@ typeset -U path cdpath fpath manpath
 # load simplified color handling ("$bg[red]$fg[black]")
 autoload -U colors && colors
 
-# source git prompt status
-source ${NESONOBININSTALLATIONDIR}/zsh-git-prompt/zshrc.sh
-
 if [[ "$NESONO_DARKSHELL" == "1" ]] ;then
   if [[ "$EUID" == "0" ]]; then
     # root user

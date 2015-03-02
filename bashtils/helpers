@@ -29,16 +29,16 @@
 # function to create a directory and step into it
 function cdmkdir()
 {
-  mkdir "$@"
-  local path
-  for path in "$@"; do
-    # ignore any arguments
-    if [[ "$path" = -* ]]; then :
-    else
-      cd "$path"
-      return
-    fi
-  done
+	mkdir "$@"
+	local path
+	for path in "$@"; do
+		# ignore any arguments
+		if [[ "$path" = -* ]]; then :
+		else
+			cd "$path"
+			return
+		fi
+	done
 }
 
 function cdgitclone()
@@ -53,42 +53,42 @@ function cdgitclone()
 # function to create an absolute path from a relative one
 function rel2abs()
 {
-  #echo "input: \"${1}\""
-  # check, if argument is a file
-  if [ -f "${1}" ]; then
-    # directory name
-    local dir="$(dirname "${1}")"
-    #echo "dir: ${dir}"
-    local file="$(basename "${1}")"
-    #echo "file: ${file}"
+	#echo "input: \"${1}\""
+	# check, if argument is a file
+	if [ -f "${1}" ]; then
+		# directory name
+		local dir="$(dirname "${1}")"
+		#echo "dir: ${dir}"
+		local file="$(basename "${1}")"
+		#echo "file: ${file}"
 
-    # change into dir
-    pushd "${dir}" &> /dev/null
-    local abspath="$(pwd)/${file}"
-    echo "${abspath}"
-    popd &> /dev/null
-  fi
-  if [ -d "${1}" ]; then
-    # change into dir
-    pushd "${1}" &> /dev/null
-    local abspath="$(pwd)"
-    echo "${abspath}"
-    popd &> /dev/null
-  fi
+		# change into dir
+		pushd "${dir}" &> /dev/null
+		local abspath="$(pwd)/${file}"
+		echo "${abspath}"
+		popd &> /dev/null
+	fi
+	if [ -d "${1}" ]; then
+		# change into dir
+		pushd "${1}" &> /dev/null
+		local abspath="$(pwd)"
+		echo "${abspath}"
+		popd &> /dev/null
+	fi
 
-  return 0
+	return 0
 }
 
 # helper function to get the current users name (not using ${USER}, which could be corrupt)
 function current_username()
 {
-  id | sed 's/uid=[0-9][0-9]*(\([a-zA-Z][a-zA-Z]*\)).*/\1/g'
+	id | sed 's/uid=[0-9][0-9]*(\([a-zA-Z][a-zA-Z]*\)).*/\1/g'
 }
 
 # calculate something
 function calc ()
 {
-  echo "$*" | bc -l
+	echo "$*" | bc -l
 }
 
 function backup ()
@@ -124,34 +124,34 @@ function backup ()
 
 function md5equal()
 {
-  if [[ -z "$1" ]]; then
-	  echo "usage: md5equal file_a file_b"
+	if [[ -z "$1" ]]; then
+		echo "usage: md5equal file_a file_b"
 		echo "check two files for equality by their md5 hash"
 		return
 	fi
-  if [[ -z "$2" ]]; then
-	  echo "usage: md5equal file_a file_b"
+	if [[ -z "$2" ]]; then
+		echo "usage: md5equal file_a file_b"
 		echo "check two files for equality by their md5 hash"
 		return
 	fi
-  local file_a_md5=`md5 $1 | cut -d ' ' -f 4`
-  local file_b_md5=`md5 $2 | cut -d ' ' -f 4`
+	local file_a_md5=`md5 $1 | cut -d ' ' -f 4`
+	local file_b_md5=`md5 $2 | cut -d ' ' -f 4`
 
-  echo "file A: $file_a_md5"
+	echo "file A: $file_a_md5"
 	echo "file B: $file_b_md5"
 
 	if [[ "${file_a_md5}" == "${file_b_md5}" ]]; then
-	  echo "files \"$1\" and \"$2\" are equal"
-  else
-	  echo "files \"$1\" and \"$2\" are NOT equal"
+		echo "files \"$1\" and \"$2\" are equal"
+	else
+		echo "files \"$1\" and \"$2\" are NOT equal"
 	fi
 }
 
 # function to create a new script with mode 755
 function newscript()
 {
-  if [[ -z "$1" ]]; then
-	  echo "usage: newscript filename"
+	if [[ -z "$1" ]]; then
+		echo "usage: newscript filename"
 		return
 	fi
 	touch "$1"
@@ -268,3 +268,73 @@ function tonowhitespace()
 		fi
 	done
 }
+
+function gitignore()
+{
+	if [[ -z "$*" ]]; then
+		echo "please specify the file pattern you want to ignore"
+		exit 101
+	fi
+
+	local is_global=0
+	local DIRTY=""
+	local gitignorefile
+
+	local branch
+	local git_repo_root
+	local gitignorefile
+
+	# check if we are in a git repo
+	local status=$(git status --porcelain 2> /dev/null)
+	if [[ $? -eq 128 ]]; then
+		is_global=1
+		gitignorefile="~/.gitignore"
+		echo "not in a git repo"
+		echo "adding ignore rules to global gitignore file"
+	else
+		branch=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')
+		git_repo_root=$(git rev-parse --show-toplevel)
+		gitignorefile="$git_repo_root/.gitignore"
+
+		[ -z "$(echo "$status" | grep -e '.gitignore' | grep -e '^ [RDMA]')" ] || DIRTY="*"
+		[ -z "$(echo "$status" | grep -e '.gitignore' | grep -e '^?? ')"     ] || DIRTY="*"
+		[ -z "$(echo "$status" | grep -e '^[RMDA]')"  ]                        || DIRTY="${DIRTY}+"
+		echo "In git repo:"
+		echo "     branch: $branch"
+		echo "       root: $git_repo_root"
+		echo "      dirty: $DIRTY"
+		pushd $git_repo_root &> /dev/null
+	fi
+
+	read -n1 -r -s -p "Press any key to continue" key
+
+	local pattern
+	for pattern; do
+		echo "adding ignore lines pattern"
+		echo "to $gitignorefile"
+		for entry; do
+			echo $entry >> $gitignorefile
+		done
+	done
+
+	if [[ -n "$EDITOR" ]]; then
+		$EDITOR $gitignorefile 
+		if [[ $is_global -eq 0 ]]; then
+			if [[ -z "$DIRTY" ]]; then
+				git add $gitignorefile
+				git commit -v
+			else
+				echo "Dirty working copy, please commit the change yourself"
+			fi
+		else
+			echo "global ignore file, no commit neccessary"
+		fi
+	else
+		echo "EDITOR env var not set"
+		echo "please open $gitignorefile,"
+		echo "check the contents, and commit"
+		echo "the change yourself (if in a repo"
+	fi
+	popd &> /dev/null
+}
+
