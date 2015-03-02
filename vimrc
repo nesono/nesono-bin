@@ -293,6 +293,7 @@ noremap <silent> <F11> :call ToggleLocationList()<CR>
 
 " toggle browse tree region
 nnoremap <F2> :NERDTreeToggle<CR>
+nnoremap <leader>ntf :NERDTreeFind<CR>
 " open NERDtree if vim was opened without a file specified
 "autocmd vimenter * if !argc() | silent! NERDTree | endif
 
