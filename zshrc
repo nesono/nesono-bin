@@ -55,26 +55,18 @@ autoload -Uz insert-composed-char && zle -N insert-composed-char
 # automatically remove duplicates from these arrays
 typeset -U path cdpath fpath manpath
 
-# load simplified color handling ("$bg[red]$fg[black]")
+# load simplified color handling ("%K{red}%F{black}")
 autoload -U colors && colors
 
-if [[ "$NESONO_DARKSHELL" == "1" ]] ;then
-	if [[ "$EUID" == "0" ]]; then
-		# root user
-		PROMPT=$'[%?]%{$(zsh_git_prompt)%} %{$fg[white]%}%{$(date "+%Y-%m-%d %H:%M:%S")%} %{$fg[red]%}%M%{$fg[cyan]%}\n%0~%{$fg[yellow]%}%{$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
-	else
-		# normal users
-		PROMPT=$'[%?]%{$(zsh_git_prompt)%} %{$fg[white]%}%{$(date "+%Y-%m-%d %H:%M:%S")%} %{$fg[green]%}%M%{$fg[cyan]%}\n%0~%{$fg[yellow]%}%{$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
-	fi
-else
-	if [[ "$EUID" == "0" ]]; then
-		# root user
-		PROMPT=$'[%?]%{$(zsh_git_prompt)%} %{$fg[white]%}%{$(date "+%Y-%m-%d %H:%M:%S")%} %{$fg[red]%}%M%{$fg[blue]%}\n%0~%{$fg[yellow]%}%{$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
-	else
-		# normal users
-		PROMPT=$'[%?]%{$(zsh_git_prompt)%} %{$fg[white]%}%{$(date "+%Y-%m-%d %H:%M:%S")%} %{$fg[green]%}%M%{$fg[blue]%}\n%0~%{$fg[yellow]%}%{$(parse_svn_revision)$(parse_hg_branch)%}%{$reset_color%}\n> '
-	fi
+defcol='%{%F{blue}%K{white}%}'
+usercol='%{%F{green}%}'
+
+if [[ "$EUID" == "0" ]]; then
+	# root user
+	usercol='%{%F{red}%}'
 fi
+
+PROMPT=$'$defcol %? %{$(zsh_git_prompt)$(parse_svn_revision)$(parse_hg_branch) %}%{%F{black}%}%{$(date "+%Y-%m-%d %H:%M:%S")%} $usercol%M %F{white}%K%{$reset_color%}%{%F{blue}%}\n%0~%{%F{yellow}%}%{$reset_color%}\n> '
 
 # provides a temporary session cookie for the shell session
 source ${NESONOBININSTALLATIONDIR}/sessioncookie
