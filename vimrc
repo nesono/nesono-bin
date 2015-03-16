@@ -229,7 +229,7 @@ if has("gui_running")
 		" disable antialiasing in guis
 		"set noantialias
 		" set gui font
-		set gfn=Source\ Code\ Pro:h12
+		set gfn=SourceCodePro+Powerline+Awesome\ Regular:h12
 	elseif has("gui_win32")
 		set guifont=Consolas:h11:cANSI
 	endif
