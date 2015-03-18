@@ -348,16 +348,19 @@ function gitignore()
 
 function gitallcmd()
 {
-	if [[ $# -lt 2 ]]; then
+	if [[ $# -lt 1 ]]; then
 		echo "Usage: $0 <dir> <cmd>"
 		echo "Invokes <cmd> in all git roots found in <dir>"
 		return 101
 	fi
 
 	local searchbase reposfound
-	searchbase=$1
+	searchbase='.'
+	if [[ -d "$1" ]]; then
+		searchbase=$1
+		shift
+	fi
 	echo "searchbase: $searchbase"
-	shift
 	cmd="$@"
 
 	find "$searchbase" -name .git | sed 's/\/\.git//' | xargs -I % $SHELL -c "pushd %; $cmd; popd"
