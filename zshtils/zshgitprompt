@@ -80,11 +80,11 @@ function custom_build_prompt {
     local original_prompt=$PS1
 
 
-    local local_info="%K{white}%F{black}"
-    local star="%K{white}%F{yellow}"
-    local red_on_white="%K{white}%F{red}"
-    local remote_info="%K{yellow}%F{black}"
-    local white_on_remote="%K{yellow}%F{white}"
+    local local_info="%{%F{black}%K{white}%}"
+    local star="%{%F{yellow}%K{white}%}"
+    local signal_col="%{%F{red%K{white}%}"
+    local remote_info="%{%K{yellow}%F{black}%}"
+    local white_on_remote="%{%K{yellow}%F{white}%}"
  
     # Flags
     local omg_default_color_on="${local_info}"
@@ -97,9 +97,9 @@ function custom_build_prompt {
         prompt+=$(enrich_append $is_a_git_repo $omg_is_a_git_repo_symbol "${local_info}")
         prompt+=$(enrich_append $has_stashes $omg_has_stashes_symbol "${star}")
 
-        prompt+=$(enrich_append $has_untracked_files $omg_has_untracked_files_symbol "${red_on_white}")
-        prompt+=$(enrich_append $has_modifications $omg_has_modifications_symbol "${red_on_white}")
-        prompt+=$(enrich_append $has_deletions $omg_has_deletions_symbol "${red_on_white}")
+        prompt+=$(enrich_append $has_untracked_files $omg_has_untracked_files_symbol "${signal_col}")
+        prompt+=$(enrich_append $has_modifications $omg_has_modifications_symbol "${signal_col}")
+        prompt+=$(enrich_append $has_deletions $omg_has_deletions_symbol "${signal_col}")
         
 
         # ready
@@ -109,12 +109,12 @@ function custom_build_prompt {
         
         # next operation
 
-        prompt+=$(enrich_append $ready_to_commit $omg_ready_to_commit_symbol "${red_on_white}")
-        prompt+=$(enrich_append $action "${omg_has_action_in_progress_symbol} $action" "${red_on_white}")
+        prompt+=$(enrich_append $ready_to_commit $omg_ready_to_commit_symbol "${signal_col}")
+        prompt+=$(enrich_append $action "${omg_has_action_in_progress_symbol} $action" "${signal_col}")
 
         # where
 
-        prompt="${prompt} ${white_on_remote} ${remote_info}"
+        prompt="${prompt} ${white_on_remote} ${remote_info}"
         if [[ $detached == true ]]; then
             prompt+=$(enrich_append $detached $omg_detached_symbol "${white_on_remote}")
             prompt+=$(enrich_append $detached "(${current_commit_hash:0:7})" "${remote_info}")
@@ -146,7 +146,7 @@ function custom_build_prompt {
             fi
         fi
         prompt+=$(enrich_append ${is_on_a_tag} "${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${remote_info}")
-        prompt+="%K{white}%F{yellow}%f"
+        prompt+="%k%F{yellow}%f"
     else
         prompt="${omg_ungit_prompt}"
     fi

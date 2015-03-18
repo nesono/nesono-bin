@@ -58,15 +58,16 @@ typeset -U path cdpath fpath manpath
 # load simplified color handling ("%K{red}%F{black}")
 autoload -U colors && colors
 
-defcol='%{%F{blue}%K{white}%}'
+defcol='%{%F{red}%k%}'
 usercol='%{%F{green}%}'
+fstlineend='%{%f%k%}'
 
 if [[ "$EUID" == "0" ]]; then
 	# root user
 	usercol='%{%F{red}%}'
 fi
 
-PROMPT=$'$defcol %? %{$(zsh_git_prompt)$(parse_svn_revision)$(parse_hg_branch) %}%{%F{black}%}%{$(date "+%Y-%m-%d %H:%M:%S")%} $usercol%M %F{white}%K%{$reset_color%}%{%F{blue}%}\n%0~%{%F{yellow}%}%{$reset_color%}\n> '
+PROMPT=$'$defcol %(?..%?) %{$(zsh_git_prompt)$(parse_svn_revision)$(parse_hg_branch) %}%{%f%k%}%{$(date "+%Y-%m-%d %H:%M:%S")%} $usercol%M $fstlineend\n%{%F{blue}%}%0~%{%F{yellow}%}%{%f%k%}\n> '
 
 # provides a temporary session cookie for the shell session
 source ${NESONOBININSTALLATIONDIR}/sessioncookie
@@ -137,7 +138,7 @@ function preexec
 
 # source prompt status functions
 source ${NESONOBININSTALLATIONDIR}/bashtils/ps1status
-source ${NESONOBININSTALLATIONDIR}/bashtils/zshgitprompt
+source ${NESONOBININSTALLATIONDIR}/zshtils/zshgitprompt
 ## called by zsh before showing the prompt
 function precmd()
 {
