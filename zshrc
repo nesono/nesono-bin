@@ -58,7 +58,7 @@ typeset -U path cdpath fpath manpath
 # load simplified color handling ("%K{red}%F{black}")
 autoload -U colors && colors
 
-defcol='%{%F{red}%k%}'
+defcol='%{%f%k%}'
 usercol='%{%F{green}%}'
 fstlineend='%{%f%k%}'
 
@@ -67,7 +67,7 @@ if [[ "$EUID" == "0" ]]; then
 	usercol='%{%F{red}%}'
 fi
 
-PROMPT=$'$defcol %(?..%?) %{$(zsh_git_prompt)$(parse_svn_revision)$(parse_hg_branch) %}%{%f%k%}%{$(date "+%Y-%m-%d %H:%M:%S")%} $usercol%M $fstlineend\n%{%F{blue}%}%0~%{%F{yellow}%}%{%f%k%}\n> '
+PROMPT=$'$defcol%(?. .%{%K{red}%F{white}%} %?) %{$(zsh_git_prompt)$(parse_svn_revision)$(parse_hg_branch) %}%{%f%k%}%{$(date "+%Y-%m-%d %H:%M:%S")%} $usercol%M $fstlineend\n%{%F{blue}%}%0~%{%F{yellow}%}%{%f%k%}\n> '
 
 # provides a temporary session cookie for the shell session
 source ${NESONOBININSTALLATIONDIR}/sessioncookie
