@@ -132,10 +132,10 @@ function custom_build_prompt {
                     prompt+=$(enrich_append true "-${commits_behind} ${omg_has_diverged_symbol} +${commits_ahead}" "${white_on_remote}")
                 else
                     if [[ $commits_behind -gt 0 ]]; then
-                        prompt+=$(enrich_append true "-${commits_behind} %F{white}${omg_can_fast_forward_symbol}%F{black} --" "${remote_info}")
+                        prompt+=$(enrich_append true "-${commits_behind} %{%F{white}%}${omg_can_fast_forward_symbol}%{%F{black}%} --" "${remote_info}")
                     fi
                     if [[ $commits_ahead -gt 0 ]]; then
-                        prompt+=$(enrich_append true "-- %F{white}${omg_should_push_symbol}%F{black}  +${commits_ahead}" "${remote_info}")
+                        prompt+=$(enrich_append true "-- %{%F{white}%}${omg_should_push_symbol}%{%F{black}%}  +${commits_ahead}" "${remote_info}")
                     fi
                     if [[ $commits_ahead == 0 && $commits_behind == 0 ]]; then
                          prompt+=$(enrich_append true " --   -- " "${remote_info}")
@@ -146,24 +146,12 @@ function custom_build_prompt {
             fi
         fi
         prompt+=$(enrich_append ${is_on_a_tag} "${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${remote_info}")
-        prompt+="%k%F{yellow}%f"
+        prompt+="%{%k%F{yellow}%}%{%f%k%}"
     else
         prompt="${omg_ungit_prompt}"
     fi
  
     echo "${prompt}"
-}
-
-function enrich {
-    local flag=$1
-    local symbol=$2
-
-    local color_on=${3:-$omg_default_color_on}
-
-    if [[ $flag != true && $omg_use_color_off == false ]]; then symbol=' '; fi
-    if [[ $flag == true ]]; then local color=$color_on; else local color=$omg_default_color_off; fi    
-
-    echo -n "${prompt}${color}${symbol}${reset} "
 }
 
 function get_current_action () {
