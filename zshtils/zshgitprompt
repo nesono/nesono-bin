@@ -82,7 +82,7 @@ function custom_build_prompt {
 
     local local_info="%{%F{black}%K{white}%}"
     local star="%{%F{yellow}%K{white}%}"
-    local signal_col="%{%F{red%K{white}%}"
+    local signal_col="%{%F{red}%K{white}%}"
     local remote_info="%{%K{yellow}%F{black}%}"
     local white_on_remote="%{%K{yellow}%F{white}%}"
  

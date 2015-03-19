@@ -59,15 +59,53 @@ typeset -U path cdpath fpath manpath
 autoload -U colors && colors
 
 defcol='%{%f%k%}'
-usercol='%{%F{green}%}'
-fstlineend='%{%f%k%}'
+## called by zsh before showing the prompt
+function precmd()
+{
+	# set screen title
+	settitle zsh "$PWD"
+
+	local errorvaluesize
+	local ERRORVALUE
+	if [ $? != 0 ]; then ERRORVALUE=$(echo $?); else ERRORVALUE=""; fi
+	errorvaluesize=${#${ERRORVALUE}}
+
+    local TERMWIDTH
+    (( TERMWIDTH = ${COLUMNS} - $errorvaluesize - 2 ))
+
+	local usercol fstlineend
+	usercol='%{%F{green}%}'
+	fstlineend='%{%f%k%}'
+	PROMPT_REPOSITORY_LINE="$(zsh_git_prompt)$(parse_svn_revision)$(parse_hg_branch)"
+	PROMPT_TOP_RIGHT="%{%f%k%}%D %T ${usercol}%M ${fstlineend}"
+
+	local PURE_REPO_TEXT
+	local PURE_TOPRIGHT_TEXT
+	PURE_REPO_TEXT=$(echo $PROMPT_REPOSITORY_LINE | sed -E 's/%[FK]{[a-z]+}//g' | sed 's/%[{}]//g' | sed 's/%[fk]//g')
+	PURE_TOPRIGHT_TEXT=$(echo $PROMPT_TOP_RIGHT | sed -E 's/%[FK]{[a-z]+}//g' | sed 's/%[{}]//g' | sed 's/%[fk]//g')
+
+	local promptreposize
+	local prompttoprightsize
+	promptreposize=${#${(%)PURE_REPO_TEXT}}
+	prompttoprightsize=${#${(%)PURE_TOPRIGHT_TEXT}}
+
+	PR_TOPRIGHTLEN=""
+	PR_FILLBAR=""
+
+	if [[ "$promptreposize + $prompttoprightsize" -gt $TERMWIDTH ]]; then
+		((PR_TOPRIGHTLEN=$TERMWIDTH - $promptreposize))
+	else
+		PR_FILLBAR="\${(l.(($TERMWIDTH - ($promptreposize + $prompttoprightsize))).. .)}"
+	fi
+}
+
 
 if [[ "$EUID" == "0" ]]; then
 	# root user
 	usercol='%{%F{red}%}'
 fi
 
-PROMPT=$'$defcol%(?. .%{%K{red}%F{white}%} %?) %{$(zsh_git_prompt)$(parse_svn_revision)$(parse_hg_branch) %}%{%f%k%}%{$(date "+%Y-%m-%d %H:%M:%S")%} $usercol%M $fstlineend\n%{%F{blue}%}%0~%{%F{yellow}%}%{%f%k%}\n> '
+PROMPT=$'$defcol%(?..%{%K{red}%F{white}%} %?) %{$PROMPT_REPOSITORY_LINE %}%{${(e)PR_FILLBAR}%}%$PR_TOPRIGHTLEN<...<$PROMPT_TOP_RIGHT%<<\n%{%F{blue}%}%0~%{%F{yellow}%}%{%f%k%}\n%_> '
 
 # provides a temporary session cookie for the shell session
 source ${NESONOBININSTALLATIONDIR}/sessioncookie
@@ -139,12 +177,6 @@ function preexec
 # source prompt status functions
 source ${NESONOBININSTALLATIONDIR}/bashtils/ps1status
 source ${NESONOBININSTALLATIONDIR}/zshtils/zshgitprompt
-## called by zsh before showing the prompt
-function precmd()
-{
-	# set screen title
-	settitle zsh "$PWD"
-}
 
 # include completion config file
 source ${NESONOBININSTALLATIONDIR}/zshtils/completion
