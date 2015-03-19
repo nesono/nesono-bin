@@ -77,7 +77,7 @@ function precmd()
 	usercol='%{%F{green}%}'
 	fstlineend='%{%f%k%}'
 	PROMPT_REPOSITORY_LINE="$(zsh_git_prompt)$(parse_svn_revision)$(parse_hg_branch)"
-	PROMPT_TOP_RIGHT="%{%f%k%}%D %T ${usercol}%M ${fstlineend}"
+	PROMPT_TOP_RIGHT="%{%f%k%}%D %* ${usercol}%M ${fstlineend}"
 
 	local PURE_REPO_TEXT
 	local PURE_TOPRIGHT_TEXT
