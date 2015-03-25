@@ -74,7 +74,12 @@ function precmd()
     (( TERMWIDTH = ${COLUMNS} - $errorvaluesize - 2 ))
 
 	local usercol fstlineend
+
 	usercol='%{%F{green}%}'
+	if [[ "$EUID" == "0" ]]; then
+		# root user
+		usercol='%{%F{red}%}'
+	fi
 	fstlineend='%{%f%k%}'
 	PROMPT_REPOSITORY_LINE="$(zsh_git_prompt)$(parse_svn_revision)$(parse_hg_branch)"
 	PROMPT_TOP_RIGHT="%{%f%k%} %D  %* ${usercol} %M ${fstlineend}"
@@ -103,11 +108,6 @@ function precmd()
 	fi
 }
 
-
-if [[ "$EUID" == "0" ]]; then
-	# root user
-	usercol='%{%F{red}%}'
-fi
 
 PROMPT=$'$defcol%(?..%{%K{red}%F{white}%} %?) %{$PROMPT_REPOSITORY_LINE %}%{${(e)PR_FILLBAR}%}%$PR_TOPRIGHTLEN<...<$PROMPT_TOP_RIGHT%<<\n%{%F{blue}%} :%0~%{%F{yellow}%}%{%f%k%}\n%_> '
 
