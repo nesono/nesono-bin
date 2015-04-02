@@ -108,12 +108,10 @@ function custom_build_prompt {
         prompt+=$(enrich_append $has_deletions_cached $omg_has_cached_deletions_symbol "${local_info}")
         
         # next operation
-
         prompt+=$(enrich_append $ready_to_commit $omg_ready_to_commit_symbol "${signal_col}")
         prompt+=$(enrich_append $action "${omg_has_action_in_progress_symbol} $action" "${signal_col}")
 
         # where
-
         prompt="${prompt} ${white_on_remote} ${remote_info}"
         if [[ $detached == true ]]; then
             prompt+=$(enrich_append $detached $omg_detached_symbol "${white_on_remote}")
