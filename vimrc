@@ -48,7 +48,7 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 "Plugin 'klen/python-mode'
 Plugin 'ervandew/supertab'
-Plugin 'SirVer/ultisnips'
+"Plugin 'SirVer/ultisnips'
 Plugin 'mbbill/undotree'
 Plugin 'scrooloose/syntastic'
 Plugin 'flazz/vim-colorschemes'
@@ -379,9 +379,8 @@ nnoremap <leader>qw :cp<cr>
 " buffer handling
 nnoremap <leader>bo :only<cr>     " keep only this buffer open (in split view)
 nnoremap <leader>bd :bd<cr>       " delete buffer
-nnoremap <leader>b. :bn<CR>           " edit next file in buffer
-nnoremap <leader>b, :bp<CR>           " edit prev file in buffer
-nnoremap <leader>bb :e#<CR>           " Ctrl-l edits last file
+nnoremap <leader>bb :bn<CR>           " edit next file in buffer
+nnoremap <leader>bn :bp<CR>           " edit prev file in buffer
 
 " fugitive handling
 nnoremap <leader>gb :Gblame<cr>
