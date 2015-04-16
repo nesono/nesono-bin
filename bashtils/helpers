@@ -276,7 +276,7 @@ function tonowhitespace()
 	done
 }
 
-function gitignore()
+function git-ignore()
 {
 	if [[ -z "$*" ]]; then
 		echo "please specify the file pattern you want to ignore"
@@ -366,3 +366,9 @@ function gitallcmd()
 	find "$searchbase" -name .git | sed 's/\/\.git//' | xargs -I % $SHELL -c "pushd %; $cmd; popd"
 }
 
+function git-browse()
+{
+	local url
+	url=`git remote -v | head -n 1 | awk '{ print $2 }'`
+	open "$url"
+}
