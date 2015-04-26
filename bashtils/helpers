@@ -372,3 +372,15 @@ function git-browse()
 	url=`git remote -v | head -n 1 | awk '{ print $2 }'`
 	open "$url"
 }
+
+function cdgitroot()
+{
+	local toplevel
+	toplevel=`git rev-parse --show-toplevel`
+	if [ -n "$toplevel" ]; then
+		cd "$toplevel"
+	else
+		echo "could not get git root - not in a git repo?"
+	fi
+}
+
