@@ -95,6 +95,12 @@ if [ ! -e ~/.gitignore ]; then
 			echo "*.ncb"
 			# doxygen tag files
 			echo "*.dox.tag" >> ~/.gitignore
+			# GNU/global tag files
+			echo GPATH       >> ~/.gitignore
+			echo GRTAGS      >> ~/.gitignore
+			echo GTAGS       >> ~/.gitignore
+			# cscope output
+			echo cscope.out  >> ~/.gitignore
 			git config --global core.excludesfile ~/.gitignore
 	esac
 fi
@@ -127,7 +133,7 @@ case "${ANSWER}" in
 		git config --global alias.stull "!git stash save && git pull --rebase && git stash pop"
 		git config --global alias.adda "add --all"
 		git config --global alias.snap "!f() { git push origin HEAD:snap/\`id -u -n\`/\$1; }; f"
-		git config --global alias.gate "!f() { git pull --rebase; git push origin HEAD:push/\`id -u -n\`/\$1; }; f"
+		git config --global alias.gate "!f() { git stull && git push origin HEAD:push/\`id -u -n\`/\$1; }; f"
 		git config --global alias.ss "stash show -p"
 		git config --global alias.pr "pull --rebase"
 		git config --global alias.fa "fetch --all"
