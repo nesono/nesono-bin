@@ -294,12 +294,12 @@ noremap <silent> <F11> :call ToggleLocationList()<CR>
 
 " toggle browse tree region
 nnoremap <F2> :NERDTreeToggle<CR>
-nnoremap <leader>ntf :NERDTreeFind<CR>
+nnoremap <F3>ntf :NERDTreeFind<CR>
 " open NERDtree if vim was opened without a file specified
 "autocmd vimenter * if !argc() | silent! NERDTree | endif
 
 " toggle undotree region
-nnoremap <F3> :UndotreeToggle<CR>
+"nnoremap <F3> :UndotreeToggle<CR>
 
 
 " copy current file name (relative/absolute) to system clipboard
