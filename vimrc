@@ -275,10 +275,10 @@ function! ToggleRelativeAbsoluteLineNumbers()
 	if &number == 1
 		echom "relative on"
 		set relativenumber
-		"set nonumber
+		set nonumber
 	else
 		echom "absolute on"
-		"set number
+		set number
 		set norelativenumber
 	endif
 endfunction
