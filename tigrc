@@ -19,6 +19,9 @@ bind generic w none
 bind generic <Space> none
 bind generic | none
 bind main R none
+bind main - none
+bind main ! none
+bind main - none
 bind status u none
 bind refs C none
 bind refs b none
@@ -57,6 +60,7 @@ bind main | !git rebase                         # rebase current branch to remot
 bind main \ !git pull --rebase                  # pull and rebase current branch to remote
 bind main p ?git cherry-pick %(commit)          # cherry pick commit
 bind main ! ?git revert %(commit)               # revert commit
+bind main - ?git revert --no-commit %(commit)   # revert commit w/o committing
 bind main i ?git rebase --interactive %(commit) # interactively rebase commit
 bind main R ?git reset --hard %(commit)         # reset hard
 bind main m ?git reset --mixed %(commit)        # reset mixed (default)
