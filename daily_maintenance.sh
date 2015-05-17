@@ -345,12 +345,14 @@ function update_ez_jail()
 
 function check_and_update_drush()
 {
-	if [ -n $(which drush) ]; then
+	if [ -x "$(which drush)" ]; then
 		echo "updating /var/www with drush"
 		drush -r /var/www pm-update
 	fi
-	if [ -n $(jls | grep www.nesono.com) ]; then
+	if [ -n "$(jls | grep www.nesono.com)" ]; then
 		jexec 1 drush -r /usr/local/www/apache24/data/ pm-update
+	else
+		echo "www.nesono.com not found"
 	fi
 }
 
@@ -396,18 +398,16 @@ do_sudo=0
 # check for underlying system
 case ${UNAME} in
 	Darwin)
-		[[ -x $(which port)		 ]] && do_sudo=1
+		[[ -x "$(which port)"		 ]] && do_sudo=1
 	;;
 	Linux)
 		[[ -x $(which apt-get)	]] && do_sudo=1
 		[[ -x $(which aptitude) ]] && do_sudo=1
-		[[ -x $(which drush) ]]		&& do_sudo=1
+		[[ -x $(which drush)    ]] && do_sudo=1
 	;;
-FreeBSD)
+	FreeBSD)
 		[[ -x $(which portsnap) ]] && do_sudo=1
-	;;
-FreeBSD)
-		[[ -x $(which portsnap) ]] && do_sudo=1
+		[[ -n "$(jls | grep www.nesono.com)" ]] && do_sudo=1
 	;;
 esac
 
@@ -415,42 +415,33 @@ esac
 if [ "${do_sudo}" == "1" ]; then
 	if [ ${EUID} != 0 ]; then
 		echo "remaining script must be run as root! Recalling with sudo"
+		echo "calling $0"
 		sudo $0 --after-su
 		exit 0
 	fi
-else
-	exit 0
+
+	# check for underlying system
+	case ${UNAME} in
+		Linux)
+			check_and_update_aptget
+			check_and_update_drush
+			;;
+
+		Darwin)
+			# Darwin home brew done above (without sudo)
+			check_and_update_macports
+			mac_software_update_interactive
+			;;
+
+		FreeBSD)
+			check_and_update_ports
+			update_ez_jail
+			freebsd_update
+			freebsd_documentation_update
+			check_and_update_drush
+			;;
+	esac
 fi
 
-############ FROM THIS LINE BELOW, ONLY SUDO'D EXECUTED ###########
-
-# check for underlying system
-case ${UNAME} in
-	Linux)
-		# Linux (with aptitude)
-		check_and_update_aptget
-		# Linux (with drush)
-		check_and_update_drush
-	;;
-
-	Darwin)
-		# Darwin home brew done above (without sudo)
-		# Darwin (with macports)
-		check_and_update_macports
-		# Mac OS X software update (from command line only)
-		mac_software_update_interactive
-	;;
-	# End of Darwin
-	FreeBSD)
-		check_and_update_ports
-		update_ez_jail
-		freebsd_update
-		freebsd_documentation_update
-	;;
-esac
-
 echo "End of Script"
-#if [[ -n "$STOP_TMUX" ]]; then
-	#echo "STOP_TMUX: $STOP_TMUX"
-	read -n1 -r -s -p "Press any key to finish" key
-#fi
+read -n1 -r -s -p "Press any key to finish" key
