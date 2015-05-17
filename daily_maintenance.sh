@@ -349,6 +349,9 @@ function check_and_update_drush()
 		echo "updating /var/www with drush"
 		drush -r /var/www pm-update
 	fi
+	if [ -n $(jls | grep www.nesono.com) ]; then
+		jexec 1 drush -r /usr/local/www/apache24/data/ pm-update
+	fi
 }
 
 function run_in_tmux()
