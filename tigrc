@@ -18,7 +18,7 @@ bind generic P none
 bind generic w none
 bind generic <Space> none
 bind generic | none
-bind main R none
+bind main H none
 bind main - none
 bind main ! none
 bind main - none
@@ -62,7 +62,7 @@ bind main p ?git cherry-pick %(commit)          # cherry pick commit
 bind main ! ?git revert %(commit)               # revert commit
 bind main - ?git revert --no-commit %(commit)   # revert commit w/o committing
 bind main i ?git rebase --interactive %(commit) # interactively rebase commit
-bind main R ?git reset --hard %(commit)         # reset hard
+bind main H ?git reset --hard %(commit)         # reset hard
 bind main m ?git reset --mixed %(commit)        # reset mixed (default)
 
 bind status c !git commit -v                    # commit verbosely
