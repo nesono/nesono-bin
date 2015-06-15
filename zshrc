@@ -74,7 +74,7 @@ function precmd()
 	fi
 	fstlineend='%{%f%k%}'
 	PROMPT_REPOSITORY_LINE="$(zsh_git_prompt)$(parse_svn_revision)$(parse_hg_branch)"
-	PROMPT_TOP_RIGHT="%{%f%k%} %D - %* ${usercol} %M ${fstlineend}"
+	PROMPT_TOP_RIGHT="%{%f%k%}𝍄 %D - %* ${usercol}© %M ${fstlineend}"
 }
 
 
