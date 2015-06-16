@@ -165,8 +165,8 @@ function custom_build_prompt {
                 prompt+=$(enrich_append true "(${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})" "${remote_info}")
             fi
         fi
-        prompt+=$(enrich_append ${is_on_a_tag} "${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${remote_info}")
-        prompt+="%{%k%F{yellow}%}%{%f%k%}"
+        prompt+=$(enrich_append ${is_on_a_tag}"${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${remote_info}")
+        prompt+="%{%k%F{yellow}%}%{%f%k%}"
     else
         prompt="${omg_ungit_prompt}"
     fi
