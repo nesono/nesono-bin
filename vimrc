@@ -241,6 +241,8 @@ endif
 set background=dark
 silent! colorscheme solarized
 
+command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
+
 if has("unix")
 	highlight link GitGutterAdd DiffAdd
 	highlight link GitGutterDelete DiffDelete
