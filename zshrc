@@ -93,7 +93,7 @@ uname=$(uname -s)
 
 case ${uname} in
   Darwin)
-  ###################### DARWIN STUFF ######################################
+  ###################### DARWIN STUFF #####################################
   source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.darwin
   source ${NESONOBININSTALLATIONDIR}/bashtils/rm2trash.darwin
   source ${NESONOBININSTALLATIONDIR}/bashtils/defines.darwin
@@ -106,13 +106,13 @@ case ${uname} in
   source ${NESONOBININSTALLATIONDIR}/bashtils/defines.linux
   ;;
   FreeBSD)
-  ###################### FREEBSD STUFF ######################################
+  ###################### FREEBSD STUFF ####################################
   source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.freebsd
   source ${NESONOBININSTALLATIONDIR}/bashtils/rm2trash.freebsd
   source ${NESONOBININSTALLATIONDIR}/bashtils/defines.freebsd
 	;;
   CYGWIN_*)
-  ###################### CYGWIN STUFF ######################################
+  ###################### CYGWIN STUFF #####################################
   source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.cygwin
   source ${NESONOBININSTALLATIONDIR}/bashtils/rm2trash.cygwin
   source ${NESONOBININSTALLATIONDIR}/bashtils/defines.cygwin
