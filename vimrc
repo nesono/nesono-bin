@@ -44,6 +44,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-unimpaired'
 Plugin 'mileszs/ack.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
@@ -376,15 +377,9 @@ nnoremap <C-\>ve :scs f e <C-R>=expand("<cword>")<cr><cr>
 nnoremap <C-\>vf :scs f f <C-R>=expand("<cfile>")<cr><cr>
 nnoremap <C-\>vi :scs f i <C-R>=expand("<cfile>")<cr><cr>
 
-" quick list navigation
-nnoremap <leader>qq :cn<cr>
-nnoremap <leader>qw :cp<cr>
-
 " buffer handling
 nnoremap <leader>bo :only<cr>     " keep only this buffer open (in split view)
 nnoremap <leader>bd :bd<cr>       " delete buffer
-nnoremap <leader>bb :bn<CR>           " edit next file in buffer
-nnoremap <leader>bn :bp<CR>           " edit prev file in buffer
 
 " fugitive handling
 nnoremap <leader>gb :Gblame<cr>
@@ -399,5 +394,7 @@ nnoremap <leader>gl :Glog          " needs parameter
 nnoremap <leader>gg :Ggrep         " needs parameter
 nnoremap <leader>go :Gbrowse<cr>
 nnoremap <leader>gm :Gmove         " needs parameter
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+set laststatus=2
 
 " ~/.vimrc ends here
