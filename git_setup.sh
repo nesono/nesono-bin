@@ -134,7 +134,11 @@ case "${ANSWER}" in
 		git config --global alias.adda "add --all"
 		git config --global alias.snap "!f() { git push origin HEAD:snap/\`id -u -n\`/\$1; }; f"
 		git config --global alias.gate "!f() { git pull --rebase && git push origin HEAD:push/\`id -u -n\`/\$1; }; f"
-		git config --global alias.ss "stash show -p"
+		git config --global alias.sv "stash show -p"
+		git config --global alias.sl "stash list"
+		git config --global alias.ss "stash save"
+		git config --global alias.sp "stash pop"
+		git config --global alias.sd "stash drop"
 		git config --global alias.pr "pull --rebase"
 		git config --global alias.fa "fetch --all"
 		git config --global alias.fap "fetch --all --prune"
@@ -152,7 +156,11 @@ case "${ANSWER}" in
 		git config --global --unset alias.adda
 		git config --global --unset alias.snap
 		git config --global --unset alias.gate
+		git config --global --unset alias.sv
+		git config --global --unset alias.sl
 		git config --global --unset alias.ss
+		git config --global --unset alias.sp
+		git config --global --unset alias.sd
 		git config --global --unset alias.pr
 		git config --global --unset alias.fa
 		git config --global --unset alias.fap
