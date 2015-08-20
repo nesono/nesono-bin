@@ -77,8 +77,15 @@ function precmd()
 	PROMPT_TOP_RIGHT="%{%f%k%}𝍄 %D ⌚︎ %* ${usercol}© %M ${fstlineend}"
 }
 
+function pushdirscount()
+{
+	local count
+	count=$(dirs -p | wc -l | xargs)
+	echo $((count-1))
+}
 
-PROMPT=$'$defcol%(?..%{%K{red}%F{white}%} %? )%{$PROMPT_REPOSITORY_LINE%}$PROMPT_TOP_RIGHT\n%{%F{blue}%}[%j] %0~%{%F{yellow}%}%{%f%k%}\n%_> '
+
+PROMPT=$'$defcol%(?..%{%K{red}%F{white}%} %? )%{$PROMPT_REPOSITORY_LINE%}$PROMPT_TOP_RIGHT\n%{%F{blue}%}[%j,$(pushdirscount)] %0~%{%F{yellow}%}%{%f%k%}\n%_> '
 
 # provides a temporary session cookie for the shell session
 source ${NESONOBININSTALLATIONDIR}/sessioncookie
