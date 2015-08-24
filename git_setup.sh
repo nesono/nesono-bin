@@ -133,7 +133,8 @@ case "${ANSWER}" in
 		git config --global alias.stull "!git stash save && git pull --rebase && git stash pop"
 		git config --global alias.adda "add --all"
 		git config --global alias.snap "!f() { git push origin HEAD:snap/\`id -u -n\`/\$1; }; f"
-		git config --global alias.gate "!f() { git pull --rebase && git push origin HEAD:push/\`id -u -n\`/\$1; }; f"
+		git config --global alias.igate "!f() { git pull --rebase && git push origin HEAD:push/\`id -u -n\`/\$1; }; f"
+		git config --global alias.gate "!f() { git pull --rebase && git push origin HEAD:push/rebase/\`id -u -n\`/\$1; }; f"
 		git config --global alias.sv "stash show -p"
 		git config --global alias.sl "stash list"
 		git config --global alias.ss "stash save"
@@ -155,6 +156,7 @@ case "${ANSWER}" in
 		git config --global --unset alias.stull
 		git config --global --unset alias.adda
 		git config --global --unset alias.snap
+		git config --global --unset alias.igate
 		git config --global --unset alias.gate
 		git config --global --unset alias.sv
 		git config --global --unset alias.sl
