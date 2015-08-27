@@ -85,7 +85,7 @@ function pushdirscount()
 }
 
 
-PROMPT=$'$defcol%(?..%{%K{red}%F{white}%} %? )%{$PROMPT_REPOSITORY_LINE%}$PROMPT_TOP_RIGHT\n⚒:%j ⎘:$(pushdirscount) %{%F{blue}%}%0~%{%F{yellow}%}%{%f%k%}\n%_> '
+PROMPT=$'$defcol%(?..%{%K{red}%F{white}%} %? )%{$PROMPT_REPOSITORY_LINE%}$PROMPT_TOP_RIGHT\n⚒:%j ^:$(pushdirscount) %{%F{blue}%}%0~%{%F{yellow}%}%{%f%k%}\n%_> '
 
 # provides a temporary session cookie for the shell session
 source ${NESONOBININSTALLATIONDIR}/sessioncookie
