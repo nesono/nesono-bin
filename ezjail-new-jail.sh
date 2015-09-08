@@ -6,7 +6,7 @@ if [ -z "$1" ]; then
 fi
 
 ADDOPTS=""
-if [ -z "`echo $@ | grep ' -f '" ]; then
+if [ -z "`echo $@ | grep ' -f '`" ]; then
 	ADDOPTS="-f webserver"
 fi
 
@@ -60,7 +60,7 @@ else
 fi
 
 ezjail-admin create $ADDOPTS $@ $next_ip
-jail_name=`ezjail-admin list | grep 10.1.1.15 | awk '{print $4}' | tr "." "_"`
+jail_name=`ezjail-admin list | grep $next_ip | awk '{print $4}' | tr "." "_"`
 
 ezjail-admin start $jail_name
 
