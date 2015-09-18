@@ -118,13 +118,44 @@ function backup ()
 		destination=$item.bup_`date +%Y-%m-%d_%H:%M:%S`
 		while ( [[ -e "$destination" ]] ); do
 			echo "$destination already exists"
-			destination=$item.bup_`date +%Y-%m-%d_%H:%M:%S`
+			destinati-d on=$item.bup_`date +%Y-%m-%d_%H:%M:%S`
 			echo "trying $destination"
 		done
 		echo "backup $item to $destination"
 		cp -r "$item" "$destination";
 	fi
 	echo "finished"
+}
+
+function rollback()
+{
+	local docleanup
+
+	if [ -z "$1" ]; then
+		echo "usage: rollback [-c] backup-base"
+		echo ""
+		echo "       where backup base is the base name of the backup files."
+		echo "       E.g.: rollback -c file.txt (will remove file.txt.bup_2015-09-17_16:01:51)"
+		echo ""
+		return 0
+	fi
+
+	docleanup="0"
+	if [[ "$1" == "-c" ]]; then
+		docleanup="1"
+		shift
+	fi
+
+	select bupname in `ls -d $1.bup*`;
+	do
+		echo you picked $bupname \($REPLY\)
+		if [[ "$docleanup" == "1" ]]; then
+			rm -r $1 && mv $bupname $1 && rm -rf $1.bup*
+		else
+			backup $1 && rm -r $1 && mv $bupname $1
+		fi
+		break
+	done
 }
 
 function md5equal()
