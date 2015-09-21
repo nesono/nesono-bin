@@ -43,11 +43,10 @@ function cdmkdir()
 
 function cdgitclone()
 {
-	local last
-	git clone $@
+	local output_dir
+	output_dir=`git clone $@ 2>&1 >/dev/null | head -n1 | sed "s/.*'\([^']*\)'.*/\1/g"`
 
-	for last; do true; done
-	[[ -d "$last" ]] && cd "$last"
+	[[ -d "$output_dir" ]] && cd "$output_dir"
 }
 
 # function to create an absolute path from a relative one
