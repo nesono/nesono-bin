@@ -75,13 +75,16 @@ function parse_hg_branch()
 }
 
 # function to disable repository display in prompt
-function norepo()
+function ps1repo()
 {
-  export NESONO_NOREPO='1'
-}
-
-# function to reenable repository display in prompt
-function repo()
-{
-  unset NESONO_NOREPO
+	if [[ -z "$1" ]]; then
+		echo 'usage: ps1repo on|off'
+		echo '       toggling repository stats in prompt'
+		return 0
+	fi
+	if [[ "$1" == "on" ]]; then
+		unset NESONO_NOREPO
+	else
+		export NESONO_NOREPO='1'
+	fi
 }

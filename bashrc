@@ -101,6 +101,6 @@ source ${NESONOBININSTALLATIONDIR}/bashtils/ps1status
 case ${uname} in
   CYGWIN_* | MINGW32_*)
 	# disable repo prompt entry on cygwin
-	norepo
+	ps1repo off
   ;;
 esac
