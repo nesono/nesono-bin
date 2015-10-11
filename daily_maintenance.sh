@@ -287,6 +287,7 @@ function check_and_update_ports()
 	portsnap fetch update && portmaster -L --index-only| egrep '(ew|ort) version|total install'
 	echo -n "Last update: "
 	date -r `pkg query %t | sort | tail -n1` "+%Y%m%d"
+
 	portmaster -a -d
 	portmaster -y --clean-packages
 	# do some statistic tricks - rand(256) < 20
