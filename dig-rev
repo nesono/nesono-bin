@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+CMD=`which dig`
+
+if [[ ! -x "${CMD}" ]] ;then
+  echo "dig not found - install and run again"
+  exit 1
+fi
+
+HOST=$1
+
+if [[ -z "$HOST" ]]; then
+	echo "usage: dig-reg <hostname>"
+	exit 1
+fi
+
+DIG_FORW=`dig ${HOST} | grep "^${HOST}." | awk '{print $5}'`
+
+if [[ -z "$DIG_FORW" ]]; then
+	echo "could not forward resolve $HOST"
+	exit 1
+fi
+dig -x 
