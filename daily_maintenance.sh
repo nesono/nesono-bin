@@ -327,9 +327,11 @@ function check_and_update_drush()
 		echo "updating /var/www with drush"
 		drush -r /var/www pm-update
 	fi
-	if [ -n "$(jls | grep www.nesono.com)" ]; then
+	local nesono_jid
+	nesono_jid=$(jls | grep -e 'www.nesono.com' | awk '{print $1}')
+	if [ -n "$nesono_jid" ]; then
 		echo www.nesono.com jail found - checking for drupal updates
-		jexec 1 drush -r /usr/local/www/apache24/data/ pm-update
+		jexec $nesono_jid drush -r /usr/local/www/apache24/data/ pm-update
 	fi
 }
 
