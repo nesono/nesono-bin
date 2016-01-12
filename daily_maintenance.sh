@@ -300,6 +300,9 @@ function check_and_update_ports()
 
 function freebsd_update()
 {
+	echo "first upgrading host"
+	pkg update
+	pkg upgrade
 	echo "updating FreeBSD binary land - if anything goes wrong call:"
 	echo "freebsd-update rollback"
 	read -n1 -r -s -p "Press any key to continue" key
