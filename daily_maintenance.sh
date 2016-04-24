@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 # script for daily maintenance of the server
 # upgrades to packages
 # discards orphaned packages, etc.
@@ -33,15 +33,16 @@
 # get system uname
 UNAME=$(uname -s)
 
-function check_and_update_svn_bin_repo()
+check_and_update_svn_bin_repo()
 {
 	local DIR="${1}"
+	echo "checking svn: ${1}"
 
 	if [ ! -d "${DIR}" ]; then
 		echo "skipping: ${DIR}"
 		return
 	else
-		pushd "${DIR}" &> /dev/null
+		cd "${DIR}" 
 		echo "### checking if svn repo: ${DIR}"
 
 		local REV=$(svn info 2>/dev/null | grep Revision | sed -e 's/Revision: //')
@@ -50,7 +51,7 @@ function check_and_update_svn_bin_repo()
 		echo "### checking for svn repo: ${DIR}"
 
 		svn st -u &> /dev/null
-		if [ ! $? == 0 ]; then echo "### Can not access repository! Stopping update"; echo ''; return; fi
+		if [ $? -ne 0 ]; then echo "### Can not access repository! Stopping update"; echo ''; return; fi
 
 		if [ -n "$(svn st -u | grep -e '^[ ]\+\*')" ]; then
 			echo "Remote changes detected in ${DIR}!"
@@ -94,20 +95,22 @@ function check_and_update_svn_bin_repo()
 				esac
 			done
 		fi
-		popd &> /dev/null
+		cd - 
 		echo ""
 	fi
+	echo "end svn check"
 }
 
-function check_and_update_git_bin_repo()
+check_and_update_git_bin_repo()
 {
+	echo "checking git: ${1}"
 	local DIR="${1}"
 
 	if [ ! -d "${DIR}" ]; then
 		echo "skipping: ${DIR}"
 		return
 	else
-		pushd "${DIR}" &> /dev/null
+		cd "${DIR}" 
 		echo "### checking if git repo: ${DIR}"
 
 		STATUS=$(git status --porcelain 2>/dev/null)
@@ -116,11 +119,11 @@ function check_and_update_git_bin_repo()
 		REMOTEUP=1
 
 		git fetch origin &> /dev/null
-		if [ ! $? == 0 ]; then REMOTEUP=0; fi
+		if [ $? -ne 0 ]; then REMOTEUP=0; fi
 
 		echo "### checking for git repo: ${DIR}"
 		if [ -n $(git remote | grep -e '^origin') ]; then
-			if [ ${REMOTEUP} == 0 ]; then
+			if [ ${REMOTEUP} -eq 0 ]; then
 				echo "### Can not access depot! Skipping rebase"
 			else
 				git pull --rebase
@@ -143,7 +146,7 @@ function check_and_update_git_bin_repo()
 					echo "checking in ${DIR}"
 					git commit -a -v
 
-					if [ ${REMOTEUP} == 0 ] ;then
+					if [ ${REMOTEUP} -eq 0 ] ;then
 						echo "depot not reachable - skipping git push"
 						echo "remember to call it manually as soon as"
 						echo "depot reachable again"
@@ -162,12 +165,13 @@ function check_and_update_git_bin_repo()
 
 		git submodule update --init
 
-		popd &> /dev/null
+		cd - 
 		echo ""
 	fi
+	echo "end git check"
 }
 
-function check_and_update_homebrew()
+check_and_update_homebrew()
 {
 	if [ -x "$(which brew)" ]; then
 		echo "### brew available"
@@ -194,7 +198,7 @@ function check_and_update_homebrew()
 	echo ""
 }
 
-function check_and_update_macports
+check_and_update_macports()
 {
 	if [ -x "$(which port)" ]; then
 		echo "### port available"
@@ -221,7 +225,7 @@ function check_and_update_macports
 	echo ""
 }
 
-function mac_software_update_interactive()
+mac_software_update_interactive()
 {
 	read -e -p "Shall I check for apple softwareupdate? [y/N] " ANSWER
 
@@ -252,7 +256,7 @@ function mac_software_update_interactive()
 	echo ""
 }
 
-function check_and_update_aptget()
+check_and_update_aptget()
 {
 	echo "upgrading system"
 	apt-get update
@@ -281,7 +285,7 @@ function check_and_update_aptget()
 	echo ""
 }
 
-function check_and_update_ports()
+check_and_update_ports()
 {
 	echo "Portsnap fetch and update"
 	portsnap fetch update && portmaster -L --index-only| egrep '(ew|ort) version|total install'
@@ -298,7 +302,7 @@ function check_and_update_ports()
 	fi
 }
 
-function freebsd_update()
+freebsd_update()
 {
 	echo "first upgrading host"
 	pkg update
@@ -310,21 +314,21 @@ function freebsd_update()
 	freebsd-update install
 }
 
-function freebsd_documentation_update()
+freebsd_documentation_update()
 {
 	check_and_update_svn_bin_repo /usr/doc
-	#pushd /usr/doc/en_US.ISO8859-1
+	#cd /usr/doc/en_US.ISO8859-1
 	#make install clean
-	#popd
+	#cd -
 }
 
-function update_ez_jail()
+update_ez_jail()
 {
 	echo "EZ Jail ports update"
 	ezjail-admin update -Pp
 }
 
-function check_and_update_drush()
+check_and_update_drush()
 {
 	if [ -x "$(which drush)" ]; then
 		echo "updating /var/www with drush"
@@ -338,55 +342,58 @@ function check_and_update_drush()
 	fi
 }
 
-function run_in_tmux()
+run_in_tmux()
 {
 	local name='daily maintenance'
-	if [[ ! -x $(which tmux) ]]; then
+	if [ ! -x $(which tmux) ]; then
 		echo "tmux not installed, continuing"
 		return 
 	fi
-	if [[ -n $(tmux ls | grep "$name") ]]; then
+	if [ -n $(tmux ls | grep "$name") ]; then
 		echo "tmux session with name $name already running"
 		return
 	else
 		echo "restarting in tmux"
+		export SHELL=`which bash`
 		tmux new -s "$name" "export NESONOBININSTALLATIONDIR=${NESONOBININSTALLATIONDIR} && export STOP_TMUX=1 && $0"
 		exit 0
 	fi
 }
 
+do_sudo=0
 if [ "$1" != "--after-su" ]; then
-	run_in_tmux
+	#run_in_tmux
 	check_and_update_svn_bin_repo ${NESONOBININSTALLATIONDIR}
 	check_and_update_git_bin_repo ${NESONOBININSTALLATIONDIR}
 
+	# homebrew
 	case ${UNAME} in
 		Darwin)
-		check_and_update_homebrew
-		;;
+			check_and_update_homebrew
+			;;
+	esac
+
+	# check if sudo necessary at all
+	case ${UNAME} in
+		Darwin)
+			[ -x "$(which port)" ] && do_sudo=1
+			;;
+		Linux)
+			[ -x $(which apt-get) ] && do_sudo=1
+			[ -x $(which aptitude) ] && do_sudo=1
+			[ -x $(which drush) ] && do_sudo=1
+			;;
+		FreeBSD)
+			[ -x $(which portsnap) ] && do_sudo=1
+			[ -n "$(jls | grep www.nesono.com)" ] && do_sudo=1
+			;;
 	esac
 fi
 
-# check if sudo necessary at all
-do_sudo=0
-case ${UNAME} in
-	Darwin)
-		[[ -x "$(which port)"		 ]] && do_sudo=1
-	;;
-	Linux)
-		[[ -x $(which apt-get)	]] && do_sudo=1
-		[[ -x $(which aptitude) ]] && do_sudo=1
-		[[ -x $(which drush)    ]] && do_sudo=1
-	;;
-	FreeBSD)
-		[[ -x $(which portsnap) ]] && do_sudo=1
-		[[ -n "$(jls | grep www.nesono.com)" ]] && do_sudo=1
-	;;
-esac
-
 # apply sudo
-if [ "${do_sudo}" == "1" ]; then
-	if [ ${EUID} != 0 ]; then
+if [ "${do_sudo}" = "1" ]; then
+	echo "checking for EUID: ${EUID}"
+	if [ $(id -u) -ne 0 ]; then
 		echo "remaining script must be run as root! Recalling with sudo"
 		echo "calling $0"
 		sudo $0 --after-su
@@ -417,4 +424,4 @@ if [ "${do_sudo}" == "1" ]; then
 fi
 
 echo "End of Script"
-read -n1 -r -s -p "Press any key to finish" key
+read -p "Press return to finish" key
