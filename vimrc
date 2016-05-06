@@ -50,7 +50,7 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'vim-scripts/gtags.vim'
-Plugin 'vim-scripts/a.vim'
+Plugin 'derekwyatt/vim-fswitch'
 Plugin 'vim-scripts/Align'
 Plugin 'ervandew/supertab'
 Plugin 'mbbill/undotree'
@@ -59,6 +59,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'milkypostman/vim-togglelist'
 Plugin 'rizzatti/dash.vim'
+Plugin 'vim-scripts/vcscommand.vim'
 if has("unix")
 	Plugin 'vim-scripts/vim-gitgutter'
 endif
@@ -390,10 +391,21 @@ nnoremap <leader>gr :Gread<cr>
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gll :Glog<cr>
-nnoremap <leader>gl :Glog          " needs parameter
-nnoremap <leader>gg :Ggrep         " needs parameter
+nnoremap <leader>gl :Glog
+nnoremap <leader>gg :Ggrep
 nnoremap <leader>go :Gbrowse<cr>
-nnoremap <leader>gm :Gmove         " needs parameter
+nnoremap <leader>gm :Gmove
+
+" VCSCommand short cuts
+nnoremap <leader>vb :VCSBlame<cr>
+nnoremap <leader>vs :VCSStatus<cr>
+nnoremap <leader>vc :VCSCommit<cr>
+nnoremap <leader>va :VCSAdd<cr>
+nnoremap <leader>vd :VCSVimDiff<cr>
+nnoremap <leader>vi :VCSInfo<cr>
+nnoremap <leader>vl :VCSLog<cr>
+nnoremap <leader>vu :VCSUpdate<cr>
+
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 set laststatus=2
 
