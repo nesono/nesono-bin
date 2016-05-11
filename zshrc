@@ -74,7 +74,7 @@ function precmd()
 	fi
 	fstlineend='%{%f%k%}'
 	PROMPT_REPOSITORY_LINE="%{%F{black}%K{white}%}$(zsh_git_prompt)$(parse_svn_revision)$(parse_hg_branch)%{%f%k%}"
-	PROMPT_TOP_RIGHT="%{%f%k%}𝍄 %D ⌚︎ %* ${usercol}© %M ${fstlineend}"
+	PROMPT_TOP_RIGHT="%{%f%k%} %D %* ${usercol} %M ${fstlineend}"
 }
 
 function pushdirscount()
@@ -85,7 +85,7 @@ function pushdirscount()
 }
 
 
-PROMPT=$'$defcol%(?..%{%K{red}%F{white}%} %? )%{$PROMPT_REPOSITORY_LINE%}$PROMPT_TOP_RIGHT\n⚒:%j ^:$(pushdirscount) %{%F{blue}%}%0~%{%F{yellow}%}%{%f%k%}\n%_> '
+PROMPT=$'$defcol%(?..%{%K{red}%F{white}%} %? )%{$PROMPT_REPOSITORY_LINE%}$PROMPT_TOP_RIGHT\nJ:%j ^:$(pushdirscount) %{%F{blue}%}%0~%{%F{yellow}%}%{%f%k%}\n%_> '
 
 # provides a temporary session cookie for the shell session
 source ${NESONOBININSTALLATIONDIR}/sessioncookie
