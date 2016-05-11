@@ -48,20 +48,20 @@
 : ${omg_has_adds_symbol:='+'}
 : ${omg_has_deletions_symbol:='-'}
 : ${omg_has_cached_deletions_symbol:='⁻'}
-: ${omg_has_modifications_symbol:='✎'}
-: ${omg_has_cached_modifications_symbol:='✐'}
-: ${omg_ready_to_commit_symbol:='☞'}            #   →
-: ${omg_is_on_a_tag_symbol:='⚑'}                #   
-: ${omg_needs_to_merge_symbol:='✦'}
-: ${omg_detached_symbol:='☍'}
-: ${omg_can_fast_forward_symbol:='≫'}
-: ${omg_has_diverged_symbol:='☯'}               #   
-: ${omg_not_tracked_branch_symbol:='♒︎'}
+: ${omg_has_modifications_symbol:='m'}
+: ${omg_has_cached_modifications_symbol:='M'}
+: ${omg_ready_to_commit_symbol:='c'}            #   →
+: ${omg_is_on_a_tag_symbol:='t'}                #   
+: ${omg_needs_to_merge_symbol:='n'}
+: ${omg_detached_symbol:='d'}
+: ${omg_can_fast_forward_symbol:='f'}
+: ${omg_has_diverged_symbol:='x'}               #   
+: ${omg_not_tracked_branch_symbol:='s'}
 : ${omg_rebase_tracking_branch_symbol:='⑁'}     #   
 : ${omg_merge_tracking_branch_symbol:='⑃'}      #  
-: ${omg_should_push_symbol:='☁︎'}                #    
-: ${omg_has_stashes_symbol:='★'}
-: ${omg_has_action_in_progress_symbol:='☹'}     #                  
+: ${omg_should_push_symbol:='P'}                #    
+: ${omg_has_stashes_symbol:='^'}
+: ${omg_has_action_in_progress_symbol:='...'}     #                  
 
 function enrich_append {
     local flag=$1
