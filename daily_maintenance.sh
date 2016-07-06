@@ -309,7 +309,7 @@ freebsd_update()
 	pkg upgrade
 	echo "updating FreeBSD binary land - if anything goes wrong call:"
 	echo "freebsd-update rollback"
-	read -n1 -r -s -p "Press any key to continue" key
+	read -e -p "Press return to continue" ANSWER
 	freebsd-update fetch
 	freebsd-update install
 }
