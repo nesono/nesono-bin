@@ -362,7 +362,7 @@ run_in_tmux()
 
 do_sudo=0
 if [ "$1" != "--after-su" ]; then
-	#run_in_tmux
+	run_in_tmux
 	check_and_update_svn_bin_repo ${NESONOBININSTALLATIONDIR}
 	check_and_update_git_bin_repo ${NESONOBININSTALLATIONDIR}
 
