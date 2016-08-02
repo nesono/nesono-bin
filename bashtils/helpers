@@ -29,7 +29,7 @@
 # function to create a directory and step into it
 function cdmkdir()
 {
-	mkdir "$@"
+	mkdir -p "$@"
 	local path
 	for path in "$@"; do
 		# ignore any arguments
