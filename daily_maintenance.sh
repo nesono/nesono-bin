@@ -414,9 +414,9 @@ if [ "${do_sudo}" = "1" ]; then
 			;;
 
 		FreeBSD)
+			freebsd_update
 			check_and_update_ports
 			update_ez_jail
-			freebsd_update
 			freebsd_documentation_update
 			check_and_update_drush
 			;;
