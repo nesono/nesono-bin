@@ -38,3 +38,8 @@ alias rsync_git='rsync --exclude .git'
 
 alias makej='make -j 4'
 alias sudorsync="sudo rsync -aPe ssh --rsync-path='sudo rsync'"
+
+alias cdd='cd ~/Download'
+alias cds='cd ~/src'
+alias cdc='cd ~/Documents'
+alias cdo='cd ~/office'
