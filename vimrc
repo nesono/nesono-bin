@@ -74,6 +74,7 @@ call vundle#end()            " required
 
 " change the mapleader from \ to ,
 let mapleader=","
+let g:user_emmet_leader_key="<C-e>"
 
 " SuperTab option for context aware completion
 let g:SuperTabDefaultCompletionType = "context"
