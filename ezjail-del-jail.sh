@@ -3,7 +3,7 @@
 echo "ATTENTION"
 echo ""
 echo "This script stops and removes a jail including the ZFS jail with it."
-echo "Make sure you don't call this script by accident ;)"
+echo "THE CHANGES ARE NOT REVERSIBLE!"
 echo ""
 
 if [ -z "$1" ]; then
@@ -15,7 +15,7 @@ fi
 
 jailname="$1"
 
-echo """About to calling the following commands
+echo """About to call the following commands
 
 ezjail-admin stop $jailname 
 ezjail-admin delete $jailname 
@@ -57,7 +57,7 @@ zfs_check()
 
 echo "sanity checks"
 ezjail_check $jailname || error "No jail found with name \"$jailname\""
-zfs_check $jailname || error "Sorry, no ZFS jail found"
+zfs_check $jailname || error "No ZFS jail found"
 
 echo "Now I am serious"
 
