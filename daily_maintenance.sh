@@ -342,16 +342,6 @@ check_and_update_drush()
 	fi
 }
 
-prune_old_drupal_backups()
-{
-	if [ -d "/usr/jails/www.nesono.com/root/drush-backups" ]; then
-		cd "/usr/jails/www.nesono.com/root/drush-backups" 
-		echo "deleting drupal backups older than 200 days"
-		find . -mtime +200 -type d -depth 2 | xargs -t -n 1 rm -r
-		cd -
-	fi
-}
-
 run_in_tmux()
 {
 	local name='daily_maintenance'
@@ -416,7 +406,6 @@ if [ "${do_sudo}" = "1" ]; then
 		Linux)
 			check_and_update_aptget
 			check_and_update_drush
-			prune_old_drupal_backups
 			;;
 
 		Darwin)
@@ -431,7 +420,6 @@ if [ "${do_sudo}" = "1" ]; then
 			update_ez_jail
 			freebsd_documentation_update
 			check_and_update_drush
-			prune_old_drupal_backups
 			;;
 	esac
 fi
