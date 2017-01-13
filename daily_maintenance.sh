@@ -354,12 +354,13 @@ prune_old_drupal_backups()
 
 run_in_tmux()
 {
-	local name='daily maintenance'
+	local name='daily_maintenance'
 	if [ ! -x $(which tmux) ]; then
 		echo "tmux not installed, continuing"
 		return 
 	fi
-	if [ -n $(tmux ls | grep "$name") ]; then
+	local tmux_ls=`tmux ls`
+	if [ $? -eq 0 -a -n "$(echo $tmux_ls | grep "$name" )" ]; then
 		echo "tmux session with name $name already running"
 		return
 	else
