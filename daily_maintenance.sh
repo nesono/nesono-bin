@@ -39,7 +39,7 @@ check_and_update_svn_bin_repo()
 	echo "checking svn: ${1}"
 
 	if [ ! -d "${DIR}" ]; then
-		echo "skipping: ${DIR}"
+		echo "not a directory (skipping): ${DIR}"
 		return
 	else
 		cd "${DIR}" 
@@ -107,7 +107,7 @@ check_and_update_git_bin_repo()
 	local DIR="${1}"
 
 	if [ ! -d "${DIR}" ]; then
-		echo "skipping: ${DIR}"
+		echo "not a directory (skipping): ${DIR}"
 		return
 	else
 		cd "${DIR}" 
@@ -355,8 +355,8 @@ run_in_tmux()
 		return
 	else
 		echo "restarting in tmux"
-		export SHELL=`which bash`
-		tmux new -s "$name" "export NESONOBININSTALLATIONDIR=${NESONOBININSTALLATIONDIR} && export STOP_TMUX=1 && $0"
+		#tmux new -s "$name" "set NESONOBININSTALLATIONDIR ${NESONOBININSTALLATIONDIR}; $0"
+		tmux new -s "$name" "$0"
 		exit 0
 	fi
 }
