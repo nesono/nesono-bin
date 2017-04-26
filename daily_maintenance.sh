@@ -349,6 +349,10 @@ run_in_tmux()
 		echo "tmux not installed, continuing"
 		return 
 	fi
+	if [ "$TERM" == "screen" ]; then
+		echo "TERM is already set to screen - in a tmux session?"
+		return
+	fi
 	local tmux_ls=`tmux ls`
 	if [ $? -eq 0 -a -n "$(echo $tmux_ls | grep "$name" )" ]; then
 		echo "tmux session with name $name already running"
