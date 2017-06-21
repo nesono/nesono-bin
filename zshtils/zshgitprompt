@@ -215,10 +215,6 @@ function get_current_action () {
 function zsh_git_prompt {
     # check if repo stat is disabled
     [ -n "${NESONO_NOREPO}" ] && return
-    local enabled=`git config --local --get oh-my-git.enabled`
-    if [[ ${enabled} == false ]]; then
-        exit;
-    fi
 
     local prompt=""
     
