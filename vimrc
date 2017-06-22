@@ -75,7 +75,10 @@ call vundle#end()            " required
 
 " change the mapleader from \ to ,
 let mapleader=","
-let g:user_emmet_leader_key="<C-e>"
+
+let g:user_emmet_leader_key='<C-e>'
+" create Emmet mappings only for normal mode
+let g:user_emmet_mode = 'n'
 
 " SuperTab option for context aware completion
 let g:SuperTabDefaultCompletionType = "context"
@@ -163,33 +166,33 @@ if has("gui_running")
 	set guifont=Source_Code_Pro:h10
 endif
 
+" Highlight rows longer than 80 characters
+function! ToggleOverLengthHi()
+	if exists("b:overlengthhi") && b:overlengthhi
+		highlight clear OverLength
+		let b:overlengthhi = 0
+		echo "overlength hilight off"
+	else
+		" adjust colors/styles as desired
+		highlight OverLength ctermbg=darkred gui=undercurl guisp=blue
+		" change '81' to be 1+(number of columns)
+		match OverLength /\%81v.\+/
+		let b:overlengthhi = 1
+		echo "overlength hilight on"
+	endif
+endfunction
+
 if has("autocmd")
+	autocmd BufReadPost fugitive://* set bufhidden=delete
+
 	" enable file type detection
 	filetype plugin on
 
+  " CPP SETTINGS
 	" remove blank spaces at EOL at saving buffer
 	"au FileType cpp,c autocmd BufWritePre * :%s/\s\+$//e
 	" set file text width for c files
 	au FileType cpp,c set textwidth=78
-
-	" enable highlighing of over long lines
-	"au FileType cpp,c match OverLength /\%80v.*/
-	" Highlight rows longer than 80 characters
-	function! ToggleOverLengthHi()
-		if exists("b:overlengthhi") && b:overlengthhi
-			highlight clear OverLength
-			let b:overlengthhi = 0
-			echo "overlength hilight off"
-		else
-			" adjust colors/styles as desired
-			highlight OverLength ctermbg=darkred gui=undercurl guisp=blue
-			" change '81' to be 1+(number of columns)
-			match OverLength /\%81v.\+/
-			let b:overlengthhi = 1
-			echo "overlength hilight on"
-		endif
-	endfunction
-
 	" to enable cindent only for specific files
 	au FileType cpp,c set cindent
 	au FileType cpp,c let Tlist_Auto_Open=1
@@ -197,37 +200,30 @@ if has("autocmd")
 	"au FileType cpp,c set smarttab
 	" make blank spaces from tabs for c(pp) files
 	au FileType cpp,c set expandtab
+	" enable highlighing of over long lines
+	"au FileType cpp,c match OverLength /\%80v.*/
 
+	" CMAKE SETTINGS
 	" also don't use tabs to indent in cmake
 	au FileType cmake set noexpandtab
+	au FileType cmake set shiftwidth=2
+	au FileType cmake set tabstop=2
 
-	autocmd BufReadPost fugitive://* set bufhidden=delete
-
+  " PYTHON SETTINGS
 	"" enable some useful stuff for python
-	"au FileType python set smartindent
-	"au FileType python inoremap # X#
-	"au FileType python set autoindent
+	au FileType python set smartindent
+	au FileType python inoremap # X#
+	au FileType python set autoindent
 	"" insert tabs only at beginning of line
-	"au FileType python set smarttab
+	au FileType python set smarttab
 	"" set tab widths
-	"au FileType python set shiftwidth=4
-	"au FileType python set tabstop=4
+	au FileType python set shiftwidth=4
+	au FileType python set tabstop=4
 	"" show indentation for python
 	"au FileType python set lcs=tab:\|\ 
 	"au FileType python set list
 	"au FileType python hi SpecialKey term=bold ctermfg=7 gui=bold guifg=Gray30
 	au FileType python set makeprg=python\ %
-
-	"autocmd BufNewFile,BufRead *.c set cindent
-	"autocmd BufNewFile,BufRead *.cc set cindent
-	"autocmd BufNewFile,BufRead *.cpp set cindent
-	"autocmd BufNewFile,BufRead *.cpp let Tlist_Auto_Open=1
-	"autocmd BufNewFile,BufRead *.cxx set cindent
-	"autocmd BufNewFile,BufRead *.cxx let Tlist_Auto_Open=1
-	"autocmd BufNewFile,BufRead *.h set cindent
-	"autocmd BufNewFile,BufRead *.hpp set cindent
-	"autocmd BufNewFile,BufRead *.hpp let Tlist_Auto_Open=1
-	"autocmd BufNewFile,BufRead *.tcc set cindent
 endif
 
 if has("gui_running")
@@ -346,6 +342,26 @@ nnoremap <leader>gtt :Gtags<cr><cr>
 nnoremap <leader>gt :Gtags
 nnoremap <leader>gtr :Gtags -r<cr><cr>
 nnoremap <leader>gtf :Gtags -f<cr><cr>
+
+" FSWITCH mappings
+"" Switch to the file and load it into current window
+"nmap <silent> <Leader>of :FSHere<cr>
+"" Switch to the file and load it into the window on the right >
+"nmap <silent> <Leader>ol :FSRight<cr>
+"" Switch to the file and load it into a new window split on the right >
+"nmap <silent> <Leader>oL :FSSplitRight<cr>
+"" Switch to the file and load it into the window on the left >
+"nmap <silent> <Leader>oh :FSLeft<cr>
+"" Switch to the file and load it into a new window split on the left >
+"nmap <silent> <Leader>oH :FSSplitLeft<cr>
+"" Switch to the file and load it into the window above >
+"nmap <silent> <Leader>ok :FSAbove<cr>
+"" Switch to the file and load it into a new window split above >
+"nmap <silent> <Leader>oK :FSSplitAbove<cr>
+"" Switch to the file and load it into the window below >
+"nmap <silent> <Leader>oj :FSBelow<cr>
+"" Switch to the file and load it into a new window split below >
+"nmap <silent> <Leader>oJ :FSSplitBelow<cr>
 
 if has("cscope")
 	"set csprg=cscope

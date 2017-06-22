@@ -29,7 +29,7 @@ REM  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF TH
 REM  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 echo.
-echo                          INSTALL nesono-bin
+echo                          INSTALL nesono-bin (Administrator Access necessary)
 echo.
 
 set SCRIPTDIR=%~dp0
