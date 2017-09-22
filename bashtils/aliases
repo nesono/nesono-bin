@@ -40,6 +40,6 @@ alias makej='make -j 4'
 alias sudorsync="sudo rsync -aPe ssh --rsync-path='sudo rsync'"
 
 alias cdd='cd ~/Downloads'
-alias cds='cd ~/src'
+alias cds='cd ~/Developer'
 alias cdc='cd ~/Documents'
 alias cdo='cd ~/office'
