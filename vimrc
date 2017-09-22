@@ -40,6 +40,7 @@ call vundle#begin()
 Plugin 'gmarik/vundle'
 
 " to actually install those call BundleInstall!
+Plugin 'lyuts/vim-rtags'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-surround'
