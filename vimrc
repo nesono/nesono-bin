@@ -40,7 +40,8 @@ call vundle#begin()
 Plugin 'gmarik/vundle'
 
 " to actually install those call BundleInstall!
-Plugin 'lyuts/vim-rtags'
+"Plugin 'lyuts/vim-rtags'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-surround'
@@ -49,7 +50,7 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'mileszs/ack.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
+"Plugin 'scrooloose/syntastic'
 Plugin 'vim-scripts/gtags.vim'
 Plugin 'derekwyatt/vim-fswitch'
 Plugin 'vim-scripts/Align'
