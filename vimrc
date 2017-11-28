@@ -379,6 +379,7 @@ if has("cscope")
 	set cscopequickfix=s-,c-,d-,i-,t-,e-
 endif
 
+" cscope short cuts
 nnoremap <C-\>s :cs f s <C-R>=expand("<cword>")<cr><cr>
 nnoremap <C-\>g :cs f g <C-R>=expand("<cword>")<cr><cr>
 nnoremap <C-\>c :cs f c <C-R>=expand("<cword>")<cr><cr>
@@ -424,6 +425,16 @@ nnoremap <leader>vd :VCSVimDiff<cr>
 nnoremap <leader>vi :VCSInfo<cr>
 nnoremap <leader>vl :VCSLog<cr>
 nnoremap <leader>vu :VCSUpdate<cr>
+
+" YouCompleteMe short cuts
+nnoremap <leader>yg :YcmCompleter GoTo<cr>
+nnoremap <leader>yr :YcmCompleter GoToReferences<cr>
+nnoremap <leader>yi :YcmCompleter GoToImplementation<cr>
+nnoremap <leader>yt :YcmCompleter GetType<cr>
+nnoremap <leader>yp :YcmCompleter GetParent<cr>
+nnoremap <leader>yd :YcmCompleter GetDoc<cr>
+nnoremap <leader>yf :YcmCompleter FixIt<cr>
+nnoremap <leader>yn :YcmCompleter RefactorRename<cr>
 
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 set laststatus=2
