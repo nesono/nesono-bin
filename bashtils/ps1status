@@ -75,7 +75,7 @@ function parse_hg_branch()
 }
 
 # function to disable repository display in prompt
-function ps1repo()
+function repostatus()
 {
 	if [[ -z "$1" ]]; then
 		echo 'usage: ps1repo on|off'
