@@ -3,3 +3,4 @@
 [[ -x `which ctags 2> /dev/null`  ]] && ctags -R --sort=yes --c++-kinds=+p --fields=+afiKlmnsSzt --extra=+q && echo "ctags finished" &
 [[ -x `which gtags 2> /dev/null`  ]] && gtags && echo "gtags finished" &
 [[ -x `which cscope 2> /dev/null` ]] && cscope -bR && echo "cscope finished" &
+[[ -x `which rc 2> /dev/null`     ]] && rc -J . && echo "rtags finished" &
