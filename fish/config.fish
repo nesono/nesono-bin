@@ -38,6 +38,7 @@ function fish_prompt
     #printf '%d' ($last_status)
     set_color normal
   end
+  set_color -b grey
   printf '%s ' (__fish_git_prompt)
   printf '%s ' (date "+%y-%m-%d %H:%M:%S")
   set_color green
