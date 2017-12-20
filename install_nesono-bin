@@ -92,18 +92,39 @@ case ${1} in
   ;;
 esac
 
+# needs to be run from within SCRIPTDIR
+function install_fish()
+{
+  echo "fish installation"
+  install_link ~/.config/fish ${SCRIPTDIR}/fish
+  if [ "`readlink ~/.config/fish`" = "${SCRIPTDIR}/fish" ]; then
+    if [  -z "`grep -le 'fish/fishd.*' .gitignore`" ]; then
+      echo 'fish/fishd.*' >> .gitignore
+      git commit -m"ignore fish tmp files" .gitignore
+    else
+      echo "fish/fishd.* already in .gitignore"
+    fi
+  else
+    echo "fish does not use nesono-bin configuration"
+  fi
+  ./fishtils/install_nesono_fish
+  echo "fish installation done"
+}
+
 pushd ${SCRIPTDIR}
-./bashtils/install_nesono_bash
-./zshtils/install_nesono_zsh
+[ -n "`which bash`" ] && ./bashtils/install_nesono_bash
+[ -n "`which zsh`" ] && ./zshtils/install_nesono_zsh
+[ -n "`which fish`" ] && install_fish
 popd
 
-install_link ~/.inputrc    ${SCRIPTDIR}/inputrc
-install_link ~/.vimrc      ${SCRIPTDIR}/vimrc
-install_link ~/.tmux.conf  ${SCRIPTDIR}/tmux.conf
-install_link ~/.screenrc   ${SCRIPTDIR}/screenrc
-install_link ~/.tigrc      ${SCRIPTDIR}/tigrc
-install_link ~/.vim        ${SCRIPTDIR}/vim
-install_link ~/.ackrc      ${SCRIPTDIR}/ackrc
+install_link ~/.inputrc   ${SCRIPTDIR}/inputrc
+install_link ~/.vimrc     ${SCRIPTDIR}/vimrc
+install_link ~/.tmux.conf ${SCRIPTDIR}/tmux.conf
+install_link ~/.screenrc  ${SCRIPTDIR}/screenrc
+install_link ~/.tigrc     ${SCRIPTDIR}/tigrc
+install_link ~/.vim       ${SCRIPTDIR}/vim
+install_link ~/.ackrc     ${SCRIPTDIR}/ackrc
+
 
 echo "fetch submodules"
 pushd ${SCRIPTDIR}
