@@ -58,7 +58,7 @@ Plugin 'vim-scripts/Align'
 Plugin 'mbbill/undotree'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'kien/ctrlp.vim'
-Plugin 'mattn/emmet-vim'
+"Plugin 'mattn/emmet-vim'
 Plugin 'milkypostman/vim-togglelist'
 Plugin 'rizzatti/dash.vim'
 Plugin 'vim-scripts/vcscommand.vim'
@@ -77,9 +77,9 @@ call vundle#end()            " required
 " change the mapleader from \ to ,
 let mapleader=","
 
-let g:user_emmet_leader_key='<C-e>'
+"let g:user_emmet_leader_key='<C-e>'
 " create Emmet mappings only for normal mode
-let g:user_emmet_mode = 'n'
+"let g:user_emmet_mode = 'n'
 
 " SuperTab option for context aware completion
 let g:SuperTabDefaultCompletionType = "context"
