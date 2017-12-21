@@ -35,15 +35,18 @@ echo "Can be run multiple times (idempotent)"
 echo ""
 echo "The script is licensed under BSD license"
 echo ""
+echo "Legend:"
+echo "  ##: sections"
+echo "  >>: sub sections"
+echo "  **: work done"
+echo "  ^^: remarks"
+echo
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SCRIPTDIR
 
 echo "^^ Detected script directory: \"${SCRIPTDIR}\""
 echo 
-
-# not used currently
-FORCE=0
 
 # function to install a link to a configuration file, e.g. ~/.vimrc
 function install_link()
@@ -66,7 +69,7 @@ function install_link()
     fi
 
     if [ ! -e "${target}" ]; then
-      echo "removing bogus link: \"${DST}\" pointing to \"${target}\""
+      echo "** Removing bogus link: \"${DST}\" pointing to \"${target}\""
       rm "${DST}"
     fi
   fi
@@ -82,14 +85,6 @@ function install_link()
     ln -sf ${SRC} ${DST}
   fi
 }
-
-# check for -f or --force
-case ${1} in
-  '--force' | 'f')
-    FORCE=1
-    echo "##### force mode active"
-  ;;
-esac
 
 # needs to be run from within SCRIPTDIR
 function install_fish()
