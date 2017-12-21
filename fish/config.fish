@@ -15,9 +15,10 @@ set __fish_git_prompt_color_branch -b grey yellow
 set __fish_git_prompt_color_upstream_ahead -b grey green
 set __fish_git_prompt_color_upstream_behind -b grey red
 #set __fish_git_prompt_showcolorhints 'yes'
+set __fish_git_prompt_show_informative_status 'yes'
 
 # Status Chars
-set __fish_git_prompt_char_upstream_prefix ' : '
+set __fish_git_prompt_char_upstream_prefix ': '
 set __fish_git_prompt_char_upstream_ahead  'A'
 set __fish_git_prompt_char_upstream_behind 'B'
 set __fish_git_prompt_char_stateseparator  '|'
