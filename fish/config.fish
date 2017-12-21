@@ -35,6 +35,7 @@ function fish_prompt
   printf '[%d]' $jobcount
 
   printf '%s ' (__fish_git_prompt)
+  set_color -b normal normal
   printf '%s ' (date "+%y-%m-%d %H:%M:%S")
   set_color green
   printf  '%s\n' (hostname)
