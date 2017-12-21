@@ -42,42 +42,42 @@ case ${UNAME} in
     LOGINFILE=~/.profile
   ;;
   *)
-    echo "unsupported system detected"
-    echo "not installing bashtils"
+    echo "!! Unsupported system detected"
+    echo "!! Not installing bashtils"
 esac
 
 # check, if login file exists
 if [ -e "${LOGINFILE}" ]; then
-  echo "sourcing login file: ${LOGINFILE}"
+  echo "** Sourcing login file: ${LOGINFILE}"
   # source login file and check, if we are already in path
   . ${LOGINFILE}
 else
-  echo "creating loginfile: ${LOGINFILE} (needs to sourced in login script)"
+  echo "** Creating loginfile: ${LOGINFILE} (needs to sourced in login script)"
   touch ${LOGINFILE}
 fi
 
 # add nesono-bin path to LOGINFILE
 if [ -z "${NESONOBININSTALLATIONDIR}" ]; then
-  echo "adding nesono-bin path to ${LOGINFILE}"
+  echo "** Adding nesono-bin path to ${LOGINFILE}"
   cat >> ${LOGINFILE} <<-ENDOFSCRIPT
 
 # the nesono script directory
 export NESONOBININSTALLATIONDIR=${SCRIPTDIR}
 [ -d "\${NESONOBININSTALLATIONDIR}" ] && export PATH=\${PATH}:\${NESONOBININSTALLATIONDIR}
 ENDOFSCRIPT
-  echo "adding ${SCRIPTDIR} to current path"
+  echo "** Adding ${SCRIPTDIR} to current path"
   export PATH=${PATH}:${SCRIPTDIR}
 else
-  echo "${SCRIPTDIR} already in path... not installing nesono-bin"
+  echo "^^ ${SCRIPTDIR} already in path... not installing nesono-bin"
 fi
 
 # add BASHRC extensions to login file
 if [ -z "${NESONOBININSTALLATIONDIR}" ]; then
-  echo "adding bashrc to file: ${LOGINFILE}"
+  echo "** Adding bashrc to file: ${LOGINFILE}"
   cat >> ${LOGINFILE} <<-ENDOFSCRIPT
 # the nesono bash extension
 [ -f \${NESONOBININSTALLATIONDIR}/bashrc ] && . \${NESONOBININSTALLATIONDIR}/bashrc
 ENDOFSCRIPT
 else
-  echo "NESONOBASHRC already set - not installing ${LOGINFILE}"
+  echo "^^ NESONOBASHRC already set - not installing ${LOGINFILE}"
 fi
