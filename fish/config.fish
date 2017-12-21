@@ -33,13 +33,15 @@ set __fish_git_prompt_describe_style 'branch'
 function fish_prompt
   set -l last_status $status
 
-  printf '%s' (echo ' ')
-
   if not test $last_status -eq 0
-    set_color $fish_color_error
-    #printf '%d' ($last_status)
+    set_color -b $fish_color_error white
+    printf ' %s ' (echo $last_status)
     set_color normal
   end
+
+  set -l jobcount (jobs | wc -l)
+  printf '[%d]' $jobcount
+
   printf '%s ' (__fish_git_prompt)
   printf '%s ' (date "+%y-%m-%d %H:%M:%S")
   set_color green
