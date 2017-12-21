@@ -10,10 +10,11 @@ set __fish_git_prompt_showdirtystate 'yes'
 set __fish_git_prompt_showstashstate 'yes'
 set __fish_git_prompt_showuntrackedfiles 'yes'
 set __fish_git_prompt_showupstream 'yes'
-set __fish_git_prompt_color_branch yellow
-set __fish_git_prompt_color_upstream_ahead green
-set __fish_git_prompt_color_upstream_behind red
-set __fish_git_prompt_showcolorhints 'yes'
+set __fish_git_prompt_color -b grey
+set __fish_git_prompt_color_branch -b grey yellow
+set __fish_git_prompt_color_upstream_ahead -b grey green
+set __fish_git_prompt_color_upstream_behind -b grey red
+#set __fish_git_prompt_showcolorhints 'yes'
 
 # Status Chars
 set __fish_git_prompt_char_upstream_prefix ''
@@ -38,7 +39,6 @@ function fish_prompt
     #printf '%d' ($last_status)
     set_color normal
   end
-  set_color -b grey
   printf '%s ' (__fish_git_prompt)
   printf '%s ' (date "+%y-%m-%d %H:%M:%S")
   set_color green
