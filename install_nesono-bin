@@ -28,20 +28,19 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 echo ""
-echo "                         INSTALL nesono-bin"
-echo "script to install the nesono-bin directory into newly setup or existing systems"
-echo "checks, if already in path and if config files have already been set"
-echo "so don't be afraid, to call this script multiple times :-)"
+echo "           INSTALL nesono-bin"
+echo "Script to install the nesono-bin toolset"
+echo "Does not overwrite existing configurations"
+echo "Can be run multiple times (idempotent)"
 echo ""
-echo "the script is licensed under BSD license - read it's source for more information"
+echo "The script is licensed under BSD license"
 echo ""
-echo "results:"
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SCRIPTDIR
 
-echo "current script directory"
-echo ${SCRIPTDIR}
+echo "^^ Detected script directory: \"${SCRIPTDIR}\""
+echo 
 
 # not used currently
 FORCE=0
@@ -72,14 +71,14 @@ function install_link()
     fi
   fi
   if [ -e ${DST} ]; then
-    echo "---> ${DST} exists - not overwriting with nesono-bin version"
+    echo "^^ ${DST} exists - not overwriting with nesono-bin version"
     if [ -L ${DST} ]; then
       TESTDST=`readlink ${DST}`
-      echo "     ${DST} points to ${TESTDST}"
+      echo "   ${DST} points to ${TESTDST}"
       echo ""
     fi
   else
-    echo "installing ${DST##*/}"
+    echo "** Installing ${DST##*/}"
     ln -sf ${SRC} ${DST}
   fi
 }
@@ -95,28 +94,32 @@ esac
 # needs to be run from within SCRIPTDIR
 function install_fish()
 {
-  echo "fish installation"
   install_link ~/.config/fish ${SCRIPTDIR}/fish
   if [ "`readlink ~/.config/fish`" = "${SCRIPTDIR}/fish" ]; then
     if [  -z "`grep -le 'fish/fishd.*' .gitignore`" ]; then
       echo 'fish/fishd.*' >> .gitignore
       git commit -m"ignore fish tmp files" .gitignore
-    else
-      echo "fish/fishd.* already in .gitignore"
     fi
   else
-    echo "fish does not use nesono-bin configuration"
+    echo "^^ Fish does not use nesono-bin configuration"
   fi
   ./fishtils/install_nesono_fish
-  echo "fish installation done"
 }
 
-pushd ${SCRIPTDIR}
+echo "## Setup shell configurations (bash, zsh, fish)"
+pushd ${SCRIPTDIR} &> /dev/null
+echo ">> Bash"
 [ -n "`which bash`" ] && ./bashtils/install_nesono_bash
+echo
+echo ">> Zsh"
 [ -n "`which zsh`" ] && ./zshtils/install_nesono_zsh
+echo
+echo ">> Fish"
 [ -n "`which fish`" ] && install_fish
-popd
+popd &> /dev/null
+echo
 
+echo "## Installing additional links"
 install_link ~/.inputrc   ${SCRIPTDIR}/inputrc
 install_link ~/.vimrc     ${SCRIPTDIR}/vimrc
 install_link ~/.tmux.conf ${SCRIPTDIR}/tmux.conf
@@ -126,10 +129,11 @@ install_link ~/.vim       ${SCRIPTDIR}/vim
 install_link ~/.ackrc     ${SCRIPTDIR}/ackrc
 
 
-echo "fetch submodules"
-pushd ${SCRIPTDIR}
+echo "## Fetch/Update nesono-bin submodules"
+pushd ${SCRIPTDIR} &> /dev/null
 git submodule update --init
-popd
-
+popd &> /dev/null
+echo "^^ Done, see you next time"
 echo ""
+
 exit 0
