@@ -29,18 +29,18 @@ set FISHCONFIG ~/.config/fish/config.fish
 
 # check, if login file exists
 if test -e "$FISHCONFIG"
-  echo "fish config file exists: $FISHCONFIG"
+  echo "** Fish config file exists: $FISHCONFIG"
 end
 
 # add nesono-bin path to FISHCONFIG
 if test -z "$NESONOBININSTALLATIONDIR"
-  echo "adding nesono-bin path to $FISHCONFIG"
+  echo "** Adding nesono-bin path to $FISHCONFIG"
 	echo -e "# the nesono script directory\nset -U NESONOBININSTALLATIONDIR '$SCRIPTDIR'\ntest -d '\$NESONOBININSTALLATIONDIR'; and set -U PATH \$PATH \$NESONOBININSTALLATIONDIR" >> $FISHCONFIG
 
-  echo "adding $SCRIPTDIR to current path"
+  echo "** Adding $SCRIPTDIR to current path"
   set -U PATH $PATH $SCRIPTDIR
 else
-  echo "nesono-bin already in path... not installing nesono-bin"
+  echo "^^ nesono-bin already in path... not installing nesono-bin"
 end
 
 
