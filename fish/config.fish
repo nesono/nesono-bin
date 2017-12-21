@@ -18,10 +18,10 @@ set __fish_git_prompt_color_upstream_behind -b grey red
 set __fish_git_prompt_show_informative_status 'yes'
 
 # Status Chars
-set __fish_git_prompt_char_upstream_prefix ': '
+set __fish_git_prompt_char_upstream_prefix ':'
 set __fish_git_prompt_char_upstream_ahead  'A'
 set __fish_git_prompt_char_upstream_behind 'B'
-set __fish_git_prompt_char_stateseparator  '|'
+set __fish_git_prompt_char_stateseparator  '.'
 set __fish_git_prompt_char_dirtystate      'm'
 set __fish_git_prompt_char_invalidstate    'x'
 set __fish_git_prompt_char_stagedstate     'M'
