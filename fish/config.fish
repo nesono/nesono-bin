@@ -26,7 +26,7 @@ set __fish_git_prompt_char_dirtystate      'm'
 set __fish_git_prompt_char_invalidstate    'x'
 set __fish_git_prompt_char_stagedstate     'M'
 set __fish_git_prompt_char_untrackedfiles  '?'
-set __fish_git_prompt_char_cleanstate      '-'
+set __fish_git_prompt_char_cleanstate      ''
 set __fish_git_prompt_char_stashstate      '^'
 set __fish_git_prompt_describe_style 'branch'
 
