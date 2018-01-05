@@ -348,6 +348,9 @@ check_and_update_drush()
 		drush -r /var/www pm-update
 	fi
 	update_drupal_jail_with_drush 'www.nesono.com'
+	update_drupal_jail_with_drush 'www.vladiwoodstok.de'
+	update_drupal_jail_with_drush 'www.byorkesterbaritone.com'
+
 	#local nesono_jid
 	#nesono_jid=$(jls | grep -e 'www.nesono.com' | awk '{print $1}')
 	#if [ -n "$nesono_jid" ]; then
