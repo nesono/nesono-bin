@@ -328,18 +328,32 @@ update_ez_jail()
 	ezjail-admin update -Pp
 }
 
+update_drupal_jail_with_drush()
+{
+	local jailname
+	jailname=$1
+
+	local drupal_jid
+	drupal_jid=$(jls | grep -e "$jailname" | awk '{print $1}')
+	if [ -n "$drupal_jid" ]; then
+		echo $jailname jail found - checking for drupal updates
+		jexec $drupal_jid drush -r /usr/local/www/apache24/data/ pm-update
+	fi
+}
+
 check_and_update_drush()
 {
 	if [ -x "$(which drush)" ]; then
 		echo "updating /var/www with drush"
 		drush -r /var/www pm-update
 	fi
-	local nesono_jid
-	nesono_jid=$(jls | grep -e 'www.nesono.com' | awk '{print $1}')
-	if [ -n "$nesono_jid" ]; then
-		echo www.nesono.com jail found - checking for drupal updates
-		jexec $nesono_jid drush -r /usr/local/www/apache24/data/ pm-update
-	fi
+	update_drupal_jail_with_drush 'www.nesono.com'
+	#local nesono_jid
+	#nesono_jid=$(jls | grep -e 'www.nesono.com' | awk '{print $1}')
+	#if [ -n "$nesono_jid" ]; then
+		#echo www.nesono.com jail found - checking for drupal updates
+		#jexec $nesono_jid drush -r /usr/local/www/apache24/data/ pm-update
+	#fi
 }
 
 run_in_tmux()
