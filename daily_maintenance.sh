@@ -293,6 +293,9 @@ check_and_update_ports()
 	date -r `pkg query %t | sort | tail -n1` "+%Y%m%d"
 
 	portmaster -a -d
+	if [ $? -ne 0 ]; then
+		read -e -p "portsnap command failed, check output and press return to continue" ANSWER
+	fi
 	portmaster -y --clean-packages
 	# do some statistic tricks - rand(256) < 20
 	if [ `od -An -N1 -i /dev/random` -lt 20 ]; then
