@@ -191,24 +191,24 @@ if has("autocmd")
 
   " CPP SETTINGS
 	" remove blank spaces at EOL at saving buffer
-	"au FileType cpp,c autocmd BufWritePre * :%s/\s\+$//e
+	au FileType cc,cpp,c autocmd BufWritePre * :%s/\s\+$//e
 	" set file text width for c files
-	au FileType cpp,c set textwidth=78
+	au FileType cc,cpp,c set textwidth=100
 	" to enable cindent only for specific files
-	au FileType cpp,c set cindent
-	au FileType cpp,c let Tlist_Auto_Open=1
+	au FileType cc,cpp,c set cindent
+	au FileType cc,cpp,c let Tlist_Auto_Open=1
 	" insert tabs only at beginning of line
-	"au FileType cpp,c set smarttab
+	"au FileType cc,cpp,c set smarttab
 	" make blank spaces from tabs for c(pp) files
-	au FileType cpp,c set expandtab
+	au FileType cc,cpp,c set expandtab
 	" enable highlighing of over long lines
-	"au FileType cpp,c match OverLength /\%80v.*/
+	au FileType cc,cpp,c match OverLength /\%100v.*/
 
 	" CMAKE SETTINGS
 	" also don't use tabs to indent in cmake
-	au FileType cmake set noexpandtab
-	au FileType cmake set shiftwidth=2
-	au FileType cmake set tabstop=2
+	au FileType cmake set expandtab
+	au FileType cmake set shiftwidth=4
+	au FileType cmake set tabstop=4
 
   " PYTHON SETTINGS
 	"" enable some useful stuff for python
