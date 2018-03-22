@@ -26,7 +26,7 @@ echo "Package download done"
 echo
 echo "Once you finished adding packages, please add the folder to your apt.sources.list:"
 
-echo "echo "deb file:$output_folder ./" | sudo tee -a /etc/apt/sources.list.d/$output_folder.list"
+echo "echo "deb [arch=arm64 trusted=yes] file://$(pwd) ./" | sudo tee -a /etc/apt/sources.list.d/$USER.list"
 echo
 echo "And then run"
 echo "sudo apt-get update"
