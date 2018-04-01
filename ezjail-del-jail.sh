@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 echo "ATTENTION"
 echo ""
@@ -14,13 +14,14 @@ if [ -z "$1" ]; then
 fi
 
 jailname="$1"
+poolname="${2:-zroot}"
 
 echo """About to call the following commands
 
 ezjail-admin stop $jailname 
 ezjail-admin delete $jailname 
-zfs unmount -f tank/ezjail/$jailname
-zfs destroy tank/ezjail/$jailname
+zfs unmount -f ${poolname}/ezjail/$jailname
+zfs destroy ${poolname}/ezjail/$jailname
 """
 
 read -e -p "Do you want to proceed? [y/N] " ANSWER
@@ -52,7 +53,7 @@ ezjail_check()
 }
 zfs_check()
 {
-	zfs list tank/ezjail/$1 > /dev/null 2>&1
+	zfs list ${poolname}/ezjail/$1 &> /dev/null 
 }
 
 echo "sanity checks"
@@ -63,6 +64,6 @@ echo "Now I am serious"
 
 ezjail-admin stop $jailname 
 ezjail-admin delete $jailname 
-zfs unmount -f tank/ezjail/$jailname
-zfs destroy -r tank/ezjail/$jailname
+zfs unmount -f ${poolname}/ezjail/$jailname
+zfs destroy -r ${poolname}/ezjail/$jailname
 echo "End of serious"
