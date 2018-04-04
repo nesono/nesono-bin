@@ -63,7 +63,7 @@ Plugin 'milkypostman/vim-togglelist'
 Plugin 'rizzatti/dash.vim'
 Plugin 'vim-scripts/vcscommand.vim'
 if has("unix")
-	Plugin 'vim-scripts/vim-gitgutter'
+	"Plugin 'vim-scripts/vim-gitgutter'
 endif
 "Plugin 'OmniSharp/omnisharp-vim'
 "Plugin 'tpope/vim-sleuth'
@@ -123,7 +123,8 @@ set cino=>4,:0,=4,g0,h4,t0,+8,c4,(0,W8,u4,N-s
 set autoindent
 set tabstop=4
 set shiftwidth=4
-set smarttab
+set expandtab
+"set smarttab
 
 set nolist
 " enable this as soon, as you are away from mmt ;)
