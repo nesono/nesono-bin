@@ -148,6 +148,7 @@ case "${ANSWER}" in
 		git config --global alias.rv "remote -v"
 		git config --global alias.root "rev-parse --show-toplevel"
 		git config --global alias.fetchp "fetch --all --prune"
+		git config --global alias.pushf "push --force-with-lease"
 		;;
 	"d" | "D" )
 		echo "removing section alias from git config"
@@ -172,6 +173,7 @@ case "${ANSWER}" in
 		git config --global --unset alias.rv
 		git config --global --unset alias.root
 		git config --global --unset alias.fetchp
+		git config --global --unset alias.pushf
 		;;
 esac
 
