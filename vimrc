@@ -74,6 +74,11 @@ filetype plugin indent on     " required!
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
+" enable ag for ack.vim
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
 " change the mapleader from \ to ,
 let mapleader=","
 
