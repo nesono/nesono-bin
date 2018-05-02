@@ -56,6 +56,8 @@ bind generic <Ctrl-j> scroll-page-down
 bind generic 0 scroll-first-col
 bind generic y @bash -c "echo -n `echo %(commit) | cut -c 1-7` | pbcopy" # copy (yank) commid hash to clipboard (truncated to 7 chars)
 bind generic Y @bash -c "echo -n %(commit) | pbcopy" # copy (yank) commid hash to clipboard
+#bind generic y @bash -c "echo -n `echo %(commit) | cut -c 1-7` | xclip -selection clipboard" # copy (yank) commid hash to clipboard (truncated to 7 chars)
+#bind generic Y @bash -c "echo -n %(commit) | xclip -selection clipboard" # copy (yank) commid hash to clipboard
 
 bind main | !git rebase                         # rebase current branch to remote
 bind main \ !git pull --rebase                  # pull and rebase current branch to remote
