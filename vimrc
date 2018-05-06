@@ -40,6 +40,7 @@ call vundle#begin()
 Plugin 'gmarik/vundle'
 
 " to actually install those call BundleInstall!
+Plugin 'rhysd/vim-clang-format'
 Plugin 'lyuts/vim-rtags'
 "Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-fugitive'
@@ -78,6 +79,12 @@ call vundle#end()            " required
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
+
+" configure clang-format
+let g:clang_format#code_style="llvm"
+
+"autocmd FileType c,cpp,objc nnoremap <buffer><Leader>ff :<C-u>ClangFormat<CR>
+"autocmd FileType c,cpp,objc vnoremap <buffer><Leader>ff :ClangFormat<CR>
 
 " change the mapleader from \ to ,
 let mapleader=","
@@ -122,7 +129,7 @@ set foldlevel=100
 
 " basic indentation rules
 " see cinoptions-values for descr
-set cino=>4,:0,=4,g0,h4,t0,+8,c4,(0,W8,u4,N-s
+set cino=>4,:0,=4,g2,h2,t0,+8,c4,(0,W8,u4,N-s
 
 " indentation settings (should be done with vim-sleuth?)
 set autoindent
