@@ -51,25 +51,24 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'mileszs/ack.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
-"Plugin 'scrooloose/syntastic'
 Plugin 'vim-scripts/gtags.vim'
-Plugin 'derekwyatt/vim-fswitch'
-Plugin 'vim-scripts/Align'
-"Plugin 'ervandew/supertab'
-Plugin 'mbbill/undotree'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'kien/ctrlp.vim'
 "Plugin 'mattn/emmet-vim'
 Plugin 'milkypostman/vim-togglelist'
-Plugin 'rizzatti/dash.vim'
-Plugin 'vim-scripts/vcscommand.vim'
+Plugin 'fatih/vim-go.git'
 if has("unix")
-	"Plugin 'vim-scripts/vim-gitgutter'
+	Plugin 'vim-scripts/vim-gitgutter'
 endif
-"Plugin 'OmniSharp/omnisharp-vim'
-"Plugin 'tpope/vim-sleuth'
-"Plugin 'SirVer/ultisnips'
-"Plugin 'klen/python-mode'
+
+if executable('rg')
+  let g:ctrlp_user_command = 'rg --files %s'
+  let g:ctrlp_use_caching = 0
+  let g:ctrlp_working_path_mode = 'ra'
+  let g:ctrlp_switch_buffer = 'et'
+
+  let g:ackprg = 'rg --vimgrep --no-heading'
+endif
 
 filetype plugin indent on     " required!
 " All of your Plugins must be added before the following line
@@ -177,7 +176,7 @@ let c_space_errors=1
 
 if has("gui_running")
 	syntax on
-	set guifont=Source_Code_Pro:h10
+	"set guifont=Source_Code_Pro:h10
 endif
 
 " Highlight rows longer than 80 characters
@@ -195,6 +194,15 @@ function! ToggleOverLengthHi()
 		echo "overlength hilight on"
 	endif
 endfunction
+
+let g:go_disable_autoinstall = 0
+
+" Highlight
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 
 if has("autocmd")
 	autocmd BufReadPost fugitive://* set bufhidden=delete
@@ -234,19 +242,13 @@ if has("autocmd")
 	au FileType python set shiftwidth=4
 	au FileType python set tabstop=4
 	"" show indentation for python
-	"au FileType python set lcs=tab:\|\ 
 	"au FileType python set list
 	"au FileType python hi SpecialKey term=bold ctermfg=7 gui=bold guifg=Gray30
 	au FileType python set makeprg=python\ %
 endif
 
 if has("gui_running")
-	if has("gui_macvim")
-		" disable antialiasing in guis
-		"set noantialias
-		" set gui font
-		set gfn=SourceCodePro+Powerline+Awesome\ Regular:h12
-	elseif has("gui_win32")
+	if has("gui_win32")
 		set guifont=Consolas:h11:cANSI
 	endif
 endif
@@ -278,16 +280,6 @@ set hidden
 set nobackup
 set noswapfile
 
-" open each buffer as it's own tabpage:
-" disable because NERDTree, etc. is then also opened in separate tab
-":au BufAdd,BufNewFile * nested tab sball
-
-" to repair backspace if logged in from Mac to Linux Machine
-"if exists( "$SSH_CONNECTION" )
-"	:set t_kb=^V<BS>
-"	:fixdel
-"endif
-
 function! ToggleRelativeAbsoluteLineNumbers()
 	if &number == 1
 		echom "relative on"
@@ -300,6 +292,12 @@ function! ToggleRelativeAbsoluteLineNumbers()
 	endif
 endfunction
 
+" toggle browse tree region
+nnoremap <F2> :NERDTreeToggle<CR>
+nnoremap <F3> :NERDTreeFind<CR>
+" open NERDtree if vim was opened without a file specified
+"autocmd vimenter * if !argc() | silent! NERDTree | endif
+
 noremap <silent> <F4> :call ToggleRelativeAbsoluteLineNumbers()<CR>
 noremap <silent> <F5> :nohls<CR>
 noremap <silent> <F6> :call ToggleQuickfixList()<CR>
@@ -309,35 +307,6 @@ noremap <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
 noremap <silent> <F10> :set list!<CR>
 noremap <silent> <F11> :call ToggleLocationList()<CR>
 
-" toggle browse tree region
-nnoremap <F2> :NERDTreeToggle<CR>
-nnoremap <F3> :NERDTreeFind<CR>
-" open NERDtree if vim was opened without a file specified
-"autocmd vimenter * if !argc() | silent! NERDTree | endif
-
-" toggle undotree region
-"nnoremap <F3> :UndotreeToggle<CR>
-
-
-" copy current file name (relative/absolute) to system clipboard
-if has("mac") || has("gui_macvim") || has("gui_mac")
-	nnoremap <leader>cf :let @*=expand("%")<CR>
-	nnoremap <leader>cF :let @*=expand("%:p")<CR>
-	nnoremap <leader>ct :let @*=expand("%:t")<CR>
-	nnoremap <leader>ch :let @*=expand("%:p:h")<CR>
-	nnoremap <leader>ln :let @*=line(".")<CR>
-	nnoremap <leader>cfn :let @*=expand("%").":".line(".")<CR>
-endif
-
-" copy current file name (relative/absolute) to system clipboard (Linux version)
-if has("gui_gtk") || has("gui_gtk2") || has("gui_gnome") || has("unix")
-	nnoremap <leader>cf :let @+=expand("%")<CR>
-	nnoremap <leader>cF :let @+=expand("%:p")<CR>
-	nnoremap <leader>ct :let @+=expand("%:t")<CR>
-	nnoremap <leader>ch :let @+=expand("%:p:h")<CR>
-	nnoremap <leader>ln :let @+=line(".")<CR>
-	nnoremap <leader>cfn :let @+=expand("%").":".line(".")<CR>
-endif
 
 " some useful mappings for the vimrc
 map <leader>v :sp ~/.vimrc<cr>     " edit my .vimrc file in a split
@@ -351,103 +320,20 @@ nnoremap <leader>dp :diffput<cr>
 nnoremap <leader>dt :windo diffthis<cr>
 nnoremap <leader>do :windo diffo<cr>
 
-" gnu/global mapping
-nnoremap <leader>gtt :Gtags<cr><cr>
-nnoremap <leader>gt :Gtags
-nnoremap <leader>gtr :Gtags -r<cr><cr>
-nnoremap <leader>gtf :Gtags -f<cr><cr>
-
-" FSWITCH mappings
-"" Switch to the file and load it into current window
-"nmap <silent> <Leader>of :FSHere<cr>
-"" Switch to the file and load it into the window on the right >
-"nmap <silent> <Leader>ol :FSRight<cr>
-"" Switch to the file and load it into a new window split on the right >
-"nmap <silent> <Leader>oL :FSSplitRight<cr>
-"" Switch to the file and load it into the window on the left >
-"nmap <silent> <Leader>oh :FSLeft<cr>
-"" Switch to the file and load it into a new window split on the left >
-"nmap <silent> <Leader>oH :FSSplitLeft<cr>
-"" Switch to the file and load it into the window above >
-"nmap <silent> <Leader>ok :FSAbove<cr>
-"" Switch to the file and load it into a new window split above >
-"nmap <silent> <Leader>oK :FSSplitAbove<cr>
-"" Switch to the file and load it into the window below >
-"nmap <silent> <Leader>oj :FSBelow<cr>
-"" Switch to the file and load it into a new window split below >
-"nmap <silent> <Leader>oJ :FSSplitBelow<cr>
-
-if has("cscope")
-	"set csprg=cscope
-	set csto=0
-	set cst
-	set nocsverb
-	" add any database in current directory
-	if filereadable("cscope.out")
-		cs add cscope.out
-		" else add database pointed to by environment
-	elseif $CSCOPE_DB != ""
-		cs add $CSCOPE_DB
-	endif
-	set cscopequickfix=s-,c-,d-,i-,t-,e-
-endif
-
-" cscope short cuts
-nnoremap <C-\>s :cs f s <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>g :cs f g <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>c :cs f c <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>d :cs f d <C-R>=expand("<cfile>")<cr><cr>
-nnoremap <C-\>t :cs f t <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>e :cs f e <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>f :cs f f <C-R>=expand("<cfile>")<cr><cr>
-nnoremap <C-\>i :cs f i <C-R>=expand("<cfile>")<cr><cr>
-
-nnoremap <C-\>vs :scs f s <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>vg :scs f g <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>vc :scs f c <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>vd :scs f d <C-R>=expand("<cfile>")<cr><cr>
-nnoremap <C-\>vt :scs f t <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>ve :scs f e <C-R>=expand("<cword>")<cr><cr>
-nnoremap <C-\>vf :scs f f <C-R>=expand("<cfile>")<cr><cr>
-nnoremap <C-\>vi :scs f i <C-R>=expand("<cfile>")<cr><cr>
-
-" buffer handling
-nnoremap <leader>bo :only<cr>     " keep only this buffer open (in split view)
-nnoremap <leader>bd :bd<cr>       " delete buffer
+" gnu/global (tags) mapping
+nnoremap <leader>tt :Gtags<cr><cr>
+nnoremap <leader>t :Gtags
+nnoremap <leader>tr :Gtags -r<cr><cr>
+nnoremap <leader>tf :Gtags -f<cr><cr>
 
 " fugitive handling
 nnoremap <leader>gb :Gblame<cr>
-nnoremap <leader>gp :Gpull --rebase<cr>
-nnoremap <leader>gf :Gfetch --all --prune<cr>
 nnoremap <leader>gs :Gstatus<cr>
-nnoremap <leader>gr :Gread<cr>
-nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gd :Gdiff<cr>
-nnoremap <leader>gll :Glog<cr>
-nnoremap <leader>gl :Glog
-nnoremap <leader>gg :Ggrep
-nnoremap <leader>go :Gbrowse<cr>
-nnoremap <leader>gm :Gmove
 
-" VCSCommand short cuts
-nnoremap <leader>vb :VCSBlame<cr>
-nnoremap <leader>vs :VCSStatus<cr>
-nnoremap <leader>vc :VCSCommit<cr>
-nnoremap <leader>va :VCSAdd<cr>
-nnoremap <leader>vd :VCSVimDiff<cr>
-nnoremap <leader>vi :VCSInfo<cr>
-nnoremap <leader>vl :VCSLog<cr>
-nnoremap <leader>vu :VCSUpdate<cr>
-
-" YouCompleteMe short cuts
-nnoremap <leader>yg :YcmCompleter GoTo<cr>
-nnoremap <leader>yr :YcmCompleter GoToReferences<cr>
-nnoremap <leader>yi :YcmCompleter GoToImplementation<cr>
-nnoremap <leader>yt :YcmCompleter GetType<cr>
-nnoremap <leader>yp :YcmCompleter GetParent<cr>
-nnoremap <leader>yd :YcmCompleter GetDoc<cr>
-nnoremap <leader>yf :YcmCompleter FixIt<cr>
-nnoremap <leader>yn :YcmCompleter RefactorRename<cr>
+" vim-go convenience
+nnoremap <leader>gg :GoRun<cr>
+nnoremap <leader>gc :GoBuild<cr>
 
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 set laststatus=2
