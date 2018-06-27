@@ -43,3 +43,5 @@ alias cdd='cd ~/Downloads'
 alias cds='cd ~/Developer'
 alias cdc='cd ~/Documents'
 alias cdo='cd ~/office'
+
+alias fvim='vim -c "syntax off"'
