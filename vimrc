@@ -41,7 +41,7 @@ Plugin 'gmarik/vundle'
 
 " to actually install those call BundleInstall!
 Plugin 'rhysd/vim-clang-format'
-Plugin 'lyuts/vim-rtags'
+"Plugin 'lyuts/vim-rtags'
 "Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-speeddating'
