@@ -57,6 +57,7 @@ Plugin 'kien/ctrlp.vim'
 "Plugin 'mattn/emmet-vim'
 Plugin 'milkypostman/vim-togglelist'
 Plugin 'fatih/vim-go.git'
+Plugin 'itchyny/lightline.vim'
 if has("unix")
 	Plugin 'vim-scripts/vim-gitgutter'
 endif
@@ -335,7 +336,16 @@ nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gg :GoRun<cr>
 nnoremap <leader>gc :GoBuild<cr>
 
-set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+"set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 set laststatus=2
+let g:lightline = {
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+    \ },
+    \ 'component_function': {
+    \   'gitbranch': 'fugitive#head'
+    \ },
+    \ }
 
 " ~/.vimrc ends here
