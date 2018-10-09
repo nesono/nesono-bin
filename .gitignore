@@ -3,3 +3,4 @@ vim/spell
 fish/fishd.*
 fish/fish_history
 fish/config.fish
+tmux/plugins/*

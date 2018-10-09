@@ -190,7 +190,7 @@ function! ToggleOverLengthHi()
 		" adjust colors/styles as desired
 		highlight OverLength ctermbg=darkred gui=undercurl guisp=blue
 		" change '81' to be 1+(number of columns)
-		match OverLength /\%81v.\+/
+		match OverLength /\%121v.\+/
 		let b:overlengthhi = 1
 		echo "overlength hilight on"
 	endif
@@ -255,8 +255,8 @@ if has("gui_running")
 endif
 
 " set color scheme
-set background=light
-silent! colorscheme solarized
+set background=dark
+silent! colorscheme molokai
 
 command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
 

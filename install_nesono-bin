@@ -118,6 +118,7 @@ echo "## Installing additional links"
 install_link ~/.inputrc   ${SCRIPTDIR}/inputrc
 install_link ~/.vimrc     ${SCRIPTDIR}/vimrc
 install_link ~/.tmux.conf ${SCRIPTDIR}/tmux.conf
+install_link ~/.tmux      ${SCRIPTDIR}/tmux
 install_link ~/.screenrc  ${SCRIPTDIR}/screenrc
 install_link ~/.tigrc     ${SCRIPTDIR}/tigrc
 install_link ~/.vim       ${SCRIPTDIR}/vim

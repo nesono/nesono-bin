@@ -45,3 +45,8 @@ function fish_prompt
 
   set_color normal
 end
+
+# the nesono script directory
+set -U NESONOBININSTALLATIONDIR '/home/iss/nesono-bin'
+test -d '$NESONOBININSTALLATIONDIR'; and set -U PATH $PATH $NESONOBININSTALLATIONDIR
+
