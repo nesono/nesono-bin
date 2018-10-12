@@ -42,7 +42,7 @@ source ${NESONOBININSTALLATIONDIR}/bashtils/aliases
 
 if [[ "NESONO_DARKSHELL" == "1" ]] ;then
   # add one of these lines to your ~/.bashrc for git/svn status display in bash prompt with colors
-  if [[ "$EUID" == "0" ]]; then
+  if [[ "$EUID" == "0" || "${USER##*-}" == "a"  ]]; then
     # root user
     PS1='\[\033[31m\]\h:\[\033[34m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
   else
@@ -51,7 +51,7 @@ if [[ "NESONO_DARKSHELL" == "1" ]] ;then
   fi
 else
   # add one of these lines to your ~/.bashrc for git/svn status display in bash prompt with colors
-  if [[ "$EUID" == "0" ]]; then
+  if [[ "$EUID" == "0" || "${USER##*-}" == "a" ]]; then
     # root user
     PS1='\[\033[31m\]\h:\[\033[36m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
   else
