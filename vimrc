@@ -42,7 +42,7 @@ Plugin 'gmarik/vundle'
 " to actually install those call BundleInstall!
 Plugin 'rhysd/vim-clang-format'
 "Plugin 'lyuts/vim-rtags'
-"Plugin 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-surround'
@@ -62,6 +62,14 @@ if has("unix")
 	Plugin 'vim-scripts/vim-gitgutter'
 endif
 
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+" enable ag for ack.vim
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
 if executable('rg')
   let g:ctrlp_user_command = 'rg --files %s'
   let g:ctrlp_use_caching = 0
@@ -75,11 +83,6 @@ filetype plugin indent on     " required!
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
-" enable ag for ack.vim
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
-
 " configure clang-format
 let g:clang_format#code_style="llvm"
 
@@ -92,14 +95,6 @@ let mapleader=","
 "let g:user_emmet_leader_key='<C-e>'
 " create Emmet mappings only for normal mode
 "let g:user_emmet_mode = 'n'
-
-" SuperTab option for context aware completion
-let g:SuperTabDefaultCompletionType = "context"
-
-" Use this color in command-t for the selected item
-let g:CommandTHighlightColor = 'Pmenu'
-
-let g:CommandTMaxFiles = 500000
 
 " Colo(u)red or not colo(u)red
 " If you want color you should set this to true
@@ -281,17 +276,17 @@ set hidden
 set nobackup
 set noswapfile
 
-function! ToggleRelativeAbsoluteLineNumbers()
-	if &number == 1
-		echom "relative on"
-		set relativenumber
-		set nonumber
-	else
-		echom "absolute on"
-		set number
-		set norelativenumber
-	endif
-endfunction
+"function! ToggleRelativeAbsoluteLineNumbers()
+	"if &number == 1
+		"echom "relative on"
+		"set relativenumber
+		"set nonumber
+	"else
+		"echom "absolute on"
+		"set number
+		"set norelativenumber
+	"endif
+"endfunction
 
 " toggle browse tree region
 nnoremap <F2> :NERDTreeToggle<CR>
@@ -299,6 +294,7 @@ nnoremap <F3> :NERDTreeFind<CR>
 " open NERDtree if vim was opened without a file specified
 "autocmd vimenter * if !argc() | silent! NERDTree | endif
 
+" Map control shift p to use current word for ctrlp search
 noremap <silent> <F4> :call ToggleRelativeAbsoluteLineNumbers()<CR>
 noremap <silent> <F5> :nohls<CR>
 noremap <silent> <F6> :call ToggleQuickfixList()<CR>
@@ -308,6 +304,8 @@ noremap <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
 noremap <silent> <F10> :set list!<CR>
 noremap <silent> <F11> :call ToggleLocationList()<CR>
 
+" Map add word under cursor to ctrlp
+"nnoremap <leader>pp <c-p><c-\>w
 
 " some useful mappings for the vimrc
 map <leader>v :sp ~/.vimrc<cr>     " edit my .vimrc file in a split
@@ -335,6 +333,10 @@ nnoremap <leader>gd :Gdiff<cr>
 " vim-go convenience
 nnoremap <leader>gg :GoRun<cr>
 nnoremap <leader>gc :GoBuild<cr>
+
+nnoremap <leader>jd :YcmCompleter GoTo<cr>
+nnoremap <leader>jh :YcmCompleter GoToInclude<cr>
+nnoremap <leader>fix :YcmCompleter FixIt<cr>
 
 "set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 set laststatus=2
