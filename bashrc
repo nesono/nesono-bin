@@ -45,7 +45,7 @@ PROMPT_MODE="normal"
 if [[ "$EUID" == "0" || "${USER##*-}" == "a"  ]]; then
     PROMPT_MODE="admin"
 fi
-if [[ -n "$IN_AID_DOCKER_DEV_IMAGE" ]]; then
+if [ -n "$TEST_WORKSPACE" ] || [ -n "$WORKSPACE_DIR" ]; then
     PROMPT_MODE="docker"
 fi
 
