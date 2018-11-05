@@ -137,7 +137,7 @@ case "${ANSWER}" in
 		git config --global alias.fp "fetch --all --prune"
 		git config --global alias.pushf "push --force-with-lease"
 		git config --global alias.pushn "!f() { git push -u origin \`git rev-parse --abbrev-ref HEAD\`; }; f"
-		git config --global alias.up "!f() { git fetch && git rebase && git rebase origin/master; }; f"
+		git config --global alias.up "!f() { git fetch && git rebase && test \"\`git rev-parse --abbrev-ref HEAD\`\" != 'master' && echo 'rebase master' && git rebase origin/master; }; f"
 		;;
 	"d" | "D" )
 		echo "removing section alias from git config"
