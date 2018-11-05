@@ -105,7 +105,7 @@ if [ ! -e ~/.gitignore ]; then
 	esac
 fi
 
-read -e -p "Do you want to enable svn like aliases (st,stu,ci,co,br)? [y/N/d] " ANSWER
+read -e -p "Do you want to enable helper aliases (br, subpull, aliases, etc.)? [y/N/d] " ANSWER
 case "${ANSWER}" in
 	"y" | "Y" )
 		git config --global alias.st status
@@ -113,20 +113,6 @@ case "${ANSWER}" in
 		git config --global alias.ci commit
 		git config --global alias.civ "commit -v"
 		git config --global alias.co checkout
-		;;
-	"d" | "D" )
-		echo "removing section alias from git config"
-		git config --global --unset alias.st
-		git config --global --unset alias.stu
-		git config --global --unset alias.ci
-		git config --global --unset alias.civ
-		git config --global --unset alias.co
-		;;
-esac
-
-read -e -p "Do you want to enable helper aliases (br, subpull, aliases, etc.)? [y/N/d] " ANSWER
-case "${ANSWER}" in
-	"y" | "Y" )
 		git config --global alias.br branch
 		git config --global alias.subpull "submodule foreach 'git pull'"
 		git config --global alias.aliases "config --get-regexp alias"
@@ -151,9 +137,15 @@ case "${ANSWER}" in
 		git config --global alias.fp "fetch --all --prune"
 		git config --global alias.pushf "push --force-with-lease"
 		git config --global alias.pushn "!f() { git push -u origin \`git rev-parse --abbrev-ref HEAD\`; }; f"
+		git config --global alias.up "!f() { git fetch && git rebase && git rebase origin/master; }; f"
 		;;
 	"d" | "D" )
 		echo "removing section alias from git config"
+		git config --global --unset alias.st
+		git config --global --unset alias.stu
+		git config --global --unset alias.ci
+		git config --global --unset alias.civ
+		git config --global --unset alias.co
 		git config --global --unset alias.br
 		git config --global --unset alias.subpull
 		git config --global --unset alias.aliases
@@ -178,6 +170,7 @@ case "${ANSWER}" in
 		git config --global --unset alias.fp
 		git config --global --unset alias.pushf
 		git config --global --unset alias.pushn
+		git config --global --unset alias.up
 		;;
 esac
 
