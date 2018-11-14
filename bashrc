@@ -51,13 +51,13 @@ fi
 
 case $PROMPT_MODE in 
     normal)
-        PS1='\[\033[32m\]\h:\[\033[34m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
+        PS1='\[\033[32m\]\h:\[\033[34m\]\w\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
         ;;
     admin)
-        PS1='\[\033[31m\]\h:\[\033[34m\]\W\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
+        PS1='\[\033[31m\]\h:\[\033[34m\]\w\[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
         ;;
     docker)
-        PS1='\[\033[33m\]docker\[\033[32m\]@\h:\[\033[34m\]\W\[\033[0m\] '
+        PS1='\[\033[33m\]docker\[\033[32m\]@\h:\[\033[34m\]\w\[\033[0m\] '
         ;;
 esac
 
