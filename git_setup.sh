@@ -114,6 +114,7 @@ case "${ANSWER}" in
 		git config --global alias.civ "commit -v"
 		git config --global alias.co checkout
 		git config --global alias.br branch
+		git config --global alias.amen "commit -v --amend"
 		git config --global alias.subpull "submodule foreach 'git pull'"
 		git config --global alias.aliases "config --get-regexp alias"
 		git config --global alias.stull "!git stash save && git pull --rebase && git stash pop"
@@ -133,7 +134,6 @@ case "${ANSWER}" in
 		git config --global alias.sts "status --porcelain"
 		git config --global alias.rv "remote -v"
 		git config --global alias.root "rev-parse --show-toplevel"
-		git config --global alias.fetchp "fetch --all --prune"
 		git config --global alias.fp "fetch --all --prune"
 		git config --global alias.pushf "push --force-with-lease"
 		git config --global alias.pushn "!f() { git push -u origin \`git rev-parse --abbrev-ref HEAD\`; }; f"
@@ -147,6 +147,7 @@ case "${ANSWER}" in
 		git config --global --unset alias.civ
 		git config --global --unset alias.co
 		git config --global --unset alias.br
+		git config --global --unset alias.amen
 		git config --global --unset alias.subpull
 		git config --global --unset alias.aliases
 		git config --global --unset alias.stull
