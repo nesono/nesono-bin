@@ -114,6 +114,8 @@ case "${ANSWER}" in
 		git config --global alias.civ "commit -v"
 		git config --global alias.co checkout
 		git config --global alias.br branch
+		git config --global alias.glog "log --pretty=oneline --abbrev-commit --graph --decorate=short"
+		git config --global alias.flog "log --pretty=medium --source -p"
 		git config --global alias.amen "commit -v --amend"
 		git config --global alias.subpull "submodule foreach 'git pull'"
 		git config --global alias.aliases "config --get-regexp alias"
@@ -147,6 +149,8 @@ case "${ANSWER}" in
 		git config --global --unset alias.civ
 		git config --global --unset alias.co
 		git config --global --unset alias.br
+		git config --global --unset alias.glog
+		git config --global --unset alias.flog
 		git config --global --unset alias.amen
 		git config --global --unset alias.subpull
 		git config --global --unset alias.aliases
@@ -172,19 +176,6 @@ case "${ANSWER}" in
 		git config --global --unset alias.pushf
 		git config --global --unset alias.pushn
 		git config --global --unset alias.up
-		;;
-esac
-
-read -e -p "Do you want to enable git log aliases 'glog' and 'flog'? [y/N/d] " ANSWER
-case "${ANSWER}" in
-	"y" | "Y" )
-		git config --global alias.glog "log --pretty=oneline --abbrev-commit --graph --decorate=short"
-		git config --global alias.flog "log --pretty=medium --source -p"
-		;;
-	"d" | "D" )
-		echo "removing aliases from git config"
-		git config --global --unset alias.glog
-		git config --global --unset alias.flog
 		;;
 esac
 
