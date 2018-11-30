@@ -83,14 +83,18 @@ filetype plugin indent on     " required!
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
-" configure clang-format
-let g:clang_format#code_style="llvm"
-
-"autocmd FileType c,cpp,objc nnoremap <buffer><Leader>ff :<C-u>ClangFormat<CR>
-"autocmd FileType c,cpp,objc vnoremap <buffer><Leader>ff :ClangFormat<CR>
 
 " change the mapleader from \ to ,
 let mapleader=","
+
+" configure clang-format
+if executable('clang-format-6.0')
+    let g:clang_format#detect_style_file = 1
+    let g:clang_format#command = 'clang-format-6.0'
+    autocmd FileType c,cpp,obj ClangFormatAutoEnable
+    "autocmd FileType c,cpp,objc nnoremap <buffer><Leader>ff :<C-u>ClangFormat<CR>
+    "autocmd FileType c,cpp,objc vnoremap <buffer><Leader>ff :ClangFormat<CR>
+endif
 
 "let g:user_emmet_leader_key='<C-e>'
 " create Emmet mappings only for normal mode
