@@ -195,7 +195,9 @@ function! ToggleOverLengthHi()
 	endif
 endfunction
 
+" Some Go language stuff
 let g:go_disable_autoinstall = 0
+let g:go_fmt_command = "goimports"
 
 " Highlight
 let g:go_highlight_functions = 1
@@ -210,7 +212,7 @@ if has("autocmd")
 	" enable file type detection
 	filetype plugin on
 
-  " CPP SETTINGS
+    " CPP SETTINGS
 	" remove blank spaces at EOL at saving buffer
 	au FileType cc,cpp,c autocmd BufWritePre * :%s/\s\+$//e
 	" set file text width for c files
@@ -224,6 +226,24 @@ if has("autocmd")
 	au FileType cc,cpp,c set expandtab
 	" enable highlighing of over long lines
 	au FileType cc,cpp,c match OverLength /\%100v.*/
+    au FileType cc,cpp,c set autowrite
+
+    " run :GoBuild or :GoTestCompile based on the go file
+    function! s:build_go_files()
+      let l:file = expand('%')
+      if l:file =~# '^\f\+_test\.go$'
+        call go#test#Test(0, 1)
+      elseif l:file =~# '^\f\+\.go$'
+        call go#cmd#Build(0)
+      endif
+    endfunction
+
+    " enable autowrite when calling :make for go files
+    au FileType go set autowrite
+    autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+    autocmd FileType go nmap <leader>r :GoRun<cr>
+    autocmd FileType go nmap <leader>t :GoTest<cr>
+    autocmd FileType go nmap <leader>c :GoCoverageToggle<cr>
 
 	" CMAKE SETTINGS
 	" also don't use tabs to indent in cmake
@@ -255,7 +275,7 @@ endif
 
 " set color scheme
 set background=dark
-silent! colorscheme molokai
+"silent! colorscheme molokai
 
 command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
 
@@ -323,20 +343,10 @@ nnoremap <leader>dp :diffput<cr>
 nnoremap <leader>dt :windo diffthis<cr>
 nnoremap <leader>do :windo diffo<cr>
 
-" gnu/global (tags) mapping
-nnoremap <leader>tt :Gtags<cr><cr>
-nnoremap <leader>t :Gtags
-nnoremap <leader>tr :Gtags -r<cr><cr>
-nnoremap <leader>tf :Gtags -f<cr><cr>
-
 " fugitive handling
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gd :Gdiff<cr>
-
-" vim-go convenience
-nnoremap <leader>gg :GoRun<cr>
-nnoremap <leader>gc :GoBuild<cr>
 
 nnoremap <leader>jd :YcmCompleter GoTo<cr>
 nnoremap <leader>jh :YcmCompleter GoToInclude<cr>
