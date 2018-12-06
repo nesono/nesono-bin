@@ -61,6 +61,11 @@ Plugin 'itchyny/lightline.vim'
 if has("unix")
 	Plugin 'vim-scripts/vim-gitgutter'
 endif
+" enable fzf usage in vim
+if executable('/usr/local/opt/fzf')
+    Plugin 'junegunn/fzf.vim'
+    set rtp+=/usr/local/opt/fzf
+endif
 
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -318,7 +323,6 @@ nnoremap <F3> :NERDTreeFind<CR>
 " open NERDtree if vim was opened without a file specified
 "autocmd vimenter * if !argc() | silent! NERDTree | endif
 
-" Map control shift p to use current word for ctrlp search
 noremap <silent> <F4> :call ToggleRelativeAbsoluteLineNumbers()<CR>
 noremap <silent> <F5> :nohls<CR>
 noremap <silent> <F6> :call ToggleQuickfixList()<CR>
@@ -346,7 +350,10 @@ nnoremap <leader>do :windo diffo<cr>
 " fugitive handling
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gl :Glog<cr>
 nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gw :Gwrite<cr>
+nnoremap <leader>ge :Gedit<cr>
 
 nnoremap <leader>jd :YcmCompleter GoTo<cr>
 nnoremap <leader>jh :YcmCompleter GoToInclude<cr>
