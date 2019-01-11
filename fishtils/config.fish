@@ -3,10 +3,10 @@ set __fish_git_prompt_showdirtystate 'yes'
 set __fish_git_prompt_showstashstate 'yes'
 set __fish_git_prompt_showuntrackedfiles 'yes'
 set __fish_git_prompt_showupstream 'yes'
-set __fish_git_prompt_color -b grey
-set __fish_git_prompt_color_branch -b grey yellow
-set __fish_git_prompt_color_upstream_ahead -b grey green
-set __fish_git_prompt_color_upstream_behind -b grey red
+set __fish_git_prompt_color -b 666
+set __fish_git_prompt_color_branch -b 666 yellow
+set __fish_git_prompt_color_upstream_ahead -b 666 green
+set __fish_git_prompt_color_upstream_behind -b 666 red
 set __fish_git_prompt_show_informative_status 'yes'
 
 # Status Chars
@@ -46,7 +46,6 @@ function fish_prompt
   set_color normal
 end
 
-# the nesono script directory
-set -U NESONOBININSTALLATIONDIR '/home/iss/nesono-bin'
-test -d '$NESONOBININSTALLATIONDIR'; and set -U PATH $PATH $NESONOBININSTALLATIONDIR
+. $NESONOBININSTALLATIONDIR/fishtils/aliases
 
+set -g NESONO_FISH_CONFIG_GUARD '1'

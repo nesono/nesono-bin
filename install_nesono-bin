@@ -89,15 +89,6 @@ function install_link()
 # needs to be run from within SCRIPTDIR
 function install_fish()
 {
-  install_link ~/.config/fish ${SCRIPTDIR}/fish
-  if [ "`readlink ~/.config/fish`" = "${SCRIPTDIR}/fish" -o ! -e "~/.config/fish" ]; then
-    if [  -z "`grep -le 'fish/fishd.*' .gitignore`" ]; then
-      echo 'fish/fishd.*' >> .gitignore
-      git commit -m"ignore fish tmp files" .gitignore
-    fi
-  else
-    echo "^^ Fish does not use nesono-bin configuration"
-  fi
   ./fishtils/install_nesono_fish
 }
 
