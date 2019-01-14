@@ -158,6 +158,7 @@ if [ -d ${NESONO_TRASH_DIR} ]; then
       # print debug information if enabled
       debug_out "moving item \"${item}\" to trash"
       mv "$item" ${NESONO_TRASH_DIR}/files/"$dst"
+      chmod -R u+w ${NESONO_TRASH_DIR}/files/"$dst"
       echo "[Trash Info]"                  > ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
       echo "item="${item}                 >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
       echo "DeletionDate=${deletiondate}" >> ${NESONO_TRASH_DIR}/info/"$dst".trashinfo
