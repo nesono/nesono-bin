@@ -110,6 +110,7 @@ case "${ANSWER}" in
 	"y" | "Y" )
 		git config --global alias.st status
 		git config --global alias.stu "status -uno"
+		git config --global alias.sts "status --porcelain"
 		git config --global alias.ci commit
 		git config --global alias.civ "commit -v"
 		git config --global alias.co checkout
@@ -118,33 +119,25 @@ case "${ANSWER}" in
 		git config --global alias.flog "log --pretty=medium --source -p"
 		git config --global alias.amen "commit -v --amend"
 		git config --global alias.subpull "submodule foreach 'git pull'"
-		git config --global alias.aliases "config --get-regexp alias"
-		git config --global alias.stull "!git stash save && git pull --rebase && git stash pop"
+		git config --global alias.alias "config --get-regexp alias"
 		git config --global alias.adda "add --all"
-		git config --global alias.snap "!f() { git push origin HEAD:snap/\`id -u -n\`/\$1; }; f"
-		git config --global alias.igate "!f() { git pull --rebase && git push origin HEAD:push/\`id -u -n\`/\$1; }; f"
-		git config --global alias.gate "!f() { git pull --rebase && git push origin HEAD:push/rebase/\`id -u -n\`/\$1; }; f"
-		git config --global alias.sv "stash show -p"
-		git config --global alias.sl "stash list"
-		git config --global alias.ss "stash save"
-		git config --global alias.sp "stash pop"
-		git config --global alias.sd "stash drop"
+		git config --global alias.bo "!f() { git checkout -b dev/\`id -u -n\`/\$1; }; f"
 		git config --global alias.pr "pull --rebase"
 		git config --global alias.fa "fetch --all"
-		git config --global alias.fap "fetch --all --prune"
 		git config --global alias.clobber "clean -d -x -f"
-		git config --global alias.sts "status --porcelain"
 		git config --global alias.rv "remote -v"
 		git config --global alias.root "rev-parse --show-toplevel"
 		git config --global alias.fp "fetch --all --prune"
 		git config --global alias.pushf "push --force-with-lease"
 		git config --global alias.pushn "!f() { git push -u origin \`git rev-parse --abbrev-ref HEAD\`; }; f"
-		git config --global alias.up "!f() { git fetch && git rebase && test \"\`git rev-parse --abbrev-ref HEAD\`\" != 'master' && echo 'rebase master' && git rebase origin/master; }; f"
+		git config --global alias.rb "!f() { git fetch --purge && test \"\`git rev-parse --abbrev-ref HEAD\`\" != 'master' && echo 'rebase master' && git rebase origin/master; }; f"
+		git config --global alias.rbp "!f() { git fetch && test \"\`git rev-parse --abbrev-ref HEAD\`\" != 'master' && echo 'rebase master' && git rebase origin/master && echo 'push' && git push --force-with-lease; }; f"
 		;;
 	"d" | "D" )
 		echo "removing section alias from git config"
 		git config --global --unset alias.st
 		git config --global --unset alias.stu
+		git config --global --unset alias.sts
 		git config --global --unset alias.ci
 		git config --global --unset alias.civ
 		git config --global --unset alias.co
@@ -154,6 +147,7 @@ case "${ANSWER}" in
 		git config --global --unset alias.amen
 		git config --global --unset alias.subpull
 		git config --global --unset alias.aliases
+		git config --global --unset alias.alias
 		git config --global --unset alias.stull
 		git config --global --unset alias.adda
 		git config --global --unset alias.snap
@@ -168,7 +162,6 @@ case "${ANSWER}" in
 		git config --global --unset alias.fa
 		git config --global --unset alias.fap
 		git config --global --unset alias.clobber
-		git config --global --unset alias.sts
 		git config --global --unset alias.rv
 		git config --global --unset alias.root
 		git config --global --unset alias.fetchp
@@ -176,6 +169,8 @@ case "${ANSWER}" in
 		git config --global --unset alias.pushf
 		git config --global --unset alias.pushn
 		git config --global --unset alias.up
+		git config --global --unset alias.rb
+		git config --global --unset alias.rbp
 		;;
 esac
 
