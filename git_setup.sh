@@ -122,7 +122,7 @@ case "${ANSWER}" in
 		git config --global alias.alias "config --get-regexp alias"
 		git config --global alias.adda "add --all"
 		git config --global alias.bo "!f() { git checkout -b dev/\`id -u -n\`/\$1; }; f"
-		git config --global alias.pr "pull --rebase"
+		git config --global alias.pr "pull --rebase --autostash"
 		git config --global alias.fa "fetch --all"
 		git config --global alias.clobber "clean -d -x -f"
 		git config --global alias.rv "remote -v"
