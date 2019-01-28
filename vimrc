@@ -70,6 +70,14 @@ endif
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 
+if has("unix")
+    let s:uname = system("uname -s")
+    if s:uname == "Darwin"
+        " fix leading ^G in nerdtree on macos
+        let g:NERDTreeNodeDelimiter = "\u00a0"
+    endif
+endif
+
 " enable ag for ack.vim
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
