@@ -30,6 +30,7 @@
 set nocompatible    " be iMproved :)
 " automatically re-read modified files (except deleted)
 set autoread
+set encoding=utf-8
 
 filetype off        " required!
 
@@ -362,6 +363,10 @@ nnoremap <leader>gl :Glog<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>ge :Gedit<cr>
+nnoremap <leader>gc :Gcommit -v <cr>
+nnoremap <leader>ga :Gcommit -v --amend<cr>
+nnoremap <leader>gp :Gpush<cr>
+nnoremap <leader>gr :Gpull --rebase<cr>
 
 nnoremap <leader>jd :YcmCompleter GoTo<cr>
 nnoremap <leader>jh :YcmCompleter GoToInclude<cr>
