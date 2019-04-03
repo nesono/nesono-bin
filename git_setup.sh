@@ -132,6 +132,7 @@ case "${ANSWER}" in
 		git config --global alias.pushn "!f() { git push -u origin \`git rev-parse --abbrev-ref HEAD\`; }; f"
 		git config --global alias.rb "!f() { git fetch --prune && test \"\`git rev-parse --abbrev-ref HEAD\`\" != 'master' && echo 'rebase master' && git rebase origin/master; }; f"
 		git config --global alias.rbp "!f() { git fetch && test \"\`git rev-parse --abbrev-ref HEAD\`\" != 'master' && echo 'rebase master' && git rebase origin/master && echo 'push' && git push --force-with-lease; }; f"
+        git config --global alias.diffr "!f() { git diff HEAD origin/\"\`git rev-parse --abbrev-ref HEAD\`\"; }; f"
 		;;
 	"d" | "D" )
 		echo "removing section alias from git config"
@@ -171,6 +172,7 @@ case "${ANSWER}" in
 		git config --global --unset alias.up
 		git config --global --unset alias.rb
 		git config --global --unset alias.rbp
+		git config --global --unset alias.diffr
 		;;
 esac
 
