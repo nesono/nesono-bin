@@ -269,6 +269,7 @@ if has("autocmd")
     autocmd FileType go nmap <leader>r :GoRun<cr>
     autocmd FileType go nmap <leader>t :GoTest<cr>
     autocmd FileType go nmap <leader>c :GoCoverageToggle<cr>
+    autocmd FileType go nmap <leader>i :GoImports<cr>
 
 	" CMAKE SETTINGS
 	" also don't use tabs to indent in cmake
