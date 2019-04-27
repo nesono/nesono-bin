@@ -57,13 +57,14 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'mileszs/ack.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-vinegar'
 Plugin 'vim-scripts/gtags.vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'kien/ctrlp.vim'
 "Plugin 'mattn/emmet-vim'
 Plugin 'milkypostman/vim-togglelist'
 Plugin 'fatih/vim-go.git'
-Plugin 'itchyny/lightline.vim'
+Plugin 'powerline/powerline'
 if has("unix")
 	Plugin 'vim-scripts/vim-gitgutter'
 endif
@@ -72,6 +73,11 @@ if executable('/usr/local/opt/fzf')
     Plugin 'junegunn/fzf.vim'
     set rtp+=/usr/local/opt/fzf
 endif
+
+"set rtp+=/usr/local/lib/python3.7/site-packages/powerline/bindings/vim
+python3 from powerline.vim import setup as powerline_setup
+python3 powerline_setup()
+python3 del powerline_setup
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
