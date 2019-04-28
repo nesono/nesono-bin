@@ -74,7 +74,7 @@ if executable('/usr/local/opt/fzf')
     set rtp+=/usr/local/opt/fzf
 endif
 
-"set rtp+=/usr/local/lib/python3.7/site-packages/powerline/bindings/vim
+" Enable powerline status bar
 python3 from powerline.vim import setup as powerline_setup
 python3 powerline_setup()
 python3 del powerline_setup
