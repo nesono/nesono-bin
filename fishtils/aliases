@@ -42,19 +42,19 @@ function grep
 end
 
 function bc
-	bc -l -q $argv
+	command bc -l -q $argv
 end
 
 function ctags
-	ctags -R --sort=yes --c++-kinds=+p --fields=+afiKlmnsSzt --extra=+q $argv
+	command ctags -R --sort=yes --c++-kinds=+p --fields=+afiKlmnsSzt --extra=+q $argv
 end
 
 function rsync_svn
-	rsync --exclude .svn $argv
+	command rsync --exclude .svn $argv
 end
 
 function rsync_git
-	rsync --exclude .git $argv
+	command rsync --exclude .git $argv
 end
 
 function makej
