@@ -82,3 +82,24 @@ function cdo
 end
 
 
+function pbcopy
+    switch (uname -s)
+        case Linux
+            xclip -selection clipboard
+        case Darwin
+            command pbcopy
+        case '*'
+            echo "Unsupported Platform:" (uname -s) 1>&2
+    end
+end
+
+function pbpaste
+    switch (uname -s)
+        case Linux
+            xclip -o -selection clipboard
+        case Darwin
+            command pbcopy
+        case '*'
+            echo "Unsupported Platform:" (uname -s) 1>&2
+    end
+end
