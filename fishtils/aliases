@@ -103,3 +103,7 @@ function pbpaste
             echo "Unsupported Platform:" (uname -s) 1>&2
     end
 end
+
+function fvim
+    vim -c "syntax off" $argv
+end 
