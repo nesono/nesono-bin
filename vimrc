@@ -65,6 +65,8 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'milkypostman/vim-togglelist'
 Plugin 'fatih/vim-go.git'
 Plugin 'powerline/powerline'
+Plugin 'neovimhaskell/haskell-vim'
+
 if has("unix")
 	Plugin 'vim-scripts/vim-gitgutter'
 endif
@@ -297,6 +299,14 @@ if has("autocmd")
 	"au FileType python set list
 	"au FileType python hi SpecialKey term=bold ctermfg=7 gui=bold guifg=Gray30
 	au FileType python set makeprg=python\ %
+
+  " HASKELL SETTINGS
+    " Tab specific option
+    au FileType haskell set tabstop=8                   "A tab is 8 spaces
+    au FileType haskell set expandtab                   "Always uses spaces instead of tabs
+    au FileType haskell set softtabstop=4               "Insert 4 spaces when tab is pressed
+    au FileType haskell set shiftwidth=4                "An indent is 4 spaces
+    au FileType haskell set shiftround                  "Round indent to nearest shiftwidth multiple
 endif
 
 if has("gui_running")
@@ -359,7 +369,7 @@ noremap <silent> <F9> <Esc>:call ToggleOverLengthHi()<CR>
 noremap <silent> <F10> :set list!<CR>
 noremap <silent> <F11> :call ToggleLocationList()<CR>
 
-" Map add word under cursor to ctrlp
+let g:ctrlp_cmd = 'CtrlPLastMode'
 "nnoremap <leader>pp <c-p><c-\>w
 
 " some useful mappings for the vimrc
