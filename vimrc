@@ -76,6 +76,9 @@ if executable('/usr/local/opt/fzf')
     set rtp+=/usr/local/opt/fzf
 endif
 
+" Before using powerline, please install python3-pip and run
+" > pip3 install powerline-statusbar
+" To see the fonts then, please install fonts-powerline
 " Enable powerline status bar
 python3 from powerline.vim import setup as powerline_setup
 python3 powerline_setup()

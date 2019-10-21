@@ -42,6 +42,7 @@ if test -z "$NESONO_FISH_CONFIG_GUARD"
   echo "** Adding nesono-bin path to $FISHCONFIG"
 	echo -e "# the nesono script directory\nset -U NESONOBININSTALLATIONDIR '$SCRIPTDIR'\ntest -d '\$NESONOBININSTALLATIONDIR'; and set --universal fish_user_paths \$fish_user_paths \$NESONOBININSTALLATIONDIR" >> $FISHCONFIG
 
+	echo -e ". \$NESONOBININSTALLATIONDIR/fishtils/aliases" >> $FISHCONFIG
   echo "** Adding $SCRIPTDIR to current path"
   set -x -U fish_user_paths $fish_user_paths $SCRIPTDIR
 else
