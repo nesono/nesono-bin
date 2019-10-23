@@ -32,6 +32,9 @@ set nocompatible    " be iMproved :)
 set autoread
 set encoding=utf-8
 
+" fix for running vim within fish
+set shell=/bin/bash
+
 filetype off        " required!
 
 set rtp+=~/.vim/bundle/vundle/
@@ -68,7 +71,7 @@ Plugin 'powerline/powerline'
 Plugin 'neovimhaskell/haskell-vim'
 
 if has("unix")
-	Plugin 'vim-scripts/vim-gitgutter'
+    Plugin 'vim-scripts/vim-gitgutter'
 endif
 " enable fzf usage in vim
 if executable('/usr/local/opt/fzf')
@@ -128,7 +131,7 @@ augroup autoformat_settings
   autocmd FileType gn AutoFormatBuffer gn
   autocmd FileType html,css,json AutoFormatBuffer js-beautify
   autocmd FileType java AutoFormatBuffer google-java-format
-  autocmd FileType python AutoFormatBuffer yapf
+  autocmd FileType python AutoFormatBuffer yapf3
   " Alternative: autocmd FileType python AutoFormatBuffer autopep8
 augroup END
 
