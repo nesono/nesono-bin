@@ -5,6 +5,7 @@ exec "xrandr --output eDP-1 --scale 1.38x1.38 --panning 3533x1987"
 # Added by iss on the 2019-10-01 for swapping escape and caps lock
 exec "xmodmap -e \"clear lock\"" #disable caps lock switch
 exec "xmodmap -e \"keysym Caps_Lock = Escape\"" #set caps_lock as escape
+
 # Added by iss on the 2019-10-03 for grey background
 exec --no-startup-id xsetroot -solid "#333333"
 
@@ -23,3 +24,11 @@ bindsym $mod+Shift+x exec "i3-nagbar -t warning -m 'You pressed the poweroff sho
 # added by iss on 2019-10-03 for locking via mod+alt+l
 bindsym $mod+Mod1+l exec "i3lock"
 
+## Add the following to yout $HOME/.Xresources file for HDPI displays (tweak the dpi number to your liking)
+# ! Fonts {{{
+# Xft.antialias: true
+# Xft.hinting:   true
+# Xft.rgba:      rgb
+# Xft.hintstyle: hintfull
+# Xft.dpi:       150
+# ! }}}
