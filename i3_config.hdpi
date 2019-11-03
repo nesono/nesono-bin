@@ -1,0 +1,27 @@
+# Added by iss on the 2019-10-01 for HiDPI display of Lenovo laptop
+exec "xrandr --output eDP-1 --scale 1.38x1.38 --panning 3533x1987"
+
+## Add the following to yout $HOME/.Xresources file for HDPI displays (tweak the dpi number to your liking)
+# ! Fonts {{{
+# Xft.antialias: true
+# Xft.hinting:   true
+# Xft.rgba:      rgb
+# Xft.hintstyle: hintfull
+# Xft.dpi:       150
+# ! }}}
+
+
+# Add the following settings to Sublime Text for HDPI and Fira Code font
+# {
+# 	"font_size": 10,
+# 	"font_face": "Fira Code",
+# 	"font_options":
+# 	[
+# 		"subpixel_antialias"
+# 	],
+# 	"ignored_packages":
+# 	[
+# 		"Vintage"
+# 	],
+# 	"ui_scale": 1.5
+# }
