@@ -1,10 +1,20 @@
 
 # Added by iss on the 2019-10-01 for swapping escape and caps lock
-exec "xmodmap -e \"clear lock\"" #disable caps lock switch
-exec "xmodmap -e \"keysym Caps_Lock = Escape\"" #set caps_lock as escape
+exec --no-startup-id "xmodmap -e \"clear lock\"" #disable caps lock switch
+exec --no-startup-id "xmodmap -e \"keysym Caps_Lock = Escape\"" #set caps_lock as escape
 
 # Added by iss on the 2019-10-03 for grey background
 exec --no-startup-id xsetroot -solid "#333333"
+
+# Add screenshot tool at startup
+exec flameshot
+# Screenshot key binding
+bindsym $mod+Print exec "flameshot gui"
+bindsym $mod+Shift+Print exec "flameshot full -p ~/Pictures"
+bindsym $mod+Mod1+Print exec "flameshot full -c"
+
+# Nautilus key binding
+bindsym $mod+Shift+f exec "nautilus --new-window"
 
 # Added by iss for Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
