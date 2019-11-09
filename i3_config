@@ -8,6 +8,9 @@ exec --no-startup-id xsetroot -solid "#333333"
 
 # Add screenshot tool at startup
 exec flameshot
+# Start jetbrains toolbox
+exec "/bin/sh -c ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox"
+
 # Screenshot key binding
 bindsym $mod+Print exec "flameshot gui"
 bindsym $mod+Shift+Print exec "flameshot full -p ~/Pictures"
@@ -27,6 +30,10 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 
 # added by iss to poweroff i3
 bindsym $mod+Shift+x exec "i3-nagbar -t warning -m 'You pressed the poweroff shortcut. Do you really want to poweroff?' -b 'Yes, poweroff' 'poweroff'"
+
+# added by iss to automatically lock screen after inactivity
+exec --no-statup-id xautolock -time 15 -locker "i3lock -p win -i ~/Pictures/bluescreen.png" &
+
 
 # added by iss on 2019-10-03 for locking via mod+alt+l
 bindsym $mod+Mod1+l exec "i3lock"
