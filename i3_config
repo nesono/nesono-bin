@@ -1,18 +1,14 @@
 
+# Added by iss on the 2019-10-01 for HiDPI display of Lenovo laptop
+#exec "xrandr --output eDP-1 --scale 1.38x1.38 --panning 3533x1987"
+exec --no-startup-id "/bin/sh -c ~/nesono-bin/enable_cinema_display.sh"
+
 # Added by iss on the 2019-10-01 for swapping escape and caps lock
 exec --no-startup-id "xmodmap -e \"clear lock\"" #disable caps lock switch
 exec --no-startup-id "xmodmap -e \"keysym Caps_Lock = Escape\"" #set caps_lock as escape
 
-# Added by iss on the 2019-10-03 for grey background
-#exec --no-startup-id xsetroot -solid "#333333"
-exec --no-startup-id "feh --bg-scale /home/issingjo/Pictures/aid_wallpaper_gray_v3.png"
-
 # Add screenshot tool at startup
 exec --no-startup-id flameshot
-# Start jetbrains toolbox
-for_window [class="jetbrains-toolbox"] floating enable
-exec --no-startup-id "/bin/sh -c ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize"
-
 # Start nextcloud client
 exec --no-startup-id "/home/issingjo/.local/bin/Nextcloud-2.6.1-x86_64.AppImage --background" &
 
@@ -35,7 +31,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 
 
 # automatically lock screen after inactivity
-exec --no-statup-id xautolock -time 15 -locker "i3lock -p win -i ~/Pictures/bluescreen.png" &
+exec --no-statup-id xautolock -time 15 -locker "i3lock -p win -t -i ~/Pictures/bluescreen.png" &
 
 # added by iss to poweroff i3
 bindsym $mod+Shift+x exec "i3-nagbar -t warning -m 'You pressed the poweroff shortcut. Do you really want to poweroff?' -b 'Yes, poweroff' 'poweroff'"
@@ -44,4 +40,12 @@ bindsym $mod+Shift+x exec "i3-nagbar -t warning -m 'You pressed the poweroff sho
 
 # added by iss on 2019-10-03 for locking via mod+alt+l
 bindsym $mod+Mod1+l exec "i3lock"
+
+# Added by iss on the 2019-10-03 for grey background
+#exec --no-startup-id xsetroot -solid "#333333"
+exec --no-startup-id "feh --bg-scale /home/issingjo/Pictures/aid_wallpaper_gray_v3.png"
+
+# Start jetbrains toolbox
+for_window [class="jetbrains-toolbox"] floating enable
+exec --no-startup-id "/bin/sh -c ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize"
 
