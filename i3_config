@@ -31,7 +31,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 
 
 # automatically lock screen after inactivity
-exec --no-statup-id xautolock -time 15 -locker "i3lock -p win -t -i ~/Pictures/bluescreen.png" &
+exec --no-statup-id xautolock -time 15 -locker "i3lock -p win -t -i ~/Nextcloud/pictures/bluescreen.png" &
 
 # added by iss to poweroff i3
 bindsym $mod+Shift+x exec "i3-nagbar -t warning -m 'You pressed the poweroff shortcut. Do you really want to poweroff?' -b 'Yes, poweroff' 'poweroff'"
@@ -39,7 +39,7 @@ bindsym $mod+Shift+x exec "i3-nagbar -t warning -m 'You pressed the poweroff sho
 
 
 # added by iss on 2019-10-03 for locking via mod+alt+l
-bindsym $mod+Mod1+l exec "i3lock"
+bindsym $mod+Mod1+l exec "i3lock -p win -t -i ~/Nextcloud/pictures/bluescreen.png"
 
 # Added by iss on the 2019-10-03 for grey background
 #exec --no-startup-id xsetroot -solid "#333333"
@@ -49,3 +49,12 @@ exec --no-startup-id "feh --bg-scale /home/issingjo/Pictures/aid_wallpaper_gray_
 for_window [class="jetbrains-toolbox"] floating enable
 exec --no-startup-id "/bin/sh -c ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize"
 
+# for enabling network speed in status bar, do the following:
+# $ mkdir ~/.config/i3status/
+# $ cp /etc/i3status.conig ~/.config/i3status/config
+# $ sudo chmod +x /usr/share/doc/i3status/contrib/net-speed.sh
+# And enable the status bar:
+# i3 config looks like this:
+# bar {
+#     status_command exec /usr/share/doc/i3status/contrib/net-speed.sh
+# }
