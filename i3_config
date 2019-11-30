@@ -43,7 +43,7 @@ bindsym $mod+Mod1+l exec "i3lock -p win -t -i ~/Nextcloud/pictures/bluescreen.pn
 
 # Added by iss on the 2019-10-03 for grey background
 #exec --no-startup-id xsetroot -solid "#333333"
-exec --no-startup-id "feh --bg-scale /home/issingjo/Pictures/aid_wallpaper_gray_v3.png"
+exec --no-startup-id "feh --bg-scale ~/Nextcloud/pictures/aid_wallpaper_gray_v3.png"
 
 # Start jetbrains toolbox
 for_window [class="jetbrains-toolbox"] floating enable
