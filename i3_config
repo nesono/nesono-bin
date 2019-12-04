@@ -7,6 +7,9 @@ exec --no-startup-id "/bin/sh -c ~/nesono-bin/enable_cinema_display.sh"
 exec --no-startup-id "xmodmap -e \"clear lock\"" #disable caps lock switch
 exec --no-startup-id "xmodmap -e \"keysym Caps_Lock = Escape\"" #set caps_lock as escape
 
+# Added by iss to enable natural scrolling with touch pad
+exec --no-startup-id "xinput set-prop 13 285 1"
+
 # Add screenshot tool at startup
 exec --no-startup-id flameshot
 # Start nextcloud client
