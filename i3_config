@@ -10,6 +10,9 @@ exec --no-startup-id "xmodmap -e \"keysym Caps_Lock = Escape\"" #set caps_lock a
 # Added by iss to enable natural scrolling with touch pad
 exec --no-startup-id "xinput set-prop 13 285 1"
 
+# Added by iss to use network magaer with i3
+exec --no-startup-id nm-applet
+
 # Add screenshot tool at startup
 exec --no-startup-id flameshot
 # Start nextcloud client
