@@ -55,6 +55,12 @@ exec --no-startup-id "feh --bg-scale ~/Nextcloud/pictures/aid_wallpaper_gray_v3.
 for_window [class="jetbrains-toolbox"] floating enable
 exec --no-startup-id "/bin/sh -c ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize"
 
+# Start sound control applet
+exec --no-startup-id "pasystray" &
+
+# Start network control applet
+exec --no-startup-id "nm-applet" &
+
 # for enabling network speed in status bar, do the following:
 # $ mkdir ~/.config/i3status/
 # $ cp /etc/i3status.conig ~/.config/i3status/config
