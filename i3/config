@@ -1,0 +1,287 @@
+# i3 config file (v4)
+#
+# Please see https://i3wm.org/docs/userguide.html for a complete reference!
+
+########################### GENERIC SETUP ######################################
+# set the modifier to Super
+set $mod Mod4
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+font pango:FontAwesome Regular 9
+
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+#font pango:DejaVu Sans Mono 8
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+########################## END GENERIC SETUP ###################################
+
+########################### WINDOW FIXES #######################################
+# Fix floating windows as shown in arch linux wiki: 
+# https://wiki.archlinux.org/index.php/i3#Shutdown.2C_reboot.2C_lock_screen
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+# Fix splash window
+for_window [class="^jetbrains-.+"][name="win0"] floating enable
+
+# Fix Jetbrains windows automatic focus
+for_window [class="^jetbrains-.+"][window_type=dialog] focus
+# Fix menus and pop ups to not look like windows
+for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
+# Fix jetbrains toolbox window is floating
+for_window [class="jetbrains-toolbox"] floating enable
+########################## END WINDOW FIXES ####################################
+
+########################## STARTUP COMMANDS ####################################
+# Added by iss on the 2019-10-01 for HiDPI display of Lenovo laptop
+#exec "xrandr --output eDP-1 --scale 1.38x1.38 --panning 3533x1987"
+exec --no-startup-id "/bin/sh -c ~/nesono-bin/enable_cinema_display.sh"
+
+# Added by iss on the 2019-10-01 for swapping escape and caps lock
+exec --no-startup-id "xmodmap -e \"clear lock\"" #disable caps lock switch
+exec --no-startup-id "xmodmap -e \"keysym Caps_Lock = Escape\"" #set caps_lock as escape
+
+# Added by iss to enable natural scrolling with touch pad (Lenovo specific?)
+exec --no-startup-id "xinput set-prop 13 285 1"
+
+# Added by iss to use network magaer with i3
+exec --no-startup-id nm-applet
+
+# Add screenshot tool at startup
+exec --no-startup-id flameshot
+
+# Start nextcloud client
+exec --no-startup-id "/home/issingjo/.local/bin/Nextcloud-2.6.4-x86_64.AppImage --background &"
+
+# automatically lock screen after inactivity
+exec --no-statup-id xautolock -time 15 -locker $Locker
+
+# start bluetooth manager applet
+exec --no-statup-id xautolock -time 15 -locker "blueman-applet"
+
+# Added by iss on the 2019-10-03 for background
+#exec --no-startup-id xsetroot -solid "#333333"
+exec --no-startup-id "feh --bg-scale ~/Nextcloud/pictures/aid_wallpaper_gray_v3.png"
+
+# Start jetbrains toolbox
+exec --no-startup-id "/bin/sh -c ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize"
+######################### END STARTUP COMMANDS #################################
+
+############################# KEY BINDINGS #####################################
+# Screenshot key binding
+bindsym $mod+Print exec "flameshot gui"
+bindsym $mod+Shift+Print exec "flameshot full -p ~/Pictures"
+bindsym $mod+Mod1+Print exec "flameshot full -c"
+
+# Nautilus key binding
+#bindsym $mod+Shift+f exec "nautilus --new-window"
+
+# Pulse Audio controls (Lenovo specific?)
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+# Sreen brightness controls (Lenovo specific)
+bindsym XF86MonBrightnessUp exec --no-startup-id /usr/local/bin/backlight  /sys/class/backlight/intel_backlight +100 # increase screen brightness
+bindsym XF86MonBrightnessDown exec --no-startup-id /usr/local/bin/backlight  /sys/class/backlight/intel_backlight -100 # decrease screen brightness
+
+# poweroff i3
+#bindsym $mod+Shift+x exec "i3-nagbar -t warning -m 'You pressed the poweroff shortcut. Do you really want to poweroff?' -b 'Yes, poweroff' 'poweroff'"
+
+# Before i3 v4.8, we used to recommend this one as the default:
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# The font above is very space-efficient, that is, it looks good, sharp and
+# clear in small sizes. However, its unicode glyph coverage is limited, the old
+# X core fonts rendering does not support right-to-left and this being a bitmap
+# font, it doesn’t scale on retina/hidpi displays.
+
+# start a terminal
+bindsym $mod+Return exec i3-sensible-terminal
+
+# kill focused window
+bindsym $mod+Mod1+Escape kill
+
+# start dmenu (a program launcher)
+#bindsym $mod+space exec dmenu_run
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+bindsym $mod+space exec i3-dmenu-desktop
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+minus split v
+
+# split in vertical orientation
+bindsym $mod+backslash split h
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+# toggle tiling / floating
+bindsym $mod+Shift+f floating toggle
+
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# change focus between tiling / floating windows
+#bindsym $mod+space focus mode_toggle
+
+# disabled by iss 2020-04-18 : what is this useful for?
+# focus the parent container
+bindsym $mod+a focus parent
+# focus the child container
+bindsym $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# exit i3 (logs you out of your X session)
+#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# BEGIN new locking mode taken from archlinux wiki https://wiki.archlinux.org/index.php/i3#Shutdown.2C_reboot.2C_lock_screen
+set $Locker i3lock -p win -t -i ~/Pictures/bluescreen.png && sleep 1
+set $Halt systemctl poweroff -i
+
+set $mode_system System (l) lock, (q) logout, (r) reboot, (h) halt [default]
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym q exec --no-startup-id i3-msg exit, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym h exec --no-startup-id $Halt, mode "default"  
+
+    # back to normal: Enter or Escape
+    bindsym Return exec --no-startup-id $Halt, mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+Shift+e mode "$mode_system"
+# END new locking mode taken from archlinux wiki https://wiki.archlinux.org/index.php/i3#Shutdown.2C_reboot.2C_lock_screen
+
+# added by iss on 2019-10-03 for locking via mod+alt+l
+bindsym $mod+Mod1+l exec $Locker
+
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        bindsym Tab move position center
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+bindsym $mod+Tab move position center
+
+# added by iss on 2019-12-01 for suspending PC
+bindsym $mod+Mod1+z move scratchpad
+bindsym $mod+z scratchpad show
+########################### END KEY BINDINGS ###################################
+
+############################# COLOR SCHEME #####################################
+# class                 border  bground text    indicator child_border
+client.focused          #252525 #050505 #FFFFFF #303030   #252525
+client.focused_inactive #333333 #282828 #999999 #484E50   #5F676A
+client.unfocused        #333333 #222222 #555555 #292D2E   #222222
+client.urgent           #2F343A #900000 #FFFFFF #900000   #900000
+client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
+
+client.background       #FFFFFF
+
+########################### BAR CONFIGURATION ##################################
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+#bar {
+        #status_command i3status
+#}
+# i3 config looks like this:
+bar {
+  colors {
+    background #000000
+    statusline #FFFFFF
+    separator  #666666
+
+    focused_workspace  #AAAAAA #BBBBBB #222222
+    active_workspace   #333333 #222222 #EFEFEF
+    inactive_workspace #333333 #222222 #888888
+    urgent_workspace   #2F343A #900000 #FFFFFF
+    binding_mode       #2F343A #900000 #FFFFFF
+  }
+  position top
+  status_command exec /usr/share/doc/i3status/contrib/net-speed.sh
+}
+######################### END BAR CONFIGURATION ################################
+########################### END COLOR SCHEME ###################################
+
