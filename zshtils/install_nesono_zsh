@@ -25,43 +25,41 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-unset NESONOBININSTALLATIONDIR
+scriptdir=$1
 
+source $scriptdir/common/install_common.sh
 ZSHRCFILE=~/.zshrc
 
-# check, if login file exists
-if [ -e "${ZSHRCFILE}" ]; then
-  echo "** Sourcing login file: ${ZSHRCFILE}"
-  # source login file and check, if we are already in path
-  . ${ZSHRCFILE} &> /dev/null
-else
-  echo "** Creating loginfile: ${ZSHRCFILE} (needs to sourced in login script)"
-  touch ${ZSHRCFILE}
+# check, if login file does not exist (avoid menu for zsh setup)
+if [ ! -e "${ZSHRCFILE}" ]; then
+  echo_info "Loginfile: ${ZSHRCFILE} does not exist. Zsh will need to set it up first. Continue? [y/N]"
+  read ANSWER
+  if [ "$ANSWER" != "y" ]; then
+      echo_info "Aborted"
+      return 0
+  fi
 fi
 
-# add nesono-bin path to ZSHRCFILE
-if [ -z "${NESONOBININSTALLATIONDIR}" ]; then
-  echo "** Adding nesono-bin path to ${ZSHRCFILE}"
+zsh -il "$scriptdir/common/nesono_bin_installed.sh" "$scriptdir"
+if [ $? -eq 0 ]; then
+  echo_info "${scriptdir} already in path... not installing nesono-bin"
+else
+  echo_change "Adding nesono-bin path to ${ZSHRCFILE}"
   cat >> ${ZSHRCFILE} <<-ENDOFSCRIPT
 
 # the nesono script directory
-export NESONOBININSTALLATIONDIR=${SCRIPTDIR}
+export NESONOBININSTALLATIONDIR=${scriptdir}
 [ -d "\${NESONOBININSTALLATIONDIR}" ] && export PATH=\${PATH}:\${NESONOBININSTALLATIONDIR}
-ENDOFSCRIPT
-  echo "** Adding ${SCRIPTDIR} to current path"
-  export PATH=${PATH}:${SCRIPTDIR}
-else
-  echo "^^ nesono-bin already in path... not installing nesono-bin"
-fi
-
-# add ZSHRC extensions to login file
-if [ -z "${NESONOBININSTALLATIONDIR}" ]; then
-  echo "** Adding zshrc to file: ${ZSHRCFILE}"
-  cat >> ${ZSHRCFILE} <<-ENDOFSCRIPT
 # the nesono zsh extension
 [ -f \${NESONOBININSTALLATIONDIR}/zshrc ] && . \${NESONOBININSTALLATIONDIR}/zshrc
 ENDOFSCRIPT
-else
-  echo "^^ NESONOZSHRC already set - not installing ${ZSHRCFILE}"
+  echo_change "Adding ${scriptdir} to current path"
+  export PATH=${PATH}:${scriptdir}
 fi
 
+zsh -il "$scriptdir/common/nesono_bin_installed.sh" "$scriptdir"
+if [ $? -eq 0 ]; then
+  echo_info "Installation for zsh done"
+else
+  echo_error "Installation failed. Please make sure that ${ZSHRCFILE} is sourced ad startup"
+fi

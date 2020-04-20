@@ -25,6 +25,8 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+scriptdir=$1
+source $scriptdir/common/install_common.sh
 
 # the login file, we want to install the tools to
 UNAME=`uname -s`
@@ -42,42 +44,36 @@ case ${UNAME} in
     LOGINFILE=~/.profile
   ;;
   *)
-    echo "!! Unsupported system detected"
-    echo "!! Not installing bashtils"
+    echo_error "Unsupported system detected: $UNAME"
+    echo_error "Not installing bashtils"
 esac
 
-# check, if login file exists
-if [ -e "${LOGINFILE}" ]; then
-  echo "** Sourcing login file: ${LOGINFILE}"
-  # source login file and check, if we are already in path
-  . ${LOGINFILE}
-else
-  echo "** Creating loginfile: ${LOGINFILE} (needs to sourced in login script)"
+if [ ! -e "${LOGINFILE}" ]; then
+  echo_change "Creating loginfile: ${LOGINFILE} (needs to sourced in login script)"
   touch ${LOGINFILE}
 fi
 
-# add nesono-bin path to LOGINFILE
-if [ -z "${NESONOBININSTALLATIONDIR}" ]; then
-  echo "** Adding nesono-bin path to ${LOGINFILE}"
-  cat >> ${LOGINFILE} <<-ENDOFSCRIPT
-
-# the nesono script directory
-export NESONOBININSTALLATIONDIR=${SCRIPTDIR}
-[ -d "\${NESONOBININSTALLATIONDIR}" ] && export PATH=\${PATH}:\${NESONOBININSTALLATIONDIR}
-ENDOFSCRIPT
-  echo "** Adding ${SCRIPTDIR} to current path"
-  export PATH=${PATH}:${SCRIPTDIR}
+# check if already installed (needs to be login shell, since it enforces
+# configuration file sourcing and interactive, since ~/.bashrc falls back to
+# noop for non-interactive shells
+bash -il "$scriptdir/common/nesono_bin_installed.sh" "$scriptdir"
+if [ $? -eq 0 ]; then
+  echo_info "${scriptdir} already in path... not installing nesono-bin"
 else
-  echo "^^ ${SCRIPTDIR} already in path... not installing nesono-bin"
-fi
-
-# add BASHRC extensions to login file
-if [ -z "${NESONOBININSTALLATIONDIR}" ]; then
-  echo "** Adding bashrc to file: ${LOGINFILE}"
+  echo_change "Adding nesono-bin path to ${LOGINFILE}"
   cat >> ${LOGINFILE} <<-ENDOFSCRIPT
+# the nesono script directory
+export NESONOBININSTALLATIONDIR=${scriptdir}
+[ -d "\${NESONOBININSTALLATIONDIR}" ] && export PATH=\${PATH}:\${NESONOBININSTALLATIONDIR}
 # the nesono bash extension
 [ -f \${NESONOBININSTALLATIONDIR}/bashrc ] && . \${NESONOBININSTALLATIONDIR}/bashrc
 ENDOFSCRIPT
-else
-  echo "^^ NESONOBASHRC already set - not installing ${LOGINFILE}"
 fi
+
+bash -il "$scriptdir/common/nesono_bin_installed.sh" "$scriptdir"
+if [ $? -eq 0 ]; then
+  echo_info "Installation for bash done"
+else
+  echo_error "Installation failed. Please make sure that ${LOGINFILE} is sourced ad startup"
+fi
+

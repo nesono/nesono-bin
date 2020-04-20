@@ -27,6 +27,8 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+set -Eeuo pipefail
+
 echo ""
 echo "           INSTALL nesono-bin"
 echo "Script to install the nesono-bin toolset"
@@ -36,16 +38,30 @@ echo ""
 echo "The script is licensed under BSD license"
 echo ""
 echo "Legend:"
-echo "  ##: sections"
-echo "  >>: sub sections"
-echo "  **: work done"
-echo "  ^^: remarks"
+echo "  o : section"
+echo "  oo: sub sections"
+echo "  !!: changes"
+echo "  i : info"
 echo
 
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-export SCRIPTDIR
+echo "This script will not overwrite existing configurations but only set up"
+echo "conigurations for shells that are installed and not already configured."
+read -p "Continue? [Y/n] " ANSWER
 
-echo "^^ Detected script directory: \"${SCRIPTDIR}\""
+if [[ "$ANSWER" == [nN]* ]]; then
+    echo "Aborted by user"
+    exit 0
+fi
+sleep 1
+
+readonly scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $scriptdir/common/install_common.sh
+
+# required to not forward this variable to subsequent scripts and for detection
+# if installation succeeded.
+unset NESONOBININSTALLATIONDIR
+
+echo_info "Detected script directory: \"${scriptdir}\""
 echo 
 
 # function to install a link to a configuration file, e.g. ~/.vimrc
@@ -69,58 +85,56 @@ function install_link()
     fi
 
     if [ ! -e "${target}" ]; then
-      echo "** Removing bogus link: \"${DST}\" pointing to \"${target}\""
+      echo_change "Removing bogus link: \"${DST}\" pointing to \"${target}\""
       rm "${DST}"
     fi
   fi
   if [ -e ${DST} ]; then
-    echo "^^ ${DST} exists - not overwriting with nesono-bin version"
+    echo_info "${DST} exists - not overwriting with nesono-bin version"
     if [ -L ${DST} ]; then
       TESTDST=`readlink ${DST}`
       echo "   ${DST} points to ${TESTDST}"
       echo ""
     fi
   else
-    echo "** Installing ${DST##*/}"
+    echo_change "Installing ${DST##*/}"
     ln -sf ${SRC} ${DST}
+    echo "   ${DST} points to ${TESTDST}"
+    echo ""
   fi
 }
 
-# needs to be run from within SCRIPTDIR
-function install_fish()
-{
-  ./fishtils/install_nesono_fish
-}
-
-echo "## Setup shell configurations (bash, zsh, fish)"
-pushd ${SCRIPTDIR} &> /dev/null
-echo ">> Bash"
-[ -n "`which bash`" ] && ./bashtils/install_nesono_bash
+echo_section "Setup shell configurations"
+pushd ${scriptdir} &> /dev/null
+echo_sub_section "Bash"
+[ -n "$(which bash)" ] && bash -l "$scriptdir/bashtils/install_nesono_bash" "$scriptdir"
 echo
-echo ">> Zsh"
-[ -n "`which zsh`" ] && ./zshtils/install_nesono_zsh
+echo_sub_section "Zsh"
+[ -n "$(which zsh)" ] && zsh "$scriptdir/zshtils/install_nesono_zsh" "$scriptdir"
 echo
-echo ">> Fish"
-[ -n "`which fish`" ] && install_fish
+echo_sub_section "Fish"
+[ -n "$(which fish)" ] && fish "$scriptdir/fishtils/install_nesono_fish" "$scriptdir"
 popd &> /dev/null
 echo
 
-echo "## Installing additional links"
-install_link ~/.inputrc   ${SCRIPTDIR}/inputrc
-install_link ~/.vimrc     ${SCRIPTDIR}/vimrc
-install_link ~/.tmux.conf ${SCRIPTDIR}/tmux.conf
-install_link ~/.tmux      ${SCRIPTDIR}/tmux
-install_link ~/.screenrc  ${SCRIPTDIR}/screenrc
-install_link ~/.tigrc     ${SCRIPTDIR}/tigrc
-install_link ~/.vim       ${SCRIPTDIR}/vim
-install_link ~/.ackrc     ${SCRIPTDIR}/ackrc
+echo_section "Installing additional links"
+install_link ~/.inputrc         ${scriptdir}/inputrc
+install_link ~/.vimrc           ${scriptdir}/vimrc
+install_link ~/.tmux.conf       ${scriptdir}/tmux.conf
+install_link ~/.tmux            ${scriptdir}/tmux
+install_link ~/.screenrc        ${scriptdir}/screenrc
+install_link ~/.tigrc           ${scriptdir}/tigrc
+install_link ~/.vim             ${scriptdir}/vim
+install_link ~/.ackrc           ${scriptdir}/ackrc
+install_link ~/.spacemacs       ${scriptdir}/spacemacs
+install_link ~/.config/i3       ${scriptdir}/i3
+install_link ~/.config/i3status ${scriptdir}/i3status
 
 
-echo "## Fetch/Update nesono-bin submodules"
-pushd ${SCRIPTDIR} &> /dev/null
+echo_section "Fetch/Update nesono-bin submodules"
+pushd ${scriptdir} &> /dev/null
 git submodule update --init
 popd &> /dev/null
-echo "^^ Done, see you next time"
+echo_info "Done, see you next time"
 echo ""
 
-exit 0
