@@ -280,7 +280,7 @@ bindsym $mod+z scratchpad show
 
 ############################# COLOR SCHEME #####################################
 # class                 border  bground text    indicator child_border
-client.focused          #252525 #050505 #FFFFFF #303030   #252525
+client.focused          #555555 #050505 #FFFFFF #303030   #252525
 client.focused_inactive #333333 #282828 #999999 #484E50   #5F676A
 client.unfocused        #333333 #222222 #555555 #292D2E   #222222
 client.urgent           #2F343A #900000 #FFFFFF #900000   #900000
@@ -296,6 +296,7 @@ client.background       #FFFFFF
 #}
 # i3 config looks like this:
 bar {
+  font pango:DejaVu Sans Mono, FontAwesome 9
   colors {
     background #000000
     statusline #FFFFFF
@@ -308,7 +309,7 @@ bar {
     binding_mode       #2F343A #900000 #FFFFFF
   }
   position top
-  status_command exec /usr/share/doc/i3status/contrib/net-speed.sh
+  status_command ~/.local/bin/i3status-rs ~/.config/i3/status.toml
 }
 ######################### END BAR CONFIGURATION ################################
 ########################### END COLOR SCHEME ###################################
