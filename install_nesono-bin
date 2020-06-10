@@ -99,7 +99,7 @@ function install_link()
   else
     echo_change "Installing ${DST##*/}"
     ln -sf ${SRC} ${DST}
-    echo "   ${DST} points to ${TESTDST}"
+    echo "   ${SRC} points to ${DST}"
     echo ""
   fi
 }
@@ -127,8 +127,8 @@ install_link ~/.tigrc           ${scriptdir}/tigrc
 install_link ~/.vim             ${scriptdir}/vim
 install_link ~/.ackrc           ${scriptdir}/ackrc
 install_link ~/.spacemacs       ${scriptdir}/spacemacs
-install_link ~/.config/i3       ${scriptdir}/i3
-install_link ~/.config/i3status ${scriptdir}/i3status
+#install_link ~/.config/i3       ${scriptdir}/i3
+#install_link ~/.config/i3status ${scriptdir}/i3status
 
 
 echo_section "Fetch/Update nesono-bin submodules"
