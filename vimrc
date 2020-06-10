@@ -36,61 +36,53 @@ set encoding=utf-8
 set shell=/bin/bash
 
 filetype off        " required!
-
-set rtp+=~/.vim/bundle/vundle/
-call vundle#begin()
-
-" let Vundle manage Vundle -- REQUIRED!
-Plugin 'gmarik/vundle'
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
 
 " Add maktaba and codefmt to the runtimepath.
 " (The latter must be installed before it can be used.)
-Plugin 'google/vim-maktaba'
-Plugin 'google/vim-codefmt'
+Plug 'google/vim-maktaba'
+Plug 'google/vim-codefmt'
 " Also add Glaive, which is used to configure codefmt's maktaba flags. See
 " `:help :Glaive` for usage.
-Plugin 'google/vim-glaive'
+Plug 'google/vim-glaive'
 
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-speeddating'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'mileszs/ack.vim'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-vinegar'
-Plugin 'vim-scripts/gtags.vim'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'kien/ctrlp.vim'
-"Plugin 'mattn/emmet-vim'
-Plugin 'milkypostman/vim-togglelist'
-Plugin 'fatih/vim-go.git'
-Plugin 'powerline/powerline'
-Plugin 'neovimhaskell/haskell-vim'
+Plug 'Valloric/YouCompleteMe'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-unimpaired'
+Plug 'mileszs/ack.vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tpope/vim-vinegar'
+Plug 'vim-scripts/gtags.vim'
+Plug 'flazz/vim-colorschemes'
+Plug 'kien/ctrlp.vim'
+"Plug 'mattn/emmet-vim'
+Plug 'milkypostman/vim-togglelist'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+"Plug 'powerline/powerline'
+Plug 'neovimhaskell/haskell-vim'
 
 if has("unix")
-    Plugin 'vim-scripts/vim-gitgutter'
+    Plug 'vim-scripts/vim-gitgutter'
 endif
 " enable fzf usage in vim
-if executable('/usr/local/opt/fzf')
-    Plugin 'junegunn/fzf.vim'
-    set rtp+=/usr/local/opt/fzf
-endif
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Initialize plugin system
+call plug#end()
 
 " Before using powerline, please install python3-pip and run
 " > pip3 install powerline-statusbar
 " To see the fonts then, please install fonts-powerline
 " Enable powerline status bar
-python3 from powerline.vim import setup as powerline_setup
-python3 powerline_setup()
-python3 del powerline_setup
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-" the glaive#Install() should go after the "call vundle#end()"
-call glaive#Install()
+"python3 from powerline.vim import setup as powerline_setup
+"python3 powerline_setup()
+"python3 del powerline_setup
 
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1

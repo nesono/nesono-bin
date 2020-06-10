@@ -1,4 +1,5 @@
 vim/.netrwhist
+vim/autoload/*
 vim/spell
 fish/fishd.*
 fish/fish_history
