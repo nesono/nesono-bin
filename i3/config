@@ -37,7 +37,7 @@ for_window [class="jetbrains-toolbox"] floating enable
 ########################## STARTUP COMMANDS ####################################
 # Added by iss on the 2019-10-01 for HiDPI display of Lenovo laptop
 #exec "xrandr --output eDP-1 --scale 1.38x1.38 --panning 3533x1987"
-exec --no-startup-id "/bin/sh -c ~/nesono-bin/enable_cinema_display.sh"
+#exec --no-startup-id "/bin/sh -c ~/nesono-bin/enable_cinema_display.sh"
 
 # Added by iss on the 2019-10-01 for swapping escape and caps lock
 exec --no-startup-id "xmodmap -e \"clear lock\"" #disable caps lock switch
@@ -53,27 +53,27 @@ exec --no-startup-id nm-applet
 exec --no-startup-id flameshot
 
 # Start nextcloud client
-exec --no-startup-id "/home/issingjo/.local/bin/Nextcloud-2.6.4-x86_64.AppImage --background &"
+#exec --no-startup-id "/home/issingjo/.local/bin/Nextcloud-2.6.4-x86_64.AppImage --background &"
 
 # automatically lock screen after inactivity
 exec --no-statup-id xautolock -time 15 -locker $Locker
 
 # start bluetooth manager applet
-exec --no-statup-id xautolock -time 15 -locker "blueman-applet"
+#exec --no-statup-id xautolock -time 15 -locker "blueman-applet"
 
 # Added by iss on the 2019-10-03 for background
 #exec --no-startup-id xsetroot -solid "#333333"
-exec --no-startup-id "feh --bg-scale ~/Nextcloud/pictures/aid_wallpaper_gray_v3.png"
+#exec --no-startup-id "feh --bg-scale ~/Nextcloud/pictures/aid_wallpaper_gray_v3.png"
 
 # Start jetbrains toolbox
-exec --no-startup-id "/bin/sh -c ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize"
+#exec --no-startup-id "/bin/sh -c ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize"
 ######################### END STARTUP COMMANDS #################################
 
 ############################# KEY BINDINGS #####################################
 # Screenshot key binding
-bindsym $mod+Print exec "flameshot gui"
-bindsym $mod+Shift+Print exec "flameshot full -p ~/Pictures"
-bindsym $mod+Mod1+Print exec "flameshot full -c"
+#bindsym $mod+Print exec "flameshot gui"
+#bindsym $mod+Shift+Print exec "flameshot full -p ~/Pictures"
+#bindsym $mod+Mod1+Print exec "flameshot full -c"
 
 # Nautilus key binding
 #bindsym $mod+Shift+f exec "nautilus --new-window"
