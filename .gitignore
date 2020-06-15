@@ -1,6 +1,7 @@
 vim/.netrwhist
 vim/autoload/*
 vim/spell
+vim/plugged/*
 fish/fishd.*
 fish/fish_history
 fish/config.fish
