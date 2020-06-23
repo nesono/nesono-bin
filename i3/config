@@ -36,7 +36,7 @@ for_window [class="jetbrains-toolbox"] floating enable
 
 ########################## STARTUP COMMANDS ####################################
 # Added by iss on the 2019-10-01 for HiDPI display of Lenovo laptop
-#exec "xrandr --output eDP-1 --scale 1.38x1.38 --panning 3533x1987"
+#exec "xrandr --output eDP-1-1 --scale 1.38x1.38 --panning 3533x1987"
 #exec --no-startup-id "/bin/sh -c ~/nesono-bin/enable_cinema_display.sh"
 
 # Added by iss on the 2019-10-01 for swapping escape and caps lock
@@ -62,8 +62,8 @@ exec --no-statup-id xautolock -time 15 -locker $Locker
 #exec --no-statup-id xautolock -time 15 -locker "blueman-applet"
 
 # Added by iss on the 2019-10-03 for background
-#exec --no-startup-id xsetroot -solid "#333333"
-#exec --no-startup-id "feh --bg-scale ~/Nextcloud/pictures/aid_wallpaper_gray_v3.png"
+exec --no-startup-id xsetroot -solid "#333333"
+exec --no-startup-id "feh --bg-scale ~/pictures/aid_wallpaper_gray_v3.png"
 
 # Start jetbrains toolbox
 #exec --no-startup-id "/bin/sh -c ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize"
@@ -72,7 +72,7 @@ exec --no-statup-id xautolock -time 15 -locker $Locker
 ############################# KEY BINDINGS #####################################
 # Screenshot key binding
 #bindsym $mod+Print exec "flameshot gui"
-#bindsym $mod+Shift+Print exec "flameshot full -p ~/Pictures"
+#bindsym $mod+Shift+Print exec "flameshot full -p ~/pictures"
 #bindsym $mod+Mod1+Print exec "flameshot full -c"
 
 # Nautilus key binding
@@ -86,9 +86,6 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 # Sreen brightness controls (Lenovo specific)
 bindsym XF86MonBrightnessUp exec --no-startup-id /usr/local/bin/backlight  /sys/class/backlight/intel_backlight +100 # increase screen brightness
 bindsym XF86MonBrightnessDown exec --no-startup-id /usr/local/bin/backlight  /sys/class/backlight/intel_backlight -100 # decrease screen brightness
-
-# poweroff i3
-#bindsym $mod+Shift+x exec "i3-nagbar -t warning -m 'You pressed the poweroff shortcut. Do you really want to poweroff?' -b 'Yes, poweroff' 'poweroff'"
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -193,7 +190,7 @@ bindsym $mod+Shift+r restart
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # BEGIN new locking mode taken from archlinux wiki https://wiki.archlinux.org/index.php/i3#Shutdown.2C_reboot.2C_lock_screen
-set $Locker i3lock -p win -t -i ~/Pictures/bluescreen.png && sleep 1
+set $Locker i3lock -p win -t -i ~/pictures/bluescreen.png && sleep 1
 set $Halt systemctl poweroff -i
 
 set $mode_system System (l) lock, (q) logout, (r) reboot, (h) halt [default]
@@ -273,9 +270,9 @@ mode "move and resize" {
 
 bindsym $mod+Tab move position center
 
-# added by iss on 2019-12-01 for suspending PC
-bindsym $mod+Mod1+z move scratchpad
-bindsym $mod+z scratchpad show
+# added by iss on 2019-12-01 for dealing with a scratchpad
+#bindsym $mod+Mod1+z move scratchpad
+#bindsym $mod+z scratchpad show
 ########################### END KEY BINDINGS ###################################
 
 ############################# COLOR SCHEME #####################################
@@ -296,7 +293,7 @@ client.background       #FFFFFF
 #}
 # i3 config looks like this:
 bar {
-  font pango:DejaVu Sans Mono, FontAwesome 9
+  #font pango:DejaVu Sans Mono, FontAwesome 12
   colors {
     background #000000
     statusline #FFFFFF
@@ -309,7 +306,8 @@ bar {
     binding_mode       #2F343A #900000 #FFFFFF
   }
   position top
-  status_command ~/.local/bin/i3status-rs ~/.config/i3/status.toml
+  #status_command ~/.local/bin/i3status-rs ~/.config/i3/status.toml
+  status_command i3status
 }
 ######################### END BAR CONFIGURATION ################################
 ########################### END COLOR SCHEME ###################################
