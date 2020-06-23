@@ -57,7 +57,7 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-unimpaired'
 Plug 'mileszs/ack.vim'
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-scripts/gtags.vim'
 Plug 'flazz/vim-colorschemes'
@@ -67,6 +67,7 @@ Plug 'milkypostman/vim-togglelist'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "Plug 'powerline/powerline'
 Plug 'neovimhaskell/haskell-vim'
+Plug 'justinmk/vim-dirvish'
 
 if has("unix")
     Plug 'vim-scripts/vim-gitgutter'
