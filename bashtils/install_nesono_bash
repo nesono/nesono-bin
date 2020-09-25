@@ -56,7 +56,7 @@ fi
 # check if already installed (needs to be login shell, since it enforces
 # configuration file sourcing and interactive, since ~/.bashrc falls back to
 # noop for non-interactive shells
-bash -il "$scriptdir/common/nesono_bin_installed.sh" "$scriptdir"
+bash --login "$scriptdir/common/nesono_bin_installed.sh" "$scriptdir"
 if [ $? -eq 0 ]; then
   echo_info "${scriptdir} already in path... not installing nesono-bin"
 else
