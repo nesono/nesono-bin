@@ -105,12 +105,15 @@ function install_link()
 }
 
 echo_section "Setup shell configurations"
+# Note that the shell invocations require a login shell, but no interative
+# flag. That flag caused the shells to go into background on macOS and let the
+# installation process freeze
 pushd ${scriptdir} &> /dev/null
 echo_sub_section "Bash"
-[ -n "$(which bash)" ] && bash -l "$scriptdir/bashtils/install_nesono_bash" "$scriptdir"
+[ -n "$(which bash)" ] && bash --login "$scriptdir/bashtils/install_nesono_bash" "$scriptdir"
 echo
 echo_sub_section "Zsh"
-[ -n "$(which zsh)" ] && zsh "$scriptdir/zshtils/install_nesono_zsh" "$scriptdir"
+[ -n "$(which zsh)" ] && zsh --login "$scriptdir/zshtils/install_nesono_zsh" "$scriptdir"
 echo
 echo_sub_section "Fish"
 [ -n "$(which fish)" ] && fish "$scriptdir/fishtils/install_nesono_fish" "$scriptdir"
@@ -130,6 +133,9 @@ install_link ~/.spacemacs       ${scriptdir}/spacemacs
 #install_link ~/.config/i3       ${scriptdir}/i3
 #install_link ~/.config/i3status ${scriptdir}/i3status
 
+echo_section "Installing vim Plug"
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 echo_section "Fetch/Update nesono-bin submodules"
 pushd ${scriptdir} &> /dev/null

@@ -33,7 +33,6 @@ setopt nobeep                  # disable bothering beep
 setopt autolist automenu       # set auto listing to menu style
 setopt notify                  # immediately report the status of background options
 setopt extended_glob           # enable extended globbing
-setopt prompt_subst            # enable prompt substitution
 #setopt autopushd               # automatically append dirs to the push/pop list
 
 # setup history
@@ -58,34 +57,12 @@ typeset -U path cdpath fpath manpath
 # load simplified color handling ("%K{red}%F{black}")
 autoload -U colors && colors
 
-defcol='%{%f%k%}'
-## called by zsh before showing the prompt
-function precmd()
-{
-	# set screen title
-	settitle zsh "$PWD"
-
-	local usercol fstlineend
-
-	usercol='%{%F{green}%}'
-	if [[ "$EUID" == "0" ]]; then
-		# root user
-		usercol='%{%F{red}%}'
-	fi
-	fstlineend='%{%f%k%}'
-	PROMPT_REPOSITORY_LINE="%{%F{black}%K{white}%}$(zsh_git_prompt)$(parse_svn_revision)$(parse_hg_branch)%{%f%k%}"
-	PROMPT_TOP_RIGHT="%{%f%k%} %D %* ${usercol} %M ${fstlineend}"
-}
-
 function pushdirscount()
 {
 	local count
 	count=$(dirs -p | wc -l | xargs)
 	echo $((count-1))
 }
-
-
-PROMPT=$'$defcol%(?..%{%K{red}%F{white}%} %? )%{$PROMPT_REPOSITORY_LINE%}$PROMPT_TOP_RIGHT\nJ:%j ^:$(pushdirscount) %{%F{blue}%}%0~%{%F{yellow}%}%{%f%k%}\n%_> '
 
 # provides a temporary session cookie for the shell session
 source ${NESONOBININSTALLATIONDIR}/sessioncookie
@@ -156,7 +133,7 @@ function preexec
 
 # source prompt status functions
 source ${NESONOBININSTALLATIONDIR}/bashtils/ps1status
-source ${NESONOBININSTALLATIONDIR}/zshtils/zshgitprompt
+#source ${NESONOBININSTALLATIONDIR}/zshtils/zshgitprompt
 
 # include completion config file
 source ${NESONOBININSTALLATIONDIR}/zshtils/completion

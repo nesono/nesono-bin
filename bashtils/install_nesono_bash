@@ -70,7 +70,7 @@ export NESONOBININSTALLATIONDIR=${scriptdir}
 ENDOFSCRIPT
 fi
 
-bash -il "$scriptdir/common/nesono_bin_installed.sh" "$scriptdir"
+bash --login "$scriptdir/common/nesono_bin_installed.sh" "$scriptdir"
 if [ $? -eq 0 ]; then
   echo_info "Installation for bash done"
 else
