@@ -3,8 +3,8 @@
 
 usage()
 {
-    echo "usage certinfo_http [-starttls smtp] www.example.com:25"
-    echo "On a Mac, call the following line to get validity information:"
+    echo "usage certinfo_http www.example.com:25 [-starttls smtp]"
+    echo "On a terminal, call the following line to get validity information:"
     echo "certinfo_http.sh www.example.com:587 -starttls smtp | grep -B 4 -A 3 Validity"
 }
 
@@ -15,5 +15,5 @@ fi
 
 echo "Parameters forwarded to openssl: $@"
 echo "Calling openssl"
-openssl s_client -showcerts -connect $@ </dev/null | openssl x509 -text
+echo QUIT | openssl s_client -showcerts -connect "$@" </dev/null | openssl x509 -text
 echo "Done"
