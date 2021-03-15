@@ -315,6 +315,7 @@ if has("gui_running")
 endif
 
 " set color scheme
+silent! colorscheme Monokai
 set background=light
 silent! colorscheme materialtheme
 
@@ -386,14 +387,16 @@ nnoremap <leader>do :windo diffo<cr>
 " fugitive handling
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gs :Gstatus<cr>
-nnoremap <leader>gl :Glog<cr>
+nnoremap <leader>gl :Git log --oneline -20<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gc :Gcommit -v <cr>
 nnoremap <leader>ga :Gcommit -v --amend<cr>
-nnoremap <leader>gp :Gpush<cr>
+nnoremap <leader>gp :Gpush --force-with-lease<cr>
+nnoremap <leader>gP :Gpush --force<cr>
 nnoremap <leader>gr :Gpull --rebase<cr>
+nnoremap <leader>gf :Gfetch --prune<cr>
 
 nnoremap <leader>jd :YcmCompleter GoTo<cr>
 nnoremap <leader>jh :YcmCompleter GoToInclude<cr>
