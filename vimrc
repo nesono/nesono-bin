@@ -316,7 +316,7 @@ endif
 
 " set color scheme
 set background=light
-"silent! colorscheme molokai
+silent! colorscheme materialtheme
 
 command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
 
