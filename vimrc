@@ -315,8 +315,7 @@ if has("gui_running")
 endif
 
 " set color scheme
-silent! colorscheme Monokai
-set background=light
+set background=dark
 silent! colorscheme materialtheme
 
 command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
