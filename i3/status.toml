@@ -1,5 +1,28 @@
-theme = "solarized-dark"
-icons = "awesome"
+theme = "native"
+icons = "material"
+
+[[block]]
+block = "cpu"
+interval = 1
+
+[[block]]
+block = "memory"
+display_type = "memory"
+format_mem = "{MUp}"
+#format_mem = "{mem_total_used_percents}"
+format_swap = "{swap_used_percents}"
+
+[[block]]
+block = "nvidia_gpu"
+label = "RTX 3070"
+show_memory = false
+show_clocks = false
+interval = 1
+
+[[block]]
+block = "load"
+interval = 1
+format = "{1m}"
 
 [[block]]
 block = "disk_space"
@@ -12,40 +35,48 @@ warning = 20.0
 alert = 10.0
 
 [[block]]
-block = "memory"
-display_type = "memory"
-format_mem = "{Mup}%"
-format_swap = "{SUp}%"
+block = "disk_space"
+path = "/home"
+alias = "home"
+info_type = "available"
+unit = "GB"
+interval = 20
+warning = 20.0
+alert = 10.0
 
 [[block]]
-block = "cpu"
-interval = 1
+block = "networkmanager"
+on_click = "alacritty -e nmtui"
+interface_name_exclude = ["br\\-[0-9a-f]{12}", "docker\\d+"]
+interface_name_include = []
 
 [[block]]
-block = "load"
-interval = 1
-format = "{1m}"
+block = "pacman"
+interval = 600
+format = "{pacman} updates available"
+format_singular = "{pacman} updates"
+format_up_to_date = "ok"
+critical_updates_regex = "(linux |linux-lts|linux-zen)"
 
 [[block]]
-block = "net"
-device = "wlp3s0"
-ssid = true
-signal_strength = true
-speed_up = true
-speed_down = true
-interval = 5
-
-[[block]]
-block = "docker"
+block = "xrandr"
+icons = false
+resolution = false
 interval = 2
-format = "{running}/{total}"
 
 [[block]]
-block = "battery"
-driver = "upower"
-format = "{percentage}% {time}"
+block = "pomodoro"
+length = 25
+break_length = 5
+message = "Take a break!"
+break_message = "Back to work!"
+use_nag = true
+nag_path = "i3-nagbar"
+
+[[block]]
+block = "sound"
 
 [[block]]
 block = "time"
 interval = 60
-format = "%a %d %R"
+format = "%a %d/%m %R"

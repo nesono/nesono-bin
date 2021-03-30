@@ -130,13 +130,28 @@ install_link ~/.tigrc           ${scriptdir}/tigrc
 install_link ~/.vim             ${scriptdir}/vim
 install_link ~/.ackrc           ${scriptdir}/ackrc
 install_link ~/.spacemacs       ${scriptdir}/spacemacs
-#install_link ~/.config/i3       ${scriptdir}/i3
-#install_link ~/.config/i3status ${scriptdir}/i3status
+
+echo "Installing i3 config"
+mkdir -p ~/.config/i3 
+cp -b -i ${scriptdir}/i3/* ~/.config/i3/
+
+echo "Installing i3status config"
+mkdir -p ~/.config/i3status 
+cp -b -i ${scriptdir}/i3status/* ~/.config/i3status/
+
+echo "Installing dunst config"
+mkdir -p ~/.config/dunst 
+cp -b -i ${scriptdir}/dunst/* ~/.config/dunst/
 
 echo_section "Installing vim Plug"
+echo "Installing for vim"
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 echo_info "Next time starting vim, please run :PlugInstall"
+echo "Installing for NeoVim"
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+echo_info "Next time starting nvim, please run :PlugInstall"
 
 echo_section "Fetch/Update nesono-bin submodules"
 pushd ${scriptdir} &> /dev/null
