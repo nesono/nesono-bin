@@ -8,21 +8,21 @@ interval = 1
 [[block]]
 block = "memory"
 display_type = "memory"
-format_mem = "{MUp}"
+format_mem = "{MUp} %"
 #format_mem = "{mem_total_used_percents}"
 format_swap = "{swap_used_percents}"
-
-[[block]]
-block = "nvidia_gpu"
-label = "RTX 3070"
-show_memory = false
-show_clocks = false
-interval = 1
 
 [[block]]
 block = "load"
 interval = 1
 format = "{1m}"
+
+[[block]]
+block = "nvidia_gpu"
+label = ""
+show_memory = false
+show_clocks = false
+interval = 1
 
 [[block]]
 block = "disk_space"
@@ -53,9 +53,9 @@ interface_name_include = []
 [[block]]
 block = "pacman"
 interval = 600
-format = "{pacman} updates available"
-format_singular = "{pacman} updates"
-format_up_to_date = "ok"
+format = "{pacman} "
+format_singular = "{pacman} "
+format_up_to_date = ""
 critical_updates_regex = "(linux |linux-lts|linux-zen)"
 
 [[block]]
@@ -72,6 +72,11 @@ message = "Take a break!"
 break_message = "Back to work!"
 use_nag = true
 nag_path = "i3-nagbar"
+
+[[block]]
+block = "music"
+player = "spotify"
+buttons = ["play", "next"]
 
 [[block]]
 block = "sound"

@@ -33,7 +33,7 @@ smart_gaps on
 # Only enable outer gaps when there is exactly one container
 smart_gaps inverse_outer
 
-gaps inner 10
+gaps inner 5
 gaps outer 5
 #gaps horizontal 40
 #gaps outer current toggle 60
@@ -45,14 +45,14 @@ gaps outer 5
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 # Fix splash window
-for_window [class="^jetbrains-.+"][name="win0"] floating enable
+for_window [class="jetbrains-.+"][title="win0"] floating enable
 
 # Fix Jetbrains windows automatic focus
 for_window [class="^jetbrains-.+"][window_type=dialog] focus
 # Fix menus and pop ups to not look like windows
 for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
 # Fix jetbrains toolbox window is floating
-for_window [class="jetbrains-toolbox"] floating enable
+for_window [class="JetBrains Toolbox"][title="JetBrains Toolbox"] floating enable
 ########################## END WINDOW FIXES ####################################
 
 ########################## STARTUP COMMANDS ####################################
@@ -81,7 +81,7 @@ exec --no-startup-id "xmodmap -e \"keysym Caps_Lock = Escape\"" #set caps_lock a
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # Added by iss on the 2019-10-03 for background
 exec --no-startup-id xsetroot -solid "#333333"
-exec --no-startup-id "feh --bg-scale ~/Pictures/Marmotamaps_Wallpaper_Berchtesgaden.jpg"
+exec --no-startup-id "feh --bg-scale ~/Pictures/2021-03-30_forest_mist_bw.jpg"
 
 # Start jetbrains toolbox
 exec --no-startup-id ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize &
@@ -145,10 +145,10 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+minus split h
+bindsym $mod+backslash split h
 
 # split in vertical orientation
-bindsym $mod+backslash split v
+bindsym $mod+minus split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
