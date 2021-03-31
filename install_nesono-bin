@@ -104,6 +104,46 @@ function install_link()
   fi
 }
 
+function install_i3_configuration() 
+{
+  DST="$HOME/.config/i3/config"
+  if [[ ! -e "$DST" ]]; then
+    echo_change "Installing $HOME/.config/i3/*"
+    mkdir -p ~/.config/i3 
+    cp -b -i ${scriptdir}/i3/* ~/.config/i3/
+
+    echo_change "Installing $HOME/.config/i3status/*"
+    mkdir -p ~/.config/i3status 
+    cp -b -i ${scriptdir}/i3status/* ~/.config/i3status/
+
+    echo_change "Installing $HOME/.config/dunst/*"
+    mkdir -p ~/.config/dunst 
+    cp -b -i ${scriptdir}/dunst/* ~/.config/dunst/
+  else
+    echo_info "${DST} exists - not overwriting with nesono-bin version"
+  fi
+}
+
+function install_plug()
+{
+  if [[ ! -e "$HOME/.vim/autoload/plug.vim" ]]; then
+    echo_change "Installing Vim-Plug for vim"
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    echo_info "Next time starting vim, please run :PlugInstall"
+  else
+    echo_info "Vim-Plug already installed for Vim -- skipping"
+  fi
+  if [[ ! -e "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim ]]; then
+    echo_change "Installing for NeoVim"
+    sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+           https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    echo_info "Next time starting nvim, please run :PlugInstall"
+  else
+    echo_info "Vim-Plug already installed for NeoVim -- skipping"
+  fi
+}
+
 echo_section "Setup shell configurations"
 # Note that the shell invocations require a login shell, but no interative
 # flag. That flag caused the shells to go into background on macOS and let the
@@ -131,27 +171,13 @@ install_link ~/.vim             ${scriptdir}/vim
 install_link ~/.ackrc           ${scriptdir}/ackrc
 install_link ~/.spacemacs       ${scriptdir}/spacemacs
 
-echo "Installing i3 config"
-mkdir -p ~/.config/i3 
-cp -b -i ${scriptdir}/i3/* ~/.config/i3/
-
-echo "Installing i3status config"
-mkdir -p ~/.config/i3status 
-cp -b -i ${scriptdir}/i3status/* ~/.config/i3status/
-
-echo "Installing dunst config"
-mkdir -p ~/.config/dunst 
-cp -b -i ${scriptdir}/dunst/* ~/.config/dunst/
+echo_sub_section "Installing i3 configurations"
+install_i3_configuration
 
 echo_section "Installing vim Plug"
-echo "Installing for vim"
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-echo_info "Next time starting vim, please run :PlugInstall"
-echo "Installing for NeoVim"
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-echo_info "Next time starting nvim, please run :PlugInstall"
+echo_sub_section "Installing for vim"
+install_plug
+
 
 echo_section "Fetch/Update nesono-bin submodules"
 pushd ${scriptdir} &> /dev/null
