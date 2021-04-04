@@ -57,6 +57,7 @@ format = "{pacman} "
 format_singular = "{pacman} "
 format_up_to_date = ""
 critical_updates_regex = "(linux |linux-lts|linux-zen)"
+#hide_when_uptodate = True
 
 [[block]]
 block = "xrandr"
@@ -64,19 +65,19 @@ icons = false
 resolution = false
 interval = 2
 
-[[block]]
-block = "pomodoro"
-length = 25
-break_length = 5
-message = "Take a break!"
-break_message = "Back to work!"
-use_nag = true
-nag_path = "i3-nagbar"
+#[[block]]
+#block = "pomodoro"
+#length = 25
+#break_length = 5
+#message = "Take a break!"
+#break_message = "Back to work!"
+#use_nag = true
+#nag_path = "i3-nagbar"
 
-[[block]]
-block = "music"
-player = "spotify"
-buttons = ["play", "next"]
+#[[block]]
+#block = "music"
+#player = "spotify"
+#buttons = ["play", "next"]
 
 [[block]]
 block = "sound"
@@ -84,4 +85,4 @@ block = "sound"
 [[block]]
 block = "time"
 interval = 60
-format = "%a %d/%m %R"
+format = "%a %Y-%m-d %R"

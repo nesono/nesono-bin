@@ -52,7 +52,7 @@ for_window [class="^jetbrains-.+"][window_type=dialog] focus
 # Fix menus and pop ups to not look like windows
 for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
 # Fix jetbrains toolbox window is floating
-for_window [class="JetBrains Toolbox"][title="JetBrains Toolbox"] floating enable
+for_window [class="jetbrains-toolbox"][title="JetBrains Toolbox"] floating enable
 ########################## END WINDOW FIXES ####################################
 
 ########################## STARTUP COMMANDS ####################################
@@ -63,6 +63,7 @@ for_window [class="JetBrains Toolbox"][title="JetBrains Toolbox"] floating enabl
 # Added by iss on the 2019-10-01 for swapping escape and caps lock
 exec --no-startup-id "xmodmap -e \"clear lock\"" #disable caps lock switch
 exec --no-startup-id "xmodmap -e \"keysym Caps_Lock = Escape\"" #set caps_lock as escape
+exec --no-startup-id "setxkbmap -model pc105 -layout us -option compose:caps"
 
 # Added by iss to enable natural scrolling with touch pad (Lenovo specific?)
 #exec --no-startup-id "xinput set-prop 13 285 1"
@@ -74,7 +75,7 @@ exec --no-startup-id "xmodmap -e \"keysym Caps_Lock = Escape\"" #set caps_lock a
 #exec --no-startup-id flameshot
 
 # Start nextcloud client
-#exec --no-startup-id "~/.local/bin/Nextcloud-2.6.4-x86_64.AppImage --background &"
+exec --no-startup-id ~/.local/bin/Nextcloud-3.1.3-x86_64.AppImage --background &
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
@@ -108,6 +109,10 @@ bindsym $mod+Mod4+Escape kill
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec --no-startup-id dmenu_run
+
+# create a screenshot with hacksaw
+bindsym Mod4+Shift+4 exec --no-startup-id ~/nesono-bin/screenshot.sh -t
+bindsym Mod4+Shift+5 exec --no-startup-id ~/nesono-bin/screenshot.sh
 
 # start greenclip daemon
 exec --no-startup-id "greenclip daemon &"
@@ -213,7 +218,7 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 # BEGIN new locking mode taken from archlinux wiki https://wiki.archlinux.org/index.php/i3#Shutdown.2C_reboot.2C_lock_screen
-set $Locker i3lock -p win -t -i ~/Pictures/windows10-bsod.png && sleep 1
+set $Locker i3lock -u -p win -t -i ~/Pictures/windows10-bsod.png && sleep 1
 set $Halt systemctl poweroff -i
 
 set $mode_system System (l) lock, (q) logout, (r) reboot, (h) halt [default]
