@@ -1,8 +1,18 @@
-theme = "plain"
-icons = "material"
+[theme]
+name = "plain"
+[icons]
+name = "material"
+
+[theme.overrides]
+# taken from here: https://fonts.google.com/icons?selected=Material+Icons
+separator = "\ue5d4"
+
+[icons.overrides]
+xrandr = ""
 
 [[block]]
 block = "cpu"
+#format = "{barchart} {utilization} {frequency}"
 interval = 1
 
 [[block]]
@@ -10,7 +20,7 @@ block = "memory"
 display_type = "memory"
 format_mem = "{MUp} %"
 #format_mem = "{mem_total_used_percents}"
-format_swap = "{swap_used_percents}"
+format_swap = "{SUp}"
 
 [[block]]
 block = "load"
@@ -85,4 +95,4 @@ block = "sound"
 [[block]]
 block = "time"
 interval = 60
-format = "%a %Y-%m-d %R"
+format = "%a %Y-%m-%d %R"
