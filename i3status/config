@@ -17,9 +17,10 @@ general {
 
 #order += "ipv6"
 order += "disk /"
-#order += "wireless _first_"
+order += "disk /home"
+order += "wireless _first_"
 #order += "ethernet _first_"
-order += "battery all"
+#order += "battery all"
 order += "load"
 order += "tztime local"
 
@@ -47,5 +48,9 @@ load {
 }
 
 disk "/" {
+        format = "%avail"
+}
+
+disk "/home" {
         format = "%avail"
 }

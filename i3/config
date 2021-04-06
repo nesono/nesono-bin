@@ -9,7 +9,7 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod1
+set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -105,21 +105,21 @@ floating_modifier $mod
 bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
-bindsym $mod+Mod4+Escape kill
+bindsym $mod+Mod1+Escape kill
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec --no-startup-id dmenu_run
 
 # create a screenshot with hacksaw
-bindsym Mod4+Shift+4 exec --no-startup-id ~/nesono-bin/screenshot.sh -t
-bindsym Mod4+Shift+5 exec --no-startup-id ~/nesono-bin/screenshot.sh
+bindsym Mod1+Shift+4 exec --no-startup-id ~/nesono-bin/screenshot.sh -t
+bindsym Mod1+Shift+5 exec --no-startup-id ~/nesono-bin/screenshot.sh
 
 # start greenclip daemon
 exec --no-startup-id "greenclip daemon &"
 
 # A more modern dmenu replacement is rofi:
-bindsym $mod+space exec "rofi -show combi"
-bindsym $mod+Mod4+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+bindsym $mod+space exec rofi -show combi -calc-command "echo -n '{result}' | xclip -selection clipboard"
+bindsym $mod+Mod1+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
@@ -237,7 +237,7 @@ bindsym $mod+Shift+e mode "$mode_system"
 # END new locking mode taken from archlinux wiki https://wiki.archlinux.org/index.php/i3#Shutdown.2C_reboot.2C_lock_screen
 
 # added by iss on 2019-10-03 for locking via mod+alt+l
-bindsym $mod+Mod4+l exec $Locker
+bindsym $mod+Mod1+l exec $Locker
 
 
 # added 2020-04-22 move and resize floating windows with keys

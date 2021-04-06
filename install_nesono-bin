@@ -104,26 +104,6 @@ function install_link()
   fi
 }
 
-function install_i3_configuration() 
-{
-  DST="$HOME/.config/i3/config"
-  if [[ ! -e "$DST" ]]; then
-    echo_change "Installing $HOME/.config/i3/*"
-    mkdir -p ~/.config/i3 
-    cp -b -i ${scriptdir}/i3/* ~/.config/i3/
-
-    echo_change "Installing $HOME/.config/i3status/*"
-    mkdir -p ~/.config/i3status 
-    cp -b -i ${scriptdir}/i3status/* ~/.config/i3status/
-
-    echo_change "Installing $HOME/.config/dunst/*"
-    mkdir -p ~/.config/dunst 
-    cp -b -i ${scriptdir}/dunst/* ~/.config/dunst/
-  else
-    echo_info "${DST} exists - not overwriting with nesono-bin version"
-  fi
-}
-
 function install_plug()
 {
   if [[ ! -e "$HOME/.vim/autoload/plug.vim" ]]; then
@@ -170,9 +150,10 @@ install_link ~/.tigrc           ${scriptdir}/tigrc
 install_link ~/.vim             ${scriptdir}/vim
 install_link ~/.ackrc           ${scriptdir}/ackrc
 install_link ~/.spacemacs       ${scriptdir}/spacemacs
-
-echo_sub_section "Installing i3 configurations"
-install_i3_configuration
+install_link ~/.config/i3       ${scriptdir}/i3
+install_link ~/.config/i3status ${scriptdir}/i3status
+install_link ~/.config/rofi     ${scriptdir}/rofi
+install_link ~/.config/dunst    ${scriptdir}/dunst
 
 echo_section "Installing vim Plug"
 echo_sub_section "Installing for vim"
