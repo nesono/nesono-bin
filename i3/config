@@ -56,6 +56,9 @@ for_window [class="jetbrains-toolbox"][title="JetBrains Toolbox"] floating enabl
 ########################## END WINDOW FIXES ####################################
 
 ########################## STARTUP COMMANDS ####################################
+# Added by iss on 2021-04-10 for picom comp manager
+exec --no-startup-id picom -b
+
 # Added by iss on the 2019-10-01 for HiDPI display of Lenovo laptop
 #exec "xrandr --output eDP-1-1 --scale 1.38x1.38 --panning 3533x1987"
 #exec --no-startup-id "/bin/sh -c ~/nesono-bin/enable_cinema_display.sh"
