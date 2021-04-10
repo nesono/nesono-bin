@@ -118,7 +118,7 @@ bindsym Mod1+Shift+5 exec --no-startup-id ~/nesono-bin/screenshot.sh
 exec --no-startup-id "greenclip daemon &"
 
 # A more modern dmenu replacement is rofi:
-bindsym $mod+space exec rofi -show combi -calc-command "echo -n '{result}' | xclip -selection clipboard"
+bindsym $mod+space exec rofi -show combi -show-icons -calc-command "echo -n '{result}' | xclip -selection clipboard"
 bindsym $mod+Mod1+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 # There also is i3-dmenu-desktop which only displays applications shipping a
