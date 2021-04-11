@@ -43,9 +43,9 @@
     alternate-urgent-background: var(lightbg);
 }
 window {
-    padding:          5;
+    padding:          0;
     background-color: var(background);
-    border:           2;
+    border:           0;
     border-radius:    12px;
     fullscreen:	      false;
     transparency:     "screenshot";
