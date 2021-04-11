@@ -155,6 +155,7 @@ install_link ~/.config/i3status   ${scriptdir}/i3status
 install_link ~/.config/rofi       ${scriptdir}/rofi
 install_link ~/.config/dunst      ${scriptdir}/dunst
 install_link ~/.config/picom.conf ${scriptdir}/picom.conf
+install_link ~/.config/alacritty  ${scriptdir}/alacritty
 
 echo_section "Installing vim Plug"
 echo_sub_section "Installing for vim"
