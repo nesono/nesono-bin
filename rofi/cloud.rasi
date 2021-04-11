@@ -11,7 +11,7 @@
 	'lightbg' changes the highlight color of the list items.
 **/
 * {
-    font:                        "Hack 14";
+    font:                        "Hack 16";
     lightText:                   rgba(200, 200, 200, 100 %);
     red:                         rgba ( 220, 50, 47, 100 % );
     blue:                        rgba ( 73, 72, 181, 100 % );
@@ -118,7 +118,7 @@ element alternate.active {
     text-color:       var(alternate-active-foreground);
 }
 element-icon { 
-    size: 2ch;
+    size: 3ch;
 }
 scrollbar {
     width:        4px ;
