@@ -1,11 +1,11 @@
 [theme]
 name = "plain"
 [icons]
-name = "material"
+name = "awesome"
 
-[theme.overrides]
-# taken from here: https://fonts.google.com/icons?selected=Material+Icons
-separator = "\ue5d4"
+#[theme.overrides]
+## taken from here: https://fonts.google.com/icons?selected=Material+Icons
+#separator = "\ue5d4"
 
 [icons.overrides]
 xrandr = ""
