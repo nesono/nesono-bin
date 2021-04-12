@@ -14,6 +14,7 @@ xrandr = ""
 block = "cpu"
 #format = "{barchart} {utilization} {frequency}"
 interval = 1
+on_click = "gnome-system-monitor -p"
 
 [[block]]
 block = "memory"
@@ -26,6 +27,7 @@ format_swap = "{SUp}"
 block = "load"
 interval = 1
 format = "{1m}"
+on_click = "gnome-system-monitor -p"
 
 [[block]]
 block = "nvidia_gpu"
@@ -43,6 +45,7 @@ unit = "GB"
 interval = 20
 warning = 20.0
 alert = 10.0
+on_click = "nautilus /"
 
 [[block]]
 block = "disk_space"
@@ -53,10 +56,12 @@ unit = "GB"
 interval = 20
 warning = 20.0
 alert = 10.0
+on_click = "nautilus $HOME"
 
 [[block]]
 block = "networkmanager"
-on_click = "alacritty -e nmtui"
+#on_click = "alacritty -e nmtui"
+on_click = "gnome-system-monitor -r"
 interface_name_exclude = ["br\\-[0-9a-f]{12}", "docker\\d+"]
 interface_name_include = []
 
@@ -91,6 +96,8 @@ interval = 2
 
 [[block]]
 block = "sound"
+show_volume_when_muted = true
+on_click = "pavucontrol"
 
 [[block]]
 block = "time"
