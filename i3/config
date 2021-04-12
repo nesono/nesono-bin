@@ -24,8 +24,8 @@ floating_modifier $mod
 ########################## END GENERIC SETUP ###################################
 
 ############################### GAPS ###########################################
-# You can also use any non-zero value if you'd like to have a border
-for_window [class=".*"] border pixel 1
+# Set default border width
+for_window [class=".*"] border pixel 0
 
 # Only enable gaps on a workspace when there is at least one container
 smart_gaps on
@@ -326,7 +326,7 @@ client.background       #FFFFFF
 # i3 config looks like this:
 bar {
   #font pango:DejaVu Sans Mono, FontAwesome 12
-  font pango:Hack 9
+  font pango:Hack 12
   colors {
     background #000000
     statusline #FFFFFF
