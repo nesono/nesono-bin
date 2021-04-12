@@ -150,6 +150,7 @@ install_link ~/.tigrc             ${scriptdir}/tigrc
 install_link ~/.vim               ${scriptdir}/vim
 install_link ~/.ackrc             ${scriptdir}/ackrc
 install_link ~/.spacemacs         ${scriptdir}/spacemacs
+install_link ~/.Xresources        ${scriptdir}/Xresources
 install_link ~/.config/i3         ${scriptdir}/i3
 install_link ~/.config/i3status   ${scriptdir}/i3status
 install_link ~/.config/rofi       ${scriptdir}/rofi
