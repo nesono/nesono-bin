@@ -46,15 +46,17 @@ window {
     padding:          0;
     background-color: var(background);
     border:           0;
-    border-radius:    12px;
+    /*border-radius:    12px;*/
     fullscreen:	      false;
     transparency:     "screenshot";
     width:            30%;
+    vertical-algin: 0.5;
 }
 mainbox {
     padding: 10;
     border:  0;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
+    vertical-algin: 0.5;
 }
 message {
     padding:      2px 0px 0px ;
@@ -65,8 +67,9 @@ message {
 }
 textbox {
     text-color: var(foreground);
-    border-radius:10px;
+    /*border-radius:10px;*/
     padding: 10px 10px 10px;
+    vertical-align: 0.5;
 }
 listview {
     padding:      2px 0px 0px ;
@@ -119,6 +122,7 @@ element alternate.active {
 }
 element-icon { 
     size: 3ch;
+    padding: 8px 8px;
 }
 scrollbar {
     width:        4px ;
