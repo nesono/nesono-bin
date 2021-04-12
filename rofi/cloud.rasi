@@ -10,37 +10,49 @@
 	'selected-normal-background' changes the text-color of the focused item.
 	'lightbg' changes the highlight color of the list items.
 **/
+configuration {
+    // icons for modes (check in situ, not with console font)
+    display-ssh:                   "  ";
+    display-run:                    "";
+    display-drun:                   "";
+    display-window:                 "";
+    display-combi:                  "";
+    show-icons: true;
+}
+
 * {
     font:                        "Hack 16";
-    lightText:                   rgba(200, 200, 200, 100 %);
-    red:                         rgba ( 220, 50, 47, 100 % );
-    blue:                        rgba ( 73, 72, 181, 100 % );
-    lightfg:                     rgba ( 200, 200, 200, 100 % );
-    lightbg:                     rgba ( 129,60,15, 100 % );
-    background-color:            rgba ( 30, 30, 30, 100 % );
+    lightText:                   rgba( 250, 250, 250, 100 %);
+    red:                         rgba( 220, 50, 47, 100 % );
+    blue:                        rgba( 73, 72, 181, 100 % );
+    darkerBlue:                  rgba( 23, 22, 131, 100 % );
+    lightfg:                     rgba( 200, 200, 200, 100 % );
+    lightbg:                     rgba( 129,60,15, 100 % );
+    background-color:            rgba( 30, 30, 30, 100 % );
     spacing:                     2;
     separatorcolor:              var(foreground);
     border-color:                var(lightfg);
-    foreground:                  rgba ( 100, 100, 100, 100 % );
+    foreground:                  rgba ( 150, 150, 150, 100 % );
     background:                  rgba ( 10, 10, 10, 0% );
-    selected-normal-foreground:  var(lightfg);
+    selected-normal-foreground:  var(foreground);
     selected-normal-background:  var(lightbg);
     selected-active-foreground:  var(lightText);
-    selected-active-background:  var(darkerBlue);
+    selected-active-background:  var(lightbg);
     selected-urgent-background:  var(red);
     selected-urgent-foreground:  var(background);
     normal-foreground:           var(foreground);
     normal-background:           var(background);
-    active-foreground:           var(lightfg);
+    active-foreground:           var(lightText);
     active-background:           var(background);
     urgent-foreground:           var(red);
     urgent-background:           var(background);
     alternate-normal-foreground: var(foreground);
     alternate-normal-background: var(background);
-    alternate-active-foreground: var(lightText);
+    alternate-active-foreground: var(lightfg);
     alternate-active-background: var(darkerBlue);
     alternate-urgent-foreground: var(red);
     alternate-urgent-background: var(lightbg);
+    vertical-align: 0.5;
 }
 window {
     padding:          0;
@@ -67,9 +79,7 @@ message {
 }
 textbox {
     text-color: var(foreground);
-    /*border-radius:10px;*/
     padding: 10px 10px 10px;
-    vertical-align: 0.5;
 }
 listview {
     padding:      2px 0px 0px ;
@@ -81,7 +91,6 @@ listview {
     lines:        5;
 }
 element {
-    padding: 1px ;
     border:  0;
 }
 element normal.normal {
