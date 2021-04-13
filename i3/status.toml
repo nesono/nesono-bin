@@ -103,4 +103,4 @@ on_click = "pavucontrol"
 block = "time"
 interval = 60
 format = "%a %Y-%m-%d %R"
-on_click = "gnome-clocks"
+on_click = "gnome-clocks && i3-msg '[class=Org.gnome.clocks] focus'"
