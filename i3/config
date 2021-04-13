@@ -46,6 +46,10 @@ for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 # Fix splash window
 for_window [class="jetbrains-.+"][title="win0"] floating enable
+# gnome clocks app
+for_window [class="Org.gnome.clocks"] floating enable
+# zeal documentation
+for_window [class="Zeal"] floating enable
 
 # Fix Jetbrains windows automatic focus
 for_window [class="^jetbrains-.+"][window_type=dialog] focus
@@ -53,6 +57,8 @@ for_window [class="^jetbrains-.+"][window_type=dialog] focus
 for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
 # Fix jetbrains toolbox window is floating
 for_window [class="jetbrains-toolbox"][title="JetBrains Toolbox"] floating enable
+for_window [class="jetbrains-.+"][title="Welcome to .+"] floating enable
+for_window [class="jetbrains-.+"][title="Import .+ Settings"] floating enable
 ########################## END WINDOW FIXES ####################################
 
 ########################## STARTUP COMMANDS ####################################

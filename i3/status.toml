@@ -103,3 +103,4 @@ on_click = "pavucontrol"
 block = "time"
 interval = 60
 format = "%a %Y-%m-%d %R"
+on_click = "gnome-clocks"
