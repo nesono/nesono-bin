@@ -64,6 +64,7 @@ block = "networkmanager"
 on_click = "gnome-system-monitor -r"
 interface_name_exclude = ["br\\-[0-9a-f]{12}", "docker\\d+"]
 interface_name_include = []
+device_format = "{icon}{ap}"
 
 [[block]]
 block = "pacman"
@@ -73,6 +74,7 @@ format_singular = "{pacman} "
 format_up_to_date = ""
 critical_updates_regex = "(linux |linux-lts|linux-zen)"
 #hide_when_uptodate = True
+on_click = "alacritty --hold -e 'sudo pacman -Syy && sudo pacman -Syu'"
 
 [[block]]
 block = "xrandr"
