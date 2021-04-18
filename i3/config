@@ -59,6 +59,7 @@ for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
 for_window [class="jetbrains-toolbox"][title="JetBrains Toolbox"] floating enable
 for_window [class="jetbrains-.+"][title="Welcome to .+"] floating enable
 for_window [class="jetbrains-.+"][title="Import .+ Settings"] floating enable
+for_window [class="jetbrains-.+"][title="JetBrains Privacy Policy"] floating enable
 ########################## END WINDOW FIXES ####################################
 
 ########################## STARTUP COMMANDS ####################################
@@ -345,7 +346,7 @@ bar {
     binding_mode       #2F343A #900000 #FFFFFF
   }
   position top
-  status_command i3status-rs ~/.config/i3/status.toml
+  status_command ~/.local/bin/i3status-rs
   #status_command i3status
   #status_command exec ~/.local/bin/mybar
 }
