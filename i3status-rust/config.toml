@@ -1,0 +1,116 @@
+[theme]
+name = "plain"
+[icons]
+name = "awesome"
+
+#[theme.overrides]
+## taken from here: https://fonts.google.com/icons?selected=Material+Icons
+#separator = "\ue5d4"
+
+[icons.overrides]
+xrandr = ""
+
+[[block]]
+block = "cpu"
+#format = "{barchart} {utilization} {frequency}"
+interval = 1
+on_click = "gnome-system-monitor -p"
+
+[[block]]
+block = "memory"
+format_mem = "{mem_used}/{mem_total}({mem_used_percents})"
+format_swap = "{swap_used}/{swap_total}({swap_used_percents})"
+display_type = "memory"
+icons = true
+clickable = true
+interval = 5
+warning_mem = 80
+warning_swap = 80
+critical_mem = 95
+critical_swap = 95
+
+[[block]]
+block = "load"
+interval = 1
+format = "{1m}"
+on_click = "gnome-system-monitor -p"
+
+[[block]]
+block = "nvidia_gpu"
+label = ""
+show_memory = false
+show_clocks = false
+interval = 1
+
+[[block]]
+block = "disk_space"
+path = "/"
+alias = "/"
+info_type = "available"
+unit = "GB"
+interval = 20
+warning = 20.0
+alert = 10.0
+on_click = "nautilus /"
+
+[[block]]
+block = "disk_space"
+path = "/home"
+alias = "home"
+info_type = "available"
+unit = "GB"
+interval = 20
+warning = 20.0
+alert = 10.0
+on_click = "nautilus $HOME"
+
+[[block]]
+block = "networkmanager"
+#on_click = "alacritty -e nmtui"
+on_click = "gnome-system-monitor -r"
+interface_name_exclude = ["virbr[0-9]", "br\\-[0-9a-f]{12}", "docker\\d+"]
+interface_name_include = []
+device_format = "{icon} {ap} {ips}"
+ap_format = "{ssid} {strength}"
+
+[[block]]
+block = "pacman"
+interval = 600
+format = "{pacman} "
+format_singular = "{pacman} "
+format_up_to_date = ""
+critical_updates_regex = "(linux |linux-lts|linux-zen)"
+#hide_when_uptodate = True
+on_click = "alacritty --command ~/nesono-bin/pacman_fetch_and_upgrade.sh"
+
+[[block]]
+block = "xrandr"
+icons = false
+resolution = false
+interval = 2
+
+#[[block]]
+#block = "pomodoro"
+#length = 25
+#break_length = 5
+#message = "Take a break!"
+#break_message = "Back to work!"
+#use_nag = true
+#nag_path = "i3-nagbar"
+
+[[block]]
+block = "music"
+player = "spotify"
+buttons = ["play", "next"]
+on_collapsed_click = "spotify"
+
+[[block]]
+block = "sound"
+show_volume_when_muted = true
+on_click = "pavucontrol"
+
+[[block]]
+block = "time"
+interval = 60
+format = "%a %Y-%m-%d %R"
+on_click = "gnome-clocks && i3-msg '[class=Org.gnome.clocks] focus'"
