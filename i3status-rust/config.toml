@@ -1,7 +1,7 @@
 [theme]
 name = "plain"
 [icons]
-name = "awesome"
+name = "material-nf"
 
 #[theme.overrides]
 ## taken from here: https://fonts.google.com/icons?selected=Material+Icons
