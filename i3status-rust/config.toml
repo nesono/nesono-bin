@@ -80,7 +80,7 @@ format = "{pacman} "
 format_singular = "{pacman} "
 format_up_to_date = ""
 critical_updates_regex = "(linux |linux-lts|linux-zen)"
-#hide_when_uptodate = True
+hide_when_uptodate = true
 on_click = "alacritty --command ~/nesono-bin/pacman_fetch_and_upgrade.sh"
 
 [[block]]
