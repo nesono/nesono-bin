@@ -84,6 +84,9 @@ exec --no-startup-id "setxkbmap -model pc105 -layout us -option compose:caps"
 # Add screenshot tool at startup
 #exec --no-startup-id flameshot
 
+# Add to enable autokey
+exec --no-startup-id autokey-gtk &
+
 # Start nextcloud client
 exec --no-startup-id ~/.local/bin/Nextcloud-3.1.3-x86_64.AppImage --background &
 
