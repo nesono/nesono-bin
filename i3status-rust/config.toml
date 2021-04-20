@@ -14,7 +14,7 @@ xrandr = ""
 block = "cpu"
 #format = "{barchart} {utilization} {frequency}"
 interval = 1
-on_click = "gnome-system-monitor -p"
+on_click = "gnome-system-monitor -r"
 
 [[block]]
 block = "memory"
