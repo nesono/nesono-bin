@@ -18,8 +18,8 @@
 
 [colors]
 ;background = ${xrdb:color0:#222}
-background = #222
-background-alt = #444
+background = #000
+background-alt = #111
 ;foreground = ${xrdb:color7:#222}
 foreground = #dfdfdf
 foreground-alt = #555
@@ -53,8 +53,8 @@ module-margin-left = 1
 module-margin-right = 2
 
 font-0 = JetBrainsMono Nerd Font:pixelsize=13;1
-font-1 = JetBrainsMono Nerd Font:size=13:antialias=false;0
-font-2 = JetBrainsMono Nerd Font:size=13;1
+;font-1 = JetBrainsMono Nerd Font:size=13:antialias=false;0
+;font-2 = JetBrainsMono Nerd Font:size=13;1
 
 modules-left = bspwm i3
 modules-center = mpd
@@ -219,6 +219,8 @@ format-prefix-foreground = ${colors.foreground-alt}
 #format-underline = #f90000
 format-underline = #aaaaaa
 label = CPU %percentage:2%%
+# unfortunately doesn't work
+#click-left = "gnome-system-monitor -r"
 
 [module/memory]
 type = internal/memory
@@ -432,7 +434,9 @@ type = custom/script
 exec = /home/ji/Developer/polypomo/polypomo
 tail = true
 
-label =  %output%
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+label = %output%
 click-left = /home/ji/Developer/polypomo/polypomo toggle
 click-right = /home/ji/Developer/polypomo/polypomo end
 click-middle = /home/ji/Developer/polypomo/polypomo lock
@@ -448,6 +452,7 @@ exec = "checkupdates | wc -l"
 tail = true
 format = <label>
 format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
 ;click-right = "arch_updates -u&"
 click-left = "alacritty --command ~/nesono-bin/pacman_fetch_and_upgrade.sh"
 ;click-middle = "arch_updates -c&"
