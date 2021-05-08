@@ -155,6 +155,7 @@ install_link ~/.Xresources           ${scriptdir}/Xresources
 install_link ~/.config/i3            ${scriptdir}/i3
 install_link ~/.config/i3status      ${scriptdir}/i3status
 install_link ~/.config/i3status-rust ${scriptdir}/i3status-rust
+install_link ~/.config/polybar       ${scriptdir}/polybar
 install_link ~/.config/rofi          ${scriptdir}/rofi
 install_link ~/.config/dunst         ${scriptdir}/dunst
 install_link ~/.config/picom.conf    ${scriptdir}/picom.conf
