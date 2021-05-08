@@ -59,7 +59,7 @@ font-2 = JetBrainsMono Nerd Font:size=13;1
 modules-left = bspwm i3
 modules-center = mpd
 #modules-right = filesystem backlight-acpi alsa pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
-modules-right = filesystem polypomo pulseaudio xkeyboard cpu memory wlan eth temperature date 
+modules-right = filesystem polypomo updates-arch pulseaudio xkeyboard cpu memory wlan eth temperature date 
 
 tray-position = right
 tray-padding = 2
@@ -441,6 +441,18 @@ scroll-down = /home/ji/Developer/polypomo/polypomo time -60
 
 ;font-0 = fixed:pixelsize=10;1
 ;font-1 = Noto Emoji:scale=15:antialias=false;0
+
+[module/updates-arch]
+type = custom/script
+exec = "checkupdates | wc -l"
+tail = true
+format = <label>
+format-prefix = " "
+;click-right = "arch_updates -u&"
+click-left = "alacritty --command ~/nesono-bin/pacman_fetch_and_upgrade.sh"
+;click-middle = "arch_updates -c&"
+;scroll-up = "arch_updates -n&"
+interval = 300
 
 [settings]
 screenchange-reload = true
