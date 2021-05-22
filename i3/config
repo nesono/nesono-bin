@@ -306,8 +306,8 @@ mode "move and resize" {
 bindsym $mod+Tab move position center
 
 # added by iss on 2019-12-01 for dealing with a scratchpad
-#bindsym $mod+Mod1+z move scratchpad
-#bindsym $mod+z scratchpad show
+bindsym $mod+Mod1+z move scratchpad
+bindsym $mod+z scratchpad show
 ########################### END KEY BINDINGS ###################################
 
 ############################# COLOR SCHEME #####################################
