@@ -86,7 +86,7 @@ exec --no-startup-id ~/.local/bin/Nextcloud-3.2.1-x86_64.AppImage --background &
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # Added by iss on the 2019-10-03 for background
 exec --no-startup-id xsetroot -solid "#333333"
-exec --no-startup-id "feh --bg-scale ~/Pictures/2021-03-30_forest_mist_bw.jpg"
+exec --no-startup-id "feh --bg-scale ~/Nextcloud/pictures/michael-constantin-forest-unsplash.jpg"
 
 # Start jetbrains toolbox
 exec --no-startup-id ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize &
