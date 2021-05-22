@@ -91,6 +91,8 @@ label = %title:0:30:...%
 type = internal/xkeyboard
 #blacklist-0 = num lock
 
+indicator-icon-0 = caps lock;-CL;+CL
+
 format-prefix = "  "
 format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-underline = ${colors.secondary}
@@ -112,7 +114,8 @@ mount-0 = /
 mount-1 = /home
 mount-2 = /EFI
 
-label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+#label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+label-mounted = %{F#206175}%mountpoint%%{F-}: %percentage_used%%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
 
@@ -457,7 +460,7 @@ format-prefix-foreground = ${colors.foreground-alt}
 click-left = "alacritty --command ~/nesono-bin/pacman_fetch_and_upgrade.sh"
 ;click-middle = "arch_updates -c&"
 ;scroll-up = "arch_updates -n&"
-interval = 300
+interval = 60
 
 [settings]
 screenchange-reload = true
