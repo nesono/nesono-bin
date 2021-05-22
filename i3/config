@@ -228,7 +228,7 @@ exec --no-startup-id betterlockscreen -u ~/Pictures/windows10-bsod.png &
 set $Locker betterlockscreen -l
 set $Halt systemctl poweroff -i
 
-set $mode_system System (l) lock, (q) logout, (r) reboot, (h) halt [default]
+set $mode_system System  lock (l),   logout (q), ﰇ reboot (r),  halt (h) [default]
 mode "$mode_system" {
     bindsym l exec --no-startup-id $Locker, mode "default"
     bindsym q exec --no-startup-id i3-msg exit, mode "default"
