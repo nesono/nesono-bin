@@ -260,11 +260,11 @@ ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
-interface = virbr1
+interface = enp5s0
 interval = 3.0
 
-format-connected-underline = #55aa55
-format-connected-prefix = " "
+format-connected-underline = #157a15
+format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
 
@@ -434,24 +434,24 @@ menu-2-1-exec = menu-open-0
 [module/polypomo]
 type = custom/script
 
-exec = /home/ji/Developer/polypomo/polypomo
+exec = $HOME/Developer/polypomo/polypomo
 tail = true
 
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 label = %output%
-click-left = /home/ji/Developer/polypomo/polypomo toggle
-click-right = /home/ji/Developer/polypomo/polypomo end
-click-middle = /home/ji/Developer/polypomo/polypomo lock
-scroll-up = /home/ji/Developer/polypomo/polypomo time +60
-scroll-down = /home/ji/Developer/polypomo/polypomo time -60
+click-left = $HOME/Developer/polypomo/polypomo toggle
+click-right = $HOME/Developer/polypomo/polypomo end
+click-middle = $HOME/Developer/polypomo/polypomo lock
+scroll-up = $HOME/Developer/polypomo/polypomo time +60
+scroll-down = $HOME/Developer/polypomo/polypomo time -60
 
 ;font-0 = fixed:pixelsize=10;1
 ;font-1 = Noto Emoji:scale=15:antialias=false;0
 
 [module/updates-arch]
 type = custom/script
-exec = "checkupdates | wc -l"
+exec = "~/nesono-bin/pacman_polybar_updates.sh updates-arch"
 tail = true
 format = <label>
 format-prefix = " "
