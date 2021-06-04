@@ -16,7 +16,8 @@ floating_modifier $mod
 
 ############################### GAPS ###########################################
 # Set default border width
-for_window [class=".*"] border pixel 0
+default_border none
+default_floating_border none
 
 # Only enable gaps on a workspace when there is at least one container
 smart_gaps on
@@ -170,6 +171,8 @@ bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+S sticky toggle
+bindsym $mod+Shift+F floating enable, sticky enable, resize set 1150 px 733 px, move window to position 2480 px 1323 px
 
 # change focus between tiling / floating windows
 bindsym $mod+t focus mode_toggle
