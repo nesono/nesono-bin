@@ -152,6 +152,7 @@ install_link ~/.config/nvim          ${scriptdir}/nvim
 install_link ~/.ackrc                ${scriptdir}/ackrc
 install_link ~/.spacemacs            ${scriptdir}/spacemacs
 install_link ~/.Xresources           ${scriptdir}/Xresources
+install_link ~/.xmodmaprc            ${scriptdir}/xmodmaprc
 install_link ~/.config/i3            ${scriptdir}/i3
 install_link ~/.config/i3status      ${scriptdir}/i3status
 install_link ~/.config/i3status-rust ${scriptdir}/i3status-rust
