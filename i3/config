@@ -64,7 +64,7 @@ exec --no-startup-id picom -b
 
 # Added by iss on the 2019-10-01 for swapping escape and caps lock
 exec_always --no-startup-id "xmodmap -e \"clear lock\"" #disable caps lock switch
-exec_always --no-startup-id "xmodmap -e \"keysym Caps_Lock = Escape\"" #set caps_lock as escape
+exec_always --no-startup-id "setxkbmap -option caps:escape" # set caps_lock as escape
 exec_always --no-startup-id "setxkbmap -model pc105 -layout us,us -variant ,dvorak -option compose:ralt -option grp:shifts_toggle"
 
 # Added by iss to enable natural scrolling with touch pad (Lenovo specific?)
