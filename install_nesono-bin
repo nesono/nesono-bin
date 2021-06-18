@@ -99,7 +99,7 @@ function install_link()
   else
     echo_change "Installing ${DST##*/}"
     ln -sf ${SRC} ${DST}
-    echo "   ${SRC} points to ${DST}"
+    echo "   ${DST} points to ${SRC}"
     echo ""
   fi
 }
