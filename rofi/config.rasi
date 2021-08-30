@@ -1,6 +1,6 @@
 configuration {
-  modi: "window,drun,ssh,combi,file-browser,calc";
+  modi: "window,drun,ssh,combi,filebrowser,calc";
   theme: "cloud";
   font: "hack 13";
-  combi-modi: "window,drun,ssh,file-browser,calc";
+  combi-modi: "window,drun,ssh,filebrowser,calc";
 }
