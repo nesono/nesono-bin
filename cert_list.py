@@ -50,7 +50,7 @@ def print_cert_check(service, connect, now=datetime.datetime.now()):
 
     color = Fore.GREEN
 
-    if not_after < (now + datetime.timedelta(days=8)):
+    if not_after < (now + datetime.timedelta(days=10)):
         color = Fore.YELLOW
 
     if not_after < now:
