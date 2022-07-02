@@ -69,6 +69,9 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "Plug 'powerline/powerline'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'justinmk/vim-dirvish'
+Plug 'neovim/nvim-lspconfig'
+Plug 'simrat39/rust-tools.nvim'
+Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 
 if has("unix")
     Plug 'vim-scripts/vim-gitgutter'
@@ -386,7 +389,7 @@ nnoremap <leader>do :windo diffo<cr>
 
 " fugitive handling
 nnoremap <leader>gb :Gblame<cr>
-nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gs :Git<cr>
 nnoremap <leader>gl :Git log --oneline -20<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gw :Gwrite<cr>
