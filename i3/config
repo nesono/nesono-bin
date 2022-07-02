@@ -1,6 +1,6 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod4
+set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -63,17 +63,16 @@ exec --no-startup-id picom -b
 #exec --no-startup-id "/bin/sh -c ~/nesono-bin/enable_cinema_display.sh"
 
 # Added by iss on the 2019-10-01 for swapping escape and caps lock
-exec_always --no-startup-id "xmodmap -e \"clear lock\"" #disable caps lock switch
 exec_always --no-startup-id "setxkbmap -option caps:escape" # set caps_lock as escape
 exec_always --no-startup-id "setxkbmap -model pc105 -layout us,us -variant dvorak, -option compose:ralt -option grp:shifts_toggle -option altwin:swap_lalt_lwin"
 
 ## swap alt and super keys
-exec_always --no-startup-id "xmodmap ~/.Xmodmaprc"
+#exec_always --no-startup-id "xmodmap ~/.Xmodmaprc"
 
 # Added by iss to enable natural scrolling with touch pad (Lenovo specific?)
 #exec --no-startup-id "xinput set-prop 13 285 1"
 
-# Added by iss to use network magaer with i3
+# Added by iss to use network manager with i3
 #exec --no-startup-id nm-applet
 
 # Add screenshot tool at startup
@@ -83,7 +82,7 @@ exec_always --no-startup-id "xmodmap ~/.Xmodmaprc"
 exec --no-startup-id autokey-gtk &
 
 # Start nextcloud client
-exec --no-startup-id ~/.local/bin/Nextcloud-3.2.1-x86_64.AppImage --background &
+exec --no-startup-id ~/.local/bin/Nextcloud-3.3.6-x86_64.AppImage --background &
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
@@ -99,6 +98,9 @@ exec --no-startup-id ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --mi
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+# start greenclip daemon
+exec --no-startup-id "greenclip daemon &"
+
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -113,22 +115,22 @@ floating_modifier $mod
 #bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec alacritty
 
+# start a browser
+bindsym $mod+Shift+b exec firefox
+
 # kill focused window
-bindsym $mod+Mod1+Escape kill
+bindsym $mod+Mod4+Escape kill
 
 # start dmenu (a program launcher)
-# bindsym $mod+d exec --no-startup-id dmenu_run
+#bindsym $mod+d exec --no-startup-id dmenu_run
 
 # create a screenshot with hacksaw
-bindsym Mod1+Shift+4 exec --no-startup-id ~/nesono-bin/screenshot.sh -t
-bindsym Mod1+Shift+5 exec --no-startup-id ~/nesono-bin/screenshot.sh
-
-# start greenclip daemon
-exec --no-startup-id "greenclip daemon &"
+bindsym Mod4+Shift+4 exec --no-startup-id ~/nesono-bin/screenshot.sh -t
+bindsym Mod4+Shift+5 exec --no-startup-id ~/nesono-bin/screenshot.sh
 
 # A more modern dmenu replacement is rofi:
 bindsym $mod+space exec rofi -show combi -calc-command "echo -n '{result}' | xclip -selection clipboard"
-bindsym $mod+Mod1+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+bindsym $mod+Mod4+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
@@ -250,7 +252,7 @@ bindsym $mod+Shift+e mode "$mode_system"
 # END new locking mode taken from archlinux wiki https://wiki.archlinux.org/index.php/i3#Shutdown.2C_reboot.2C_lock_screen
 
 # added by iss on 2019-10-03 for locking via mod+alt+l
-bindsym $mod+Mod1+l exec $Locker
+bindsym $mod+Mod4+l exec $Locker
 
 
 # added 2020-04-22 move and resize floating windows with keys
@@ -312,7 +314,7 @@ mode "move and resize" {
 bindsym $mod+Tab move position center
 
 # added by iss on 2019-12-01 for dealing with a scratchpad
-bindsym $mod+Mod1+z move scratchpad
+bindsym $mod+Mod4+z move scratchpad
 bindsym $mod+z scratchpad show
 ########################### END KEY BINDINGS ###################################
 
