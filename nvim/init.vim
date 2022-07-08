@@ -51,8 +51,7 @@ Plug 'google/vim-codefmt'
 Plug 'google/vim-glaive'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
@@ -397,7 +396,7 @@ nnoremap <leader>dt :windo diffthis<cr>
 nnoremap <leader>do :windo diffo<cr>
 
 " fugitive handling
-nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gb :Git blame<cr>
 nnoremap <leader>gs :Git<cr>
 nnoremap <leader>gl :Git log --oneline -20<cr>
 nnoremap <leader>gd :Gdiff<cr>
