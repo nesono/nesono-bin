@@ -40,6 +40,9 @@ if [ ! -e "${ZSHRCFILE}" ]; then
   fi
 fi
 
+echo_info "Installing Oh-my-zsh"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
 # source login file (dynamic detection doesn't work with zsh)
 source "${ZSHRCFILE}"
 
