@@ -3,3 +3,4 @@ fish/fishd.*
 fish/fish_history
 fish/config.fish
 tmux/plugins/*
+nvim/coc-settings.json
