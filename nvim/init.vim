@@ -50,25 +50,34 @@ Plug 'google/vim-codefmt'
 " `:help :Glaive` for usage.
 Plug 'google/vim-glaive'
 
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 Plug 'Valloric/YouCompleteMe'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-vinegar'
+
 Plug 'mileszs/ack.vim'
+
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
-Plug 'tpope/vim-vinegar'
 Plug 'vim-scripts/gtags.vim'
+
 Plug 'flazz/vim-colorschemes'
+
 Plug 'kien/ctrlp.vim'
+
 "Plug 'mattn/emmet-vim'
 Plug 'milkypostman/vim-togglelist'
+
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-"Plug 'powerline/powerline'
+
 Plug 'neovimhaskell/haskell-vim'
 Plug 'justinmk/vim-dirvish'
+
 Plug 'neovim/nvim-lspconfig'
 Plug 'simrat39/rust-tools.nvim'
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
