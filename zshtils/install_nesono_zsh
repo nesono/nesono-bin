@@ -43,6 +43,10 @@ fi
 echo_info "Installing Oh-my-zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+echo_info "Installing theme powerlevel10k/powerlevel10k"
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+
 # source login file (dynamic detection doesn't work with zsh)
 source "${ZSHRCFILE}"
 
