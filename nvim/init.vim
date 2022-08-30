@@ -50,8 +50,11 @@ Plug 'google/vim-codefmt'
 " `:help :Glaive` for usage.
 Plug 'google/vim-glaive'
 
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'Valloric/YouCompleteMe'
+
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
@@ -89,6 +92,9 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Initialize plugin system
 call plug#end()
 
+" airline setup
+let g:airline_powerline_fonts = 1
+
 " Before using powerline, please install python3-pip and run
 " > pip3 install powerline-statusbar
 " To see the fonts then, please install fonts-powerline
@@ -96,9 +102,6 @@ call plug#end()
 "python3 from powerline.vim import setup as powerline_setup
 "python3 powerline_setup()
 "python3 del powerline_setup
-
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
 
 if has("unix")
     let s:uname = system("uname -s")
@@ -409,9 +412,8 @@ nnoremap <leader>gP :Gpush --force<cr>
 nnoremap <leader>gr :Gpull --rebase<cr>
 nnoremap <leader>gf :Gfetch --prune<cr>
 
-nnoremap <leader>jd :YcmCompleter GoTo<cr>
-nnoremap <leader>jh :YcmCompleter GoToInclude<cr>
-nnoremap <leader>fix :YcmCompleter FixIt<cr>
+" coc handling
+runtime coc-bindings.vim
 
 "set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 set laststatus=2
