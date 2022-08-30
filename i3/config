@@ -16,7 +16,7 @@ floating_modifier $mod
 
 ############################### GAPS ###########################################
 # Set default border width
-default_border none
+default_border pixel 3
 default_floating_border none
 
 # Only enable gaps on a workspace when there is at least one container
@@ -47,42 +47,41 @@ for_window [class="Zeal"] floating enable
 for_window [class="^jetbrains-.+"][window_type=dialog] focus
 # Fix menus and pop ups to not look like windows
 for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
-# Fix jetbrains toolbox window is floating
-for_window [class="jetbrains-toolbox"][title="JetBrains Toolbox"] floating enable
+# Fix Jetbrains toolbox window is floating -- assumed monitor size from xrandr: 3840x2160
+for_window [class="jetbrains-toolbox"][title="JetBrains Toolbox"] floating enable move window to position 3380 px 60 px
 for_window [class="jetbrains-.+"][title="Welcome to .+"] floating enable
 for_window [class="jetbrains-.+"][title="Import .+ Settings"] floating enable
 for_window [class="jetbrains-.+"][title="JetBrains Privacy Policy"] floating enable
+
+# Fix evolution alarm notifications (for calendar entries)
+for_window [class="Evolution-alarm-notify"] floating enable
 ########################## END WINDOW FIXES ####################################
 
 ########################## STARTUP COMMANDS ####################################
 # Added by iss on 2021-04-10 for picom comp manager
 exec --no-startup-id picom -b
 
+# Restore layout
+#exec i3-msg "workspace 1; append_layout $HOME/.i3/workspace-1.json"
+#exec i3-msg "workspace 2; append_layout $HOME/.i3/workspace-2.json"
+#exec i3-msg "workspace 3; append_layout $HOME/.i3/workspace-3.json"
+# Restore applications
+exec flatpak run com.google.Chrome
+exec todoist
+#exec autokey-gtk
+#exec alacritty
+#exec thunderbird
+
+# Added by iss on the 2019-10-01 for swapping escape and caps lock
+exec_always --no-startup-id "setxkbmap -option caps:escape" # set caps_lock as escape
+# Set dvorak as default
+exec_always --no-startup-id "setxkbmap -model pc105 -layout us,us -variant dvorak, -option compose:ralt -option grp:win_space_toggle -option altwin:swap_lalt_lwin"
 # Added by iss on the 2019-10-01 for HiDPI display of Lenovo laptop
 #exec "xrandr --output eDP-1-1 --scale 1.38x1.38 --panning 3533x1987"
 #exec --no-startup-id "/bin/sh -c ~/nesono-bin/enable_cinema_display.sh"
 
-# Added by iss on the 2019-10-01 for swapping escape and caps lock
-exec_always --no-startup-id "setxkbmap -option caps:escape" # set caps_lock as escape
-exec_always --no-startup-id "setxkbmap -model pc105 -layout us,us -variant dvorak, -option compose:ralt -option grp:shifts_toggle -option altwin:swap_lalt_lwin"
-
-## swap alt and super keys
-#exec_always --no-startup-id "xmodmap ~/.Xmodmaprc"
-
 # Added by iss to enable natural scrolling with touch pad (Lenovo specific?)
 #exec --no-startup-id "xinput set-prop 13 285 1"
-
-# Added by iss to use network manager with i3
-#exec --no-startup-id nm-applet
-
-# Add screenshot tool at startup
-#exec --no-startup-id flameshot
-
-# Add to enable autokey
-exec --no-startup-id autokey-gtk &
-
-# Start nextcloud client
-exec --no-startup-id ~/.local/bin/Nextcloud-3.3.6-x86_64.AppImage --background &
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
@@ -91,15 +90,12 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id xsetroot -solid "#333333"
 exec --no-startup-id "feh --bg-scale ~/Nextcloud/pictures/michael-constantin-forest-unsplash.jpg"
 
-# Start jetbrains toolbox
-exec --no-startup-id ~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox --minimize &
-
-# NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
-
 # start greenclip daemon
 exec --no-startup-id "greenclip daemon &"
+
+# Start XDG autostart .desktop files using dex. See also
+# https://wiki.archlinux.org/index.php/XDG_Autostart
+exec --no-startup-id dex --autostart --environment i3
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -115,9 +111,6 @@ floating_modifier $mod
 #bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec alacritty
 
-# start a browser
-bindsym $mod+Shift+b exec firefox
-
 # kill focused window
 bindsym $mod+Mod4+Escape kill
 
@@ -128,7 +121,7 @@ bindsym $mod+Mod4+Escape kill
 bindsym Mod4+Shift+4 exec --no-startup-id ~/nesono-bin/screenshot.sh -t
 bindsym Mod4+Shift+5 exec --no-startup-id ~/nesono-bin/screenshot.sh
 
-# A more modern dmenu replacement is rofi:
+# A more modern dmenu replacement is rofi
 bindsym $mod+space exec rofi -show combi -calc-command "echo -n '{result}' | xclip -selection clipboard"
 bindsym $mod+Mod4+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
@@ -254,6 +247,11 @@ bindsym $mod+Shift+e mode "$mode_system"
 # added by iss on 2019-10-03 for locking via mod+alt+l
 bindsym $mod+Mod4+l exec $Locker
 
+# added by iss on 2022-08-30 for automatic locking
+exec_always --no-startup-id xautolock -time 15 -locker "betterlockscreen -l" &
+#exec_always --no-startup-id xautolock -time 15 -notify 5 -notifier dunstify -locker "betterlockscreen -l" &
+# enable turning off the screen after 20 minutes
+exec_always --no-startup-id xset dpms 0 0 1200
 
 # added 2020-04-22 move and resize floating windows with keys
 bindsym $mod+m mode "move and resize" focus floating
@@ -320,16 +318,18 @@ bindsym $mod+z scratchpad show
 
 ############################# COLOR SCHEME #####################################
 # class                 border  bground text    indicator child_border
-client.focused          #555555 #050505 #FFFFFF #303030   #252525
-client.focused_inactive #333333 #282828 #999999 #484E50   #5F676A
-client.unfocused        #333333 #222222 #555555 #292D2E   #222222
+client.focused          #AA5500 #050505 #FFFFFF #303030   #AA5500
+client.focused_inactive #550000 #282828 #999999 #484E50   #552200
+client.unfocused        #333333 #222222 #555555 #292D2E   #999999
 client.urgent           #2F343A #900000 #FFFFFF #900000   #900000
 client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
 
 client.background       #FFFFFF
 
 ########################### BAR CONFIGURATION ##################################
+# New polybar setup - if it won't start, try the bottom part
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 #bar {
@@ -352,10 +352,11 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
     #binding_mode       #2F343A #900000 #FFFFFF
   #}
   #position top
-  #status_command ~/.local/bin/i3status-rs
+  ##status_command ~/.local/bin/i3status-rs
   ##status_command i3status
   ##status_command exec ~/.local/bin/mybar
 #}
 ######################### END BAR CONFIGURATION ################################
 ########################### END COLOR SCHEME ###################################
+
 
