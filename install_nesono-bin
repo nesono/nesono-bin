@@ -27,7 +27,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-set -Eeuo pipefail
+#set -Eeuo pipefail
 
 echo ""
 echo "           INSTALL nesono-bin"
@@ -104,16 +104,8 @@ function install_link()
   fi
 }
 
-function install_plug()
+function install_plug_nvim()
 {
-  if [[ ! -e "$HOME/.vim/autoload/plug.vim" ]]; then
-    echo_change "Installing Vim-Plug for vim"
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    echo_info "Next time starting vim, please run :PlugInstall"
-  else
-    echo_info "Vim-Plug already installed for Vim -- skipping"
-  fi
   if [[ ! -e "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim ]]; then
     echo_change "Installing for NeoVim"
     sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
@@ -142,12 +134,10 @@ echo
 
 echo_section "Installing additional links"
 install_link ~/.inputrc           ${scriptdir}/inputrc
-install_link ~/.vimrc             ${scriptdir}/vimrc
 install_link ~/.tmux.conf         ${scriptdir}/tmux.conf
 install_link ~/.tmux              ${scriptdir}/tmux
 install_link ~/.screenrc          ${scriptdir}/screenrc
 install_link ~/.tigrc             ${scriptdir}/tigrc
-install_link ~/.vim               ${scriptdir}/vim
 install_link ~/.config/nvim       ${scriptdir}/nvim
 install_link ~/.ackrc             ${scriptdir}/ackrc
 install_link ~/.spacemacs         ${scriptdir}/spacemacs
@@ -168,7 +158,9 @@ fi
 
 echo_section "Installing vim Plug"
 echo_sub_section "Installing for vim"
-install_plug
+install_plug_vim
+echo_sub_section "Installing for neovim"
+install_plug_nvim
 
 echo_section "Fetch/Update nesono-bin submodules"
 pushd ${scriptdir} &> /dev/null
