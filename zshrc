@@ -142,5 +142,5 @@ source ${NESONOBININSTALLATIONDIR}/zshtils/keybindings
 
 # run tmux
 if [[ -x "$(which tmux)" ]]; then
-    [[ $TERM != "screen" ]] && ( exec tmux attach -d || exec tmux )
+    [[ $TERM != "screen" ]] && ( exec tmux attach -d &> /dev/null || exec tmux )
 fi
