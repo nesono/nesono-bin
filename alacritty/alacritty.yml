@@ -734,6 +734,7 @@ mouse:
 key_bindings:
   - { key: C, mods: Super, action: Copy }
   - { key: V, mods: Super, action: Paste }
+  - { key : N, mods : Command, action : CreateNewWindow }
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }
