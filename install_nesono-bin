@@ -146,7 +146,7 @@ install_link ~/.config/alacritty  ${scriptdir}/alacritty
 # only useful for Linux
 if [[ $(uname -s) == Linux ]]; then
     echo_sub_section "Installing for Linux specifics"
-    install_link ~/.config/regolith      ${scriptdir}/regolith
+    install_link ~/.config/regolith2     ${scriptdir}/regolith2
     install_link ~/.Xresources           ${scriptdir}/Xresources
     install_link ~/.config/i3            ${scriptdir}/i3
     install_link ~/.config/i3status      ${scriptdir}/i3status
@@ -158,8 +158,6 @@ if [[ $(uname -s) == Linux ]]; then
 fi
 
 echo_section "Installing vim Plug"
-echo_sub_section "Installing for vim"
-install_plug_vim
 echo_sub_section "Installing for neovim"
 install_plug_nvim
 
