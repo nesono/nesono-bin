@@ -1,0 +1,4 @@
+assign [title="^Microsoft Teams.*"] 1
+assign [title="^Outlook (PWA).*"] 2
+assign [class="google-chrome"] 3
+assign [class="kitty"] 4

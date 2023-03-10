@@ -146,6 +146,7 @@ install_link ~/.config/alacritty  ${scriptdir}/alacritty
 # only useful for Linux
 if [[ $(uname -s) == Linux ]]; then
     echo_sub_section "Installing for Linux specifics"
+    install_link ~/.config/regolith      ${scriptdir}/regolith
     install_link ~/.Xresources           ${scriptdir}/Xresources
     install_link ~/.config/i3            ${scriptdir}/i3
     install_link ~/.config/i3status      ${scriptdir}/i3status

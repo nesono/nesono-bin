@@ -1,0 +1,13 @@
+i3-wm.gaps.focus_follows_mouse: yes
+i3-wm.bar.font: Liberation, Icons 9
+gtk.font_name: Liberation 11
+gnome.terminal.font: "JetBrainsMono Nerd Font 11"
+i3xrocks.date.format2: "%Y-%m-%d %H:%M cw%V"
+i3-wm.gaps.inner.size: 5
+i3-wm.gaps.outer.size: 5
+i3-wm.gaps.smart: inverse_outer
+!Xft.dpi: 192
+i3-wm.bar.position: top
+regolith.wallpaper.file: "~/Pictures/black_hole.jpg"
+!regolith.look.path: /usr/share/regolith-look/blackhole
+regolith.look.path: /usr/share/regolith-look/jissing
