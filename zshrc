@@ -140,7 +140,3 @@ source ${NESONOBININSTALLATIONDIR}/zshtils/completion
 # include keybindings (Home/End/Delete/Backspace/...)
 source ${NESONOBININSTALLATIONDIR}/zshtils/keybindings
 
-# run tmux
-if [[ -x "$(which tmux)" ]]; then
-    [[ $TERM != "screen" ]] && ( exec tmux attach -d &> /dev/null || exec tmux )
-fi
