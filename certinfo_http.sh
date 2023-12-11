@@ -3,7 +3,7 @@
 
 usage()
 {
-    echo "usage certinfo_http www.example.com:25 [-starttls smtp]"
+    echo "usage certinfo_http www.example.com:25 [-starttls smtp | imap | pop3]"
     echo "On a terminal, call the following line to get validity information:"
     echo "certinfo_http.sh www.example.com:587 -starttls smtp | grep -B 4 -A 3 Validity"
 }

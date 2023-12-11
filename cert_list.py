@@ -13,10 +13,14 @@ import datetime
 # logger = logging.getLogger(__file__)
 
 def retrieve_certinfo(hostname, port):
-    ctx = ssl.create_default_context()
-    with ctx.wrap_socket(socket.socket(), server_hostname=hostname) as s:
-        s.connect((hostname, port))
-        cert = s.getpeercert()
+    try:
+        ctx = ssl.create_default_context()
+        with ctx.wrap_socket(socket.socket(), server_hostname=hostname) as s:
+            s.connect((hostname, port))
+            cert = s.getpeercert()
+    except ssl.SSLCertVerificationError as e:
+        click.echo(f"SSL Certification Error with {hostname}:{port}")
+        return None
 
     return cert
 
@@ -32,7 +36,6 @@ def retrieve_starttls_certinfo(hostname, port):
 
 def print_cert_check(service, connect, now=datetime.datetime.now()):
     """Function to check and print the certificate expiry of a specific service"""
-
     if not ':' in connect:
         print(f'Connect argument does not contain a colon: {connect}')
         return -1
@@ -43,6 +46,9 @@ def print_cert_check(service, connect, now=datetime.datetime.now()):
         cert = retrieve_certinfo(hostname, port)
     else:
         cert = retrieve_starttls_certinfo(hostname, port)
+
+    if not cert:
+        return
 
     #  formatted as Nov 27 07:32:24 2020 GMT
     not_before = datetime.datetime.strptime(cert['notBefore'], "%b %d %H:%M:%S %Y %Z") 
