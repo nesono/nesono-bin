@@ -135,7 +135,6 @@ echo
 echo_section "Installing additional links"
 install_link ~/.inputrc           ${scriptdir}/inputrc
 install_link ~/.tmux.conf         ${scriptdir}/tmux.conf
-install_link ~/.tmux              ${scriptdir}/tmux
 install_link ~/.screenrc          ${scriptdir}/screenrc
 install_link ~/.tigrc             ${scriptdir}/tigrc
 install_link ~/.config/nvim       ${scriptdir}/nvim
@@ -167,4 +166,12 @@ git submodule update --init
 popd &> /dev/null
 echo_info "Done, see you next time"
 echo ""
+
+# Install tmux plugin manager
+if [[ ! -d ~/.tmux/plugins/tpm ]]; then
+    echo_change "Installing tmux plugin manager"
+    mkdir -p ~/.tmux/plugins
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    echo_info "Next time starting tmux, please press <prefix>+I to install plugins"
+fi
 
