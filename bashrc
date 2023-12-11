@@ -67,32 +67,27 @@ case ${uname} in
   Darwin)
   ###################### DARWIN STUFF ######################################
   source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.darwin
-  source ${NESONOBININSTALLATIONDIR}/bashtils/rm2trash.darwin
   source ${NESONOBININSTALLATIONDIR}/bashtils/defines.darwin
   ;;
 
   Linux)
   ###################### LINUX STUFF ######################################
   source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.linux
-  source ${NESONOBININSTALLATIONDIR}/bashtils/rm2trash.linux
   source ${NESONOBININSTALLATIONDIR}/bashtils/defines.linux
   ;;
   FreeBSD)
   ##################### FREEBSD STUFF #####################################
   source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.freebsd
-  source ${NESONOBININSTALLATIONDIR}/bashtils/rm2trash.freebsd
   source ${NESONOBININSTALLATIONDIR}/bashtils/defines.freebsd
 	;;
   CYGWIN_*)
   ###################### CYGWIN STUFF ######################################
   source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.cygwin
-  source ${NESONOBININSTALLATIONDIR}/bashtils/rm2trash.cygwin
   source ${NESONOBININSTALLATIONDIR}/bashtils/defines.cygwin
 	;;
   MINGW32_*)
   ###################### MINGW STUFF ######################################
   source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.mingw
-  source ${NESONOBININSTALLATIONDIR}/bashtils/rm2trash.mingw
   source ${NESONOBININSTALLATIONDIR}/bashtils/defines.mingw
 	;;
 esac
