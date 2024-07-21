@@ -133,14 +133,14 @@ popd &> /dev/null
 echo
 
 echo_section "Installing additional links"
-install_link ~/.inputrc           ${scriptdir}/inputrc
-install_link ~/.tmux.conf         ${scriptdir}/tmux.conf
-install_link ~/.screenrc          ${scriptdir}/screenrc
-install_link ~/.tigrc             ${scriptdir}/tigrc
-install_link ~/.config/nvim       ${scriptdir}/nvim
-install_link ~/.ackrc             ${scriptdir}/ackrc
-install_link ~/.spacemacs         ${scriptdir}/spacemacs
-install_link ~/.config/alacritty  ${scriptdir}/alacritty
+install_link ~/.inputrc           "${scriptdir}"/inputrc
+install_link ~/.tmux.conf         "${scriptdir}"/tmux.conf
+install_link ~/.screenrc          "${scriptdir}"/screenrc
+install_link ~/.tigrc             "${scriptdir}"/tigrc
+install_link ~/.config/nvim       "${scriptdir}"/nvim
+install_link ~/.ackrc             "${scriptdir}"/ackrc
+install_link ~/.spacemacs         "${scriptdir}"/spacemacs
+install_link ~/.config/alacritty  "${scriptdir}"/alacritty
 
 # only useful for Linux
 if [[ $(uname -s) == Linux ]]; then
