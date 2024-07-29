@@ -46,12 +46,13 @@ require("dapui").setup()
 function _dapui_toggle()
 	require("dapui").toggle()
 end
-vim.api.nvim_set_keymap('n', '<leader>d', '<cmd>lua _dapui_toggle()<cr>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>dd', '<cmd>lua _dapui_toggle()<cr>', {noremap = true, silent = true})
 
 
-vim.api.nvim_set_keymap('n', '<leader>e', ':e $MYVIMRC<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>r', ':source $MYVIMRC<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>l', ':Lazy<cr>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>ne', ':e $MYVIMRC<cr>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>nr', ':source $MYVIMRC<cr>', {noremap = true})
+
+vim.api.nvim_set_keymap('n', '<leader>ll', ':Lazy<cr>', {noremap = true})
 
 local Terminal = require('toggleterm.terminal').Terminal
 local lazygit = Terminal:new({count = 1})
@@ -75,8 +76,9 @@ function _btop_toggle()
 end
 vim.api.nvim_set_keymap('n', '<leader>tb', '<cmd>lua _btop_toggle()<cr>', {noremap = true, silent = true})
 
-vim.api.nvim_set_keymap('n', '<F2>', ':NvimTreeToggle<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<F3>', ':NvimTreeFindFile<cr>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>bb', ':NvimTreeToggle<cr>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>bf', ':NvimTreeFindFileToggle<cr>', {noremap = true})
+
 vim.api.nvim_set_keymap('n', '<F5>', ':nohls<cr>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<F6>', ':call ToggleQuickfixList()<cr>', {noremap = true})
 
