@@ -1,3 +1,1 @@
-return {
-  'stevearc/conform.nvim',
-}
+return {'stevearc/conform.nvim'}
