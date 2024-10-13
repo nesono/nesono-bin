@@ -8,6 +8,6 @@ else
 	source "$HOME/venv/bin/activate"
 fi
 
-python cert_list.py --from_file "$HOME/Nextcloud/websites/cert_check_file.txt"
+python "$NESONOBININSTALLATIONDIR"/cert_list.py --from_file "$HOME/Nextcloud/websites/cert_check_file.txt"
 
 deactivate
