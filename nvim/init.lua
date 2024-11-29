@@ -49,7 +49,14 @@ require("mason-lspconfig").setup_handlers {
     --     require("rust-tools").setup {}
     -- end
 }
+require('blame').setup({
+	date_format = '%Y-%m-%d',
+})
+vim.api.nvim_set_keymap('n', '<leader>gb', ':BlameToggle<cr>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>m', ':Mason<cr>', {noremap = true, silent = true})
+require('nvim-tree').setup({
+	view = { adaptive_size = true },
+})
 require("dapui").setup()
 function _dapui_toggle()
     require("dapui").toggle()
@@ -68,6 +75,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end
         if client.supports_method('textDocument/implementation') then
             vim.api.nvim_buf_set_keymap(0, 'n', '<leader>si', '<cmd>lua vim.lsp.buf.implementation()<cr>', {noremap = true})
+        end
+        if client.supports_method('textDocument/definition') then
+            vim.api.nvim_buf_set_keymap(0, 'n', '<leader>sd', '<cmd>lua vim.lsp.buf.definition()<cr>', {noremap = true})
         end
     end,
 })
@@ -111,7 +121,7 @@ vim.api.nvim_set_keymap('n', '<leader>ct', "<cmd>lua require(\"copilot.suggestio
 
 -- NvimTree
 vim.api.nvim_set_keymap('n', '<leader>bb', ':NvimTreeToggle<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>bf', ':NvimTreeFindFileToggle<cr>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>bf', ':NvimTreeFindFile<cr>', {noremap = true})
 
 -- Common Short Cuts
 vim.api.nvim_set_keymap('n', '<F5>', ':nohls<cr>', {noremap = true})

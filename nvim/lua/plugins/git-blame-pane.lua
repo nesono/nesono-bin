@@ -1,0 +1,3 @@
+return {
+  'FabijanZulj/blame.nvim',
+}
