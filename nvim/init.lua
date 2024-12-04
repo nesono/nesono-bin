@@ -92,12 +92,12 @@ vim.api.nvim_set_keymap('n', '<leader>ll', ':Lazy<cr>', {noremap = true})
 
 -- Toggleterm
 local Terminal = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new({count = 1})
+local shell = Terminal:new({count = 1})
 function _shell_toggle()
-  lazygit:toggle()
+  shell:toggle()
 end
 vim.api.nvim_set_keymap('n', '<leader>tt', '<cmd>lua _shell_toggle()<cr>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>ts', ':TermSelect<cr>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>tm', ':TermSelect<cr>', {noremap = true, silent = true})
 
 local Terminal = require('toggleterm.terminal').Terminal
 local lazygit = Terminal:new({cmd = "lazygit", count = 2})
