@@ -12,6 +12,8 @@ vim.api.nvim_exec([[
   set number
   set tabstop=4
   set shiftwidth=0
+  set autoread
+  au CursorHold * checktime
 ]], false)
 
 vim.cmd.colorscheme('molokai')
@@ -128,11 +130,14 @@ vim.api.nvim_set_keymap('n', '<F5>', ':nohls<cr>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<F6>', ':call ToggleQuickfixList()<cr>', {noremap = true})
 
 -- Telescope
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+local telescope_builtin = require('telescope.builtin')
+-- vim.keymap.set('n', '<leader>ff', telescope_builtin.find_files, { desc = 'Telescope find files' })
+vim.api.nvim_set_keymap('n', '<leader>ff', ':Telescope find_files hidden=true no_ignore=true<cr>', {noremap = true})
+vim.keymap.set('n', '<leader>fg', telescope_builtin.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>fb', telescope_builtin.buffers, { desc = 'Telescope buffers' })
+vim.keymap.set('n', '<leader>fh', telescope_builtin.help_tags, { desc = 'Telescope help tags' })
+vim.keymap.set('n', '<leader>fc', telescope_builtin.git_commits, { desc = 'Telescope git commits' })
+vim.keymap.set('n', '<leader>ft', telescope_builtin.treesitter, { desc = 'Telescope treesitter' })
 
 -- Autoformatting
 vim.api.nvim_create_autocmd("BufWritePre", {
