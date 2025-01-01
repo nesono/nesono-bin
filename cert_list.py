@@ -5,16 +5,19 @@ import ssl
 import socket
 from colorama import Fore, Style
 import datetime
+from typing import Final
 
-# import logging
+import logging
 
-# logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', level=logging.DEBUG)
-# logger = logging.getLogger(__file__)
+logging.basicConfig(
+    format="%(asctime)s %(levelname)s:%(message)s", level=logging.DEBUG
+)
+logger = logging.getLogger(__file__)
 
-limit_days = 10
+limit_days: Final = 10
 
 
-def retrieve_certinfo(hostname, port):
+def _retrieve_certinfo(hostname: str, port: int) -> dict[str, str]:
     try:
         ctx = ssl.create_default_context()
         with ctx.wrap_socket(socket.socket(), server_hostname=hostname) as s:
@@ -27,35 +30,46 @@ def retrieve_certinfo(hostname, port):
     return cert
 
 
-def retrieve_starttls_certinfo(hostname, port):
+def _retrieve_starttls_certinfo(hostname: str, port: int) -> dict[str, str]:
     context = ssl.create_default_context()
     with socket.create_connection((hostname, port)) as sock:
         sock.recv(1000)
-        sock.send(b'EHLO\nSTARTTLS\n')
+        sock.send(b"EHLO\nSTARTTLS\n")
         sock.recv(1000)
         with context.wrap_socket(sock, server_hostname=hostname) as sslsock:
             return sslsock.getpeercert()
     return None
 
-def print_cert_check(service, connect, now=datetime.datetime.now()):
-    """Function to check and print the certificate expiry of a specific service"""
-    if ':' not in connect:
-        print(f'Connect argument does not contain a colon: {connect}')
+
+def cert_check(
+    service: str,
+    connect: str,
+    now: datetime.datetime = datetime.datetime.now(),
+) -> list[str, str, str, str, str]:
+    """Function to check and print certificate expiry of a specific service"""
+    if ":" not in connect:
+        print(f"Connect argument does not contain a colon: {connect}")
         return -1
 
-    hostname, port = connect.split(':')
+    hostname, port = connect.split(":")
     port = int(port)
-    if service.lower() == 'https':
-        cert = retrieve_certinfo(hostname, port)
+    if service.lower() == "https":
+        cert = _retrieve_certinfo(hostname, port)
     else:
-        cert = retrieve_starttls_certinfo(hostname, port)
+        cert = _retrieve_starttls_certinfo(hostname, port)
 
     if not cert:
         return
 
     #  formatted as Nov 27 07:32:24 2020 GMT
-    not_before = datetime.datetime.strptime(cert['notBefore'], "%b %d %H:%M:%S %Y %Z") 
-    not_after = datetime.datetime.strptime(cert['notAfter'], "%b %d %H:%M:%S %Y %Z") 
+    not_before = datetime.datetime.strptime(
+        cert["notBefore"],
+        "%b %d %H:%M:%S %Y %Z",
+    )
+    not_after = datetime.datetime.strptime(
+        cert["notAfter"],
+        "%b %d %H:%M:%S %Y %Z",
+    )
 
     verdict = ""
 
@@ -69,40 +83,64 @@ def print_cert_check(service, connect, now=datetime.datetime.now()):
         verdict = "SOME CERTIFICATES ARE ALREADY EXPIRED"
         color = Fore.RED
 
-    print(Style.RESET_ALL + color + f'{hostname}: {not_before} - {not_after}' + Style.RESET_ALL)
-    if verdict:
-        click.echo(verdict)
+    return [hostname, f"{not_before}", f"{not_after}", verdict, color]
+
+
+def print_result_table(tokens):
+    max_length = [max(len(item) for item in col) for col in zip(*tokens)]
+    print("Resulting table")
+    for line in tokens:
+        print(
+            Style.RESET_ALL
+            + line[-1]
+            + f"{line[0]:<{max_length[0]}} :: "
+            + f"{line[1]:<{max_length[1]}} -> "
+            + f"{line[2]:<{max_length[2]}} "
+            + f"{line[3]:<{max_length[3]}} "
+            + Style.RESET_ALL
+        )
 
 
 @click.command()
-@click.option('--service', 
-        type=click.Choice(['HTTPS', 'SMTP'], 
-        case_sensitive=False), 
-        default="HTTPS", help='Service to connect to (important for starttls)')
-@click.option('--connect',
-        help='The service url to connect to in the form <address>:<port>, e.g. www.example.com:443')
-@click.option('--from_file',
-        help='Reading the service and endpoint from file line by line.\nFormat:\nHTTPS www.example.com:443',
-        type=click.File('r'))
+@click.option(
+    "--service",
+    type=click.Choice(["HTTPS", "SMTP"], case_sensitive=False),
+    default="HTTPS",
+    help="Service to connect to (important for starttls)",
+)
+@click.option(
+    "--connect",
+    help="Service url to connect to, e.g. www.example.com:443",
+)
+@click.option(
+    "--from_file",
+    help="Read 'service endpoint' from fileFormat:\nHTTPS www.example.com:443",
+    type=click.File("r"),
+)
 def main(service, connect, from_file):
     if from_file:
         now = datetime.datetime.now()
 
         full_file = from_file.read(2048)
-        assert len(full_file) < 2048, "Only files up to 2047 bytes supported for now"
+        assert (
+            len(full_file) < 2048
+        ), "Only files up to 2047 bytes supported for now"
 
-        for line in full_file.split('\n'):
+        results = []
+        for line in full_file.split("\n"):
             # file could contain empty lines
             if len(line) == 0:
-               return 
+                continue
 
-            tokens = line.strip().split(' ')
+            tokens = line.strip().split(" ")
             assert len(tokens) == 2, f"Misformed line {line}"
 
-            print_cert_check(tokens[0], tokens[1], now)
+            results.append(cert_check(tokens[0], tokens[1], now))
+
+        print_result_table(results)
     else:
         print_cert_check(service, connect)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
