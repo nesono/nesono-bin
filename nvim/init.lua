@@ -34,6 +34,27 @@ require("toggleterm").setup({
   }
 })
 
+-- Comment shortcuts
+-- `gcc` to comment out a line
+-- `gbc` comment out current line using block comment
+-- `gc` to comment out the target of a motion
+
+-- Conform
+require("conform").setup({
+  formatters_by_ft = {
+    lua = { "stylua" },
+    python = { "ruff" },
+    rust = { "rustfmt"},
+    javascript = { "prettier" },
+	c = { "clang-format" },
+	cpp = { "clang-format" },
+	haskell = { "ormolu" },
+	java = { "google-java-format" },
+	sh = { "shellcheck" },
+	bash = { "shellcheck" },
+  },
+})
+
 
 -- Mason
 require("mason").setup()
@@ -126,8 +147,7 @@ vim.api.nvim_set_keymap('n', '<leader>bb', ':NvimTreeToggle<cr>', {noremap = tru
 vim.api.nvim_set_keymap('n', '<leader>bf', ':NvimTreeFindFile<cr>', {noremap = true})
 
 -- Common Short Cuts
-vim.api.nvim_set_keymap('n', '<F5>', ':nohls<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<F6>', ':call ToggleQuickfixList()<cr>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>//', ':nohls<cr>', {noremap = true})
 
 -- Telescope
 local telescope_builtin = require('telescope.builtin')
