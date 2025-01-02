@@ -6,6 +6,7 @@ import socket
 from colorama import Fore, Style
 import datetime
 from typing import Final
+from pathlib import Path
 
 import logging
 
@@ -87,7 +88,13 @@ def cert_check(
 
 
 def print_result_table(tokens):
-    max_length = [max(len(item) for item in col) for col in zip(*tokens)]
+    assert all(
+        len(row) == len(tokens[0]) for row in tokens
+    ), "All rows must have the same number of columns"
+    max_length = [0] * len(tokens[0])
+    for row in tokens:
+        for i, col in enumerate(row):
+            max_length[i] = max(max_length[i], len(col))
     print("Resulting table")
     for line in tokens:
         print(
@@ -117,7 +124,7 @@ def print_result_table(tokens):
     help="Read 'service endpoint' from fileFormat:\nHTTPS www.example.com:443",
     type=click.File("r"),
 )
-def main(service, connect, from_file):
+def main(service: str, connect: str, from_file: Path):
     if from_file:
         now = datetime.datetime.now()
 
@@ -139,7 +146,7 @@ def main(service, connect, from_file):
 
         print_result_table(results)
     else:
-        print_cert_check(service, connect)
+        print_result_table([cert_check(service, connect)])
 
 
 if __name__ == "__main__":
