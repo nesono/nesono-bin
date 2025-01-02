@@ -40,7 +40,7 @@ def usage(scriptname):
 
 def hexformat(data, counter):
     hexdata = str(hex(ord(data)))
-    if(counter % 16 == 0):
+    if counter % 16 == 0:
         return "\n    " + hexdata
     else:
         return hexdata
@@ -55,9 +55,9 @@ infilename = sys.argv[1]
 outfilename = sys.argv[2]
 args = [scriptname, infilename, outfilename]
 
-nonkeyword = ['_', ',.;%#']
+nonkeyword = ["_", ",.;%#"]
 
-dataname = re.sub("[%s]" % "".join(nonkeyword), "_",  outfilename)
+dataname = re.sub("[%s]" % "".join(nonkeyword), "_", outfilename)
 tag = dataname
 
 try:
