@@ -13,7 +13,7 @@ return {
 	},
 	build = "make",
 	opts = {
-		provider = "openai",
+		provider = "copilot",
 		openai = {
 			endpoint = "https://api.openai.com/v1/",
 			model = "gpt-4o-mini",

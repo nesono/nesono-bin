@@ -26,7 +26,7 @@ vim.opt.termguicolors = true
 
 
 require("toggleterm").setup({
-  open_mapping = [[<C-t>]],
+  open_mapping = [[<C-h>]],
   direction = "float",
   float_opts = {
     border = "curved",
@@ -75,6 +75,9 @@ require("mason-lspconfig").setup_handlers {
 require('blame').setup({
 	date_format = '%Y-%m-%d',
 })
+vim.api.nvim_set_keymap('n', '<leader>dh', ':lua vim.diagnostic.disable()<cr>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>ds', ':lua vim.diagnostic.enable()<cr>', {noremap = true, silent = true})
+
 vim.api.nvim_set_keymap('n', '<leader>gb', ':BlameToggle<cr>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>m', ':Mason<cr>', {noremap = true, silent = true})
 require('nvim-tree').setup({
@@ -97,10 +100,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
             vim.api.nvim_buf_set_keymap(0, 'n', '<leader>sr', '<cmd>lua vim.lsp.buf.rename()<cr>', {noremap = true})
         end
         if client.supports_method('textDocument/implementation') then
-            vim.api.nvim_buf_set_keymap(0, 'n', '<leader>si', '<cmd>lua vim.lsp.buf.implementation()<cr>', {noremap = true})
+            vim.api.nvim_buf_set_keymap(0, 'n', '<leader>sc', '<cmd>lua vim.lsp.buf.implementation()<cr>', {noremap = true})
         end
         if client.supports_method('textDocument/definition') then
             vim.api.nvim_buf_set_keymap(0, 'n', '<leader>sd', '<cmd>lua vim.lsp.buf.definition()<cr>', {noremap = true})
+        end
+        if client.supports_method('textDocument/references') then
+            vim.api.nvim_buf_set_keymap(0, 'n', '<leader>sl', '<cmd>lua vim.lsp.buf.references()<cr>', {noremap = true})
+        end
+        if client.supports_method('callHierarchy/incomingCalls') then
+            vim.api.nvim_buf_set_keymap(0, 'n', '<leader>si', '<cmd>lua vim.lsp.buf.incoming_calls()<cr>', {noremap = true})
+        end
+        if client.supports_method('callHierarchy/outgoingCalls') then
+            vim.api.nvim_buf_set_keymap(0, 'n', '<leader>so', '<cmd>lua vim.lsp.buf.outgoing_calls()<cr>', {noremap = true})
         end
     end,
 })
