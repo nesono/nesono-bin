@@ -31,15 +31,18 @@ def _retrieve_certinfo(hostname: str, port: int) -> dict[str, str]:
     return cert
 
 
-def _retrieve_starttls_certinfo(hostname: str, port: int) -> dict[str, str]:
+def _retrieve_starttls_certinfo(hostname: str, port: int) -> dict[str, str] | None:
     context = ssl.create_default_context()
-    with socket.create_connection((hostname, port)) as sock:
-        sock.recv(1000)
-        sock.send(b"EHLO\nSTARTTLS\n")
-        sock.recv(1000)
-        with context.wrap_socket(sock, server_hostname=hostname) as sslsock:
-            return sslsock.getpeercert()
-    return None
+    try:
+        with socket.create_connection((hostname, port)) as sock:
+            sock.recv(1000)
+            sock.send(b"EHLO\nSTARTTLS\n")
+            sock.recv(1000)
+            with context.wrap_socket(sock, server_hostname=hostname) as sslsock:
+                return sslsock.getpeercert()
+    except (ssl.SSLError, socket.error) as e:
+        logger.error(f"Error retrieving STARTTLS certificate for {hostname}:{port} - {e}")
+        return None
 
 
 def cert_check(
