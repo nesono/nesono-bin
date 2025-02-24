@@ -1,4 +1,6 @@
+-- Needs to be set before we load lazy.lua
 vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
 require("config.lazy")
 
@@ -16,7 +18,7 @@ vim.api.nvim_exec([[
   au CursorHold * checktime
 ]], false)
 
-vim.cmd.colorscheme('molokai')
+vim.cmd.colorscheme('habamax')
 
 -- Disable netrw
 vim.g.loaded_netrw = 1
@@ -36,8 +38,7 @@ require("toggleterm").setup({
 
 -- Comment shortcuts
 -- `gcc` to comment out a line
--- `gbc` comment out current line using block comment
--- `gc` to comment out the target of a motion
+-- `gc` to comment out the target of a motion (visual mode)
 
 -- Conform
 require("conform").setup({
@@ -55,6 +56,14 @@ require("conform").setup({
   },
 })
 
+-- Common Short Cuts
+vim.api.nvim_set_keymap('n', '<leader>//', ':nohls<cr>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>nn', ':set number!<cr>', {noremap = true})
+
+-- For Octo
+vim.api.nvim_set_keymap('n', '<leader>oo', ':Octo pr list<cr>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>os', ':Octo search repo:fernride/talos_project is:open is:pr label:n4_image_manifest_change -reviewed-by:@me -is:draft base:main<cr>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>or', ':Octo review start<cr>', {noremap = true, silent = true})
 
 -- Mason
 require("mason").setup()
@@ -157,9 +166,6 @@ vim.api.nvim_set_keymap('n', '<leader>ct', "<cmd>lua require(\"copilot.suggestio
 -- NvimTree
 vim.api.nvim_set_keymap('n', '<leader>bb', ':NvimTreeToggle<cr>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>bf', ':NvimTreeFindFile<cr>', {noremap = true})
-
--- Common Short Cuts
-vim.api.nvim_set_keymap('n', '<leader>//', ':nohls<cr>', {noremap = true})
 
 -- Telescope
 local telescope_builtin = require('telescope.builtin')
