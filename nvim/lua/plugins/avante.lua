@@ -13,10 +13,6 @@ return {
 	},
 	build = "make",
 	opts = {
-		provider = "copilot",
-		openai = {
-			endpoint = "https://api.openai.com/v1/",
-			model = "gpt-4o-mini",
-		},
+		provider = os.getenv("AVANTE_PROVIDER"), -- take provider from environment variable AVANTE_PROVIDER
 	},
 }
