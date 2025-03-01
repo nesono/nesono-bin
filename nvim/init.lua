@@ -62,7 +62,7 @@ vim.api.nvim_set_keymap('n', '<leader>nn', ':set number!<cr>', {noremap = true})
 
 -- For Octo
 vim.api.nvim_set_keymap('n', '<leader>oo', ':Octo pr list<cr>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>os', ':Octo search repo:fernride/talos_project is:open is:pr label:n4_image_manifest_change -reviewed-by:@me -is:draft base:main<cr>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>os', ':Octo search repo:fernride/talos_project is:open is:pr label:n4_image_manifest_change -is:draft base:main<cr>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>or', ':Octo review start<cr>', {noremap = true, silent = true})
 
 -- Mason
