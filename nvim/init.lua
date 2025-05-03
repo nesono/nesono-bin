@@ -60,6 +60,11 @@ require("conform").setup({
 vim.api.nvim_set_keymap('n', '<leader>//', ':nohls<cr>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>nn', ':set number!<cr>', {noremap = true})
 
+-- For CodeCopmanion
+vim.api.nvim_set_keymap('n', '<leader>cc', ':CodeCompanionChat<cr>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>cp', ':CodeCompanion<cr>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>ca', ':CodeCompanionActions<cr>', {noremap = true})
+
 -- For Octo
 vim.api.nvim_set_keymap('n', '<leader>oo', ':Octo pr list<cr>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>os', ':Octo search repo:fernride/talos_project is:open is:pr label:n4_image_manifest_change -is:draft base:main<cr>', {noremap = true, silent = true})
@@ -159,9 +164,6 @@ vim.api.nvim_set_keymap('n', '<leader>tb', '<cmd>lua _btop_toggle()<cr>', {norem
 vim.api.nvim_set_keymap('n', '<leader>tl', ':ToggleTermSendVisualLines<cr>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>ts', ':ToggleTermSendVisualSelection<cr>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>tc', ':ToggleTermSendCurrentLine<cr>', {noremap = true, silent = true})
-
--- Copilot
-vim.api.nvim_set_keymap('n', '<leader>ct', "<cmd>lua require(\"copilot.suggestion\").toggle_auto_trigger()<cr>", {noremap = true, silent = true})
 
 -- NvimTree
 vim.api.nvim_set_keymap('n', '<leader>bb', ':NvimTreeToggle<cr>', {noremap = true})
