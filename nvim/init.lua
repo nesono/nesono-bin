@@ -73,7 +73,8 @@ vim.api.nvim_set_keymap('n', '<leader>or', ':Octo review start<cr>', {noremap = 
 
 -- Mason
 require("mason").setup()
-require("mason-lspconfig").setup()
+
+-- Git blame`
 require('blame').setup({
 	date_format = '%Y-%m-%d',
 })
