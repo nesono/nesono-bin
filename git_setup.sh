@@ -54,14 +54,14 @@ function git_set_config_variable_interactive()
 	NAME=${1}
 	INFO=${2}
 	# get value from git
-	OLDVAL=$(git config --global ${NAME})
+	OLDVAL=$(git config --global "${NAME}")
 	if [ -z "${OLDVAL}" ]; then
 		read -e -p "set git cofig option ${NAME}${INFO}: " ANSWER
 	else
 		read -e -p "set config option ${NAME}${INFO}: [${OLDVAL}] " ANSWER
 	fi
 	if [ -n "${ANSWER}" ]; then
-		git config --global ${NAME} "${ANSWER}"
+		git config --global "${NAME}" "${ANSWER}"
 	fi
 }
 
@@ -71,6 +71,8 @@ git_set_config_variable_interactive core.editor
 git_set_config_variable_interactive merge.tool
 git_set_config_variable_interactive diff.tool
 git_set_config_variable_interactive difftool.prompt " (true|false)"
+git_set_config_variable_interactive pull.rebase " (true|false)"
+git_set_config_variable_interactive rebase.autoStash " (true|false)"
 
 if [ ! -e ~/.gitignore ]; then
 	echo "The following will setup a global gitignore file for your"
