@@ -61,7 +61,7 @@ vim.api.nvim_set_keymap('n', '<leader>//', ':nohls<cr>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>nn', ':set number!<cr>', {noremap = true})
 
 -- For CodeCopmanion
-vim.api.nvim_set_keymap('n', '<leader>cc', ':CodeCompanionChat<cr>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>cc', ':CodeCompanionChat Toggle<cr>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>cp', ':CodeCompanion<cr>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>ca', ':CodeCompanionActions<cr>', {noremap = true})
 
