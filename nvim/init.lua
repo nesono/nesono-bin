@@ -27,15 +27,6 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
 
 
-require("toggleterm").setup({
-  open_mapping = [[<C-h>]],
-  direction = "float",
-  float_opts = {
-    border = "curved",
-    winblend = 5,
-  }
-})
-
 -- Comment shortcuts
 -- `gcc` to comment out a line
 -- `gc` to comment out the target of a motion (visual mode)
@@ -61,15 +52,6 @@ vim.api.nvim_set_keymap('n', '<leader>//', ':nohls<cr>', {noremap = true})
 vim.api.nvim_set_keymap('n', '<leader>nn', ':set number!<cr>', {noremap = true})
 
 -- For CodeCopmanion
-vim.api.nvim_set_keymap('n', '<leader>cc', ':CodeCompanionChat Toggle<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>cp', ':CodeCompanion<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>ca', ':CodeCompanionActions<cr>', {noremap = true})
-
--- For Octo
-vim.api.nvim_set_keymap('n', '<leader>oo', ':Octo pr open<cr>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>ol', ':Octo pr list<cr>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>os', ':Octo search repo:fernride/talos_project is:open is:pr label:n4_image_manifest_change -is:draft base:main<cr>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>or', ':Octo review start<cr>', {noremap = true, silent = true})
 
 -- Mason
 require("mason").setup()
@@ -127,46 +109,6 @@ vim.api.nvim_set_keymap('n', '<leader>nr', ':source $MYVIMRC<cr>', {noremap = tr
 
 -- Lazy
 vim.api.nvim_set_keymap('n', '<leader>ll', ':Lazy<cr>', {noremap = true})
-
--- Toggleterm
-local Terminal = require('toggleterm.terminal').Terminal
-local shell = Terminal:new({count = 1})
-function _shell_toggle()
-  shell:toggle()
-end
-vim.api.nvim_set_keymap('n', '<leader>tt', '<cmd>lua _shell_toggle()<cr>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>tm', ':TermSelect<cr>', {noremap = true, silent = true})
-
-local Terminal = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new({cmd = "lazygit", count = 2})
-function _lazygit_toggle()
-  lazygit:toggle()
-end
-vim.api.nvim_set_keymap('n', '<leader>tg', '<cmd>lua _lazygit_toggle()<cr>', {noremap = true, silent = true})
-
-local Terminal = require('toggleterm.terminal').Terminal
-local btop = Terminal:new({cmd = "btop", count = 3})
-function _btop_toggle()
-  btop:toggle()
-end
-vim.api.nvim_set_keymap('n', '<leader>tb', '<cmd>lua _btop_toggle()<cr>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>tl', ':ToggleTermSendVisualLines<cr>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>ts', ':ToggleTermSendVisualSelection<cr>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>tc', ':ToggleTermSendCurrentLine<cr>', {noremap = true, silent = true})
-
--- NvimTree
-vim.api.nvim_set_keymap('n', '<leader>bb', ':NvimTreeToggle<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>bf', ':NvimTreeFindFile<cr>', {noremap = true})
-
--- Telescope
-local telescope_builtin = require('telescope.builtin')
--- vim.keymap.set('n', '<leader>ff', telescope_builtin.find_files, { desc = 'Telescope find files' })
-vim.api.nvim_set_keymap('n', '<leader>ff', ':Telescope find_files hidden=true no_ignore=true<cr>', {noremap = true})
-vim.keymap.set('n', '<leader>fg', telescope_builtin.live_grep, { desc = 'Telescope live grep' })
-vim.keymap.set('n', '<leader>fb', telescope_builtin.buffers, { desc = 'Telescope buffers' })
-vim.keymap.set('n', '<leader>fh', telescope_builtin.help_tags, { desc = 'Telescope help tags' })
-vim.keymap.set('n', '<leader>fc', telescope_builtin.git_commits, { desc = 'Telescope git commits' })
-vim.keymap.set('n', '<leader>ft', telescope_builtin.treesitter, { desc = 'Telescope treesitter' })
 
 -- Autoformatting
 vim.api.nvim_create_autocmd("BufWritePre", {
