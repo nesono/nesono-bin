@@ -4,10 +4,12 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-treesitter/nvim-treesitter",
+		{ "MeanderingProgrammer/render-markdown.nvim", ft = { "markdown", "codecompanion" } },
 	},
 	config = function()
-		vim.api.nvim_set_keymap('n', '<leader>cc', ':CodeCompanionChat Toggle<cr>', {noremap = true})
-		vim.api.nvim_set_keymap('n', '<leader>cp', ':CodeCompanion<cr>', {noremap = true})
-		vim.api.nvim_set_keymap('n', '<leader>ca', ':CodeCompanionActions<cr>', {noremap = true})
-	end
+		require("codecompanion").setup()
+		vim.keymap.set("n", "<leader>cc", ":CodeCompanionChat Toggle<cr>")
+		vim.keymap.set("n", "<leader>cp", ":CodeCompanion<cr>")
+		vim.keymap.set("n", "<leader>ca", ":CodeCompanionActions<cr>")
+	end,
 }
