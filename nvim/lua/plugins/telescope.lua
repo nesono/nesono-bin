@@ -45,5 +45,6 @@ return {
 				cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy"),
 			})
 		end)
+		vim.keymap.set("n", "<leader>fk", require("telescope.builtin").keymaps, { desc = "Keymaps" })
 	end,
 }
