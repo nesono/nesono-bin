@@ -65,9 +65,6 @@ vim.api.nvim_set_keymap('n', '<leader>ds', ':lua vim.diagnostic.enable()<cr>', {
 
 vim.api.nvim_set_keymap('n', '<leader>gb', ':BlameToggle<cr>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>m', ':Mason<cr>', {noremap = true, silent = true})
-require('nvim-tree').setup({
-	view = { adaptive_size = true },
-})
 require("dapui").setup()
 function _dapui_toggle()
     require("dapui").toggle()
