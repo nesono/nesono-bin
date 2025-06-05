@@ -46,5 +46,6 @@ return {
 			})
 		end)
 		vim.keymap.set("n", "<leader>fk", require("telescope.builtin").keymaps, { desc = "Keymaps" })
+		vim.keymap.set("n", "<leader>fr", require("telescope.builtin").oldfiles, { desc = "Recent files" })
 	end,
 }
