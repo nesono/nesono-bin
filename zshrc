@@ -77,9 +77,6 @@ uname=$(uname -s)
 
 case ${uname} in
   Darwin)
-  ###################### DARWIN STUFF #####################################
-  source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.darwin
-  source ${NESONOBININSTALLATIONDIR}/bashtils/defines.darwin
   ;;
 
   Linux)
@@ -126,12 +123,5 @@ function preexec
     settitle $cmd[1]:t "$cmd[2,-1]"
 }
 
-# source prompt status functions
-source ${NESONOBININSTALLATIONDIR}/bashtils/ps1status
-#source ${NESONOBININSTALLATIONDIR}/zshtils/zshgitprompt
-
-# include completion config file
-source ${NESONOBININSTALLATIONDIR}/zshtils/completion
-# include keybindings (Home/End/Delete/Backspace/...)
 source ${NESONOBININSTALLATIONDIR}/zshtils/keybindings
 

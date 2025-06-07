@@ -29,14 +29,8 @@ alias l='ls -lF'
 alias ll='ls -la'
 alias la='ls -a'
 
-alias grep='grep --color=auto'
 alias bc='bc -l -q'
 
-alias ctags='ctags -R --sort=yes --c++-kinds=+p --fields=+afiKlmnsSzt --extra=+q'
-alias rsync_svn='rsync --exclude .svn'
-alias rsync_git='rsync --exclude .git'
-
-alias makej='make -j 4'
 alias sudorsync="sudo rsync -aPe ssh --rsync-path='sudo rsync'"
 
 alias cdd='cd ~/Downloads'
@@ -44,7 +38,18 @@ alias cds='cd ~/Developer'
 alias cdc='cd ~/Documents'
 alias cdo='cd ~/office'
 
-alias fvim='vim -c "syntax off"'
 alias sed_nocolor='sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g"'
 
 alias kitty_install='curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin'
+alias rustup_install="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
+alias nvm_install="curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash"
+
+LATEST_GO_VERSION=$(curl -s https://go.dev/VERSION\?m=text | head -n 1)
+OS_TYPE=$(uname -s | tr '[:upper:]' '[:lower:]')
+MACHINE_TYPE=$(uname -m | tr '[:upper:]' '[:lower:]')
+
+alias go_install="rm -rf /usr/local/go && curl -sSL https://go.dev/dl/${LATEST_GO_VERSION}.${OS_TYPE}-${MACHINE_TYPE}.tar.gz | sudo tar -C /usr/local -xzf -"
+
+unset LATEST_GO_VERSION
+unset OS_TYPE
+unset MACHINE_TYPE

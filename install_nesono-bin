@@ -104,18 +104,6 @@ function install_link()
   fi
 }
 
-function install_plug_nvim()
-{
-  if [[ ! -e "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim ]]; then
-    echo_change "Installing for NeoVim"
-    sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-           https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    echo_info "Next time starting nvim, please run :PlugInstall"
-  else
-    echo_info "Vim-Plug already installed for NeoVim -- skipping"
-  fi
-}
-
 echo_section "Setup shell configurations"
 # Note that the shell invocations require a login shell, but no interative
 # flag. That flag caused the shells to go into background on macOS and let the
@@ -135,12 +123,8 @@ echo
 echo_section "Installing additional links"
 install_link ~/.inputrc           "${scriptdir}"/inputrc
 install_link ~/.tmux.conf         "${scriptdir}"/tmux.conf
-install_link ~/.screenrc          "${scriptdir}"/screenrc
 install_link ~/.tigrc             "${scriptdir}"/tigrc
 install_link ~/.config/nvim       "${scriptdir}"/nvim
-install_link ~/.ackrc             "${scriptdir}"/ackrc
-install_link ~/.spacemacs         "${scriptdir}"/spacemacs
-install_link ~/.config/alacritty  "${scriptdir}"/alacritty
 
 # only useful for Linux
 if [[ $(uname -s) == Linux ]]; then
@@ -155,10 +139,6 @@ if [[ $(uname -s) == Linux ]]; then
     install_link ~/.config/dunst         ${scriptdir}/dunst
     install_link ~/.config/picom.conf    ${scriptdir}/picom.conf
 fi
-
-echo_section "Installing vim Plug"
-echo_sub_section "Installing for neovim"
-install_plug_nvim
 
 echo_section "Fetch/Update nesono-bin submodules"
 pushd ${scriptdir} &> /dev/null

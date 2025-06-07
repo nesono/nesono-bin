@@ -29,3 +29,4 @@ alias ls='ls --color=auto'
 # to emulate OSX' pbcopy/pbpaste
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -o -selection clipboard'
+
