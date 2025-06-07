@@ -7,13 +7,16 @@ return {
 		{ "nvim-telescope/telescope-file-browser.nvim" },
 	},
 	config = function()
-		require("telescope").setup({
+		require("telescope").setup {
 			-- 	pickers = {
 			-- 		find_files = {
 			-- 			theme = "ivy",
 			-- 		},
 			-- 	},
-		})
+			extensions = {
+				fzf = {}
+			}
+		}
 
 		require("telescope").load_extension("fzf")
 
@@ -47,5 +50,7 @@ return {
 		end)
 		vim.keymap.set("n", "<leader>fk", require("telescope.builtin").keymaps, { desc = "Keymaps" })
 		vim.keymap.set("n", "<leader>fr", require("telescope.builtin").oldfiles, { desc = "Recent files" })
+
+		require "config.telescope.multigrep".setup()
 	end,
 }
