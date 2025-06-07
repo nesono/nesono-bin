@@ -1,3 +1,7 @@
+if vim.env.DISABLE_COPILOT == "1" then
+  return {}
+end
+
 return {
 	"zbirenbaum/copilot.lua",
 	cmd = "Copilot",
