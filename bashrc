@@ -66,7 +66,6 @@ uname=$(uname -s)
 case ${uname} in
   Darwin)
   ###################### DARWIN STUFF ######################################
-  source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.darwin
   source ${NESONOBININSTALLATIONDIR}/bashtils/defines.darwin
   ;;
 
@@ -78,25 +77,12 @@ case ${uname} in
   FreeBSD)
   ##################### FREEBSD STUFF #####################################
   source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.freebsd
-  source ${NESONOBININSTALLATIONDIR}/bashtils/defines.freebsd
-	;;
-  CYGWIN_*)
-  ###################### CYGWIN STUFF ######################################
-  source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.cygwin
-  source ${NESONOBININSTALLATIONDIR}/bashtils/defines.cygwin
-	;;
-  MINGW32_*)
-  ###################### MINGW STUFF ######################################
-  source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.mingw
-  source ${NESONOBININSTALLATIONDIR}/bashtils/defines.mingw
-	;;
+  ;;
 esac
-
-source ${NESONOBININSTALLATIONDIR}/bashtils/ps1status
 
 case ${uname} in
   CYGWIN_* | MINGW32_*)
-	# disable repo prompt entry on cygwin
-	ps1repo off
+  # disable repo prompt entry on cygwin
+  ps1repo off
   ;;
 esac
