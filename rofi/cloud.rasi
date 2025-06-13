@@ -4,7 +4,7 @@
 	Hint:
 	Change the values in the first block of variables(below) before...
 	...individually changing values in the components.
-	
+
 	'lightfg' changes the border color and the text color.
 	'background-color' changes the background color of the floating box.
 	'selected-normal-background' changes the text-color of the focused item.
@@ -134,7 +134,7 @@ element alternate.active {
     background-color: @alternate-active-background;
     text-color:       @alternate-active-foreground;
 }
-element-icon { 
+element-icon {
     size: 4ch;
     padding: 8px 8px;
 }

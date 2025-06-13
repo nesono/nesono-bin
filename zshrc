@@ -112,4 +112,3 @@ function preexec
 }
 
 source ${NESONOBININSTALLATIONDIR}/zshtils/keybindings
-

@@ -3,9 +3,9 @@
 # * revert all changes to the repo
 # * remove all untracked files
 
-if [[ $1 == "" ]]; then 
+if [[ $1 == "" ]]; then
   echo "please specify the path to the working copy explicitely"
-	exit -1 
+	exit -1
 fi
 
 if [ ${1} == "." ]; then

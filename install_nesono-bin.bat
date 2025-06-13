@@ -2,10 +2,10 @@
 REM !/usr/bin/env bash
 REM  script to install the nesono-bin package, which
 REM  is a set of useful scripts not only for nesono groups developments
-REM 
+REM
 REM  Copyright (c) 2012, Jochen Issing <iss@nesono.com>
 REM  All rights reserved.
-REM 
+REM
 REM  Redistribution and use in source and binary forms, with or without
 REM  modification, are permitted provided that the following conditions are met:
 REM      * Redistributions of source code must retain the above copyright
@@ -16,7 +16,7 @@ REM        documentation and/or other materials provided with the distribution.
 REM      * Neither the name of the <organization> nor the
 REM        names of its contributors may be used to endorse or promote products
 REM        derived from this software without specific prior written permission.
-REM 
+REM
 REM  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 REM  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 REM  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE

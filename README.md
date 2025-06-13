@@ -9,7 +9,7 @@ each file for usage.
 
 The repository could be (but is not restricted to be) cloned into the home directory of the user, e.g. by
 ```
-cd ~/  
+cd ~/
 git clone git://github.com/nesono/nesono-bin.git
 ```
 

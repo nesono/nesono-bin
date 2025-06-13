@@ -20,4 +20,4 @@ if [[ -z "$DIG_FORW" ]]; then
 	echo "could not forward resolve $HOST"
 	exit 1
 fi
-dig -x 
+dig -x

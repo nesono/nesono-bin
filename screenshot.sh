@@ -15,7 +15,7 @@ assert_executable xclip
 MODE="full"
 while getopts ":t" opt; do
   case ${opt} in
-    t ) 
+    t )
         MODE="tile"
       ;;
   esac

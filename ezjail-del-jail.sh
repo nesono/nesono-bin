@@ -18,8 +18,8 @@ poolname="${2:-zroot}"
 
 echo """About to call the following commands
 
-ezjail-admin stop $jailname 
-ezjail-admin delete $jailname 
+ezjail-admin stop $jailname
+ezjail-admin delete $jailname
 zfs unmount -f ${poolname}/ezjail/$jailname
 zfs destroy ${poolname}/ezjail/$jailname
 """
@@ -53,7 +53,7 @@ ezjail_check()
 }
 zfs_check()
 {
-	zfs list ${poolname}/ezjail/$1 &> /dev/null 
+	zfs list ${poolname}/ezjail/$1 &> /dev/null
 }
 
 echo "sanity checks"
@@ -62,8 +62,8 @@ zfs_check $jailname || error "No ZFS jail found"
 
 echo "Now I am serious"
 
-ezjail-admin stop $jailname 
-ezjail-admin delete $jailname 
+ezjail-admin stop $jailname
+ezjail-admin delete $jailname
 zfs unmount -f ${poolname}/ezjail/$jailname
 zfs destroy -r ${poolname}/ezjail/$jailname
 echo "End of serious"

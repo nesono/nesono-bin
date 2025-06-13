@@ -40,7 +40,7 @@ return result
 	pickers.new(opts, {
 		debounce = 100,
 		prompt_title = "Multi Grep",
-		finder = finder, 
+		finder = finder,
 		previewer = conf.grep_previewer(opts),
 		sorter = require("telescope.sorters").empty(),
 	}):find()

@@ -78,4 +78,3 @@ for item in sys.argv:
 stackfile.write( '\n'.join(transfers) )
 stackfile.close()
 sys.exit(0)
-

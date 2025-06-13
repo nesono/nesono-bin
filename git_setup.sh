@@ -218,7 +218,7 @@ case "${ANSWER}" in
 		esac
 		;;
 	"d" | "D" )
-		git config --global --unset credential.helper 
+		git config --global --unset credential.helper
 		;;
 esac
 

@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 #     * Redistributions of source code must retain the above copyright
@@ -13,7 +13,7 @@
 #     * Neither the name of the <organization> nor the
 #       names of its contributors may be used to endorse or promote products
 #       derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -42,38 +42,74 @@ alias sed_nocolor='sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g"'
 
 alias kitty_install='curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin'
 alias kitty_linux_desktop_integrate='
-  ln -sf ~/.local/kitty.app/bin/kitty ~/.local/bin/ &&
-  ln -sf ~/.local/kitty.app/bin/kitten ~/.local/bin/ &&
-  cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/ &&
-  cp ~/.local/kitty.app/share/applications/kitty-open.desktop ~/.local/share/applications/ &&
-  sed -i "s|Icon=kitty|Icon=$(readlink -f ~/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png)|g" ~/.local/share/applications/kitty*.desktop &&
-  sed -i "s|Exec=kitty|Exec=$(readlink -f ~/.local/kitty.app/bin/kitty)|g" ~/.local/share/applications/kitty*.desktop &&
-  echo "kitty.desktop" > ~/.config/xdg-terminals.list
+	ln -sf ~/.local/kitty.app/bin/kitty ~/.local/bin/ &&
+	ln -sf ~/.local/kitty.app/bin/kitten ~/.local/bin/ &&
+	cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/ &&
+	cp ~/.local/kitty.app/share/applications/kitty-open.desktop ~/.local/share/applications/ &&
+	sed -i "s|Icon=kitty|Icon=$(readlink -f ~/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png)|g" ~/.local/share/applications/kitty*.desktop &&
+	sed -i "s|Exec=kitty|Exec=$(readlink -f ~/.local/kitty.app/bin/kitty)|g" ~/.local/share/applications/kitty*.desktop &&
+	echo "kitty.desktop" > ~/.config/xdg-terminals.list
 '
-alias rustup_install="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
-alias nvm_install="curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash"
+rustup_install() {
+	if which rustup >/dev/null 2>&1; then
+		echo "rustup is already installed."
+	else
+		curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	fi
+}
+nvm_install() {
+	local version=$(curl -s https://api.github.com/repos/nvm-sh/nvm/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+	if command -v nvm >/dev/null 2>&1; then
+		echo "nvm is already installed."
+	else
+		curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+	fi
+}
 alias omz_install='sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
-alias omz_autocomplete_install='
-  git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
-  git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
-  git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git $ZSH_CUSTOM/plugins/zsh-autocomplete
-'
+zsh_autocomplete_install() {
+	if [[ -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
+		echo "zsh-autocomplete is already installed."
+	else
+		git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+	fi
+	if [[ -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]]; then
+		echo "zsh-syntax-highlighting is already installed."
+	else
+		git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+	fi
+	if [[ -d "$ZSH_CUSTOM/plugins/fast-syntax-highlighting" ]]; then
+		echo "fast-syntax-highlighting is already installed."
+	else
+		git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git $ZSH_CUSTOM/plugins/fast-syntax-highlighting
+	fi
+}
 
-LATEST_GO_VERSION=$(curl -s https://go.dev/VERSION\?m=text | head -n 1)
-OS_TYPE=$(uname -s | tr '[:upper:]' '[:lower:]')
-MACHINE_TYPE=$(uname -m | tr '[:upper:]' '[:lower:]')
-if [[ "$OS_TYPE" == "linux" ]]; then
-  MACHINE_TYPE=$(echo "$MACHINE_TYPE" | sed 's/x86_64/amd64/' | sed 's/aarch64/arm64/')
-fi
 
-alias go_install="
-  sudo rm -rf /usr/local/go && curl -sSL https://go.dev/dl/${LATEST_GO_VERSION}.${OS_TYPE}-${MACHINE_TYPE}.tar.gz | sudo tar -C /usr/local -xzf -
-  echo 'export PATH=\$PATH:/usr/local/go/bin' | tee -a ~/.zprofile >> ~/.profile &&
-  echo 'export GOPATH=\$HOME/go' | tee -a ~/.zprofile >> ~/.profile &&
-  echo 'export PATH=\$PATH:\$GOPATH/bin' | tee -a ~/.zprofile >> ~/.profile
-"
+go_install() {
+	local latest_go_version=$(curl -s https://go.dev/VERSION\?m=text | head -n 1)
+	local os_type=$(uname -s | tr '[:upper:]' '[:lower:]')
+	local machine_type=$(uname -m | tr '[:upper:]' '[:lower:]')
+	if [[ "$OS_TYPE" == "linux" ]]; then
+		machine_type=$(echo "$machine_type" | sed 's/x86_64/amd64/' | sed 's/aarch64/arm64/')
+	fi
+	if command -v go >/dev/null 2>&1; then
+		echo "Go is already installed."
+	else
+		sudo rm -rf /usr/local/go
+		sudo rm -rf /usr/local/go
+		curl -sSL https://go.dev/dl/${LATEST_GO_VERSION}.${OS_TYPE}-${MACHINE_TYPE}.tar.gz | sudo tar -C /usr/local -xzf -
+		echo 'export PATH=$PATH:/usr/local/go/bin' | tee -a ~/.zprofile >> ~/.profile
+		echo 'export GOPATH=$HOME/go' | tee -a ~/.zprofile >> ~/.profile
+		echo 'export PATH=$PATH:$GOPATH/bin' | tee -a ~/.zprofile >> ~/.profile
+	fi
+}
 
-unset LATEST_GO_VERSION
-unset OS_TYPE
-unset MACHINE_TYPE
+
+fzf_install() {
+	if [[ -d "$HOME/.fzf" ]]; then
+		echo "fzf is already installed."
+	else
+		git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+		~/.fzf/install
+	fi
+}

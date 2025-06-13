@@ -5,6 +5,6 @@ if [ -z "$1" ]; then
 fi
 
 FILE=$1
-shift 
+shift
 
 vim `which "$FILE"` $@

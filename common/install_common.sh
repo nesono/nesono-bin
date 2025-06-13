@@ -45,4 +45,3 @@ echo_info() {
 echo_error() {
     echo -e "$col_error""$@""$col_reset"
 }
-

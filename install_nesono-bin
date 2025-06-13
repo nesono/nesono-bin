@@ -62,7 +62,7 @@ source $scriptdir/common/install_common.sh
 unset NESONOBININSTALLATIONDIR
 
 echo_info "Detected script directory: \"${scriptdir}\""
-echo 
+echo
 
 # function to install a link to a configuration file, e.g. ~/.vimrc
 function install_link()
@@ -151,4 +151,3 @@ if [[ ! -d ~/.tmux/plugins/tpm ]]; then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     echo_info "Next time starting tmux, please press <prefix>+I to install plugins"
 fi
-
