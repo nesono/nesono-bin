@@ -109,9 +109,6 @@ echo_section "Setup shell configurations"
 # flag. That flag caused the shells to go into background on macOS and let the
 # installation process freeze
 pushd ${scriptdir} &> /dev/null
-echo_sub_section "Bash"
-[ -n "$(which bash)" ] && bash --login "$scriptdir/bashtils/install_nesono_bash" "$scriptdir"
-echo
 echo_sub_section "Zsh"
 [ -n "$(which zsh)" ] && zsh --login "$scriptdir/zshtils/install_nesono_zsh" "$scriptdir"
 echo

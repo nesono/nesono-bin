@@ -67,11 +67,9 @@ function pushdirscount()
 # provides a temporary session cookie for the shell session
 source ${NESONOBININSTALLATIONDIR}/sessioncookie
 # provides small helper functions
-source ${NESONOBININSTALLATIONDIR}/bashtils/helpers
+source ${NESONOBININSTALLATIONDIR}/shtils/helpers
 # defines aliases for all platforms
-source ${NESONOBININSTALLATIONDIR}/bashtils/aliases
-# source zsh syntax highlighting
-[[ -e ${NESONOBININSTALLATIONDIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && source ${NESONOBININSTALLATIONDIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ${NESONOBININSTALLATIONDIR}/shtils/aliases
 
 uname=$(uname -s)
 
@@ -81,23 +79,13 @@ case ${uname} in
 
   Linux)
   ###################### LINUX STUFF ######################################
-  source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.linux
-  source ${NESONOBININSTALLATIONDIR}/bashtils/defines.linux
+  source ${NESONOBININSTALLATIONDIR}/shtils/aliases.linux
+  source ${NESONOBININSTALLATIONDIR}/shtils/defines.linux
   ;;
   FreeBSD)
   ###################### FREEBSD STUFF ####################################
-  source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.freebsd
-  source ${NESONOBININSTALLATIONDIR}/bashtils/defines.freebsd
-	;;
-  CYGWIN_*)
-  ###################### CYGWIN STUFF #####################################
-  source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.cygwin
-  source ${NESONOBININSTALLATIONDIR}/bashtils/defines.cygwin
-	;;
-  MINGW32_*)
-  ###################### MINGW STUFF ######################################
-  source ${NESONOBININSTALLATIONDIR}/bashtils/aliases.mingw
-  source ${NESONOBININSTALLATIONDIR}/bashtils/defines.mingw
+  source ${NESONOBININSTALLATIONDIR}/shtils/aliases.freebsd
+  source ${NESONOBININSTALLATIONDIR}/shtils/defines.freebsd
 	;;
 esac
 
