@@ -41,14 +41,38 @@ alias cdo='cd ~/office'
 alias sed_nocolor='sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g"'
 
 alias kitty_install='curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin'
+alias kitty_linux_desktop_integrate='
+  ln -sf ~/.local/kitty.app/bin/kitty ~/.local/bin/ &&
+  ln -sf ~/.local/kitty.app/bin/kitten ~/.local/bin/ &&
+  cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/ &&
+  cp ~/.local/kitty.app/share/applications/kitty-open.desktop ~/.local/share/applications/ &&
+  sed -i "s|Icon=kitty|Icon=$(readlink -f ~/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png)|g" ~/.local/share/applications/kitty*.desktop &&
+  sed -i "s|Exec=kitty|Exec=$(readlink -f ~/.local/kitty.app/bin/kitty)|g" ~/.local/share/applications/kitty*.desktop &&
+  echo "kitty.desktop" > ~/.config/xdg-terminals.list
+'
 alias rustup_install="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
 alias nvm_install="curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash"
+alias omz_install='sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+alias omz_autocomplete_install='
+  git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+  git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+  git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git $ZSH_CUSTOM/plugins/zsh-autocomplete
+'
 
 LATEST_GO_VERSION=$(curl -s https://go.dev/VERSION\?m=text | head -n 1)
 OS_TYPE=$(uname -s | tr '[:upper:]' '[:lower:]')
 MACHINE_TYPE=$(uname -m | tr '[:upper:]' '[:lower:]')
+if [[ "$OS_TYPE" == "linux" ]]; then
+  MACHINE_TYPE=$(echo "$MACHINE_TYPE" | sed 's/x86_64/amd64/' | sed 's/aarch64/arm64/')
+fi
 
-alias go_install="rm -rf /usr/local/go && curl -sSL https://go.dev/dl/${LATEST_GO_VERSION}.${OS_TYPE}-${MACHINE_TYPE}.tar.gz | sudo tar -C /usr/local -xzf -"
+alias go_install="
+  sudo rm -rf /usr/local/go && curl -sSL https://go.dev/dl/${LATEST_GO_VERSION}.${OS_TYPE}-${MACHINE_TYPE}.tar.gz | sudo tar -C /usr/local -xzf -
+  echo 'export PATH=\$PATH:/usr/local/go/bin' | tee -a ~/.zprofile >> ~/.profile &&
+  echo 'export GOPATH=\$HOME/go' | tee -a ~/.zprofile >> ~/.profile &&
+  echo 'export PATH=\$PATH:\$GOPATH/bin' | tee -a ~/.zprofile >> ~/.profile
+"
 
 unset LATEST_GO_VERSION
 unset OS_TYPE
