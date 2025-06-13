@@ -7,12 +7,25 @@ return {
 		{ "nvim-telescope/telescope-file-browser.nvim" },
 	},
 	config = function()
+		local actions = require("telescope.actions")
+
 		require("telescope").setup {
-			-- 	pickers = {
-			-- 		find_files = {
-			-- 			theme = "ivy",
-			-- 		},
-			-- 	},
+			defaults = {
+				mappings = {
+					i = {
+						["<C-j>"] = actions.move_selection_next,
+						["<C-k>"] = actions.move_selection_previous,
+					}
+				}
+			},
+			pickers = {
+				find_files = {
+					theme = "ivy",
+					layout_config = {
+						height = 0.8, -- customize height for this picker
+					},
+				},
+			},
 			extensions = {
 				fzf = {}
 			}
