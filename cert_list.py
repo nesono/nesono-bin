@@ -31,17 +31,23 @@ def _retrieve_certinfo(hostname: str, port: int) -> dict[str, str]:
     return cert
 
 
-def _retrieve_starttls_certinfo(hostname: str, port: int) -> dict[str, str] | None:
+def _retrieve_starttls_certinfo(
+    hostname: str, port: int
+) -> dict[str, str] | None:
     context = ssl.create_default_context()
     try:
         with socket.create_connection((hostname, port)) as sock:
             sock.recv(1000)
             sock.send(b"EHLO\nSTARTTLS\n")
             sock.recv(1000)
-            with context.wrap_socket(sock, server_hostname=hostname) as sslsock:
+            with context.wrap_socket(
+                sock, server_hostname=hostname
+            ) as sslsock:
                 return sslsock.getpeercert()
     except (ssl.SSLError, socket.error) as e:
-        logger.error(f"Error retrieving STARTTLS certificate for {hostname}:{port} - {e}")
+        logger.error(
+            f"Error retrieving STARTTLS certificate for {hostname}:{port} - {e}"
+        )
         return None
 
 
@@ -91,9 +97,9 @@ def cert_check(
 
 
 def print_result_table(tokens):
-    assert all(
-        len(row) == len(tokens[0]) for row in tokens
-    ), "All rows must have the same number of columns"
+    assert all(len(row) == len(tokens[0]) for row in tokens), (
+        "All rows must have the same number of columns"
+    )
     max_length = [0] * len(tokens[0])
     for row in tokens:
         for i, col in enumerate(row):
@@ -132,9 +138,9 @@ def main(service: str, connect: str, from_file: Path):
         now = datetime.datetime.now()
 
         full_file = from_file.read(2048)
-        assert (
-            len(full_file) < 2048
-        ), "Only files up to 2047 bytes supported for now"
+        assert len(full_file) < 2048, (
+            "Only files up to 2047 bytes supported for now"
+        )
 
         results = []
         for line in full_file.split("\n"):
