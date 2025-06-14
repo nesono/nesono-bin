@@ -46,7 +46,7 @@ echo
 
 echo "This script will not overwrite existing configurations but only set up"
 echo "conigurations for shells that are installed and not already configured."
-read -p "Continue? [Y/n] " ANSWER
+read -p -r "Continue? [Y/n] " ANSWER
 
 if [[ "$ANSWER" == [nN]* ]]; then
     echo "Aborted by user"
@@ -54,8 +54,9 @@ if [[ "$ANSWER" == [nN]* ]]; then
 fi
 sleep 1
 
-readonly scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $scriptdir/common/install_common.sh
+readonly scriptdir
+scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "$scriptdir"/common/install_common.sh
 
 # required to not forward this variable to subsequent scripts and for detection
 # if installation succeeded.
@@ -89,16 +90,16 @@ function install_link()
       rm "${DST}"
     fi
   fi
-  if [ -e ${DST} ]; then
+  if [ -e "${DST}" ]; then
     echo_info "${DST} exists - not overwriting with nesono-bin version"
-    if [ -L ${DST} ]; then
-      TESTDST=`readlink ${DST}`
+    if [ -L "${DST}" ]; then
+      TESTDST=$(readlink "${DST}")
       echo "   ${DST} points to ${TESTDST}"
       echo ""
     fi
   else
     echo_change "Installing ${DST##*/}"
-    ln -sf ${SRC} ${DST}
+    ln -sf "${SRC}" "${DST}"
     echo "   ${DST} points to ${SRC}"
     echo ""
   fi
@@ -108,13 +109,13 @@ echo_section "Setup shell configurations"
 # Note that the shell invocations require a login shell, but no interative
 # flag. That flag caused the shells to go into background on macOS and let the
 # installation process freeze
-pushd ${scriptdir} &> /dev/null
+pushd "${scriptdir}" &> /dev/null || exit
 echo_sub_section "Zsh"
 [ -n "$(which zsh)" ] && zsh --login "$scriptdir/zshtils/install_nesono_zsh" "$scriptdir"
 echo
 echo_sub_section "Fish"
 [ -n "$(which fish)" ] && fish "$scriptdir/fishtils/install_nesono_fish" "$scriptdir"
-popd &> /dev/null
+popd &> /dev/null || exit
 echo
 
 echo_section "Installing additional links"
@@ -126,21 +127,21 @@ install_link ~/.config/nvim       "${scriptdir}"/nvim
 # only useful for Linux
 if [[ $(uname -s) == Linux ]]; then
     echo_sub_section "Installing for Linux specifics"
-    install_link ~/.config/regolith2     ${scriptdir}/regolith2
-    install_link ~/.Xresources           ${scriptdir}/Xresources
-    install_link ~/.config/i3            ${scriptdir}/i3
-    install_link ~/.config/i3status      ${scriptdir}/i3status
-    install_link ~/.config/i3status-rust ${scriptdir}/i3status-rust
-    install_link ~/.config/polybar       ${scriptdir}/polybar
-    install_link ~/.config/rofi          ${scriptdir}/rofi
-    install_link ~/.config/dunst         ${scriptdir}/dunst
-    install_link ~/.config/picom.conf    ${scriptdir}/picom.conf
+    install_link ~/.config/regolith2     "${scriptdir}"/regolith2
+    install_link ~/.Xresources           "${scriptdir}"/Xresources
+    install_link ~/.config/i3            "${scriptdir}"/i3
+    install_link ~/.config/i3status      "${scriptdir}"/i3status
+    install_link ~/.config/i3status-rust "${scriptdir}"/i3status-rust
+    install_link ~/.config/polybar       "${scriptdir}"/polybar
+    install_link ~/.config/rofi          "${scriptdir}"/rofi
+    install_link ~/.config/dunst         "${scriptdir}"/dunst
+    install_link ~/.config/picom.conf    "${scriptdir}"/picom.conf
 fi
 
 echo_section "Fetch/Update nesono-bin submodules"
-pushd ${scriptdir} &> /dev/null
+pushd "${scriptdir}" &> /dev/null || exit
 git submodule update --init
-popd &> /dev/null
+popd &> /dev/null || exit
 echo_info "Done, see you next time"
 echo ""
 

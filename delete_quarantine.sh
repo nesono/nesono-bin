@@ -4,4 +4,4 @@ if [ -z "$1" ]; then
 	exit 255
 fi
 
-sudo xattr -d com.apple.quarantine $1
+sudo xattr -d com.apple.quarantine "$1"

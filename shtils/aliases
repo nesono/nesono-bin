@@ -58,11 +58,12 @@ rustup_install() {
 	fi
 }
 nvm_install() {
-	local version=$(curl -s https://api.github.com/repos/nvm-sh/nvm/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+	local version
+	version=$(curl -s https://api.github.com/repos/nvm-sh/nvm/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
 	if command -v nvm >/dev/null 2>&1; then
 		echo "nvm is already installed."
 	else
-		curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+		curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/"$version"/install.sh | bash
 	fi
 }
 alias omz_install='sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
@@ -70,26 +71,50 @@ zsh_autocomplete_install() {
 	if [[ -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
 		echo "zsh-autocomplete is already installed."
 	else
-		git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+		git clone https://github.com/zsh-users/zsh-autosuggestions.git "$ZSH_CUSTOM"/plugins/zsh-autosuggestions
 	fi
 	if [[ -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]]; then
 		echo "zsh-syntax-highlighting is already installed."
 	else
-		git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+		git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM"/plugins/zsh-syntax-highlighting
 	fi
 	if [[ -d "$ZSH_CUSTOM/plugins/fast-syntax-highlighting" ]]; then
 		echo "fast-syntax-highlighting is already installed."
 	else
-		git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git $ZSH_CUSTOM/plugins/fast-syntax-highlighting
+		git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git "$ZSH_CUSTOM"/plugins/fast-syntax-highlighting
+	fi
+	echo "Please add the following plugins to your ~/.zshrc file:"
+	echo "zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting"
+}
+
+add_string_to_env_var() {
+	# Function to add a path to the specified environment variable in ~/.zprofile and ~/.profile
+	# Usage: add_string_to_env_var <path_to_add> [env_var]
+	# If env_var is not specified, it defaults to PATH.
+	local path_to_add
+	local env_var
+	path_to_add="$1"
+	env_var="${2:-PATH}"
+	if [[ -z "$path_to_add" ]]; then
+		echo "No path provided to add to profiles."
+		return 1
+	fi
+	if ! grep -qF "export $env_var=\$$env_var:$path_to_add" ~/.zprofile; then
+		echo "export $env_var=\$$env_var:$path_to_add" >> ~/.zprofile
+	fi
+	if ! grep -qF "export $env_var=\$$env_var:$path_to_add" ~/.profile; then
+		echo "export $env_var=\$$env_var:$path_to_add" >> ~/.profile
 	fi
 }
 
-
 go_install() {
-	local latest_go_version=$(curl -s https://go.dev/VERSION\?m=text | head -n 1)
-	local os_type=$(uname -s | tr '[:upper:]' '[:lower:]')
-	local machine_type=$(uname -m | tr '[:upper:]' '[:lower:]')
-	if [[ "$OS_TYPE" == "linux" ]]; then
+	local latest_go_version
+	local os_type
+	local machine_type
+	latest_go_version=$(curl -s https://go.dev/VERSION\?m=text | head -n 1)
+	os_type=$(uname -s | tr '[:upper:]' '[:lower:]')
+	machine_type=$(uname -m | tr '[:upper:]' '[:lower:]')
+	if [[ "$os_type" == "linux" ]]; then
 		machine_type=$(echo "$machine_type" | sed 's/x86_64/amd64/' | sed 's/aarch64/arm64/')
 	fi
 	if command -v go >/dev/null 2>&1; then
@@ -97,10 +122,11 @@ go_install() {
 	else
 		sudo rm -rf /usr/local/go
 		sudo rm -rf /usr/local/go
-		curl -sSL https://go.dev/dl/${LATEST_GO_VERSION}.${OS_TYPE}-${MACHINE_TYPE}.tar.gz | sudo tar -C /usr/local -xzf -
-		echo 'export PATH=$PATH:/usr/local/go/bin' | tee -a ~/.zprofile >> ~/.profile
-		echo 'export GOPATH=$HOME/go' | tee -a ~/.zprofile >> ~/.profile
-		echo 'export PATH=$PATH:$GOPATH/bin' | tee -a ~/.zprofile >> ~/.profile
+		curl -sSL https://go.dev/dl/"${latest_go_version}"."${os_type}"-"${machine_type}".tar.gz | sudo tar -C /usr/local -xzf -
+		echo "Go ${latest_go_version} installed successfully."
+		add_string_to_env_var "/usr/local/go/bin"
+		add_string_to_env_var "\$HOME/go" "GOPATH"
+		add_string_to_env_var "\$GOPATH/bin" "PATH"
 	fi
 }
 

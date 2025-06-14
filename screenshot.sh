@@ -3,7 +3,7 @@
 
 assert_executable() {
     local executable=$1
-    if [ ! -x "$(which $executable 2> /dev/null)" ]; then
+    if [ ! -x "$(which "$executable" 2> /dev/null)" ]; then
         notify-send "$executable not installed, aborting screenshot"
     fi
 }
@@ -18,6 +18,10 @@ while getopts ":t" opt; do
     t )
         MODE="tile"
       ;;
+	* )
+	  echo "Invalid option: -$OPTARG" >&2
+	  exit 1
+	  ;;
   esac
 done
 

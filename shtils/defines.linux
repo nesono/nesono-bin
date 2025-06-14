@@ -25,54 +25,15 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
-case ${DESKTOP_SESSION} in
-  GNOME* | gnome* | ubuntu* )
-  # 'emulate' the Mac OS X open terminal command
-  function open()
-  {
-    gnome-open "$@" &> /dev/null
-  }
-  ;;
-  KDE* | kde* )
-  # 'emulate' the Mac OS X open terminal command
-	if [ -e "`which kde-open`" ]; then
-		function open()
-		{
-    	kde-open "$@" &> /dev/null
-		}
-	elif [ -e "`which kfmclient`" ]; then
-		function open()
-		{
-			kfmclient openURL file://$(rel2abs $1) &> /dev/null
-		}
-	else
-		function open()
-		{
-		  echo "Neither kdmclient nor kde-open found in PATH"
-		  echo "Consider installing one of those or edit me..."
-		}
-	fi
-  ;;
-esac # check for desktop session (KDE/GNOME)
-
 # function to get the current date in iso format
 function isodate()
 {
   date +%Y-%0m-%0d
 }
+
 # function to get the current date and time in iso format
 function isodatetime()
 {
   date +%Y-%0m-%0dT%0k-%0M
 }
 
-# function to redirect gitx to gitg
-function gitx()
-{
-  if [ -n "$(which gitg)" ]; then
-    gitg $@
-  else
-    echo "gitg not installed!"
-  fi
-}

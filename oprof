@@ -30,7 +30,7 @@ sudo opcontrol --shutdown
 sudo opcontrol --reset
 
 # get application name - check for sudo
-if [ ${1} == "sudo" ]; then
+if [ "${1}" == "sudo" ]; then
   PROF_APP_NAME=${2}
 else
   PROF_APP_NAME=${1}
@@ -46,7 +46,7 @@ sudo opcontrol --setup --no-vmlinux --event="default" --separate=library --callg
 #sudo opcontrol --setup --no-vmlinux --separate=library --callgraph=5
 
 sudo opcontrol --start
-$@
+"$@"
 sudo opcontrol --shutdown
 
 opreport "${PROF_APP_NAME}" -a --symbols="${PROF_APP_NAME}" --demangle=smart

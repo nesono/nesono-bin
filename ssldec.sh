@@ -2,6 +2,6 @@
 
 if [ -z "$1" ]; then
   echo "usage: $0 file to encrypt"
-	exit -1
+	exit 1
 fi
-openssl enc -d -aes-256-cbc -in $1
+openssl enc -d -aes-256-cbc -in "$1"

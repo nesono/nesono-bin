@@ -28,25 +28,25 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-URLS[0]="http://checkip.dyndns.org"
-URLS[1]="http://whatismyip.com"
-URLS[2]="http://www.whatismyipaddress.com"
-URLS[3]="http://ipid.shat.net"
-URLS[4]="http://www.edpsciences.com/htbin/ipaddress"
-URLS[5]="http://www.showmyip.com"
 
-for URL in ${URLS[@]}
+URLS="
+http://checkip.dyndns.org
+http://whatismyip.com
+http://www.whatismyipaddress.com
+http://ipid.shat.net
+http://www.edpsciences.com/htbin/ipaddress
+http://www.showmyip.com
+"
+
+for URL in $URLS
 do
-  THIS=${URL}
   echo "checking ${URL}..."
-  IP=`curl -s "${THIS}" | tr -cs '[0-9\.]' '\012' \
-          | awk -F'.' 'NF==4 && $1>0 && $1<256 && $2<256 && $3<256 && $4<256 && !/\.\./' | uniq`
-  if [ $? == 0 ]; then
-	  IP=`echo $IP | awk '{print $1}'`
-	  echo "...succeeded"
-	  echo "Your WAN IP Address is: $IP"
-	  exit
+  IP=$(curl -s "${URL}" | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -v '^127\.' | head -n 1)
+  if [ -n "$IP" ]; then
+    echo "...succeeded"
+    echo "Your WAN IP Address is: $IP"
+    exit 0
   else
-	  echo "...failed"
+    echo "...failed"
   fi
 done

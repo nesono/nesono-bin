@@ -27,7 +27,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-DATETAG=`date +%Y-%m-%d`
+DATETAG=$(date +%Y-%m-%d)
 echo "writing disk usage into file: $HOME/disk_usage_list.${DATETAG}.txt"
-sudo du / | sort -n > $HOME/disk_usage_list.${DATETAG}.txt
+sudo du / | sort -n > "$HOME"/disk_usage_list."${DATETAG}".txt
 echo "finished disk usage listing - written to file: $HOME/disk_usage_list.${DATETAG}.txt"

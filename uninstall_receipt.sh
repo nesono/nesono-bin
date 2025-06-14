@@ -27,13 +27,13 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-APP=`basename $0`
+APP=$(basename "$0")
 
 if [ $# != 1 ]; then
   echo "usage: ${APP} <xxx.pgk>"
   echo "       <xxx.pkg> the package file under /Library/Receipts"
   echo "                 which shall be uninstalled"
-  exit -1
+  exit 1
 fi
 
 # verbosity off by default
@@ -68,7 +68,7 @@ if [ -f "${BOM_FILE}" ]; then
   fi
 else
   echo "no bom file: ${BOM_FILE}"
-  exit -1
+  exit 1
 fi
 
 # function to move all files into Trash instead of deleting them directly
@@ -90,7 +90,7 @@ function rm ()
   done
 }
 
-for item in `lsbom -p f "${BOM_FILE}" | sed 's@\./@/@' | sort -r`; do
+for item in $(lsbom -p f "${BOM_FILE}" | sed 's@\./@/@' | sort -r); do
   # check for file
   if [ -f "${item}" ]; then
     if [ "${VERBOSE}" != "0" ]; then
@@ -100,7 +100,7 @@ for item in `lsbom -p f "${BOM_FILE}" | sed 's@\./@/@' | sort -r`; do
   else
     # check for directory
     if [ -d "${item}" ]; then
-      CONTENTS=`ls -l "${item}"`
+      CONTENTS=$(ls -l "${item}")
       if [ -z "${CONTENTS}" ]; then
         if [ "${VERBOSE}" != "0" ]; then
           echo "add directory: ${item}"
@@ -157,18 +157,18 @@ echo ""
 
 # ask user whether to delete files and directories
 echo "really delete? [N/y]"
-read ANSWER
+read -r ANSWER
 
 case $ANSWER in
   y|Y)
   echo "deleting files"
-  rm -f ${FILES_TO_REM}
+  rm -f "${FILES_TO_REM}"
 
   echo "deleting directories"
-  rm -rf ${DIRS_TO_REM}
+  rm -rf "${DIRS_TO_REM}"
 
   echo "deleting symbolic links"
-  rm -f ${SYMLINKS_TO_REM}
+  rm -f "${SYMLINKS_TO_REM}"
 
   # delete pacakge directory
   rm -r "${RECEIPT}"
@@ -178,7 +178,7 @@ case $ANSWER in
 
   n|N)
   echo "deletion aborted"
-  exit -1
+  exit 1
   ;;
 esac
 

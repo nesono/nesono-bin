@@ -56,9 +56,9 @@ function git_set_config_variable_interactive()
 	# get value from git
 	OLDVAL=$(git config --global "${NAME}")
 	if [ -z "${OLDVAL}" ]; then
-		read -e -p "set git cofig option ${NAME}${INFO}: " ANSWER
+		read -r -e -p "set git cofig option ${NAME}${INFO}: " ANSWER
 	else
-		read -e -p "set config option ${NAME}${INFO}: [${OLDVAL}] " ANSWER
+		read -r -e -p "set config option ${NAME}${INFO}: [${OLDVAL}] " ANSWER
 	fi
 	if [ -n "${ANSWER}" ]; then
 		git config --global "${NAME}" "${ANSWER}"
@@ -80,7 +80,7 @@ if [ ! -e ~/.gitignore ]; then
 	echo "add '.DS_Store' to the global gitignore file..."
 	echo ""
 
-	read -e -p "Do you want to create a global gitignore file? [y/N] " ANSWER
+	read -r -e -p "Do you want to create a global gitignore file? [y/N] " ANSWER
 	case "${ANSWER}" in
 		"y" | "Y" )
 			# MAC files
@@ -107,7 +107,7 @@ if [ ! -e ~/.gitignore ]; then
 	esac
 fi
 
-read -e -p "Do you want to enable helper aliases (br, subpull, aliases, etc.)? [y/N/d] " ANSWER
+read -r -e -p "Do you want to enable helper aliases (br, subpull, aliases, etc.)? [y/N/d] " ANSWER
 case "${ANSWER}" in
 	"y" | "Y" )
 		git config --global alias.st status
@@ -178,7 +178,7 @@ case "${ANSWER}" in
 		;;
 esac
 
-read -e -p "Do you want to enable colors for git (branch,diff,interactive,status)? [y/N/d] " ANSWER
+read -r -e -p "Do you want to enable colors for git (branch,diff,interactive,status)? [y/N/d] " ANSWER
 case "${ANSWER}" in
 	"y" | "Y" )
 		git config --global color.branch auto
@@ -192,7 +192,7 @@ case "${ANSWER}" in
 		;;
 esac
 
-read -e -p "Do you want to enable a credential helper for your system to remember passwords? [y/N/d] " ANSWER
+read -r -e -p "Do you want to enable a credential helper for your system to remember passwords? [y/N/d] " ANSWER
 case "${ANSWER}" in
 	"y" | "Y" )
 		case "${UNAME}" in

@@ -2,9 +2,11 @@
 
 if [[ ! -r "$HOME/venv/bin/activate" ]]; then
 	python -m venv "$HOME/venv"
+	# shellcheck disable=SC1091
 	source "$HOME/venv/bin/activate"
 	pip install click colorama
 else
+	# shellcheck disable=SC1091
 	source "$HOME/venv/bin/activate"
 fi
 

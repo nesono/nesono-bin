@@ -27,7 +27,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-APPNAME=$(basename ${0})
+APPNAME=$(basename "${0}")
 
 function usage()
 {
@@ -39,13 +39,13 @@ function usage()
 if [ -z "$(which pdf2ps)" ]; then
   echo "pdf2ps not found!"
   echo "is ghostscript installed?"
-  exit -1
+  exit 1
 fi
 
 if [ -z "$(which ps2pdf)" ]; then
   echo "ps2pdf not found!"
   echo "is ghostscript installed?"
-  exit -1
+  exit 1
 fi
 
 case "${1}" in
@@ -58,22 +58,22 @@ esac
 if [ ! -r "${1}" ]; then
   echo "input file ${1} not found!"
   usage
-  exit -2
+  exit 2
 fi
 
 if [ ${#@} -gt 2 ]; then
   echo "too many parameters found!"
   usage
-  exit -3
+  exit 3
 fi
 
-tmpps=$(tempfile)
+tmpps=$(mktemp /tmp/pdf2gray.XXXXXX.ps)
 if [ ${#@} -eq 1 ]; then
   output=${1}
 else
   output=${2}
 fi
 
-pdf2ps -sDEVICE=psgray ${1} ${tmpps}
-ps2pdf ${tmpps} ${output}
-rm -f ${tmpps}
+pdf2ps -sDEVICE=psgray "${1}" "${tmpps}"
+ps2pdf "${tmpps}" "${output}"
+rm -f "${tmpps}"

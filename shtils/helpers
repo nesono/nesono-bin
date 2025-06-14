@@ -35,7 +35,7 @@ function cdmkdir()
 		# ignore any arguments
 		if [[ "$path" = -* ]]; then :
 		else
-			cd "$path"
+			cd "$path" || exit
 			return
 		fi
 	done
@@ -44,9 +44,9 @@ function cdmkdir()
 function cdgitclone()
 {
 	local output_dir
-	output_dir=`git clone $@ 2>&1 >/dev/null | head -n1 | sed "s/.*'\([^']*\)'.*/\1/g"`
+	output_dir=$(git clone "$@" 2>&1 >/dev/null | head -n1 | sed "s/.*'\([^']*\)'.*/\1/g")
 
-	[[ -d "$output_dir" ]] && cd "$output_dir"
+	[[ -d "$output_dir" ]] && cd "$output_dir" || exit
 }
 
 # function to create an absolute path from a relative one
@@ -60,23 +60,23 @@ function rel2abs()
 	# check, if argument is a file
 	if [ -f "${1}" ]; then
 		# directory name
-		dir="`dirname "${1}"`"
+		dir="$(dirname "${1}")"
 		#echo "dir: ${dir}"
-		file="`basename "${1}"`"
+		file="$(basename "${1}")"
 		#echo "file: ${file}"
 
 		# change into dir
-		pushd "${dir}" &> /dev/null
-		abspath="`pwd`/${file}"
+		pushd "${dir}" &> /dev/null || exit
+		abspath="$(pwd)/${file}"
 		echo "${abspath}"
-		popd &> /dev/null
+		popd &> /dev/null || exit
 	fi
 	if [ -d "${1}" ]; then
 		# change into dir
-		pushd "${1}" &> /dev/null
-		abspath="`pwd`"
+		pushd "${1}" &> /dev/null || exit
+		abspath="$(pwd)"
 		echo "${abspath}"
-		popd &> /dev/null
+		popd &> /dev/null || exit
 	fi
 
 	return 0
@@ -114,10 +114,10 @@ function backup ()
 		item=$1
 		echo "backup up $item"
 
-		destination=$item.bup_`date +%Y-%m-%d_%H:%M:%S`
-		while ( [[ -e "$destination" ]] ); do
+		destination=$item.bup_$(date +%Y-%m-%d_%H:%M:%S)
+		while [[ -e "$destination" ]]; do
 			echo "$destination already exists"
-			destinati-d on=$item.bup_`date +%Y-%m-%d_%H:%M:%S`
+			destinati-d on="$item".bup_"$(date +%Y-%m-%d_%H:%M:%S)"
 			echo "trying $destination"
 		done
 		echo "backup $item to $destination"
@@ -128,7 +128,7 @@ function backup ()
 
 function rollback()
 {
-	local docleanup
+	local do_cleanup
 
 	if [ -z "$1" ]; then
 		echo "usage: rollback [-c] backup-base"
@@ -139,19 +139,19 @@ function rollback()
 		return 0
 	fi
 
-	docleanup="0"
+	do_cleanup="0"
 	if [[ "$1" == "-c" ]]; then
-		docleanup="1"
+		do_cleanup="1"
 		shift
 	fi
 
-	select bupname in `ls -d $1.bup*`;
+	select bupname in $(ls -d "$1".bup*);
 	do
-		echo you picked $bupname \($REPLY\)
-		if [[ "$docleanup" == "1" ]]; then
-			rm -r $1 && mv $bupname $1 && rm -rf $1.bup*
+		echo you picked "$bupname" \("$REPLY"\)
+		if [[ "$do_cleanup" == "1" ]]; then
+			rm -r "$1" && mv "$bupname" "$1" && rm -rf "$1".bup*
 		else
-			backup $1 && rm -r $1 && mv $bupname $1
+			backup "$1" && rm -r "$1" && mv "$bupname" "$1"
 		fi
 		break
 	done
@@ -171,8 +171,8 @@ function md5equal()
 	fi
     local file_a_md5
     local file_b_md5
-	file_a_md5=`md5 $1 | cut -d ' ' -f 4`
-	file_b_md5=`md5 $2 | cut -d ' ' -f 4`
+	file_a_md5=$(md5 "$1" | cut -d ' ' -f 4)
+	file_b_md5=$(md5 "$2" | cut -d ' ' -f 4)
 
 	echo "file A: $file_a_md5"
 	echo "file B: $file_b_md5"
@@ -198,57 +198,9 @@ function newscript()
 	fi
 }
 
-function append_to_path()
-{
-	if [[ -d "$1" ]]; then
-		export PATH=$PATH:"$1"
-	else
-		echo "Warning: \"$1\" not found - clean up your config file(s)"
-	fi
-}
-
-function git-branchstack()
-{
-	# get env variable
-	BRANCHSTACK=${BRANCHSTACK}
-
-	action=$1
-	if [[ -z "$action" ]]; then
-		echo "usage: $0 <action> ..."
-	else
-		shift
-		currentbranch=`git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //'`
-		if [[ $? -eq 128 ]]; then
-			echo "not in a git branch"
-		else
-			case $action in
-				"push")
-					if [[ -z "$@" ]]; then
-						echo "usage: $0 push [options] <branchname>"
-						return 124
-					else
-						git checkout $@
-						export BRANCHSTACK=$currentbranch:${BRANCHSTACK}
-					fi
-					;;
-				"pop")
-					if [[ -n "${BRANCHSTACK}" ]]; then
-						tocheckout=${BRANCHSTACK%%:*}
-						export BRANCHSTACK=${BRANCHSTACK#*:}
-						git checkout $tocheckout
-					fi
-					;;
-				*)
-					echo "unknown command: $@"
-					;;
-			esac
-		fi
-	fi
-}
-
 function tolower()
 {
-	if [ -z $1 ]; then
+	if [ -z "$1" ]; then
 		echo ""
 		echo "usage $0: $0 filename"
 		echo "  makes the filename lowercase"
@@ -256,8 +208,8 @@ function tolower()
 		return 1
 	fi
 
-	for file in $@; do
-		lowered=`echo $file | tr [A-Z] [a-z]`
+	for file in "$@"; do
+		lowered=$(echo "$file" | tr '[:upper:]' '[:lower:]')
 		if [ "$file" != "$lowered" ]; then
 			mv "$file" "$lowered"
 		else
@@ -268,7 +220,7 @@ function tolower()
 
 function toupper()
 {
-	if [ -z $1 ]; then
+	if [ -z "$1" ]; then
 		echo ""
 		echo "usage $0: $0 filename"
 		echo "  makes the filename uppercase"
@@ -276,8 +228,8 @@ function toupper()
 		return 1
 	fi
 
-	for file in $@; do
-		uppered=`echo $file | tr [a-z] [A-Z]`
+	for file in "$@"; do
+		uppered=$(echo "$file" | tr '[:lower:]' '[:upper:]')
 		if [ "$file" != "$uppered" ]; then
 			mv "$file" "$uppered"
 		else
@@ -288,7 +240,7 @@ function toupper()
 
 function tonowhitespace()
 {
-	if [ -z $1 ]; then
+	if [ -z "$1" ]; then
 		echo ""
 		echo "usage $0: $0 filename"
 		echo "  makes the filename having no whitespace"
@@ -296,8 +248,8 @@ function tonowhitespace()
 		return 1
 	fi
 
-	for file in $@; do
-		nowhitespace=`echo $file | tr ' ' _`
+	for file in "$@"; do
+		nowhitespace=$(echo "$file" | tr ' ' _)
 		if [ "$file" != "$nowhitespace" ]; then
 			mv "$file" "$nowhitespace"
 		else
@@ -306,109 +258,12 @@ function tonowhitespace()
 	done
 }
 
-function git-ignore()
-{
-	if [[ -z "$*" ]]; then
-		echo "please specify the file pattern you want to ignore"
-		return 101
-	fi
-
-	local is_global=0
-	local DIRTY=""
-	local gitignorefile
-
-	local branch
-	local git_repo_root
-	local gitignorefile
-	local repostatus
-
-	# check if we are in a git repo
-	repostatus=`git status --porcelain 2> /dev/null`
-	if [[ $? -eq 128 ]]; then
-		is_global=1
-		gitignorefile="~/.gitignore"
-		echo "not in a git repo"
-		echo "adding ignore rules to global gitignore file"
-	else
-		branch=`git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //'`
-		git_repo_root=`git rev-parse --show-toplevel`
-		gitignorefile="$git_repo_root/.gitignore"
-
-		[ -z "`echo "$repostatus" | grep -e '.gitignore' | grep -e '^ [RDMA]'`" ] || DIRTY="*"
-		[ -z "`echo "$repostatus" | grep -e '.gitignore' | grep -e '^?? '`"     ] || DIRTY="*"
-		[ -z "`echo "$repostatus" | grep -e '^[RMDA]'`"  ]                        || DIRTY="${DIRTY}+"
-		echo "In git repo:"
-		echo "     branch: $branch"
-		echo "       root: $git_repo_root"
-		echo "      dirty: $DIRTY"
-		pushd $git_repo_root &> /dev/null
-	fi
-
-	read -n1 -r -s -p "Press any key to continue" key
-
-	local pattern
-	for pattern; do
-		echo "adding ignore lines pattern"
-		echo "to $gitignorefile"
-		for entry; do
-			echo $entry >> $gitignorefile
-		done
-	done
-
-	if [[ -n "$EDITOR" ]]; then
-		$EDITOR $gitignorefile
-		if [[ $is_global -eq 0 ]]; then
-			if [[ -z "$DIRTY" ]]; then
-				git add $gitignorefile
-				git commit -v
-			else
-				echo "Dirty working copy, please commit the change yourself"
-			fi
-		else
-			echo "global ignore file, no commit neccessary"
-		fi
-	else
-		echo "EDITOR env var not set"
-		echo "please open $gitignorefile,"
-		echo "check the contents, and commit"
-		echo "the change yourself (if in a repo"
-	fi
-	popd &> /dev/null
-}
-
-function gitallcmd()
-{
-	if [[ $# -lt 1 ]]; then
-		echo "Usage: $0 <dir> <cmd>"
-		echo "Invokes <cmd> in all git roots found in <dir>"
-		return 101
-	fi
-
-	local searchbase reposfound
-	searchbase='.'
-	if [[ -d "$1" ]]; then
-		searchbase=$1
-		shift
-	fi
-	echo "searchbase: $searchbase"
-	cmd="$@"
-
-	find "$searchbase" -name .git | sed 's/\/\.git//' | xargs -I % $SHELL -c "pushd %; $cmd; popd"
-}
-
-function git-browse()
-{
-	local url
-	url=`git remote -v | head -n 1 | awk '{ print $2 }'`
-	open "$url"
-}
-
 function cdgitroot()
 {
 	local toplevel
-	toplevel=`git rev-parse --show-toplevel`
+	toplevel=$(git rev-parse --show-toplevel)
 	if [ -n "$toplevel" ]; then
-		cd "$toplevel"
+		cd "$toplevel" || exit
 	else
 		echo "could not get git root - not in a git repo?"
 	fi

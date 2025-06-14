@@ -28,11 +28,13 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-UNAME=`uname -s`
+#!/usr/bin/env bash
 
-# function to print out usage
-function printusage()
-{
+# script to concatenate static libs to reduce number of libs in a project
+
+UNAME=$(uname -s)
+
+printusage() {
 	echo ""
 	echo "usage $0: targetlib.a libs_to_add.a ..."
 	echo ""
@@ -42,100 +44,94 @@ function printusage()
 	echo ""
 }
 
-function tempdir()
-{
-	TEMPDIR=`mktemp -q /tmp/concatenate_libs.XXXXXX`
-	if [ $? -ne 0 ]; then
+tempdir() {
+	if ! TEMPDIR=$(mktemp -d /tmp/concatenate_libs.XXXXXX); then
 		echo "$0: Can't create temp dir, exiting..."
 		exit 1
 	fi
-	rm $TEMPDIR
-	mkdir $TEMPDIR
 }
 
-function tempname()
-{
-	TEMPNAME=`mktemp -q /tmp/concatenate_libs.XXXXXX`
-	if [ $? -ne 0 ]; then
+tempname() {
+	if ! TEMPNAME=$(mktemp /tmp/concatenate_libs.XXXXXX); then
 		echo "$0: Can't create temp name, exiting..."
 		exit 1
 	fi
-	rm $TEMPNAME
 }
 
 # check cmdline arguments
 if [ -z "$1" ]; then
-	printusage;
-	exit -1;
-else
-	if [ -z "$2" ]; then
-		printusage;
-		exit -1;
-	fi
+	printusage
+	exit 1
+fi
+if [ -z "$2" ]; then
+	printusage
+	exit 1
 fi
 
-# get target lib and discard it from cmdline
 TARGETLIB=$1
-if [ -n "${TARGETLIB%%/*}" ]; then
-	TARGETLIB=$CURRENTWDIR/$TARGETLIB
-fi
 shift
+
+CURRENTWDIR=$(pwd)
+
+# Make TARGETLIB absolute if not already
+case "$TARGETLIB" in
+	/*) ;;
+	*) TARGETLIB="$CURRENTWDIR/$TARGETLIB" ;;
+esac
 
 # create a temporal directory
 tempdir
 
-# remember current working directory
-CURRENTWDIR=`pwd`
-pushd $TEMPDIR &> /dev/null
+pushd "$TEMPDIR" > /dev/null || exit 1
 
 # go through list of libs
-for lib_to_add; do
-	if [ -n "${lib_to_add%%/*}" ]; then
-		# regenerate absolute path
-		lib_to_add=$CURRENTWDIR/$lib_to_add
-	fi
+for lib_to_add in "$@"; do
+	# Make lib_to_add absolute if not already
+	case "$lib_to_add" in
+		/*) ;;
+		*) lib_to_add="$CURRENTWDIR/$lib_to_add" ;;
+	esac
 
-	echo "################## extracting libary: $lib_to_add"
+	echo "################## extracting library: $lib_to_add"
 
 	# create a unique name
 	tempname
 	LIBPREFIX=${TEMPNAME##*/}
 
 	# get all file names of the archive
-	OBJECTS=`ar t ${lib_to_add}`
+	OBJECTS=$(ar t "$lib_to_add")
 
 	# extract the lib
-	ar x $lib_to_add
+	ar x "$lib_to_add"
 
 	# remove symlib files (from ranlib generated files...)
 	rm -f __.SYMDEF*
 
 	# rename the files to be unique
-	for file in ${OBJECTS}; do
-		if [ "$file" != "__.SYMDEF" -a "$file" != "SORTED" ]; then
+	for file in $OBJECTS; do
+		if [ "$file" != "__.SYMDEF" ] && [ "$file" != "SORTED" ]; then
 			mv "$file" "$LIBPREFIX$file"
 		fi
 	done
-
 done
 
-if [ -n "`ls`" ]; then
+if [ -n "$(ls)" ]; then
 	echo "################### libtool target library composing: $TARGETLIB"
 	# add all files to the lib
-	if [ "$UNAME" == "Darwin" ]; then
-		libtool -o $TARGETLIB *
+	if [ "$UNAME" = "Darwin" ]; then
+		libtool -o "$TARGETLIB" ./*
 	else
-		ar rcs $TARGETLIB *
+		ar rcs "$TARGETLIB" ./*
 	fi
 
 	echo "################### libs concatenation done"
 else
-	echo "NO FILES EXTRACED - libraries not traversed?"
+	echo "NO FILES EXTRACTED - libraries not traversed?"
 fi
 
-popd &> /dev/null
+popd > /dev/null || exit 1
 
-#echo "################### removing temp directory $TEMPDIR"
-#rm -rf $TEMPDIR
+# Clean up temp directory
+rm -rf "$TEMPDIR"
 
-exit 0;
+exit 0

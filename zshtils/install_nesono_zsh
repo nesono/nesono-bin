@@ -1,3 +1,4 @@
+# shellcheck disable=SC1071
 #!/usr/bin/env zsh
 #
 # Copyright (c) 2012, Jochen Issing <iss@nesono.com>

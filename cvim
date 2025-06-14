@@ -4,7 +4,7 @@ echo "Vim wrapper for opening files using compiler output"
 
 usage()
 {
-    echo "Usage: `basename $0` path/to/file:linenumber"
+	echo "Usage: $(basename "$0") path/to/file:linenumber"
 }
 
 if [ -z "$1" ]; then
@@ -15,4 +15,4 @@ fi
 readonly file=${1%%:*}
 readonly linenumber=${1##*:}
 
-vim $file +$linenumber
+vim "$file" +"$linenumber"
