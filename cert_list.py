@@ -11,8 +11,8 @@ from pathlib import Path
 import logging
 
 logging.basicConfig(
-    format="%(asctime)s %(levelname)s:%(message)s", level=logging.DEBUG
-)
+        format="%(asctime)s %(levelname)s:%(message)s", level=logging.DEBUG
+        )
 logger = logging.getLogger(__file__)
 
 limit_days: Final = 10
@@ -32,8 +32,8 @@ def _retrieve_certinfo(hostname: str, port: int) -> dict[str, str]:
 
 
 def _retrieve_starttls_certinfo(
-    hostname: str, port: int
-) -> dict[str, str] | None:
+        hostname: str, port: int
+        ) -> dict[str, str] | None:
     context = ssl.create_default_context()
     try:
         with socket.create_connection((hostname, port)) as sock:
@@ -41,21 +41,21 @@ def _retrieve_starttls_certinfo(
             sock.send(b"EHLO\nSTARTTLS\n")
             sock.recv(1000)
             with context.wrap_socket(
-                sock, server_hostname=hostname
-            ) as sslsock:
+                    sock, server_hostname=hostname
+                    ) as sslsock:
                 return sslsock.getpeercert()
     except (ssl.SSLError, socket.error) as e:
         logger.error(
-            f"Error retrieving STARTTLS certificate for {hostname}:{port} - {e}"
-        )
+                f"Error retrieving STARTTLS certificate for {hostname}:{port}: {e}"
+                )
         return None
 
 
 def cert_check(
-    service: str,
-    connect: str,
-    now: datetime.datetime = datetime.datetime.now(),
-) -> list[str, str, str, str, str]:
+        service: str,
+        connect: str,
+        now: datetime.datetime = datetime.datetime.now(),
+        ) -> list[str, str, str, str, str]:
     """Function to check and print certificate expiry of a specific service"""
     if ":" not in connect:
         print(f"Connect argument does not contain a colon: {connect}")
@@ -73,13 +73,13 @@ def cert_check(
 
     #  formatted as Nov 27 07:32:24 2020 GMT
     not_before = datetime.datetime.strptime(
-        cert["notBefore"],
-        "%b %d %H:%M:%S %Y %Z",
-    )
+            cert["notBefore"],
+            "%b %d %H:%M:%S %Y %Z",
+            )
     not_after = datetime.datetime.strptime(
-        cert["notAfter"],
-        "%b %d %H:%M:%S %Y %Z",
-    )
+            cert["notAfter"],
+            "%b %d %H:%M:%S %Y %Z",
+            )
 
     verdict = ""
 
@@ -98,8 +98,8 @@ def cert_check(
 
 def print_result_table(tokens):
     assert all(len(row) == len(tokens[0]) for row in tokens), (
-        "All rows must have the same number of columns"
-    )
+            "All rows must have the same number of columns"
+            )
     max_length = [0] * len(tokens[0])
     for row in tokens:
         for i, col in enumerate(row):
@@ -107,40 +107,40 @@ def print_result_table(tokens):
     print("Resulting table")
     for line in tokens:
         print(
-            Style.RESET_ALL
-            + line[-1]
-            + f"{line[0]:<{max_length[0]}} :: "
-            + f"{line[1]:<{max_length[1]}} -> "
-            + f"{line[2]:<{max_length[2]}} "
-            + f"{line[3]:<{max_length[3]}} "
-            + Style.RESET_ALL
-        )
+                Style.RESET_ALL
+                + line[-1]
+                + f"{line[0]:<{max_length[0]}} :: "
+                + f"{line[1]:<{max_length[1]}} -> "
+                + f"{line[2]:<{max_length[2]}} "
+                + f"{line[3]:<{max_length[3]}} "
+                + Style.RESET_ALL
+                )
 
 
 @click.command()
 @click.option(
-    "--service",
-    type=click.Choice(["HTTPS", "SMTP"], case_sensitive=False),
-    default="HTTPS",
-    help="Service to connect to (important for starttls)",
-)
+        "--service",
+        type=click.Choice(["HTTPS", "SMTP"], case_sensitive=False),
+        default="HTTPS",
+        help="Service to connect to (important for starttls)",
+        )
 @click.option(
-    "--connect",
-    help="Service url to connect to, e.g. www.example.com:443",
-)
+        "--connect",
+        help="Service url to connect to, e.g. www.example.com:443",
+        )
 @click.option(
-    "--from_file",
-    help="Read 'service endpoint' from fileFormat:\nHTTPS www.example.com:443",
-    type=click.File("r"),
-)
+        "--from_file",
+        help="Read 'service endpoint' from fileFormat:\nHTTPS www.example.com:443",
+        type=click.File("r"),
+        )
 def main(service: str, connect: str, from_file: Path):
     if from_file:
         now = datetime.datetime.now()
 
         full_file = from_file.read(2048)
         assert len(full_file) < 2048, (
-            "Only files up to 2047 bytes supported for now"
-        )
+                "Only files up to 2047 bytes supported for now"
+                )
 
         results = []
         for line in full_file.split("\n"):
