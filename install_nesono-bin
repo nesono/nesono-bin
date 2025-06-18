@@ -54,8 +54,7 @@ if [[ "$ANSWER" == [nN]* ]]; then
 fi
 sleep 1
 
-readonly scriptdir
-scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+readonly scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$scriptdir"/common/install_common.sh
 
 # required to not forward this variable to subsequent scripts and for detection
@@ -138,10 +137,6 @@ if [[ $(uname -s) == Linux ]]; then
     install_link ~/.config/picom.conf    "${scriptdir}"/picom.conf
 fi
 
-echo_section "Fetch/Update nesono-bin submodules"
-pushd "${scriptdir}" &> /dev/null || exit
-git submodule update --init
-popd &> /dev/null || exit
 echo_info "Done, see you next time"
 echo ""
 

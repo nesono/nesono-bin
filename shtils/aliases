@@ -99,6 +99,8 @@ add_string_to_env_var() {
 		echo "No path provided to add to profiles."
 		return 1
 	fi
+	touch ~/.zprofile
+	touch ~/.profile
 	if ! grep -qF "export $env_var=\$$env_var:$path_to_add" ~/.zprofile; then
 		echo "export $env_var=\$$env_var:$path_to_add" >> ~/.zprofile
 	fi
