@@ -59,15 +59,10 @@ vim.api.nvim_set_keymap("n", "<leader>nr", ":set relativenumber!<cr>", { noremap
 -- Mason
 require("mason").setup()
 
--- Git blame`
-require("blame").setup({
-	date_format = "%Y-%m-%d",
-})
 vim.api.nvim_set_keymap("n", "<leader>dh", ":lua vim.diagnostic.disable()<cr>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>ds", ":lua vim.diagnostic.enable()<cr>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>df", ":lua vim.diagnostic.open_float()<cr>", { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap("n", "<leader>gb", ":BlameToggle<cr>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>m", ":Mason<cr>", { noremap = true, silent = true })
 require("dapui").setup()
 function _dapui_toggle()
