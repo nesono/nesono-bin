@@ -8,6 +8,10 @@ return {
 	event = "InsertEnter",
 	config = function()
 		require("copilot").setup({
+			filetypes = {
+				netrc = false,
+				sshconfig = false,
+			},
             suggestion = {
 				enabled = true,
 			    auto_trigger = true,
