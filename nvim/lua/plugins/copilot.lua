@@ -19,6 +19,8 @@ return {
 					accept = "<Tab>",
 					next = "<C-l>",
 					prev = "<C-h>",
+					accept_word = "<C-y>",
+					accept_line = "<C-e>",
 				},
 			},
             panel = { enabled = true },
