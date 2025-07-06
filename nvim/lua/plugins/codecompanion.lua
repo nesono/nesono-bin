@@ -34,6 +34,6 @@ return {
 		end
 		vim.keymap.set("n", "<leader>cc", ":CodeCompanionChat Toggle<cr>")
 		vim.keymap.set({'o', 'x'}, "<leader>cc", ":CodeCompanion<cr>")
-		vim.keymap.set({'o', 'x'}, "<leader>ca", ":CodeCompanionActions<cr>")
+		vim.keymap.set({'n', 'o', 'x'}, "<leader>ca", ":CodeCompanionActions<cr>")
 	end,
 }
