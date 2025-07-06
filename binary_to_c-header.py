@@ -3,7 +3,7 @@
 
 # BSD LICENSE
 #
-# Copyright (c) 2014, Jochen Issing <iss@nesono.com>
+# Copyright (c) 2014, Jochen Issing <c.333+github@nesono.com>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
