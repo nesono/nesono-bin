@@ -17,6 +17,8 @@ vim.api.nvim_exec(
   set shiftwidth=0
   set autoread
   au CursorHold * checktime
+  set grepprg=rg\ --vimgrep
+  set grepformat^=%f:%l:%c:%m
 ]],
 	false
 )
