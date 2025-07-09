@@ -44,7 +44,7 @@ return {
 			{ desc = "Fuzzy find in current buffer" }
 		)
 		vim.keymap.set("n", "<leader>fc", require("telescope.builtin").git_commits, { desc = "Git commits" })
-		vim.keymap.set("n", "<leader>fs", require("telescope.builtin").treesitter, { desc = "Treesitter symbols" })
+		vim.keymap.set("n", "<leader>fs", require("telescope.builtin").lsp_document_symbols, { desc = "Treesitter symbols" })
 		vim.keymap.set(
 			"n",
 			"<leader>ft",
