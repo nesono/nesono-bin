@@ -5,6 +5,7 @@ return {
 		"nvim-lua/plenary.nvim",
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		{ "nvim-telescope/telescope-file-browser.nvim" },
+		{ "nvim-telescope/telescope-dap.nvim" },
 	},
 	config = function()
 		local actions = require("telescope.actions")
@@ -32,6 +33,7 @@ return {
 
 		require("telescope").load_extension("fzf")
 		require("telescope").load_extension("file_browser")
+		require("telescope").load_extension("dap")
 
 		vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files, { desc = "Find files" })
 		vim.keymap.set("n", "<leader>fg", require("telescope.builtin").live_grep, { desc = "Live grep" })
