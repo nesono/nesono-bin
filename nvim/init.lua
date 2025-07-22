@@ -61,9 +61,9 @@ vim.api.nvim_set_keymap("n", "<leader>nr", ":set relativenumber!<cr>", { noremap
 -- Mason
 require("mason").setup()
 
-vim.api.nvim_set_keymap("n", "<leader>dh", ":lua vim.diagnostic.disable()<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>ds", ":lua vim.diagnostic.enable()<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>df", ":lua vim.diagnostic.open_float()<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>dt", function()
+  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+end, { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap("n", "<leader>m", ":Mason<cr>", { noremap = true, silent = true })
 require("dapui").setup()
