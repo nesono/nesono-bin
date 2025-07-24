@@ -46,7 +46,7 @@ echo
 
 echo "This script will not overwrite existing configurations but only set up"
 echo "conigurations for shells that are installed and not already configured."
-read -p -r "Continue? [Y/n] " ANSWER
+read -p "Continue? [Y/n] " ANSWER
 
 if [[ "$ANSWER" == [nN]* ]]; then
     echo "Aborted by user"

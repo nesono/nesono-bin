@@ -41,20 +41,39 @@ if [ ! -e "${ZSHRCFILE}" ]; then
   fi
 fi
 
-echo_info "Installing Oh-my-zsh"
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# check if oh my zsh is already installed
+if ! comman -v omz &>/dev/null; then
+  echo_info "Installing Oh-my-zsh"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+else
+  echo_info "Oh-my-zsh is already installed"
+  return 0
+fi
 
-echo_info "Installing theme powerlevel10k/powerlevel10k"
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
-echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >>~/.zshrc
+if [[ ! -d "~/powerlevel10k/" ]]; then
+  echo_info "Installing theme powerlevel10k/powerlevel10k"
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+  echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+  echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >>~/.zshrc
+fi
 
 # source login file (dynamic detection doesn't work with zsh)
 source "${ZSHRCFILE}"
 
+if [[ -z "$(bindkey | grep edit-command-line)" ]]; then
+  bindkey -s '^e' 'edit-command-line\n'
+  {
+    echo "autoload -Uz edit-command-line"
+    echo "zle -N edit-command-line"
+    echo "bindkey '^X^E' edit-command-line"
+  } >> "${ZSHRCFILE}"
+  echo_info "Key binding for edit-command-line added"
+else
+  echo_info "Key binding for edit-command-line already exists"
+fi
+
 # check if nesono-bin is already in path
-zsh --login "$scriptdir/common/nesono_bin_installed.sh" "$scriptdir"
-if [ $? -eq 0 ]; then
+if zsh --login "$scriptdir/common/nesono_bin_installed.sh" "$scriptdir"; then
   echo_info "${scriptdir} already in path... not installing nesono-bin"
 else
   echo_change "Adding nesono-bin path to ${ZSHRCFILE}"
@@ -69,3 +88,4 @@ ENDOFSCRIPT
   echo_info "Please close your zsh shell and start again to make change effective"
   echo_info "Installation for zsh done"
 fi
+
