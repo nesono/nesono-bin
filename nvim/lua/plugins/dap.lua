@@ -9,6 +9,50 @@ return {
 	config = function()
 		local dap = require("dap")
 		local dapui = require("dapui")
+		local pickers = require('telescope.pickers')
+		local finders = require('telescope.finders')
+		local conf = require('telescope.config').values
+		local actions = require('telescope.actions')
+		local action_state = require('telescope.actions.state')
+
+		local function telescope_pick_process()
+		  local output = vim.fn.systemlist("ps -eo pid,comm")
+		  local processes = {}
+		  for _, line in ipairs(output) do
+			local pid, name = line:match(" *(%d+) (.+)")
+			if pid and name and pid ~= "PID" then
+			  table.insert(processes, {pid = pid, name = name})
+			end
+		  end
+
+		  pickers.new({}, {
+			prompt_title = 'Select process to attach',
+			finder = finders.new_table {
+			  results = processes,
+			  entry_maker = function(entry)
+				return {
+				  value = entry,
+				  display = entry.pid .. " - " .. entry.name,
+				  ordinal = entry.pid .. " " .. entry.name,
+				}
+			  end
+			},
+			sorter = conf.generic_sorter({}),
+			attach_mappings = function(prompt_bufnr, map)
+			  actions.select_default:replace(function()
+				actions.close(prompt_bufnr)
+				local selection = action_state.get_selected_entry()
+				dap.run({
+				  type = 'pwa-node', -- or your debugger type
+				  request = 'attach',
+				  processId = tonumber(selection.value.pid),
+				  name = 'Attach with Telescope',
+				})
+			  end)
+			  return true
+			end
+		  }):find()
+		end
 
 		dapui.setup()
 
@@ -50,7 +94,10 @@ return {
 					type = "pwa-node",
 					request = "attach",
 					name = "Attach",
-					processId = require 'dap.utils'.pick_process,
+					processId = function()
+						telescope_pick_process()
+						return nil
+					end,
 					cwd = "${workspaceFolder}",
 				},
 				{
