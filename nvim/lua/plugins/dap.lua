@@ -59,7 +59,8 @@ return {
 		dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
 		dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
 		dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
-		require("dap-python").setup("uv")
+		-- If this fails, run `python -m venv ~/.venv && source ~/.venv/bin/activate && pip install debugpy`
+		require("dap-python").setup(vim.fn.expand("~/.venv/bin/debugpy-adapter"))
 
 		-- Key mappings for DAP
 		vim.keymap.set('n', '<Leader>dc', function() require('dap').continue() end, { desc = "DAP Continue/Start" })
@@ -68,6 +69,7 @@ return {
 		vim.keymap.set('n', '<Leader>du', function() require('dap').step_out() end, { desc = "DAP Step Out" })
 		vim.keymap.set('n', '<Leader>db', function() require('dap').toggle_breakpoint() end, { desc = "DAP Toggle Breakpoint" })
 		vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end, { desc = "DAP Run Last" })
+		vim.keymap.set('n', '<Leader>de', function() require('dapui').eval() end, { desc = "Eval expression under cursor" })
 
 
 		require("dap-vscode-js").setup({

@@ -5,3 +5,4 @@ fish/config.fish
 tmux/plugins/*
 nvim/coc-settings.json
 nvim/lazy-lock.json
+.venv/
