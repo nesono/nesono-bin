@@ -2,7 +2,7 @@
 
 import pytest
 import datetime
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 import click.testing
 
 from cert_list import (
@@ -14,7 +14,6 @@ from cert_list import (
 
 
 class TestCertCheck:
-    
     def test_cert_check_invalid_connect_format(self):
         with pytest.raises(SystemExit):
             cert_check('HTTPS', 'invalid-format')
@@ -27,9 +26,9 @@ class TestCertCheck:
         }
         mock_retrieve.return_value = mock_cert
         test_now = datetime.datetime(2024, 6, 1)
-        
+
         result = cert_check('HTTPS', 'example.com:443', test_now)
-        
+
         assert result[0] == 'example.com'
         assert result[1] == '2024-01-01 00:00:00'
         assert result[2] == '2025-12-31 23:59:59'
@@ -81,9 +80,8 @@ class TestCertCheck:
     def test_cert_check_no_cert_returned(self, mock_retrieve):
         mock_retrieve.return_value = None
         
-        result = cert_check('HTTPS', 'example.com:443')
-        
-        assert result is None
+        with pytest.raises(SystemExit, match="No certificate found"):
+            cert_check('HTTPS', 'example.com:443')
 
 
 class TestPrintResultTable:
