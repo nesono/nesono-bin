@@ -20,7 +20,9 @@ class TestCertCheck:
             cert_check('HTTPS', 'invalid-format')
 
     @patch('cert_list._retrieve_certinfo')
-    def test_cert_check_https_valid_cert(self, mock_retrieve: Mock) -> None:
+    def test_cert_check_https_valid_cert(
+        self, mock_retrieve: Mock
+    ) -> None:
         mock_cert = {
             'notBefore': 'Jan  1 00:00:00 2024 GMT',
             'notAfter': 'Dec 31 23:59:59 2025 GMT'
@@ -36,7 +38,9 @@ class TestCertCheck:
         assert result[3] == ''  # No warning for valid cert
 
     @patch('cert_list._retrieve_certinfo')
-    def test_cert_check_https_expiring_soon(self, mock_retrieve: Mock) -> None:
+    def test_cert_check_https_expiring_soon(
+        self, mock_retrieve: Mock
+    ) -> None:
         mock_cert = {
             'notBefore': 'Jan  1 00:00:00 2024 GMT',
             'notAfter': 'Jun  5 23:59:59 2024 GMT'  # Expires in 4 days
@@ -47,10 +51,15 @@ class TestCertCheck:
         result = cert_check('HTTPS', 'example.com:443', test_now)
         
         assert result[0] == 'example.com'
-        assert f'Some certificates to expire within {limit_days} days' in result[3]
+        expected_msg = (
+            f'Some certificates to expire within {limit_days} days'
+        )
+        assert expected_msg in result[3]
 
     @patch('cert_list._retrieve_certinfo')
-    def test_cert_check_https_expired(self, mock_retrieve: Mock) -> None:
+    def test_cert_check_https_expired(
+        self, mock_retrieve: Mock
+    ) -> None:
         mock_cert = {
             'notBefore': 'Jan  1 00:00:00 2024 GMT',
             'notAfter': 'May 31 23:59:59 2024 GMT'  # Already expired
@@ -64,7 +73,9 @@ class TestCertCheck:
         assert 'SOME CERTIFICATES ARE ALREADY EXPIRED' in result[3]
 
     @patch('cert_list._retrieve_starttls_certinfo')
-    def test_cert_check_smtp_service(self, mock_retrieve: Mock) -> None:
+    def test_cert_check_smtp_service(
+        self, mock_retrieve: Mock
+    ) -> None:
         mock_cert = {
             'notBefore': 'Jan  1 00:00:00 2024 GMT',
             'notAfter': 'Dec 31 23:59:59 2025 GMT'
@@ -75,10 +86,14 @@ class TestCertCheck:
         result = cert_check('SMTP', 'mail.example.com:587', test_now)
         
         assert result[0] == 'mail.example.com'
-        mock_retrieve.assert_called_once_with('mail.example.com', 587)
+        mock_retrieve.assert_called_once_with(
+            'mail.example.com', 587
+        )
 
     @patch('cert_list._retrieve_certinfo')
-    def test_cert_check_no_cert_returned(self, mock_retrieve: Mock) -> None:
+    def test_cert_check_no_cert_returned(
+        self, mock_retrieve: Mock
+    ) -> None:
         mock_retrieve.return_value = None
         
         with pytest.raises(SystemExit, match="No certificate found"):
@@ -90,8 +105,14 @@ class TestPrintResultTable:
     @patch('builtins.print')
     def test_print_result_table(self, mock_print: Mock) -> None:
         test_data = [
-            ['example.com', '2024-01-01 00:00:00', '2025-12-31 23:59:59', '', 'color_code'],
-            ['test.com', '2024-01-01 00:00:00', '2024-06-01 23:59:59', 'Warning', 'color_code']
+            [
+                'example.com', '2024-01-01 00:00:00',
+                '2025-12-31 23:59:59', '', 'color_code'
+            ],
+            [
+                'test.com', '2024-01-01 00:00:00',
+                '2024-06-01 23:59:59', 'Warning', 'color_code'
+            ]
         ]
         
         print_result_table(test_data)
@@ -108,7 +129,10 @@ class TestPrintResultTable:
             ['test.com', '2024-01-01']  # Missing columns
         ]
         
-        with pytest.raises(AssertionError, match="All rows must have the same number of columns"):
+        with pytest.raises(
+            AssertionError,
+            match="All rows must have the same number of columns"
+        ):
             print_result_table(test_data)
 
 
@@ -120,31 +144,47 @@ class TestMainCLI:
         with patch('cert_list.cert_check') as mock_cert_check, \
              patch('cert_list.print_result_table') as mock_print_table:
             
-            mock_cert_check.return_value = ['example.com', '2024-01-01', '2025-12-31', '', 'color_code']
+            mock_cert_check.return_value = [
+                'example.com', '2024-01-01', '2025-12-31', '', 'color_code'
+            ]
             
-            result = runner.invoke(main, ['--service', 'HTTPS', '--connect', 'example.com:443'])
+            result = runner.invoke(
+                main, ['--service', 'HTTPS', '--connect', 'example.com:443']
+            )
             
             assert result.exit_code == 0
-            mock_cert_check.assert_called_once_with('HTTPS', 'example.com:443')
+            mock_cert_check.assert_called_once_with(
+                'HTTPS', 'example.com:443'
+            )
             mock_print_table.assert_called_once()
 
     def test_main_from_file(self) -> None:
         runner = click.testing.CliRunner()
-        test_file_content = "HTTPS example.com:443\nSMTP mail.example.com:587\n"
+        test_file_content = (
+            "HTTPS example.com:443\nSMTP mail.example.com:587\n"
+        )
         
         with patch('cert_list.cert_check') as mock_cert_check, \
              patch('cert_list.print_result_table') as mock_print_table:
             
             mock_cert_check.side_effect = [
-                ['example.com', '2024-01-01', '2025-12-31', '', 'color_code'],
-                ['mail.example.com', '2024-01-01', '2025-12-31', '', 'color_code']
+                [
+                    'example.com', '2024-01-01', '2025-12-31',
+                    '', 'color_code'
+                ],
+                [
+                    'mail.example.com', '2024-01-01', '2025-12-31',
+                    '', 'color_code'
+                ]
             ]
             
             with runner.isolated_filesystem():
                 with open('test_hosts.txt', 'w') as f:
                     f.write(test_file_content)
                 
-                result = runner.invoke(main, ['--from_file', 'test_hosts.txt'])
+                result = runner.invoke(
+                    main, ['--from_file', 'test_hosts.txt']
+                )
                 
                 assert result.exit_code == 0
                 assert mock_cert_check.call_count == 2
@@ -152,24 +192,35 @@ class TestMainCLI:
 
     def test_main_from_file_with_empty_lines(self) -> None:
         runner = click.testing.CliRunner()
-        test_file_content = "HTTPS example.com:443\n\nSMTP mail.example.com:587\n\n"
+        test_file_content = (
+            "HTTPS example.com:443\n\nSMTP mail.example.com:587\n\n"
+        )
         
         with patch('cert_list.cert_check') as mock_cert_check, \
              patch('cert_list.print_result_table') as mock_print_table:
             
             mock_cert_check.side_effect = [
-                ['example.com', '2024-01-01', '2025-12-31', '', 'color_code'],
-                ['mail.example.com', '2024-01-01', '2025-12-31', '', 'color_code']
+                [
+                    'example.com', '2024-01-01', '2025-12-31',
+                    '', 'color_code'
+                ],
+                [
+                    'mail.example.com', '2024-01-01', '2025-12-31',
+                    '', 'color_code'
+                ]
             ]
             
             with runner.isolated_filesystem():
                 with open('test_hosts.txt', 'w') as f:
                     f.write(test_file_content)
                 
-                result = runner.invoke(main, ['--from_file', 'test_hosts.txt'])
+                result = runner.invoke(
+                    main, ['--from_file', 'test_hosts.txt']
+                )
                 
                 assert result.exit_code == 0
-                assert mock_cert_check.call_count == 2  # Empty lines should be skipped
+                # Empty lines should be skipped
+                assert mock_cert_check.call_count == 2
 
     def test_main_from_file_malformed_line(self) -> None:
         runner = click.testing.CliRunner()
@@ -179,7 +230,9 @@ class TestMainCLI:
             with open('test_hosts.txt', 'w') as f:
                 f.write(test_file_content)
             
-            result = runner.invoke(main, ['--from_file', 'test_hosts.txt'])
+            result = runner.invoke(
+                main, ['--from_file', 'test_hosts.txt']
+            )
             
             # Should raise AssertionError for malformed line
             assert result.exit_code != 0
@@ -189,9 +242,12 @@ class TestMainCLI:
         
         with runner.isolated_filesystem():
             with open('large_file.txt', 'w') as f:
-                f.write('A' * 2048)  # Exactly at the limit + 1
+                # Exactly at the limit + 1
+                f.write('A' * 2048)
             
-            result = runner.invoke(main, ['--from_file', 'large_file.txt'])
+            result = runner.invoke(
+                main, ['--from_file', 'large_file.txt']
+            )
             
             # Should raise AssertionError for file too large
             assert result.exit_code != 0
