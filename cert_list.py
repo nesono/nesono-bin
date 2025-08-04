@@ -162,6 +162,8 @@ def main(
 
         print_result_table(results)
     else:
+        if not connect:
+            raise SystemExit("Missing parameter '--connect'")
         print_result_table([cert_check(service, connect)])
 
 
