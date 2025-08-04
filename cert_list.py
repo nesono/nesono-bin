@@ -55,11 +55,10 @@ def cert_check(
         service: str,
         connect: str,
         now: datetime.datetime = datetime.datetime.now(),
-        ) -> list[str, str, str, str, str]:
+        ) -> list[str] | None:
     """Function to check and print certificate expiry of a specific service"""
     if ":" not in connect:
-        print(f"Connect argument does not contain a colon: {connect}")
-        return -1
+        raise SystemExit("Connect argument is missing the colon: {connect}")
 
     hostname, port = connect.split(":")
     port = int(port)
@@ -69,7 +68,7 @@ def cert_check(
         cert = _retrieve_starttls_certinfo(hostname, port)
 
     if not cert:
-        return
+        return None
 
     #  formatted as Nov 27 07:32:24 2020 GMT
     not_before = datetime.datetime.strptime(
