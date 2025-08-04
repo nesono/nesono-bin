@@ -5,7 +5,7 @@ import ssl
 import socket
 from colorama import Fore, Style
 import datetime
-from typing import Final
+from typing import Final, Any, TextIO
 
 import logging
 
@@ -17,7 +17,7 @@ logger = logging.getLogger(__file__)
 limit_days: Final = 10
 
 
-def _retrieve_certinfo(hostname: str, port: int) -> dict[str, str] | None:
+def _retrieve_certinfo(hostname: str, port: int) -> dict[str, Any] | None:
     try:
         ctx = ssl.create_default_context()
         with ctx.wrap_socket(socket.socket(), server_hostname=hostname) as s:
@@ -32,7 +32,7 @@ def _retrieve_certinfo(hostname: str, port: int) -> dict[str, str] | None:
 
 def _retrieve_starttls_certinfo(
         hostname: str, port: int
-        ) -> dict[str, str] | None:
+        ) -> dict[str, Any] | None:
     context = ssl.create_default_context()
     try:
         with socket.create_connection((hostname, port)) as sock:
@@ -131,7 +131,7 @@ def print_result_table(tokens: list[list[str]]) -> None:
         help="Read 'service endpoint' from fileFormat:\nHTTPS www.example.com:443",
         type=click.File("r"),
         )
-def main(service: str, connect: str | None, from_file: click.File | None) -> None:
+def main(service: str, connect: str | None, from_file: TextIO | None) -> None:
     if from_file:
         now = datetime.datetime.now()
 
