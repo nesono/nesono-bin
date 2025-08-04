@@ -2,8 +2,9 @@
 
 import pytest
 import datetime
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 import click.testing
+from typing import Any
 
 from cert_list import (
     cert_check,
@@ -14,12 +15,12 @@ from cert_list import (
 
 
 class TestCertCheck:
-    def test_cert_check_invalid_connect_format(self):
+    def test_cert_check_invalid_connect_format(self) -> None:
         with pytest.raises(SystemExit):
             cert_check('HTTPS', 'invalid-format')
 
     @patch('cert_list._retrieve_certinfo')
-    def test_cert_check_https_valid_cert(self, mock_retrieve):
+    def test_cert_check_https_valid_cert(self, mock_retrieve: Mock) -> None:
         mock_cert = {
             'notBefore': 'Jan  1 00:00:00 2024 GMT',
             'notAfter': 'Dec 31 23:59:59 2025 GMT'
@@ -35,7 +36,7 @@ class TestCertCheck:
         assert result[3] == ''  # No warning for valid cert
 
     @patch('cert_list._retrieve_certinfo')
-    def test_cert_check_https_expiring_soon(self, mock_retrieve):
+    def test_cert_check_https_expiring_soon(self, mock_retrieve: Mock) -> None:
         mock_cert = {
             'notBefore': 'Jan  1 00:00:00 2024 GMT',
             'notAfter': 'Jun  5 23:59:59 2024 GMT'  # Expires in 4 days
@@ -49,7 +50,7 @@ class TestCertCheck:
         assert f'Some certificates to expire within {limit_days} days' in result[3]
 
     @patch('cert_list._retrieve_certinfo')
-    def test_cert_check_https_expired(self, mock_retrieve):
+    def test_cert_check_https_expired(self, mock_retrieve: Mock) -> None:
         mock_cert = {
             'notBefore': 'Jan  1 00:00:00 2024 GMT',
             'notAfter': 'May 31 23:59:59 2024 GMT'  # Already expired
@@ -63,7 +64,7 @@ class TestCertCheck:
         assert 'SOME CERTIFICATES ARE ALREADY EXPIRED' in result[3]
 
     @patch('cert_list._retrieve_starttls_certinfo')
-    def test_cert_check_smtp_service(self, mock_retrieve):
+    def test_cert_check_smtp_service(self, mock_retrieve: Mock) -> None:
         mock_cert = {
             'notBefore': 'Jan  1 00:00:00 2024 GMT',
             'notAfter': 'Dec 31 23:59:59 2025 GMT'
@@ -77,7 +78,7 @@ class TestCertCheck:
         mock_retrieve.assert_called_once_with('mail.example.com', 587)
 
     @patch('cert_list._retrieve_certinfo')
-    def test_cert_check_no_cert_returned(self, mock_retrieve):
+    def test_cert_check_no_cert_returned(self, mock_retrieve: Mock) -> None:
         mock_retrieve.return_value = None
         
         with pytest.raises(SystemExit, match="No certificate found"):
@@ -87,7 +88,7 @@ class TestCertCheck:
 class TestPrintResultTable:
     
     @patch('builtins.print')
-    def test_print_result_table(self, mock_print):
+    def test_print_result_table(self, mock_print: Mock) -> None:
         test_data = [
             ['example.com', '2024-01-01 00:00:00', '2025-12-31 23:59:59', '', 'color_code'],
             ['test.com', '2024-01-01 00:00:00', '2024-06-01 23:59:59', 'Warning', 'color_code']
@@ -100,7 +101,7 @@ class TestPrintResultTable:
         # First call should be the header
         mock_print.assert_any_call("Resulting table")
 
-    def test_print_result_table_uneven_rows(self):
+    def test_print_result_table_uneven_rows(self) -> None:
         # Test assertion for uneven row lengths
         test_data = [
             ['example.com', '2024-01-01', '2025-12-31'],
@@ -113,7 +114,7 @@ class TestPrintResultTable:
 
 class TestMainCLI:
     
-    def test_main_single_check(self):
+    def test_main_single_check(self) -> None:
         runner = click.testing.CliRunner()
         
         with patch('cert_list.cert_check') as mock_cert_check, \
@@ -127,7 +128,7 @@ class TestMainCLI:
             mock_cert_check.assert_called_once_with('HTTPS', 'example.com:443')
             mock_print_table.assert_called_once()
 
-    def test_main_from_file(self):
+    def test_main_from_file(self) -> None:
         runner = click.testing.CliRunner()
         test_file_content = "HTTPS example.com:443\nSMTP mail.example.com:587\n"
         
@@ -149,7 +150,7 @@ class TestMainCLI:
                 assert mock_cert_check.call_count == 2
                 mock_print_table.assert_called_once()
 
-    def test_main_from_file_with_empty_lines(self):
+    def test_main_from_file_with_empty_lines(self) -> None:
         runner = click.testing.CliRunner()
         test_file_content = "HTTPS example.com:443\n\nSMTP mail.example.com:587\n\n"
         
@@ -170,7 +171,7 @@ class TestMainCLI:
                 assert result.exit_code == 0
                 assert mock_cert_check.call_count == 2  # Empty lines should be skipped
 
-    def test_main_from_file_malformed_line(self):
+    def test_main_from_file_malformed_line(self) -> None:
         runner = click.testing.CliRunner()
         test_file_content = "HTTPS example.com:443 extra_token\n"
         
@@ -183,7 +184,7 @@ class TestMainCLI:
             # Should raise AssertionError for malformed line
             assert result.exit_code != 0
 
-    def test_main_file_too_large(self):
+    def test_main_file_too_large(self) -> None:
         runner = click.testing.CliRunner()
         
         with runner.isolated_filesystem():
@@ -198,7 +199,7 @@ class TestMainCLI:
 
 class TestConstants:
     
-    def test_limit_days_constant(self):
+    def test_limit_days_constant(self) -> None:
         assert limit_days == 10
         assert isinstance(limit_days, int)
 

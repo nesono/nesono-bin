@@ -6,7 +6,6 @@ import socket
 from colorama import Fore, Style
 import datetime
 from typing import Final
-from pathlib import Path
 
 import logging
 
@@ -18,7 +17,7 @@ logger = logging.getLogger(__file__)
 limit_days: Final = 10
 
 
-def _retrieve_certinfo(hostname: str, port: int) -> dict[str, str]:
+def _retrieve_certinfo(hostname: str, port: int) -> dict[str, str] | None:
     try:
         ctx = ssl.create_default_context()
         with ctx.wrap_socket(socket.socket(), server_hostname=hostname) as s:
@@ -95,7 +94,7 @@ def cert_check(
     return [hostname, f"{not_before}", f"{not_after}", verdict, color]
 
 
-def print_result_table(tokens):
+def print_result_table(tokens: list[list[str]]) -> None:
     assert all(len(row) == len(tokens[0]) for row in tokens), (
             "All rows must have the same number of columns"
             )
@@ -132,7 +131,7 @@ def print_result_table(tokens):
         help="Read 'service endpoint' from fileFormat:\nHTTPS www.example.com:443",
         type=click.File("r"),
         )
-def main(service: str, connect: str, from_file: Path):
+def main(service: str, connect: str | None, from_file: click.File | None) -> None:
     if from_file:
         now = datetime.datetime.now()
 
