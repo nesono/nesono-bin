@@ -20,8 +20,8 @@ return {
                 fzf = {
                     ["ctrl-d"] = "preview-page-down",
                     ["ctrl-u"] = "preview-page-up",
-					["ctrl-a"] = "toggle-all",
-					["ctrl-q"] = "select-all+accept",
+                    ["ctrl-a"] = "toggle-all",
+                    ["ctrl-q"] = "select-all+accept",
                 },
             }
         }
