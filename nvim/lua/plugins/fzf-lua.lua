@@ -11,6 +11,12 @@ return {
         width = 0.9,
         preview = { default = "bat" },
       },
+      keymap = {
+        fzf = {
+            ["ctrl-a"] = "toggle-all",
+            ["ctrl-q"] = "select-all+accept",
+        },
+    },
     }
 
     -- Keybindings
