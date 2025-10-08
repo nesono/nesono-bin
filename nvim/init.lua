@@ -66,11 +66,6 @@ vim.keymap.set("n", "<leader>dt", function()
 end, { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap("n", "<leader>m", ":Mason<cr>", { noremap = true, silent = true })
-require("dapui").setup()
-function _dapui_toggle()
-	require("dapui").toggle()
-end
-vim.api.nvim_set_keymap("n", "<leader>dd", "<cmd>lua _dapui_toggle()<cr>", { noremap = true, silent = true })
 
 -- LSP
 -- C-]: Symbol under cursor

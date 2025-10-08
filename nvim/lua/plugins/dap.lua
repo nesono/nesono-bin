@@ -1,3 +1,7 @@
+-- if vim.env.ENABLE_DAPUI ~= "1" then
+-- 	return {}
+-- end
+--
 return {
 	"rcarriga/nvim-dap-ui",
 	dependencies = {
@@ -14,6 +18,11 @@ return {
 		local conf = require('telescope.config').values
 		local actions = require('telescope.actions')
 		local action_state = require('telescope.actions.state')
+		dapui.setup()
+		function _dapui_toggle()
+			dapui.toggle()
+		end
+		vim.api.nvim_set_keymap("n", "<leader>dd", "<cmd>lua _dapui_toggle()<cr>", { noremap = true, silent = true })
 
 		local function telescope_pick_process()
 		  local output = vim.fn.systemlist("ps -eo pid,comm")
