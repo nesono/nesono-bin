@@ -1,7 +1,7 @@
--- if vim.env.ENABLE_DAPUI ~= "1" then
--- 	return {}
--- end
---
+if vim.env.enable_dapui ~= "1" then
+	return {}
+end
+
 return {
 	"rcarriga/nvim-dap-ui",
 	dependencies = {
