@@ -148,3 +148,36 @@ fzf_install() {
 uv_install() {
 	curl -LsSf https://astral.sh/uv/install.sh | sh
 }
+
+nvim_install() {
+	TMPFILE=/tmp/nvim.appimage
+	MACHINE=$(uname -m)
+	SYSTEM=$(uname -s | tr '[:upper:]' '[:lower:]')
+
+	if [[ "$SYSTEM" != "linux" ]]; then
+		echo "This installation script only supports Linux."
+		exit 1
+	fi
+
+	LATEST_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r '.tag_name')
+	echo "Latest version: $LATEST_VERSION"
+
+	INSTALLED_VERSION=""
+	if command -v nvim >/dev/null 2>&1; then
+		INSTALLED_VERSION=$(nvim --version | head -1 | cut -d ' ' -f 2)
+	fi
+
+	if [[ "$LATEST_VERSION" == "$INSTALLED_VERSION" ]]; then
+		echo "Latest nvim version already installed: $INSTALLED_VERSION"
+		exit 0
+	fi
+
+	URL="https://github.com/neovim/neovim/releases/download/$LATEST_VERSION/nvim-linux-$MACHINE.appimage"
+	echo "Installing version $LATEST_VERSION"
+	curl -L -o "$TMPFILE" "$URL"
+	chmod a+x "$TMPFILE"
+
+	mkdir -p "$HOME"/.local/bin/
+	mv "$TMPFILE" "$HOME"/.local/bin/nvim
+}
+
