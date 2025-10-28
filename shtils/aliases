@@ -194,3 +194,8 @@ shpool_install() {
 	systemctl --user start shpool
 	loginctl enable-linger
 }
+
+alias spl='shpool list'
+alias spa='shpool attach'
+alias spd'=shpool detach'
+alias spk='shpool kill'
