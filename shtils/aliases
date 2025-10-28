@@ -202,3 +202,7 @@ if command -v shpool >/dev/null 2>&1; then
 	alias spk='shpool kill'
 fi
 
+if command -v lazygit >/dev/null 2>&1; then
+  alias lg='lazygit'
+fi
+
