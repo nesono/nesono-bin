@@ -186,6 +186,11 @@ zoxide_install() {
 }
 
 shpool_install() {
+	if command -v shpool >/dev/null 2>&1; then
+		echo "shpool is already installed."
+		return
+	fi
+
 	cargo install shpool
 	curl -fLo "${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user/shpool.service" --create-dirs https://raw.githubusercontent.com/shell-pool/shpool/master/systemd/shpool.service
 	sed -i "s|/usr|$HOME/.cargo|" "${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user/shpool.service"
@@ -193,6 +198,30 @@ shpool_install() {
 	systemctl --user enable shpool
 	systemctl --user start shpool
 	loginctl enable-linger
+}
+
+shpool_install_p10k_prompt() {
+	# install shpool prompt status line
+	if [[ "{$POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS:-}" == *shpool* ]]; then
+		if grep -q "prompt_shpool" ~/.zshrc; then
+			echo "shpool prompt already installed in ~/.zshrc"
+		else
+			cat <<'EOF' >> ~/.zshrc
+function prompt_shpool() {
+  if command -v shpool >/dev/null 2>&1; then
+    if [[ -n "$SHPOOL_SESSION_NAME" ]]; then
+      p10k segment -i '🐚' -t "$SHPOOL_SESSION_NAME" -f 15
+    fi
+  fi
+}
+typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+  shpool            # our custom segment
+  "${POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS[@]}"  # keep existing ones
+)
+EOF
+			echo "shpool prompt installed in ~/.zshrc"
+		fi
+	fi
 }
 
 if command -v shpool >/dev/null 2>&1; then
