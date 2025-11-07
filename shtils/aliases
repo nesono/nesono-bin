@@ -103,7 +103,7 @@ add_string_to_env_var() {
 	touch ~/.profile
 	# export GOPATH="${GOPATH:+$GOPATH:}$HOME/go"
 	local str_to_add
-	str_to_add="export $env_var=\$\{$env_var:+\$$env_var:}$path_to_add"
+	str_to_add="export $env_var=\${$env_var:+\$$env_var:}$path_to_add"
 	if ! grep -qF "$str_to_add" ~/.zprofile; then
 		echo "$str_to_add" >> ~/.zprofile
 	fi
