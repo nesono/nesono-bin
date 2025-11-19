@@ -10,7 +10,7 @@ return {
 		enabled = true,
 		sections = {
 			{ section = "header" },
-			{ pane = 1, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+			{ pane = 1, icon = " ", title = "Recent Files", section = "recent_files", limit = 16, indent = 2, padding = 1 },
 			{ pane = 1, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
 			{
 				pane = 2,
