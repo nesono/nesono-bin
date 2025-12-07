@@ -18,22 +18,29 @@ return {
 	},
 	config = function()
 		local openai_api_key = vim.env.OPENAI_API_KEY
+		local base_codecompanion_cfg = {
+			extensions = {
+				mcphub = {
+					callback = "mcphub.extensions.codecompanion",
+					opts = {
+						make_vars = true,
+						make_slash_commands = true,
+						show_result_in_chat = true
+					}
+				}
+			}
+		}
 		if openai_api_key then
-			require("codecompanion").setup({
-				default_adapter = "openai",
-				strategies = {
-					chat = { adapter = "openai" },
-					inline = { adapter = "openai" },
-					cmd = { adapter = "openai" },
-					agent = { adapter = "openai" },
-				},
-			})
-		else
-			require("codecompanion").setup({
-			})
+			base_codecompanion_cfg.strategies = {
+				chat = { adapter = "openai" },
+				inline = { adapter = "openai" },
+				cmd = { adapter = "openai" },
+				agent = { adapter = "openai" },
+			}
 		end
-		vim.keymap.set("n", "<leader>cc", ":CodeCompanionChat Toggle<cr>")
-		vim.keymap.set({'o', 'x'}, "<leader>cc", ":CodeCompanion<cr>")
-		vim.keymap.set({'n', 'o', 'x'}, "<leader>ca", ":CodeCompanionActions<cr>")
+		require("codecompanion").setup(base_codecompanion_cfg)
+		vim.keymap.set("n", "<leader>cc", ":CodeCompanionChat Toggle<cr>", { desc = "Open CodeCompanion Chat" })
+		vim.keymap.set({'o', 'x'}, "<leader>cc", ":CodeCompanion<cr>", { desc = "CodeCompanion on selection" })
+		vim.keymap.set({'n', 'o', 'x'}, "<leader>ca", ":CodeCompanionActions<cr>", { desc = "CodeCompanion Actions" })
 	end,
 }
