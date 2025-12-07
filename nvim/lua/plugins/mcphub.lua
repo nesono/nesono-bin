@@ -5,6 +5,11 @@ return {
     },
     build = "npm install -g mcp-hub@latest",  -- Installs `mcp-hub` node binary globally
     config = function()
-        require("mcphub").setup()
+        require("mcphub").setup({
+			global_env = {
+				"GITHUB_PERSONAL_ACCESS_TOKEN",
+			},
+		})
+		vim.keymap.set("n", "<leader>hh", ":MCPHub<cr>")
     end
 }
