@@ -118,9 +118,6 @@ popd &> /dev/null || exit
 echo
 
 echo_section "Installing additional links"
-install_link ~/.inputrc           "${scriptdir}"/inputrc
-install_link ~/.tmux.conf         "${scriptdir}"/tmux.conf
-install_link ~/.tigrc             "${scriptdir}"/tigrc
 install_link ~/.config/nvim       "${scriptdir}"/nvim
 
 # only useful for Linux
@@ -135,6 +132,8 @@ if [[ $(uname -s) == Linux ]]; then
     install_link ~/.config/rofi          "${scriptdir}"/rofi
     install_link ~/.config/dunst         "${scriptdir}"/dunst
     install_link ~/.config/picom.conf    "${scriptdir}"/picom.conf
+	install_link ~/.config/hypr          "${scriptdir}"/hypr
+	install_link ~/.config/waybar        "${scriptdir}"/waybar
 fi
 
 echo_info "Done, see you next time"

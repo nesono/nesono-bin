@@ -1,8 +1,8 @@
-@import "catppuccin/themes/mocha.css";
+@import "mocha.css";
 
 * {
   font-family: "Adwaita Sans";
-  font-size: 17px;
+  font-size: 13px;
   min-height: 0;
 }
 
@@ -33,6 +33,13 @@
 #workspaces button:hover {
   color: @sapphire;
   border-radius: 1rem;
+}
+
+#window {
+	border-radius: 1rem;
+	margin: 5px;
+	padding: 5px;
+	background-color: @surface0;
 }
 
 #custom-music,
