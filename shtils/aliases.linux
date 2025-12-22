@@ -30,9 +30,12 @@ alias open='xdg-open'
 alias ls='ls --color=auto'
 # to emulate OSX' pbcopy/pbpaste
 if ! command -v xclip &> /dev/null; then
-  echo "xclip is not installed. Please install it to use pbcopy/pbpaste aliases."
+  if ! command -v wl-copy &> /dev/null; then
+	  echo "Neither xclip not wl-clipboard installed. Please install to use pbcopy/pbpaste aliases"
+  fi
+  alias pbcopy='wl-copy'
+  alias pbpaste='wl-paste'
 else
-  alias ls='ls --color=auto'
+  alias pbcopy='xclip -selection clipboard'
+  alias pbpaste='xclip -o -selection clipboard'
 fi
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -o -selection clipboard'
