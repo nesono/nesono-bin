@@ -134,6 +134,7 @@ if [[ $(uname -s) == Linux ]]; then
     install_link ~/.config/picom.conf    "${scriptdir}"/picom.conf
 	install_link ~/.config/hypr          "${scriptdir}"/hypr
 	install_link ~/.config/waybar        "${scriptdir}"/waybar
+	install_link ~/.config/wlogout       "${scriptdir}"/wlogout
 fi
 
 echo_info "Done, see you next time"
