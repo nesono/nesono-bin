@@ -15,7 +15,7 @@
 #workspaces {
   border-radius: 1rem;
   margin: 0 5px;
-  background-color: @surface0;
+  background-color: @base;
   margin-left: 1rem;
 }
 
@@ -27,7 +27,7 @@
 
 #workspaces button.active {
   color: @sky;
-  background-color: @surface2;
+  background-color: @surface0;
   border-radius: 1rem;
 }
 
@@ -40,18 +40,21 @@
 	border-radius: 1rem;
 	margin: 0 5px;
 	padding: 5px 1rem;
-	background-color: @surface0;
+	background-color: @base;
 }
 
 #custom-music,
 #tray,
 #backlight,
 #clock,
+#cpu,
+#memory,
+#network,
 #battery,
 #pulseaudio,
 #custom-lock,
 #custom-power {
-  background-color: @surface0;
+  background-color: @base;
   padding: 0.5rem 1rem;
   /* margin: 5px 0; */
 }
