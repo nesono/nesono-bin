@@ -5,10 +5,10 @@
     "modules-center": ["hyprland/window"],
     "modules-right": ["pulseaudio", "backlight", "battery", "clock", "tray", "custom/lock", "custom/power"],
     "hyprland/workspaces": {
-        "format": "{icon}", // Shows icon and name/number
+        "format": "{icon} {id}", // Shows icon and name/number
         "format-icons": { 
             "urgent": "",
-            "default": ""
+            "default": "",
         },
         "on-click": "activate", // Switch workspace on click
         "all-outputs": true, // Show workspaces on all monitors
