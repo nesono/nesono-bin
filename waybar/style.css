@@ -2,19 +2,19 @@
 
 * {
   font-family: Inter, "Adwaita Sans";
-  font-size: 13px;
+  font-size: 14px;
   min-height: 0;
 }
 
 #waybar {
   background: transparent;
   color: @text;
-  margin: 5px 5px;
+  margin: 0 5px;
 }
 
 #workspaces {
   border-radius: 1rem;
-  margin: 5px;
+  margin: 0 5px;
   background-color: @surface0;
   margin-left: 1rem;
 }
@@ -38,7 +38,7 @@
 
 #window {
 	border-radius: 1rem;
-	margin: 5px;
+	margin: 0 5px;
 	padding: 5px 1rem;
 	background-color: @surface0;
 }
@@ -53,7 +53,7 @@
 #custom-power {
   background-color: @surface0;
   padding: 0.5rem 1rem;
-  margin: 5px 0;
+  /* margin: 5px 0; */
 }
 
 #clock {
