@@ -31,6 +31,10 @@
   border-radius: 1rem;
 }
 
+#workspaces button.urgent {
+  color: @red;
+}
+
 #workspaces button:hover {
   color: @sapphire;
   border-radius: 1rem;
