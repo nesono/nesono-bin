@@ -1,9 +1,10 @@
-/* @import "mocha.css"; */
 @define-color text rgb(220, 220, 220);
 @define-color texthi rgb(250, 250, 250);
 @define-color base rgb(30, 30, 30);
 @define-color button rgb(50, 50, 50);
 @define-color buttonactive rgb(80, 80, 80);
+@define-color red rgb(200, 0, 0);
+@define-color yellow rgb(200, 200, 0);
 
 * {
   font-family: Inter, "Adwaita Sans";
@@ -74,6 +75,7 @@
 
 #network {
   font-family: "Adwaita Mono";
+  background-color: @base;
 }
 
 #clock {
@@ -94,6 +96,10 @@
 }
 
 #battery.warning:not(.charging) {
+  color: @yellow;
+}
+
+#battery.critical:not(.charging) {
   color: @red;
 }
 
