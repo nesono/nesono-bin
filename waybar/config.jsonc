@@ -3,7 +3,7 @@
     "position": "top",
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
     "modules-center": [],
-    "modules-right": ["pulseaudio", "cpu", "memory", "network", "battery", "clock", "tray", "custom/lock", "custom/power"],
+    "modules-right": ["pulseaudio", "cpu", "memory", "network", "battery", "clock", "tray", "custom/power"],
     "hyprland/workspaces": {
         "format": "{icon} {id}", // Shows icon and name/number
         "format-icons": { 
@@ -29,12 +29,12 @@
     "clock": {
         "timezone": "Europe/Berlin",
         "tooltip-format": "<tt><small>{calendar}</small></tt>",
-        "format-alt": " {:%Y-%m-%d %H:%M}",
-        "format": "  {:%H:%M}"
+        "format-alt": "{:%Y-%m-%d %H:%M}",
+        "format": " {:%H:%M}"
 	},
 	"cpu": {
 		"interval": 5,
-		"format": "{load:0.1f}%",
+		"format": "{}%",
 		"on-click": "neohtop",
 		"max-length": 10
 	},
