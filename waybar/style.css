@@ -1,4 +1,9 @@
-@import "mocha.css";
+/* @import "mocha.css"; */
+@define-color text rgb(220, 220, 220);
+@define-color texthi rgb(250, 250, 250);
+@define-color base rgb(30, 30, 30);
+@define-color button rgb(50, 50, 50);
+@define-color buttonactive rgb(80, 80, 80);
 
 * {
   font-family: Inter, "Adwaita Sans";
@@ -20,14 +25,18 @@
 }
 
 #workspaces button {
-  color: @lavender;
+  /* color: @lavender; */
+  background-color: @button;
+  color: @text;
   border-radius: 1rem;
   padding: 0.4rem;
 }
 
 #workspaces button.active {
-  color: @sky;
-  background-color: @surface0;
+  /* color: @sky; */
+  color: @texthi;
+  /* background-color: @surface0; */
+  background-color: @buttonactive;
   border-radius: 1rem;
 }
 
@@ -36,7 +45,8 @@
 }
 
 #workspaces button:hover {
-  color: @sapphire;
+  /* color: @sapphire; */
+  color: @base;
   border-radius: 1rem;
 }
 
@@ -53,7 +63,6 @@
 #clock,
 #cpu,
 #memory,
-#network,
 #battery,
 #pulseaudio,
 #custom-lock,
@@ -63,18 +72,25 @@
   /* margin: 5px 0; */
 }
 
+#network {
+  font-family: "Adwaita Mono";
+}
+
 #clock {
-  color: @blue;
+  /* color: @blue; */
+  color: @text;
   border-radius: 0px 1rem 1rem 0px;
   margin-right: 1rem;
 }
 
 #battery {
-  color: @green;
+  /* color: @green; */
+  color: @text;
 }
 
 #battery.charging {
-  color: @green;
+  /* color: @green; */
+  color: @text;
 }
 
 #battery.warning:not(.charging) {
@@ -82,7 +98,8 @@
 }
 
 #backlight {
-  color: @yellow;
+  /* color: @yellow; */
+  color: @text;
 }
 
 #backlight, #battery {
@@ -90,25 +107,29 @@
 }
 
 #pulseaudio {
-  color: @maroon;
+  /* color: @maroon; */
+  color: @text;
   border-radius: 1rem 0px 0px 1rem;
   margin-left: 1rem;
 }
 
 #custom-music {
-  color: @mauve;
+  /* color: @mauve; */
+  color: @text;
   border-radius: 1rem;
 }
 
 #custom-lock {
-    border-radius: 1rem 0px 0px 1rem;
-    color: @lavender;
+  border-radius: 1rem 0px 0px 1rem;
+  /* color: @lavender; */
+  color: @text;
 }
 
 #custom-power {
-    margin-right: 1rem;
-    border-radius: 0px 1rem 1rem 0px;
-    color: @red;
+  margin-right: 1rem;
+  border-radius: 0px 1rem 1rem 0px;
+  /* color: @red; */
+  color: @text;
 }
 
 #tray {
