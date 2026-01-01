@@ -55,7 +55,7 @@
 	border-radius: 1rem;
 	margin: 0 5px;
 	padding: 5px 1rem;
-	background-color: @base;
+	background-color: @button;
 }
 
 #custom-music,
@@ -64,25 +64,30 @@
 #clock,
 #cpu,
 #memory,
+#network,
 #battery,
 #pulseaudio,
 #custom-lock,
 #custom-power {
-  background-color: @base;
-  padding: 0.5rem 1rem;
+  font-family: "Adwaita Mono";
+  background-color: @button;
   /* margin: 5px 0; */
 }
 
-#network {
-  font-family: "Adwaita Mono";
-  background-color: @base;
+#custom-music,
+#pulseaudio,
+#cpu,
+#memory,
+#clock,
+#custom-lock,
+#custom-power
+{
+  padding: 0 1rem;
 }
 
 #clock {
   /* color: @blue; */
   color: @text;
-  border-radius: 0px 1rem 1rem 0px;
-  margin-right: 1rem;
 }
 
 #battery {
@@ -138,8 +143,4 @@
   color: @text;
 }
 
-#tray {
-  margin-right: 1rem;
-  border-radius: 1rem;
-}
 
