@@ -23,7 +23,7 @@ vim.api.nvim_exec(
 	false
 )
 
-vim.cmd.colorscheme("catppuccin")
+-- vim.cmd.colorscheme("catppuccin")
 
 -- Disable netrw
 vim.g.loaded_netrw = 1
