@@ -224,6 +224,12 @@ EOF
 	fi
 }
 
+# git branch prune - remove all branches from closed PRs
+gbp() {
+	git fetch --prune
+	git branch -vv | awk '/: gone]/{print $1}' | xargs -r git branch -D
+}
+
 if command -v shpool >/dev/null 2>&1; then
 	alias spl='shpool list'
 	alias spa='shpool attach'
