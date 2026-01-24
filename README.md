@@ -2,7 +2,7 @@
 
 ## Description
 
-Useful helper scripts for all purposes. See the documentation and comments in
+Useful helper scripts and personal doffiles for all purposes. See the documentation and comments in
 each file for usage.
 
 ## Installation
