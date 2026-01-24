@@ -32,7 +32,9 @@ return {
 					{
 						'tabs',
 						mode = 2,
-						use_mode_colors = false
+						use_mode_colors = false,
+						component_separators = { left = '|', right = '|'},
+						section_separators = { left = '', right = ''}
 					}
 				},
 				lualine_b = {},
