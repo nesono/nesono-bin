@@ -46,6 +46,7 @@ echo
 
 echo "This script will not overwrite existing configurations but only set up"
 echo "conigurations for shells that are installed and not already configured."
+# shellcheck disable=SC2162
 read -p "Continue? [Y/n] " ANSWER
 
 if [[ "$ANSWER" == [nN]* ]]; then
@@ -54,7 +55,9 @@ if [[ "$ANSWER" == [nN]* ]]; then
 fi
 sleep 1
 
-readonly scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+scriptdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly scriptdir
+# shellcheck disable=SC1091
 source "$scriptdir"/common/install_common.sh
 
 # required to not forward this variable to subsequent scripts and for detection

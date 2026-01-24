@@ -10,8 +10,7 @@ from typing import Final, Any, TextIO
 import logging
 
 logging.basicConfig(
-    format="%(asctime)s %(levelname)s:%(message)s",
-    level=logging.DEBUG
+    format="%(asctime)s %(levelname)s:%(message)s", level=logging.DEBUG
 )
 logger = logging.getLogger(__file__)
 
@@ -46,8 +45,7 @@ def _retrieve_starttls_certinfo(
                 return sslsock.getpeercert()
     except (ssl.SSLError, socket.error) as e:
         logger.error(
-            f"Error retrieving STARTTLS certificate for "
-            f"{hostname}:{port}: {e}"
+            f"Error retrieving STARTTLS certificate for {hostname}:{port}: {e}"
         )
         return None
 
@@ -59,9 +57,7 @@ def cert_check(
 ) -> list[str]:
     """Check and print certificate expiry of a specific service."""
     if ":" not in connect:
-        raise SystemExit(
-            f"Connect argument is missing the colon: {connect}"
-        )
+        raise SystemExit(f"Connect argument is missing the colon: {connect}")
 
     hostname, port = connect.split(":")
     port = int(port)
@@ -88,9 +84,7 @@ def cert_check(
     color = Fore.GREEN
 
     if not_after < (now + datetime.timedelta(days=10)):
-        verdict = (
-            f"Some certificates to expire within {limit_days} days"
-        )
+        verdict = f"Some certificates to expire within {limit_days} days"
         color = Fore.YELLOW
 
     if not_after < now:
@@ -135,12 +129,10 @@ def print_result_table(tokens: list[list[str]]) -> None:
 @click.option(
     "--from_file",
     help="Read 'service endpoint' from file\n"
-         "Format: HTTPS www.example.com:443",
+    "Format: HTTPS www.example.com:443",
     type=click.File("r"),
 )
-def main(
-    service: str, connect: str | None, from_file: TextIO | None
-) -> None:
+def main(service: str, connect: str | None, from_file: TextIO | None) -> None:
     if from_file:
         now = datetime.datetime.now()
 
