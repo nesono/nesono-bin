@@ -122,6 +122,7 @@ echo
 
 echo_section "Installing additional links"
 install_link ~/.config/nvim       "${scriptdir}"/nvim
+install_link ~/.config/yazi       "${scriptdir}"/yazi
 
 # only useful for Linux
 if [[ $(uname -s) == Linux ]]; then
