@@ -19,6 +19,8 @@ vim.api.nvim_exec(
   au CursorHold * checktime
   set grepprg=rg\ --vimgrep
   set grepformat^=%f:%l:%c:%m
+  set title
+  set titlestring=%{fnamemodify(getcwd(),':t')}\ -\ nvim
 ]],
 	false
 )
