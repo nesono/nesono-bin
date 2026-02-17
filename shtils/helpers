@@ -30,12 +30,12 @@
 function cdmkdir()
 {
 	mkdir -p "$@"
-	local path
-	for path in "$@"; do
+	local dir_to_make
+	for dir_to_make in "$@"; do
 		# ignore any arguments
-		if [[ "$path" = -* ]]; then :
+		if [[ "$dir_to_make" = -* ]]; then :
 		else
-			cd "$path" || exit
+			cd "$dir_to_make" || exit
 			return
 		fi
 	done
