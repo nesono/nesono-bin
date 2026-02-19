@@ -241,3 +241,9 @@ fi
 if command -v lazygit >/dev/null 2>&1; then
   alias lg='lazygit'
 fi
+
+if command -v zellij >/dev/null 2>&1; then
+    alias zj='zellij'
+	alias zja='zellij attach'
+	alias zjl='zellij list-sessions'
+fi
