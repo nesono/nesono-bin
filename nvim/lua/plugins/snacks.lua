@@ -74,7 +74,27 @@ return {
       enabled = true,
       timeout = 3000,
     },
-    picker = { enabled = true },
+	picker = { 
+		enabled = true,
+		sources = {
+			lsp_symbols = {
+				finder = function(opts, ctx)
+					ctx.picker.seen = {}
+					return require("snacks.picker.source.lsp").symbols(opts, ctx)
+				end,
+				transform = function(item, ctx)
+					-- vim.print(item)
+					local seen = ctx.picker.seen
+					local id = vim.inspect({ item.text }) -- NOTE: Change
+					if seen[id] then
+						return false
+					end
+					seen[id] = true
+					return true
+				end,
+			},
+		},
+	},
     quickfile = { enabled = true },
     scope = { enabled = true },
     scroll = { enabled = true },
