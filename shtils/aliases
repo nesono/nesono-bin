@@ -234,7 +234,7 @@ gbp() {
 if command -v shpool >/dev/null 2>&1; then
 	alias spl='shpool list'
 	alias spa='shpool attach'
-	alias spd'=shpool detach'
+	alias spd='shpool detach'
 	alias spk='shpool kill'
 fi
 
