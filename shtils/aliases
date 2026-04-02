@@ -247,3 +247,5 @@ if command -v zellij >/dev/null 2>&1; then
 	alias zja='zellij attach'
 	alias zjl='zellij list-sessions'
 fi
+
+alias "gce"='git commit --allow-empty -m "Trigger Build"'
