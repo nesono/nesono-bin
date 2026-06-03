@@ -249,3 +249,10 @@ if command -v zellij >/dev/null 2>&1; then
 fi
 
 alias "gce"='git commit --allow-empty -m "Trigger Build"'
+
+# copy to clipboard over remote sessions
+osc52() {
+  local data
+  data=$(base64 | tr -d '\n')
+  printf "\033]52;c;%s\a" "$data"
+}
