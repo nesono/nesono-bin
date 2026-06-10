@@ -57,7 +57,7 @@ return {
       haunt_picker.show()
     end, { desc = "Show Picker" })
 
-    -- quickfix 
+    -- quickfix
     map("n", prefix .. "q", function()
        haunt.to_quickfix()
     end, { desc = "Send Hauntings to QF Lix (buffer)" })

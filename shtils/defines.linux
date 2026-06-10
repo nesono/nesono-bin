@@ -36,4 +36,3 @@ function isodatetime()
 {
   date +%Y-%0m-%0dT%0k-%0M
 }
-

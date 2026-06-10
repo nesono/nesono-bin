@@ -5,8 +5,8 @@ return {
   ---@type snacks.Config
   opts = {
     bigfile = { enabled = true },
-    dashboard = 
-	{ 
+    dashboard =
+	{
 		enabled = true,
 		sections = {
 			{ section = "header" },
@@ -74,7 +74,7 @@ return {
       enabled = true,
       timeout = 3000,
     },
-	picker = { 
+	picker = {
 		enabled = true,
 		sources = {
 			lsp_symbols = {
@@ -223,7 +223,7 @@ return {
             dd(...)
           end
         else
-          vim.print = _G.dd 
+          vim.print = _G.dd
         end
 
         -- Create some toggle mappings

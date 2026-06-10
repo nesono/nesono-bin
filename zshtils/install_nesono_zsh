@@ -88,4 +88,3 @@ ENDOFSCRIPT
   echo_info "Please close your zsh shell and start again to make change effective"
   echo_info "Installation for zsh done"
 fi
-
