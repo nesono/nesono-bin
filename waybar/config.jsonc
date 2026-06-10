@@ -6,7 +6,7 @@
     "modules-right": ["pulseaudio", "cpu", "memory", "network", "battery", "clock", "tray", "custom/power"],
     "hyprland/workspaces": {
         "format": "{icon} {id}", // Shows icon and name/number
-        "format-icons": { 
+        "format-icons": {
             "urgent": "",
             "default": "",
         },
