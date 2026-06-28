@@ -17,32 +17,25 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
-
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
-    pkgs.ghostty
-	pkgs.lazygit
-    pkgs.nerd-fonts.jetbrains-mono
-    pkgs.nodejs
-    (pkgs.writeShellScriptBin "opencode" ''
-      exec ${pkgs.nodejs}/bin/npx -y opencode-ai@latest "$@"
+  home.packages = with pkgs; [
+    nixos-artwork.wallpapers.recursive
+    nixos-artwork.wallpapers.waterfall
+    nixos-artwork.wallpapers.moonscape
+    nixos-artwork.wallpapers.watersplash
+    nixos-artwork.wallpapers.gear
+    nixos-artwork.wallpapers.nineish
+    nixos-artwork.wallpapers.nineish-catppuccin-mocha
+    nixos-artwork.wallpapers.dracula
+    ghostty
+    lazygit
+    nerd-fonts.jetbrains-mono
+    nodejs
+    (writeShellScriptBin "opencode" ''
+      exec ${nodejs}/bin/npx -y opencode-ai@latest "$@"
     '')
-	pkgs.playerctl
-    pkgs.zoxide
+    planify
+    playerctl
+    zoxide
 ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -109,7 +102,7 @@
       enableZshIntegration = true;
     };
 
-	starship.enable = true;
+    starship.enable = true;
 
     zellij = {
       enable = true;
