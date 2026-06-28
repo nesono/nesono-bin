@@ -35,6 +35,7 @@
     '')
     planify
     playerctl
+    thunderbird
     zoxide
 ];
 
