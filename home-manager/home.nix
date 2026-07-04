@@ -18,14 +18,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    nixos-artwork.wallpapers.recursive
-    nixos-artwork.wallpapers.waterfall
-    nixos-artwork.wallpapers.moonscape
-    nixos-artwork.wallpapers.watersplash
-    nixos-artwork.wallpapers.gear
-    nixos-artwork.wallpapers.nineish
-    nixos-artwork.wallpapers.nineish-catppuccin-mocha
-    nixos-artwork.wallpapers.dracula
+    btop
     ghostty
     lazygit
     nerd-fonts.jetbrains-mono
@@ -36,7 +29,7 @@
     planify
     playerctl
     thunderbird
-	viu
+    viu
     zoxide
 ];
 
