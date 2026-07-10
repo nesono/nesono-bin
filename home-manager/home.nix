@@ -22,6 +22,7 @@
   # environment.
   home.packages = with pkgs; [
     btop
+    prek
     ghostty
     lazygit
     nerd-fonts.jetbrains-mono
@@ -100,7 +101,7 @@
         . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
       '';
     };
-  
+
     zoxide = {
       enable = true;
       enableZshIntegration = true;
