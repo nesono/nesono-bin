@@ -139,6 +139,7 @@ if [[ $(uname -s) == Linux ]]; then
 	install_link ~/.config/hypr          "${scriptdir}"/hypr
 	install_link ~/.config/waybar        "${scriptdir}"/waybar
 	install_link ~/.config/wlogout       "${scriptdir}"/wlogout
+	install_link ~/.config/home-manager  "${scriptdir}"/home-manager
 fi
 
 echo_info "Done, see you next time"
