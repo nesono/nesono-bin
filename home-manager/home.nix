@@ -26,6 +26,7 @@
     ghostty
     lazygit
     nerd-fonts.jetbrains-mono
+    nextcloud-client
     nodejs
     (writeShellScriptBin "opencode" ''
       exec ${nodejs}/bin/npx -y opencode-ai@latest "$@"
