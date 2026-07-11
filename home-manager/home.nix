@@ -77,6 +77,8 @@
   #
   home.sessionVariables = {
     # EDITOR = "emacs";
+	NESONOBININSTALLATIONDIR = "${config.home.homeDirectory}/nesono-bin";
+	EDITOR = "nvim";
   };
 
   home.sessionPath = [
@@ -100,6 +102,7 @@
 
       initContent = ''
         . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+        . "$HOME/nesono-bin/zshrc"
       '';
     };
 
