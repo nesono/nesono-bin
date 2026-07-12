@@ -52,11 +52,6 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
-
-    # Expose Nix-installed wallpapers in a normal user directory so desktop
-    # background pickers can discover them.
-    "Pictures/Wallpapers/nixos".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.profileDirectory}/share/backgrounds/nixos";
   };
 
   # Home Manager can also manage your environment variables through
