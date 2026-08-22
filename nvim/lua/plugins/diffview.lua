@@ -4,6 +4,9 @@ return {
 	cmd = { "DiffviewOpen", "DiffviewFileHistory", "DiffviewClose" },
 	config = function()
 		require("diffview").setup({ watch_index = true })
+		vim.keymap.set("n", "<leader>do", "<cmd>DiffviewOpen<cr>", {
+			desc = "Git diff",
+		})
 		vim.keymap.set("n", "<leader>dp", "<cmd>DiffviewOpen origin/main...HEAD<cr>", {
 			desc = "PR diff (merge-base)",
 		})
