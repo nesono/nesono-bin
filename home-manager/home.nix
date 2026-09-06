@@ -70,10 +70,6 @@
   #
   programs.dank-material-shell = {
     enable = true;
-	
-	# Use nixpkgs' niri package instead of niri-flake's package.
-    # niri-flake currently depends on removed libdisplay-info_0_2.
-    package = pkgs.niri;
 
     # Have the DMS niri module start DMS.
     niri = {
@@ -92,6 +88,10 @@
   #
   programs.niri = {
     enable = true;
+
+    # Use nixpkgs' niri package instead of niri-flake's package.
+    # niri-flake currently depends on removed libdisplay-info_0_2.
+    package = pkgs.niri;
 
     settings = {
       input = {
@@ -524,7 +524,7 @@
         "Mod+F".action.maximize-column = [ ];
         "Mod+Shift+F".action.fullscreen-window = [ ];
 
-        "Mod+M".action.maximize-window-to-edges = [ ];
+        # "Mod+M".action.maximize-window-to-edges = [ ];
         "Mod+Ctrl+F".action.expand-column-to-available-width = [ ];
 
         "Mod+C".action.center-column = [ ];
