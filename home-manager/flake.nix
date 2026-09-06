@@ -9,10 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    niri = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    niri.url = "github:sodiboo/niri-flake/pull/1853/head";
 
     dankMaterialShell = {
       url = "github:AvengeMedia/DankMaterialShell";
@@ -39,11 +36,7 @@
 
           modules = [
             ./home.nix
-
-            # niri Home Manager module
             niri.homeModules.niri
-
-            # DMS
             dankMaterialShell.homeModules.dank-material-shell
             dankMaterialShell.homeModules.niri
           ];
