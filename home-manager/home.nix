@@ -28,10 +28,8 @@
     nerd-fonts.jetbrains-mono
     nextcloud-client
     nodejs
-    (writeShellScriptBin "opencode" ''
-      exec ${nodejs}/bin/npx -y opencode-ai@latest "$@"
-    '')
-	obsidian
+    (callPackage ./opencode.nix { })
+    obsidian
     planify
     playerctl
     thunderbird
@@ -76,10 +74,6 @@
 	EDITOR = "nvim";
   };
 
-  home.sessionPath = [
-    "/home/ji/.opencode/bin"
-  ];
-
   # Remap Caps Lock to Ctrl.
   # NOTE: this only covers GNOME/Wayland sessions. The niri session reads its
   # own xkb config, so the same "ctrl:nocaps" option is set in
@@ -114,7 +108,7 @@
       enableZshIntegration = false;
     };
   };
-  programs.dank-material-shell.enable = true;
+  # DankMaterialShell is installed and started by nixos_configuration.
 
   xdg.configFile."niri/config.kdl".source = ./niri/config.kdl;
 
