@@ -20,6 +20,7 @@ archive() {
 
 # Match links lexically: their repository targets may already have been deleted.
 for entry in .Xresources:Xresources .tmux.conf:tmux.conf \
+  .tigrc:tigrc .vimrc:vimrc .vim:vim \
   .config/regolith2:regolith2 .config/i3:i3 .config/i3status:i3status \
   .config/i3status-rust:i3status-rust .config/polybar:polybar \
   .config/rofi:rofi .config/dunst:dunst .config/picom.conf:picom.conf \

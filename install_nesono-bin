@@ -67,7 +67,7 @@ unset NESONOBININSTALLATIONDIR
 echo_info "Detected script directory: \"${scriptdir}\""
 echo
 
-# function to install a link to a configuration file, e.g. ~/.vimrc
+# function to install a link to a configuration file or directory
 function install_link()
 {
   DST=${1}
