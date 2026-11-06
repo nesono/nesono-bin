@@ -91,10 +91,6 @@ if [ ! -e ~/.gitignore ]; then
 			# vim files
 			echo "tags"      >> ~/.gitignore
 			echo "*.swp"     >> ~/.gitignore
-			# Visual Studio user files
-			echo "*.user"    >> ~/.gitignore
-			echo "*.suo"     >> ~/.gitignore
-			echo "*.ncb"
 			# doxygen tag files
 			echo "*.dox.tag" >> ~/.gitignore
 			# GNU/global tag files
@@ -205,15 +201,6 @@ case "${ANSWER}" in
 				;;
 			Darwin )
 				git config --global credential.helper osxkeychain
-				;;
-			CYGWIN_* | MINGW32_* )
-				if [ -n "$(which git-credential-winstore)" ]; then
-					git-credential-winstore
-				else
-					echo "git-credential-winstore.exe not found. Please install and run the script again"
-					echo "the credential helper can be found here:"
-					echo "http://gitcredentialstore.codeplex.com/"
-				fi
 				;;
 		esac
 		;;

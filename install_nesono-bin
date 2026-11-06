@@ -67,7 +67,7 @@ unset NESONOBININSTALLATIONDIR
 echo_info "Detected script directory: \"${scriptdir}\""
 echo
 
-# function to install a link to a configuration file, e.g. ~/.vimrc
+# function to install a link to a configuration file or directory
 function install_link()
 {
   DST=${1}
@@ -115,8 +115,6 @@ pushd "${scriptdir}" &> /dev/null || exit
 echo_sub_section "Zsh"
 [ -n "$(which zsh)" ] && zsh --login "$scriptdir/zshtils/install_nesono_zsh" "$scriptdir"
 echo
-echo_sub_section "Fish"
-[ -n "$(which fish)" ] && fish "$scriptdir/fishtils/install_nesono_fish" "$scriptdir"
 popd &> /dev/null || exit
 echo
 
@@ -127,28 +125,9 @@ install_link ~/.config/yazi       "${scriptdir}"/yazi
 # only useful for Linux
 if [[ $(uname -s) == Linux ]]; then
     echo_sub_section "Installing for Linux specifics"
-    install_link ~/.config/regolith2     "${scriptdir}"/regolith2
-    install_link ~/.Xresources           "${scriptdir}"/Xresources
-    install_link ~/.config/i3            "${scriptdir}"/i3
-    install_link ~/.config/i3status      "${scriptdir}"/i3status
-    install_link ~/.config/i3status-rust "${scriptdir}"/i3status-rust
-    install_link ~/.config/polybar       "${scriptdir}"/polybar
-    install_link ~/.config/rofi          "${scriptdir}"/rofi
-    install_link ~/.config/dunst         "${scriptdir}"/dunst
-    install_link ~/.config/picom.conf    "${scriptdir}"/picom.conf
-	install_link ~/.config/hypr          "${scriptdir}"/hypr
 	install_link ~/.config/waybar        "${scriptdir}"/waybar
-	install_link ~/.config/wlogout       "${scriptdir}"/wlogout
 	install_link ~/.config/home-manager  "${scriptdir}"/home-manager
 fi
 
 echo_info "Done, see you next time"
 echo ""
-
-# Install tmux plugin manager
-if [[ ! -d ~/.tmux/plugins/tpm ]]; then
-    echo_change "Installing tmux plugin manager"
-    mkdir -p ~/.tmux/plugins
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-    echo_info "Next time starting tmux, please press <prefix>+I to install plugins"
-fi
