@@ -54,6 +54,8 @@ fi
 if command -v fish >/dev/null 2>&1; then
   printf 'Remove this repository from Fish universal paths and erase its installation variable\n'
   if "$apply"; then
+    # Fish expands these variables, not the calling Bash shell.
+    # shellcheck disable=SC2016
     fish --no-config -c '
       set -l kept
       for p in $fish_user_paths
