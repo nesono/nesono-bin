@@ -32,9 +32,6 @@ set nocompatible    " be iMproved :)
 set autoread
 set encoding=utf-8
 
-" fix for running vim within fish
-set shell=/bin/bash
-
 filetype off        " required!
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'

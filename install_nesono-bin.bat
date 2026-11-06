@@ -39,7 +39,6 @@ echo %SCRIPTDIR%
 cd %HOMEDRIVE%%HOMEPATH%
 mklink    .inputrc    %SCRIPTDIR%inputrc
 mklink    .vimrc      %SCRIPTDIR%vimrc
-mklink    .tmux.conf  %SCRIPTDIR%tmux.conf
 mklink    .screenrc   %SCRIPTDIR%screenrc
 mklink    .tigrc      %SCRIPTDIR%tigrc
 mklink /D .vim        %SCRIPTDIR%vim
