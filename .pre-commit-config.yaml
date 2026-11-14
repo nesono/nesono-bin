@@ -18,6 +18,8 @@ repos:
     rev: v0.10.0.1
     hooks:
       - id: shellcheck
+        # ShellCheck does not support Zsh; validate these with zsh -n.
+        exclude: '\.zsh$'
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.24.2
     hooks:

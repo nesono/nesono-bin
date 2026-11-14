@@ -19,7 +19,7 @@ return {
   init = function()
     local haunt = require("haunt.api")
     local haunt_picker = require("haunt.picker")
-    local map = vim.keymap.set
+    local map = require("config.usage").map
     local prefix = "<leader>a"
 
     -- annotations

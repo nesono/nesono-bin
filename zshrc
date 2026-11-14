@@ -112,3 +112,6 @@ function preexec
 }
 
 source ${NESONOBININSTALLATIONDIR}/zshtils/keybindings
+
+# Local command usage counts (disable with export NESONO_USAGE=0).
+source "${NESONOBININSTALLATIONDIR}/zshtils/usage.zsh"

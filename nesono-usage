@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+"""Summarize local nesono-bin usage events (no external dependencies)."""
+
+import argparse
+from collections import Counter
+from datetime import datetime, timezone
+import os
+from pathlib import Path
+import time
+
+
+def report(log, since=0, category=None):
+    counts = Counter()
+    latest = {}
+    if log.exists():
+        with log.open() as stream:
+            for line in stream:
+                try:
+                    stamp, source, feature = line.rstrip("\n").split("\t")
+                    stamp = int(stamp)
+                except ValueError:
+                    continue  # Ignore interrupted or malformed writes.
+                if stamp < since or (category and source != category):
+                    continue
+                key = (source, feature)
+                counts[key] += 1
+                latest[key] = max(stamp, latest.get(key, 0))
+    return counts, latest
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--since",
+        metavar="DAYS",
+        default="30d",
+        help="lookback, e.g. 7d (default: 30d)",
+    )
+    parser.add_argument(
+        "--all", action="store_true", help="include all recorded history"
+    )
+    parser.add_argument("--category", choices=("shell", "nvim"))
+    args = parser.parse_args()
+    try:
+        days = int(args.since.removesuffix("d"))
+        if days < 0:
+            raise ValueError
+    except ValueError:
+        parser.error("--since must be a nonnegative number of days, e.g. 7d")
+    state = Path(
+        os.environ.get("XDG_STATE_HOME") or Path.home() / ".local/state"
+    )
+    log = state / "nesono-bin/usage.tsv"
+    counts, latest = report(
+        log, 0 if args.all else time.time() - days * 86400, args.category
+    )
+    print(f"Usage log: {log}")
+    if not counts:
+        print("No usage recorded in this period.")
+        return
+    print(f"{'COUNT':>7}  {'LAST USED (UTC)':19}  FEATURE")
+    for key in sorted(counts, key=lambda key: (-counts[key], key)):
+        date = datetime.fromtimestamp(latest[key], timezone.utc).strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )
+        print(f"{counts[key]:7}  {date}  {key[0]}/{key[1]}")
+
+
+if __name__ == "__main__":
+    main()
