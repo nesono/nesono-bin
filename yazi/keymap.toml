@@ -4,6 +4,11 @@ run  = "cd ~/Nextcloud/Scanbox"
 desc = "Go to Scanbox"
 
 [[mgr.prepend_keymap]]
+on   = ["g", "o"]
+run  = "cd ~/Nextcloud/_office"
+desc = "Go to _office"
+
+[[mgr.prepend_keymap]]
 on   = ["g", "f"]
 run  = 'shell --block -- ya emit cd "$(fd . -t d -t l --follow ~ 2>/dev/null | fzf)"'
 desc = "Fuzzy jump to dir (incl. symlinks) under ~"
