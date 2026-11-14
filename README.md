@@ -43,6 +43,11 @@ git_setup.sh
 
 ## Obsidian vault location
 
+Neovim uses the maintained `obsidian-nvim/obsidian.nvim` fork with Snacks as its
+picker; fzf-lua is not required. This plugin requires Neovim 0.11 or newer and
+`ripgrep` for search. Use commands such as `:Obsidian quick_switch` and
+`:Obsidian search`.
+
 Neovim uses `~/Documents/obsidian/` as the default Obsidian vault. To use a
 different directory on a machine, set `OBSIDIAN_VAULT` in that machine's local
 shell configuration (for example, `~/.zshrc`):

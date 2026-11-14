@@ -1,5 +1,5 @@
 return {
-	"epwalsh/obsidian.nvim",
+	"obsidian-nvim/obsidian.nvim",
 	version = "*", -- recommended, use latest release instead of latest commit
 	lazy = true,
 	ft = "markdown",
@@ -12,12 +12,13 @@ return {
 	--   "BufNewFile path/to/my-vault/*.md",
 	-- },
 	dependencies = {
-		-- Required.
-		"nvim-lua/plenary.nvim",
-
-		-- see below for full list of optional dependencies 👇
+		"folke/snacks.nvim",
 	},
 	opts = {
+		legacy_commands = false,
+		picker = {
+			name = "snacks.picker",
+		},
 		workspaces = {
 			{
 				name = "sync",
