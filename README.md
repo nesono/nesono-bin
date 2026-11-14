@@ -41,6 +41,21 @@ For a nice git setup (git needs to be installed already), invoke
 git_setup.sh
 ```
 
+## Obsidian vault location
+
+Neovim uses `~/Documents/obsidian/` as the default Obsidian vault. To use a
+different directory on a machine, set `OBSIDIAN_VAULT` in that machine's local
+shell configuration (for example, `~/.zshrc`):
+
+```sh
+export OBSIDIAN_VAULT="$HOME/Documents/my-vault"
+```
+
+Restart your shell and launch Neovim from it so Neovim inherits the variable.
+Keep this setting local to each machine; no repository changes are needed when
+vault locations differ. GUI launchers must also supply this environment variable
+if you launch Neovim outside a terminal.
+
 ## Local usage report
 
 After restarting Zsh and Neovim, repo command and custom mapping usage is recorded
