@@ -7,20 +7,20 @@ return {
 	cmd = { "DiffviewOpen", "DiffviewFileHistory", "DiffviewClose" },
 	config = function()
 		require("diffview").setup({ watch_index = true })
-		vim.keymap.set("n", "<leader>dd", "<cmd>DiffviewOpen<cr>", {
+		require("config.usage").map("n", "<leader>dd", "<cmd>DiffviewOpen<cr>", {
 			desc = "Git diff",
 		})
-		vim.keymap.set("n", "<leader>dp", "<cmd>DiffviewOpen origin/main...HEAD<cr>", {
+		require("config.usage").map("n", "<leader>dp", "<cmd>DiffviewOpen origin/main...HEAD<cr>", {
 			desc = "PR diff (merge-base)",
 		})
-		vim.keymap.set("n", "<leader>df", "<cmd>DiffviewFileHistory %<cr>", {
+		require("config.usage").map("n", "<leader>df", "<cmd>DiffviewFileHistory %<cr>", {
 			desc = "Current file git history",
 		})
-		vim.keymap.set("n", "<leader>dh", function()
+		require("config.usage").map("n", "<leader>dh", function()
 			local keys = vim.api.nvim_replace_termcodes(":DiffviewFileHistory ", true, false, true)
 			vim.fn.feedkeys(keys, "n")
 		end, { desc = "Diffview (prompt)" })
-		vim.keymap.set("n", "<leader>dc", "<cmd>DiffviewClose<cr>", {
+		require("config.usage").map("n", "<leader>dc", "<cmd>DiffviewClose<cr>", {
 			desc = "Close diff view",
 		})
 	end,

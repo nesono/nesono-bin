@@ -9,7 +9,7 @@ return {
 		local function map(mode, l, r, opts)
 			opts = opts or {}
 			opts.buffer = bufnr
-			vim.keymap.set(mode, l, r, opts)
+			require("config.usage").map(mode, l, r, opts)
 		end
 
 		-- Navigation

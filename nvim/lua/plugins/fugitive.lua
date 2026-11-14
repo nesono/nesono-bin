@@ -3,15 +3,15 @@ return {
 	cmd = { "Git", "G" },
 	init = function()
 		-- Register global mappings before Fugitive or Diffview is loaded.
-		vim.keymap.set("n", "<leader>cc", "<Cmd>Git commit <bar> wincmd J<CR>", {
+		require("config.usage").map("n", "<leader>cc", "<Cmd>Git commit <bar> wincmd J<CR>", {
 			silent = true,
 			desc = "Commit staged changes",
 		})
-		vim.keymap.set("n", "<leader>ca", "<Cmd>Git commit --amend <bar> wincmd J<CR>", {
+		require("config.usage").map("n", "<leader>ca", "<Cmd>Git commit --amend <bar> wincmd J<CR>", {
 			silent = true,
 			desc = "Amend the last commit",
 		})
-		vim.keymap.set("n", "<leader>c<Space>", ":Git commit ", {
+		require("config.usage").map("n", "<leader>c<Space>", ":Git commit ", {
 			desc = "Populate command line with :Git commit ",
 		})
 
@@ -20,21 +20,21 @@ return {
 			callback = function(ev)
 				local opts = { buffer = ev.buf, silent = true }
 
-				vim.keymap.set(
+				require("config.usage").map(
 					"n",
 					"cc",
 					"<Cmd>Git commit <bar> wincmd J<CR>",
 					vim.tbl_extend("force", opts, { desc = "Commit staged changes" })
 				)
 
-				vim.keymap.set(
+				require("config.usage").map(
 					"n",
 					"ca",
 					"<Cmd>Git commit --amend <bar> wincmd J<CR>",
 					vim.tbl_extend("force", opts, { desc = "Amend the last commit" })
 				)
 
-				vim.keymap.set(
+				require("config.usage").map(
 					"n",
 					"c<Space>",
 					":Git commit ",

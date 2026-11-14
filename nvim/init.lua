@@ -54,20 +54,20 @@ require("conform").setup({
 })
 
 -- Common Short Cuts
-vim.api.nvim_set_keymap("n", "<leader>/", ":nohls<cr>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>nn", ":set number!<cr>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>nr", ":set relativenumber!<cr>", { noremap = true })
+require("config.usage").map("n", "<leader>/", ":nohls<cr>", { noremap = true })
+require("config.usage").map("n", "<leader>nn", ":set number!<cr>", { noremap = true })
+require("config.usage").map("n", "<leader>nr", ":set relativenumber!<cr>", { noremap = true })
 
 -- For CodeCopmanion
 
 -- Mason
 require("mason").setup()
 
-vim.keymap.set("n", "<leader>dt", function()
+require("config.usage").map("n", "<leader>dt", function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap("n", "<leader>m", ":Mason<cr>", { noremap = true, silent = true })
+require("config.usage").map("n", "<leader>m", ":Mason<cr>", { noremap = true, silent = true })
 
 -- LSP
 -- C-]: Symbol under cursor
@@ -79,7 +79,7 @@ vim.api.nvim_set_keymap("n", "<leader>m", ":Mason<cr>", { noremap = true, silent
 -- gri go to implementation (C/C++)
 
 -- Lazy
-vim.api.nvim_set_keymap("n", "<leader>ll", ":Lazy<cr>", { noremap = true })
+require("config.usage").map("n", "<leader>ll", ":Lazy<cr>", { noremap = true })
 
 -- Autoformatting
 vim.api.nvim_create_autocmd("BufWritePre", {
