@@ -3,6 +3,14 @@ on:
   pull_request:
     branches: [main]
 jobs:
+  home-manager:
+    name: Evaluate Home Manager
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - name: Evaluate the laptop activation package
+        run: nix eval --raw ./home-manager#homeConfigurations.ji.activationPackage.drvPath
   pre-commit:
     name: Pre-commit Checks
     runs-on: ubuntu-latest

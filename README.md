@@ -21,6 +21,10 @@ each file for usage.
 
 ## Installation
 
+For the NixOS laptop's personal desktop and shell configuration, see the
+[Home Manager guide](home-manager/README.md). It documents capturing DMS/Ghostty
+preferences and activating the `ji` configuration independently of NixOS.
+
 The repository could be (but is not restricted to be) cloned into the home directory of the user, e.g. by
 ```
 cd ~/
