@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  imports = [ ./desktop-preferences.nix ];
+
   # Required for Obsidian
   nixpkgs.config.allowUnfree = true;
 
